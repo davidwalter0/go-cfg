@@ -1,0 +1,4 @@
+# github.com/davidwalter0/go-flag v0.1.7
+github.com/davidwalter0/go-flag
+# k8s.io/apimachinery v0.0.0-20191017185446-6e68a40eebf9
+k8s.io/apimachinery/pkg/version
