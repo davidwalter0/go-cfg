@@ -1,8 +1,9 @@
 package cfg
 
 import (
-	"flag"
 	"log"
+
+	"github.com/davidwalter0/go-flag"
 )
 
 var frozen bool
@@ -20,6 +21,7 @@ func Init(ptr interface{}) error {
 	parser, err := NewParser(ptr)
 	if err == nil {
 		parser.Eval(0)
+		Freeze()
 	}
 	return err
 }
@@ -35,7 +37,7 @@ func NamedInit(name string, ptr interface{}) error {
 	log.Println("NamedInit", err)
 	if err == nil {
 		parser.Eval(0)
+		Freeze()
 	}
-	Freeze()
 	return err
 }

@@ -1,10 +1,11 @@
 package cfg
 
 import (
-	"flag"
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/davidwalter0/go-flag"
 )
 
 var PrefixOverrideText = `

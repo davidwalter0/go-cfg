@@ -71,15 +71,6 @@ func (parser *Parser) Eval(depth int) {
 			NewField(i, depth, ptr, attr, prefix, name)
 		}
 	}
-	// var Help bool
-	// text, _ := LookupEnv("HELP")
-	// flag.MakeVar(&Help, "help", "false",
-	// 	"usage: "+fmt.Sprintf(" Env %-32s : (%v)",
-	// 		"HELP", reflect.TypeOf(Help)), text)
-	// flag.Parse()
-	// if Help {
-	// 	flag.Usage()
-	// }
 }
 
 // Parse recursively processes object configurations
