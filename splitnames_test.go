@@ -7,7 +7,7 @@ import (
 // TestUnderScoreCamelCaseWords split on CamelCase words
 func TestUnderScoreCamelCaseWords(t *testing.T) {
 	var tag = &Field{}
-	tag.UnderScoreCamelCaseWords()
+	tag.KeyNameFromCamelCase()
 
 }
 
@@ -15,5 +15,5 @@ func TestUnderScoreCamelCaseWords(t *testing.T) {
 // hyphenates words for flags between words
 func TestHyphenateCamelCaseWords(t *testing.T) {
 	var tag = &Field{}
-	tag.HyphenateCamelCaseWords()
+	tag.FlagNameFromCamelCase()
 }
