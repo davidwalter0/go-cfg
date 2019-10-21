@@ -2,14 +2,11 @@ package cfg
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"reflect"
 	"regexp"
 	"strconv"
 	"strings"
-
-	"github.com/davidwalter0/go-flag"
 )
 
 var debug bool
@@ -106,13 +103,7 @@ func (field *Field) Parse(prefix string) {
 	field.SetKeyName()
 	field.SetFlagName()
 	field.SetValueFromEnv()
-	var usage string
-	if len(field.Doc) > 0 {
-		usage = "usage: " + field.Doc
-	}
-	flag.MakeVar(field.FieldPtr, field.FlagName, field.Default,
-		usage+fmt.Sprintf(" Env %-32s : (%v)",
-			field.KeyName, field.StructField.Type), field.Value)
+	field.AddFlag()
 }
 
 // SetOmit read tag omit option and set when enabled, via ,omit
