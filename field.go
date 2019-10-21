@@ -12,6 +12,12 @@ import (
 	"github.com/davidwalter0/go-flag"
 )
 
+var debug bool
+
+func Debug() {
+	debug = false
+}
+
 // FieldPtr for the struct field field
 type FieldPtr interface{}
 
@@ -62,8 +68,13 @@ func NewField(i, depth int, ptr interface{}, attr reflect.StructField, prefix, s
 		StructName:  structName,
 		Prefix:      prefix,
 		Depth:       depth,
+		Name:        attr.Name,
+		KeyName:     Capitalize(prefix) + Capitalize(attr.Name),
+		FlagName:    Capitalize(prefix) + Capitalize(attr.Name),
 	}
+
 	field.Parse(prefix)
+
 	if field.Error != nil {
 		log.Println(field.Error)
 		return nil
@@ -72,24 +83,11 @@ func NewField(i, depth int, ptr interface{}, attr reflect.StructField, prefix, s
 	if err != nil {
 		log.Println(err)
 	}
-	log.Println(string(byte))
+	if debug {
+		log.Println(">> ", string(byte))
+	}
 	return field
 }
-
-// // 	m := reflect.ValueOf(ptr).Elem()
-// switch m.Kind() {
-// case reflect.Struct:
-// 	e := reflect.ValueOf(ptr).Elem()
-// 	eType := e.Type()
-// 	structName := eType.Name()
-
-// 	prefix := p.Prefix
-// 	for i := 0; i < eType.NumField(); i++ {
-// 		structField := elementType.Field(i)
-// 		ptr := element.Field(i).Addr().Interface()
-// 		field := p.Field(i, depth, e, eType.Field(i), structName, prefix)
-// 	}
-// }
 
 // Parse the struct tags
 func (field *Field) Parse(prefix string) {
@@ -184,51 +182,52 @@ func (field *Field) SetValueFromEnv() {
 
 // SetKeyName read tag keyword option and save the text
 func (field *Field) SetKeyName() {
+	if len(field.KeyName) == 0 {
+		panic("len(field.KeyName) == 0")
+	}
+	field.KeyNameFromCamelCase()
 	field.KeyName = strings.Replace(field.KeyName, "-", "_", -1)
-	field.UnderScoreCamelCaseWords()
 }
 
 // SetKeyName read tag keyword option and save the text
 func (field *Field) SetFlagName() {
-	if len(field.Prefix) > 0 {
-		field.FlagName = field.Prefix + "-" + Capitalize(field.Name)
+	if len(field.FlagName) == 0 {
+		panic("len(field.FlagName) == 0")
 	}
-	field.FlagName = strings.Replace(field.FlagName, "_", "-", -1)
-	field.HyphenateCamelCaseWords()
+	field.FlagName = Capitalize(field.FlagName)
+	field.FlagNameFromCamelCase()
 }
 
 var regExpr = regexp.MustCompile("([^A-Z]+|[A-Z][^A-Z]+|[A-Z]+)")
 
-// UnderScoreCamelCaseWords split on CamelCase words CAMEL_CASE, if
-// field.Prefix is set, prepend to the text for environment variables
-// split on camel case regular expression
-func (field *Field) UnderScoreCamelCaseWords() {
-	words := regExpr.FindAllStringSubmatch(field.Name, -1)
+// KeyNameFromCamelCase split and upper case from CamelCase to
+// CAMEL_CASE. If field.Prefix is set, prepend to the text for
+// environment variables. Split via camel case regular expression.
+func (field *Field) KeyNameFromCamelCase() {
+	words := regExpr.FindAllStringSubmatch(field.KeyName, -1)
 	if len(words) > 0 {
-		var nameParts []string
+		var names []string
 		for _, words := range words {
-			nameParts = append(nameParts, words[0])
+			names = append(names, strings.ToUpper(words[0]))
 		}
-		field.KeyName = strings.Join(nameParts, "_")
-		if len(field.Prefix) > 0 {
-			field.KeyName = strings.ToUpper(field.Prefix + "_" + field.KeyName)
-		} else {
-			field.KeyName = strings.ToUpper(field.KeyName)
-		}
+		field.KeyName = strings.Join(names, "_")
 		field.KeyName = strings.Replace(field.KeyName, "-", "_", -1)
+		for n := strings.Index(field.KeyName, "__"); n > 0; n = strings.Index(field.KeyName, "__") {
+			field.KeyName = strings.Replace(field.KeyName, "__", "_", -1)
+		}
 	}
 }
 
-// HyphenateCamelCaseWords for flags CamelCase to camel-case
+// FlagNameFromCamelCase for flags CamelCase to camel-case
 // hyphenated, split on camel case regular expression
-func (field *Field) HyphenateCamelCaseWords() {
+func (field *Field) FlagNameFromCamelCase() {
 	words := regExpr.FindAllStringSubmatch(field.FlagName, -1)
 	if len(words) > 0 {
-		var name []string
+		var names []string
 		for _, words := range words {
-			name = append(name, strings.ToLower(words[0]))
+			names = append(names, strings.ToLower(words[0]))
 		}
-		field.FlagName = strings.Join(name, "-")
+		field.FlagName = strings.Join(names, "-")
 	}
 	for n := strings.Index(field.FlagName, "--"); n > 0; n = strings.Index(field.FlagName, "--") {
 		field.FlagName = strings.Replace(field.FlagName, "--", "-", -1)
@@ -237,11 +236,22 @@ func (field *Field) HyphenateCamelCaseWords() {
 
 // Capitalize text
 func Capitalize(text string) string {
-	var capitalized = text
-	if len(text) > 0 {
-		capitalized = strings.ToUpper(text[0:1]) + text[1:]
+	switch len(text) {
+	case 0:
+	case 1:
+		text = strings.ToUpper(text[0:1])
+	default:
+		text = strings.ToUpper(text[0:1]) + text[1:]
 	}
-	return capitalized
+	return text
+}
+
+// Downcase text
+func Downcase(text string) string {
+	if len(text) > 0 {
+		text = strings.ToLower(text)
+	}
+	return text
 }
 
 /*
@@ -254,8 +264,8 @@ func (field *MemberType) Parse(prefix string, fld reflect.StructField, ptr inter
 
 	field.EnvVarPrefix = prefix
 	field.FlagName = field.Name
-	field.UnderScoreCamelCaseWords()
-	field.HyphenateCamelCaseWords()
+	field.KeyNameFromCamelCase()
+	field.FlagNameFromCamelCase()
 	field.EnvInit()
 	// Env variable names historically didn't allow hyphenation
 	field.KeyName = strings.Replace(field.KeyName, "-", "_", -1)

@@ -42,7 +42,7 @@ func NewParser(ptr interface{}) (*Parser, error) {
 	}
 
 	prefix, found := LookupEnv(cfgEnvPrefixKey)
-	if !found {
+	if !found && debug {
 		log.Println("parser will run without a prefix override")
 	}
 	return &Parser{
@@ -54,19 +54,32 @@ func NewParser(ptr interface{}) (*Parser, error) {
 
 // Eval recursively processes object configurations
 func (parser *Parser) Eval(depth int) {
+	if reflect.TypeOf(parser.ptr).Kind() != reflect.Ptr {
+		panic(ErrInvalidArgPointerRequired)
+	}
 	ptr := parser.ptr
 	prefix := parser.prefix
-	switch reflect.ValueOf(ptr).Elem().Kind() {
+	kind := reflect.ValueOf(ptr).Elem().Kind()
+	switch kind {
 	case reflect.Struct:
 		elem := reflect.ValueOf(ptr).Elem()
-		eType := elem.Type()
-		name := eType.Name()
-		for i := 0; i < eType.NumField(); i++ {
-			attr := eType.Field(i)
+		etype := elem.Type()
+		name := etype.Name()
+		for i := 0; i < etype.NumField(); i++ {
+			attr := etype.Field(i)
 			ptr := elem.Field(i).Addr().Interface()
 			NewField(i, depth, ptr, attr, prefix, name)
 		}
 	}
+	// var Help bool
+	// text, _ := LookupEnv("HELP")
+	// flag.MakeVar(&Help, "help", "false",
+	// 	"usage: "+fmt.Sprintf(" Env %-32s : (%v)",
+	// 		"HELP", reflect.TypeOf(Help)), text)
+	// flag.Parse()
+	// if Help {
+	// 	flag.Usage()
+	// }
 }
 
 // Parse recursively processes object configurations
@@ -74,10 +87,10 @@ func Parse(depth int, prefix string, ptr interface{}) {
 	switch reflect.ValueOf(ptr).Elem().Kind() {
 	case reflect.Struct:
 		elem := reflect.ValueOf(ptr).Elem()
-		eType := elem.Type()
-		name := eType.Name()
-		for i := 0; i < eType.NumField(); i++ {
-			attr := eType.Field(i)
+		etype := elem.Type()
+		name := etype.Name()
+		for i := 0; i < etype.NumField(); i++ {
+			attr := etype.Field(i)
 			ptr := elem.Field(i).Addr().Interface()
 			NewField(i, depth, ptr, attr, prefix, name)
 		}
