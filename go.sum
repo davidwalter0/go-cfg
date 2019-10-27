@@ -1,4 +1,8 @@
+github.com/davidwalter0/go-flag v0.1.6 h1:2RqAN0cOPtX8qKxVYLUgbqdbU1LLcf7nO+K03e7yhcI=
+github.com/davidwalter0/go-flag v0.1.6/go.mod h1:jv6qxNjGS102w3OcYqHF/zmI+YY2leG6KL3yYXarmmU=
 github.com/davidwalter0/go-flag v0.1.7 h1:YaToFkjCART8z8cLmS3RjCLCvB0uY9HiT2ezpNDbI7E=
 github.com/davidwalter0/go-flag v0.1.7/go.mod h1:jv6qxNjGS102w3OcYqHF/zmI+YY2leG6KL3yYXarmmU=
+github.com/davidwalter0/go-flag v0.2.0 h1:JAIoeCVWxAeThhvOfsm/j0lYb4rTI5qrF2l4DnIBdp4=
+github.com/davidwalter0/go-flag v0.2.0/go.mod h1:jv6qxNjGS102w3OcYqHF/zmI+YY2leG6KL3yYXarmmU=
 github.com/jehiah/go-strftime v0.0.0-20171201141054-1d33003b3869 h1:IPJ3dvxmJ4uczJe5YQdrYB16oTJlGSC/OyZDqUk9xX4=
 github.com/jehiah/go-strftime v0.0.0-20171201141054-1d33003b3869/go.mod h1:cJ6Cj7dQo+O6GJNiMx+Pa94qKj+TG8ONdKHgMNIyyag=

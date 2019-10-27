@@ -21,7 +21,7 @@ func (field *Field) AddFlag() {
 	} else {
 		if !announceDuplicates {
 			fmt.Printf("Duplicate flag(s)/env vars found\n")
-			fmt.Println(strings.ToUpper(fmt.Sprintf("%-20s %-20s", "flag", "env vars")))
+			fmt.Println(strings.ToUpper(fmt.Sprintf("%-20s %-20s", "github.com/davidwalter0/go-flag", "env vars")))
 			fmt.Println("-----------------------------------------")
 			announceDuplicates = true
 		}
