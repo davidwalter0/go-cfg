@@ -1,8 +1,6 @@
 package cfg
 
 import (
-	"log"
-
 	"github.com/davidwalter0/go-flag"
 )
 
@@ -18,26 +16,12 @@ func Freeze() {
 
 // Init flags
 func Init(ptr interface{}) error {
-	parser, err := NewParser(ptr)
-	if err == nil {
-		parser.Eval(0)
-		Freeze()
-	}
+	err := Enter(0, ptr)
+	Freeze()
 	return err
 }
 
 // FlagInit flags
 func FlagInit() {
 	Freeze()
-}
-
-func NamedInit(name string, ptr interface{}) error {
-	log.Printf("NamedInit prefix: %s / ptr: %+v\n", name, ptr)
-	parser, err := NewParserPrefixed(name, ptr)
-	log.Println("NamedInit", err)
-	if err == nil {
-		parser.Eval(0)
-		Freeze()
-	}
-	return err
 }

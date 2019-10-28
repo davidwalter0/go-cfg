@@ -1,12 +1,13 @@
 package cfg
 
 import (
+	"encoding/json"
 	"log"
 	"reflect"
 )
 
 const (
-	cfgEnvPrefixKey = "CFG_PREFIX_KEY"
+	cfgEnvKeyPrefix = "CFG_KEY_PREFIX"
 )
 
 // Args to parse
@@ -18,11 +19,10 @@ type Key string
 // KV map of key(struct element) + tags
 type KV map[Key]*Field
 
-// parser recursively parses a struct
+// Parser recursively parses a struct
 type Parser struct {
-	ptr    interface{}
-	prefix string
-	kv     KV
+	ptr interface{}
+	kv  KV
 }
 
 // KV returns a map of object definitions
@@ -30,73 +30,83 @@ func (parser *Parser) KV() KV {
 	return parser.kv
 }
 
-// Parse recursively processes object configurations
-func (parser *Parser) Parse() {
-	Parse(0, parser.prefix, parser.ptr)
-}
-
-// NewParser return an initialized parser
+// NewParser return an initialized parser using args
 func NewParser(ptr interface{}) (*Parser, error) {
 	if reflect.TypeOf(ptr).Kind() != reflect.Ptr {
 		return nil, ErrInvalidArgPointerRequired
 	}
-
-	prefix, found := LookupEnv(cfgEnvPrefixKey)
-	if !found && debug {
-		log.Println("parser will run without a prefix override")
-	}
 	return &Parser{
-		prefix: prefix,
-		ptr:    ptr,
-		kv:     make(KV),
+		ptr: ptr,
+		kv:  make(KV),
 	}, nil
 }
 
-// Eval recursively processes object configurations
-func (parser *Parser) Eval(depth int) {
-	if reflect.TypeOf(parser.ptr).Kind() != reflect.Ptr {
+var emptyStructField = reflect.StructField{}
+
+// Enter recursively processes object configurations
+func Enter(depth int, ptr interface{}) error {
+	kind := reflect.TypeOf(ptr).Kind()
+	if kind != reflect.Ptr {
 		panic(ErrInvalidArgPointerRequired)
 	}
-	ptr := parser.ptr
-	prefix := parser.prefix
+	elem := reflect.ValueOf(ptr).Elem()
+	etype := elem.Type()
+	name := etype.Name()
+	return ParseStruct(0, ptr, name, emptyStructField)
+}
+
+// ParseStruct recursively processes object configurations
+func ParseStruct(depth int, ptr interface{}, parseName string, structField reflect.StructField) error {
+	var err error
+	if reflect.TypeOf(ptr).Kind() != reflect.Ptr {
+		panic(ErrInvalidArgPointerRequired)
+	}
 	kind := reflect.ValueOf(ptr).Elem().Kind()
 	switch kind {
 	case reflect.Struct:
 		elem := reflect.ValueOf(ptr).Elem()
 		etype := elem.Type()
-		name := etype.Name()
+		indirect := reflect.Indirect(reflect.ValueOf(ptr))
 		for i := 0; i < etype.NumField(); i++ {
-			attr := etype.Field(i)
 			ptr := elem.Field(i).Addr().Interface()
-			NewField(i, depth, ptr, attr, prefix, name)
+			parseName := Capitalize(parseName) + "-" + Capitalize(indirect.Type().Field(i).Name)
+			err = ParseStruct(depth+1, ptr, parseName, etype.Field(i))
+			if err != nil {
+				panic(err)
+				break
+			}
 		}
-	}
-}
-
-// Parse recursively processes object configurations
-func Parse(depth int, prefix string, ptr interface{}) {
-	switch reflect.ValueOf(ptr).Elem().Kind() {
-	case reflect.Struct:
+	default:
 		elem := reflect.ValueOf(ptr).Elem()
 		etype := elem.Type()
-		name := etype.Name()
-		for i := 0; i < etype.NumField(); i++ {
-			attr := etype.Field(i)
-			ptr := elem.Field(i).Addr().Interface()
-			NewField(i, depth, ptr, attr, prefix, name)
+		var field = &Field{
+			StructField: structField,
+			FieldPtr:    ptr,
+			Depth:       depth,
+			Name:        structField.Name,
+			Prefix:      parseName,
+			KeyName:     parseName,
+			FlagName:    parseName,
+			Type:        etype.Name(),
 		}
-	}
-}
 
-// NewParserPrefixed return an initialized parser using args
-func NewParserPrefixed(prefix string, ptr interface{}) (*Parser, error) {
-	if reflect.TypeOf(ptr).Kind() != reflect.Ptr {
-		return nil, ErrInvalidArgPointerRequired
-	}
+		field.SetField()
+		if field.Error != nil {
+			log.Println(field.Error)
+			panic(field.Error)
+			return nil
+		}
 
-	return &Parser{
-		prefix: prefix,
-		ptr:    ptr,
-		kv:     make(KV),
-	}, nil
+		if debug {
+			byte, err := json.Marshal(field)
+			if err != nil {
+				log.Println(err)
+				panic(err)
+			}
+			log.Println(">> ", string(byte))
+		}
+
+		return err
+	}
+	return err
 }

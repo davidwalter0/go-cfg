@@ -17,7 +17,8 @@ func (field *Field) AddFlag() {
 		if len(field.Doc) > 0 {
 			usage = "usage: " + field.Doc
 		}
-		flag.MakeVar(field.FieldPtr, field.FlagName, field.Default, usage+fmt.Sprintf(" Env %-32s : (%v)", field.KeyName, field.StructField.Type), field.Value)
+		// log.Println("AddFlag", field.Name, field.Type)
+		flag.MakeVar(field.FieldPtr, field.FlagName, field.Default, usage+fmt.Sprintf(" Env %-32s : (%s) (%v)", field.KeyName, field.Name, field.Type), field.Value)
 	} else {
 		if !announceDuplicates {
 			fmt.Printf("Duplicate flag(s)/env vars found\n")

@@ -2,16 +2,26 @@ package main
 
 import (
 	"encoding/json"
-	"flag"
 	"log"
 	"os"
 	"strings"
 	"time"
 
 	"github.com/davidwalter0/go-cfg"
+	"github.com/davidwalter0/go-flag"
 )
 
-type MyAPP struct {
+type APP struct {
+	A struct {
+		B struct {
+			C struct {
+				D struct {
+					E int ``
+				}
+			}
+		}
+		IntegerValueOfX int
+	}
 	Required     uint32        `short:"required" usage:"uint32 test" required:"1"`
 	UserArray    []string      `default:"x,y,z,0,1"`
 	IntArray     []int64       `default:"0,1,2,3,4"`
@@ -49,24 +59,15 @@ type MyAPP struct {
 			Msf map[string]float64 `default:"e:2.71828,π:3.14159,ξ:1,ρ:.01,φ:1.2,β:3,α:.01"`
 		}
 	}
-	A struct {
-		B struct {
-			C struct {
-				D struct {
-					E int ``
-				}
-			}
-		}
-	}
 	UnsetUserArray []string
 	UnsetIntArray  []int64
 }
 
 func main() {
-	p := &MyAPP{}
+	p := &APP{}
 	// c := cfg.NewConfigurer(p)
 	cfg.Eval(p)
-
+	cfg.Freeze()
 	byte, err := json.MarshalIndent(p, "", "  ")
 	if err != nil {
 		log.Println(err)
