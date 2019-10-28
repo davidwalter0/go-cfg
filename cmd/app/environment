@@ -1,0 +1,21 @@
+#!/bin/bash
+export APP_OVERRIDE_PREFIX=APP
+export APP_DEBUG="true"
+export APP_PORT="8080"
+export APP_USER="USER"
+export APP_USER_NAME="USER NAME"
+export APP_RATE="0.5"
+export APP_TIMEOUT="3m"
+export APP_USERS="rob,ken,robert"
+export APP_USERS="Me,BobbyMcGee,Nobody"
+export APP_NAME_OVERRIDE="Me,BobbyMcGee,Nobody"
+
+export APP_OUTER_I=-43
+export APP_OUTER_F=-3.1415926
+export APP_OUTER_INNER_I=-42
+export APP_OUTER_INNER_F=-2.71828
+export APP_OUTER_INNER_MSF="e:-2.71828,α:-0.01,β:-3,ξ:-1,π:-3.14159,ρ:-0.01,φ:-1.2"
+export APP_UNSET_INT_ARRAY="9,8,7.6,5,4,3,2,1"
+export APP_UNSET_USER_ARRAY="tom,dick,harry"
+# without this required var with no default the run will fail
+export APP_UINT32=42

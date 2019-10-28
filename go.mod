@@ -4,7 +4,4 @@ go 1.12
 
 replace flag => github.com/davidwalter0/go-flag v0.2.1
 
-require (
-	github.com/davidwalter0/go-flag v0.2.1
-	github.com/jehiah/go-strftime v0.0.0-20171201141054-1d33003b3869
-)
+require github.com/davidwalter0/go-flag v0.2.1
