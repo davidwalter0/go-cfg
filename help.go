@@ -9,11 +9,7 @@ import (
 )
 
 var PrefixOverrideText = `
-CFG_ENV_VAR_PREFIX_KEY
-
-CFG_ENV_VAR_PREFIX_KEY=ex
-
-The environment variable CFG_ENV_VAR_PREFIX_KEY overrides the prefix
+The environment variable CFG_KEY_PREFIX overrides the prefix
 of each environment variable to value. The value will be converted to
 upper case like ex - EX
 
@@ -24,15 +20,29 @@ type App struct {
    s string
 }
 
-The environment vars will be
+When CFG_KEY_PREFIX=ex, the environment vars will be
 EX_I
 EX_S
 
-Without CFG_ENV_VAR_PREFIX_KEY override
+and the flags will be
+
+--ex-i --ex-s
+
+When CFG_KEY_PREFIX="", the environment vars will be
+I
+S
+
+and the flags will be
+
+--i --s
+
+Without CFG_KEY_PREFIX override
 
 APP_I
 APP_S
 
+and the flags will be
+--app-i --app-s
 `
 
 var helpText string
@@ -51,6 +61,7 @@ var Usage = func() {
 	if len(helpText) > 0 {
 		fmt.Fprintf(os.Stderr, "\n%s\n\n", helpText)
 	}
+
 	flag.PrintDefaults()
 	fmt.Fprintf(os.Stderr, PrefixOverrideText)
 }

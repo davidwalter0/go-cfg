@@ -52,6 +52,14 @@ func Enter(depth int, ptr interface{}) error {
 	elem := reflect.ValueOf(ptr).Elem()
 	etype := elem.Type()
 	name := etype.Name()
+
+	prefix, found := LookupEnv(cfgEnvKeyPrefix)
+	if !found && debug {
+		log.Println("The configuration parser will run without a prefix override")
+	}
+	if found && len(prefix) == 0 {
+		name = ""
+	}
 	return ParseStruct(0, ptr, name, emptyStructField)
 }
 
