@@ -57,8 +57,8 @@ func Enter(depth int, ptr interface{}) error {
 	if !found && debug {
 		log.Println("The configuration parser will run without a prefix override")
 	}
-	if found && len(prefix) == 0 {
-		name = ""
+	if found {
+		name = prefix
 	}
 	return ParseStruct(0, ptr, name, emptyStructField)
 }
