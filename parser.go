@@ -10,6 +10,7 @@ const (
 	cfgEnvKeyPrefix = "CFG_KEY_PREFIX"
 )
 
+/*
 // Args to parse
 type Args []string
 
@@ -23,6 +24,7 @@ type KV map[Key]*Field
 type Parser struct {
 	ptr interface{}
 	kv  KV
+	mgr Mgr
 }
 
 // KV returns a map of object definitions
@@ -38,10 +40,14 @@ func NewParser(ptr interface{}) (*Parser, error) {
 	return &Parser{
 		ptr: ptr,
 		kv:  make(KV),
+		mgr: NewCache(),
 	}, nil
 }
-
+*/
 var emptyStructField = reflect.StructField{}
+
+// Store persistable representation
+var Store = NewStor()
 
 // Enter recursively processes object configurations
 func Enter(depth int, ptr interface{}) error {
@@ -52,6 +58,8 @@ func Enter(depth int, ptr interface{}) error {
 	elem := reflect.ValueOf(ptr).Elem()
 	etype := elem.Type()
 	name := etype.Name()
+
+	Store[name] = ptr
 
 	prefix, found := LookupEnv(cfgEnvKeyPrefix)
 	if !found && debug {

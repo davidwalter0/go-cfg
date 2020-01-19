@@ -8,8 +8,13 @@ import (
 
 var debug bool
 
-func Debug() {
-	debug = true
+// Debug set the debug test var to true
+func Debug(args []bool) {
+	if len(args) == 0 {
+		debug = true
+		return
+	}
+	debug = args[0]
 }
 
 // FieldPtr for the struct field field
@@ -150,7 +155,7 @@ func (field *Field) SetKeyName() {
 	field.KeyName = strings.Replace(field.KeyName, "-", "_", -1)
 }
 
-// SetKeyName read tag keyword option and save the text
+// SetFlagName read tag keyword option and save the text
 func (field *Field) SetFlagName() {
 	if len(field.FlagName) == 0 {
 		panic("len(field.FlagName) == 0")
