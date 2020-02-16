@@ -8,6 +8,7 @@ import (
 
 const (
 	cfgEnvKeyPrefix = "CFG_KEY_PREFIX"
+	cfgDecorate     = "CFG_DECORATE"
 )
 
 /*
@@ -68,6 +69,9 @@ func Enter(depth int, ptr interface{}) error {
 	if found {
 		name = prefix
 	}
+	if !decorate {
+		name = ""
+	}
 	return ParseStruct(0, ptr, name, emptyStructField)
 }
 
@@ -85,7 +89,11 @@ func ParseStruct(depth int, ptr interface{}, parseName string, structField refle
 		indirect := reflect.Indirect(reflect.ValueOf(ptr))
 		for i := 0; i < etype.NumField(); i++ {
 			ptr := elem.Field(i).Addr().Interface()
-			parseName := Capitalize(parseName) + "-" + Capitalize(indirect.Type().Field(i).Name)
+			if len(parseName) != 0 {
+				parseName = Capitalize(parseName) + "-" + Capitalize(indirect.Type().Field(i).Name)
+			} else {
+				parseName = Capitalize(indirect.Type().Field(i).Name)
+			}
 			err = ParseStruct(depth+1, ptr, parseName, etype.Field(i))
 			if err != nil {
 				panic(err)

@@ -82,6 +82,7 @@ func init() {
 	os.Setenv("NEST_Z", "Value: NEST_Z")
 }
 
+/*
 // TestParseA
 func TestParseA(t *testing.T) {
 	// fmt.Printf("%+v\n", Eval(&A{}))
@@ -123,5 +124,109 @@ func TestParseA(t *testing.T) {
 	fmt.Println(O2S(nest))
 	flag.Parse()
 	fmt.Println(O2S(nest))
-	Usage()
+	// Usage()
+}
+*/
+
+// Decl declaration
+type Decl struct {
+	S string `json:"s"`
+	I int    `json:"i"`
+}
+
+// Object arbitrary test object
+type Object struct {
+	Text string
+	Decl Decl
+}
+
+type State struct {
+	Want Object
+	Got  Object
+}
+
+var state = State{
+	Want: Object{
+		`{s:"text",i:0}`,
+		Decl{
+			S: "text",
+			I: 0,
+		},
+	},
+	Got: Object{
+		`{s:"text",i:0}`,
+		Decl{
+			S: "text",
+			I: 0,
+		},
+	},
+}
+
+var states = []State{
+	State{
+		Want: Object{
+			Text: `{s:"text",i:0}`,
+			Decl: Decl{
+				S: "text",
+				I: 0,
+			},
+		},
+		Got: Object{
+			Text: `{s:"text",i:0}`,
+			Decl: Decl{
+				S: "text",
+				I: 0,
+			},
+		},
+	},
+	State{
+		Want: Object{
+			Text: `{s:"text",i:0}`,
+			Decl: Decl{
+				S: "text",
+				I: 0,
+			},
+		},
+		Got: Object{
+			Text: `{ s: "text", i: 1 }`,
+			Decl: Decl{
+				S: "text",
+				I: 1,
+			},
+		},
+	},
+}
+
+// Compare two objects
+func (lhs *Object) Compare(rhs *Object) bool {
+	return lhs.Text == rhs.Text &&
+		lhs.Decl.S == rhs.Decl.S &&
+		lhs.Decl.I == rhs.Decl.I
+}
+
+// Ok when want == got
+func (s *State) Ok() bool {
+	return s.Want.Compare(&s.Got)
+}
+
+func TestEvalName(t *testing.T) {
+	if !states[0].Ok() {
+		t.Fatal()
+	}
+	if states[1].Ok() {
+		t.Fatal()
+	}
+	// for _, state := range states {
+	// 	t.Logf("Want: %+v Got: %+v\n", state.Want, state.Got)
+	// 	if !state.Ok() {
+	// 		t.Logf("Want: %+v Got: %+v\n", state.Want, state.Got)
+	// 		t.Fail()
+	// 	}
+	// 	text, err := json.Marshal(state.Want.Decl)
+	// 	if err != nil {
+	// 		t.Logf("Want: %+v Got: %+v\n   marshal %v\n", state.Want, state.Got, err)
+	// 		t.Fail()
+	// 	}
+	// 	t.Logf(">> Want: %+v Got: %+v\n   text%s\n", state.Want, state.Got, text)
+	// }
 }
