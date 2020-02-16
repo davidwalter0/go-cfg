@@ -69,14 +69,14 @@ func Enter(depth int, ptr interface{}) error {
 	if found {
 		name = prefix
 	}
-	if !decorate {
+	if !Decorate() {
 		name = ""
 	}
 	return ParseStruct(0, ptr, name, emptyStructField)
 }
 
 // ParseStruct recursively processes object configurations
-func ParseStruct(depth int, ptr interface{}, parseName string, structField reflect.StructField) error {
+func ParseStruct(depth int, ptr interface{}, name string, structField reflect.StructField) error {
 	var err error
 	if reflect.TypeOf(ptr).Kind() != reflect.Ptr {
 		panic(ErrInvalidArgPointerRequired)
@@ -89,12 +89,13 @@ func ParseStruct(depth int, ptr interface{}, parseName string, structField refle
 		indirect := reflect.Indirect(reflect.ValueOf(ptr))
 		for i := 0; i < etype.NumField(); i++ {
 			ptr := elem.Field(i).Addr().Interface()
-			if len(parseName) != 0 {
-				parseName = Capitalize(parseName) + "-" + Capitalize(indirect.Type().Field(i).Name)
+			var name string
+			if len(name) != 0 {
+				name = Capitalize(name) + "-" + Capitalize(indirect.Type().Field(i).Name)
 			} else {
-				parseName = Capitalize(indirect.Type().Field(i).Name)
+				name = Capitalize(indirect.Type().Field(i).Name)
 			}
-			err = ParseStruct(depth+1, ptr, parseName, etype.Field(i))
+			err = ParseStruct(depth+1, ptr, name, etype.Field(i))
 			if err != nil {
 				panic(err)
 				break
@@ -108,9 +109,9 @@ func ParseStruct(depth int, ptr interface{}, parseName string, structField refle
 			FieldPtr:    ptr,
 			Depth:       depth,
 			Name:        structField.Name,
-			Prefix:      parseName,
-			KeyName:     parseName,
-			FlagName:    parseName,
+			Prefix:      name,
+			KeyName:     name,
+			FlagName:    name,
 			Type:        etype.Name(),
 		}
 

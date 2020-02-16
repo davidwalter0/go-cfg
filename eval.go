@@ -14,7 +14,8 @@ func Eval(ptr interface{}) error {
 	return Enter(0, ptr)
 }
 
-func init() {
+// Decorate structs with prefix
+func Decorate() bool {
 	var err error
 	text, ok := LookupEnv(cfgDecorate)
 	if ok {
@@ -23,15 +24,11 @@ func init() {
 			log.Println(err)
 		}
 	}
+	return decorate
 }
 
 // EvalName a configuration structure
 func EvalName(name string, ptr interface{}) error {
 	os.Setenv(cfgEnvKeyPrefix, name)
 	return Enter(0, ptr)
-}
-
-// Decorate structs with prefix
-func Decorate(enable bool) {
-	decorate = enable
 }
