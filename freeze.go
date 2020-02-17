@@ -14,13 +14,6 @@ func Freeze() {
 	}
 }
 
-// Init flags
-func Init(ptr interface{}) error {
-	err := Enter(0, ptr)
-	Freeze()
-	return err
-}
-
 // FlagInit flags
 func FlagInit() {
 	Freeze()

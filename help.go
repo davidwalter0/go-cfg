@@ -63,7 +63,7 @@ var Usage = func() {
 	}
 
 	flag.PrintDefaults()
-	fmt.Fprintf(os.Stderr, PrefixOverrideText)
+	// fmt.Fprintf(os.Stderr, PrefixOverrideText)
 }
 
 func init() {
