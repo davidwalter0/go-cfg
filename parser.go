@@ -51,14 +51,6 @@ var emptyStructField = reflect.StructField{}
 // Store persistable representation
 var Store = NewStor()
 
-// Args unifies api for recursion
-type Args struct {
-	Depth    int
-	Prefix   string
-	Prefixed bool
-	Name     string
-}
-
 // Enter recursively processes object configurations
 func Enter(args *Args, ptr interface{}) error {
 	var err error
@@ -83,7 +75,7 @@ func Enter(args *Args, ptr interface{}) error {
 	// }
 
 	if args.Prefixed {
-		name = args.Prefix
+		name = args.Prefix + "_" + name
 	}
 
 	if !decorate {
@@ -118,8 +110,12 @@ func ParseStruct(args *Args, ptr interface{}, prefix string, structField reflect
 		for i := 0; i < etype.NumField(); i++ {
 			var name string
 			ptr := elem.Field(i).Addr().Interface()
-			if args.Prefixed && len(args.Prefix) != 0 {
-				name = Capitalize(args.Prefix) + "-" + Capitalize(indirect.Type().Field(i).Name)
+			// log.Printf("%+v\n", prefix)
+			// log.Printf("%+v\n", args)
+			// log.Printf("%+v\n", Capitalize(indirect.Type().Field(i).Name))
+			// if args.Prefixed && len(args.Prefix) != 0 {
+			if args.Prefixed && len(prefix) != 0 {
+				name = Capitalize(prefix) + "_" + Capitalize(indirect.Type().Field(i).Name)
 			} else {
 				name = Capitalize(indirect.Type().Field(i).Name)
 			}

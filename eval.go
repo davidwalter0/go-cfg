@@ -1,3 +1,18 @@
+/*
+go-cfg
+package cfg
+
+Modes of configuration
+
+- Unwrap( ptr ... interface{} ) error
+  - Flags and Env Vars are unwrapped - no prefix or argument name added
+  - Call with one or more structures with uniquely named members
+  - One flag + env variable for each entry named
+  - When called with duplicate members in one or more structs flags and
+  env vars will conflict and error
+
+
+*/
 package cfg
 
 import (
@@ -9,15 +24,37 @@ import (
 // decorate var setting, disable prefixes when undecorated
 var decorate bool = true
 
-// Initialize reading setting from the environment
-func Initialize() {
-	if text, ok := LookupEnv(cfgDecorate); ok {
+// Args unifies api for recursion
+type Args struct {
+	Depth    int
+	Prefix   string
+	Prefixed bool
+}
+
+func NewArgs(name string) *Args {
+	var prefixed bool
+	var prefix string
+	var text string
+	var ok bool
+	if text, ok = LookupEnv(cfgDecorate); ok {
 		if v, err := strconv.ParseBool(text); err != nil {
 			log.Println(err)
 		} else {
 			decorate = v
 		}
 	}
+	if decorate {
+		prefix, ok = LookupEnv(cfgEnvKeyPrefix)
+		if ok && len(prefix) > 0 {
+			prefix = prefix + "_"
+			prefixed = true
+		}
+		if len(name) > 0 {
+			prefixed = true
+			prefix = prefix + name
+		}
+	}
+	return &Args{Depth: 0, Prefixed: prefixed, Prefix: prefix}
 }
 
 // Undecorate structs with prefix
@@ -57,13 +94,13 @@ func Unprefix() {
 
 // Eval one or more configuration structures
 func Eval(ptrs ...interface{}) error {
-	args := NewArgs(false, "", "")
+	args := NewArgs("")
 	return Run(args, ptrs...)
 }
 
 // Init flags
 func Init(ptrs ...interface{}) error {
-	args := NewArgs(false, "", "")
+	args := NewArgs("")
 	err := Run(args, ptrs...)
 	Freeze()
 	return err
@@ -71,18 +108,10 @@ func Init(ptrs ...interface{}) error {
 
 // EvalName one or more configuration structures overriding the name
 func EvalName(name string, ptrs ...interface{}) error {
-	prefix, ok := LookupEnv(cfgEnvKeyPrefix)
-	if ok && len(prefix) > 0 && len(name) > 0 {
-		prefix = prefix + "_" + name
-	}
-	if ok && len(name) > 0 {
-		prefix = name
-	}
-	if len(prefix) > 0 {
-		os.Setenv(cfgEnvKeyPrefix, prefix+"_")
-	}
-	args := NewArgs(len(prefix) > 0, prefix, "")
-	return Run(args, ptrs...)
+	args := NewArgs(name)
+	err := Run(args, ptrs...)
+	Freeze()
+	return err
 }
 
 func Run(args *Args, ptrs ...interface{}) error {
@@ -122,15 +151,11 @@ func Run(args *Args, ptrs ...interface{}) error {
 // Eval(p) is decorated/prefixed with flag "--kp-d-i"
 // EvalName("D", p) is decorated/prefixed with env var "KP_D_I"
 
-func NewArgs(prefixed bool, prefix, name string) *Args {
-	return &Args{Depth: 0, Prefixed: prefixed, Prefix: prefix, Name: name}
-}
-
 // SimpleFlags create env vars prefices
 func Simple(ptrs ...interface{}) error {
 	Unprefix()
 	Undecorate()
-	args := NewArgs(false, "", "")
+	args := NewArgs("")
 	return Run(args, ptrs...)
 }
 
@@ -145,52 +170,42 @@ func SimpleFlags(ptrs ...interface{}) error {
 func Unwrap(ptrs ...interface{}) error {
 	Unprefix()
 	Undecorate()
-	Initialize()
-	args := NewArgs(false, "", "")
+	args := NewArgs("")
 	err := Run(args, ptrs...)
-	Freeze()
 	return err
+}
+
+// Final freezes calling flag.Parse, no more additions to the
+// configuration after Final
+func Final() {
+	Freeze()
 }
 
 // Bare alias of Simple create env vars without prefices
 func Bare(ptrs ...interface{}) error {
 	Unprefix()
 	Undecorate()
-	Initialize()
-	args := NewArgs(false, "", "")
+	args := NewArgs("")
 	err := Run(args, ptrs...)
-	Freeze()
 	return err
 }
 
 // Wrap (optionally) with prefix and struct names create env vars without prefices
 func Wrap(name string, ptrs ...interface{}) error {
-	Initialize()
-	prefix, ok := LookupEnv(cfgEnvKeyPrefix)
-	if ok && len(prefix) > 0 {
-		prefix = prefix + "_"
-	}
-
-	if len(prefix) > 0 && len(name) > 0 {
-		prefix = prefix + name
-	}
-	args := NewArgs(len(prefix) > 0, prefix, "")
+	args := NewArgs(name)
 	err := Run(args, ptrs...)
-	Freeze()
 	return err
 }
 
 // Add alias of Eval
 func Add(ptrs ...interface{}) error {
-	Initialize()
-	args := NewArgs(false, "", "")
+	args := NewArgs("")
 	return Run(args, ptrs...)
 }
 
 // Flags alias of Eval
 func Flags(ptrs ...interface{}) error {
-	Initialize()
-	args := NewArgs(false, "", "")
+	args := NewArgs("")
 	err := Run(args, ptrs...)
 	Freeze()
 	return err
