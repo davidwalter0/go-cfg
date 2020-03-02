@@ -61,14 +61,12 @@ func NewArgs(name string) *Args {
 func Undecorate() bool {
 	decorate = false
 	os.Setenv(cfgDecorate, "false")
-	log.Printf("decorate %v\n", decorate)
 	return decorate
 }
 
 // Decorate structs with prefix
 func Decorate() bool {
 	decorate = true
-	log.Printf("decorate %v\n", decorate)
 	os.Setenv(cfgDecorate, "true")
 	return decorate
 }
@@ -76,21 +74,6 @@ func Decorate() bool {
 func Unprefix() {
 	os.Unsetenv(cfgEnvKeyPrefix)
 }
-
-// // Decorate structs with prefix
-// func Decorate() bool {
-// 	var err error
-// 	log.Printf("decorate %v\n", decorate)
-// 	text, ok := LookupEnv(cfgDecorate)
-// 	if ok {
-// 		decorate, err = strconv.ParseBool(text)
-// 		if err != nil {
-// 			log.Println(err)
-// 		}
-// 	}
-// 	log.Printf("decorate %v\n", decorate)
-// 	return decorate
-// }
 
 // Eval one or more configuration structures
 func Eval(ptrs ...interface{}) error {
