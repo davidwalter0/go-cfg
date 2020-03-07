@@ -16,12 +16,8 @@ import (
 func MakeVar(addr interface{}, name, defaultValue, usage, override string, required, isset bool) {
 	defaultValue = strings.TrimSpace(defaultValue)
 	override = strings.TrimSpace(override)
-	switch ptr := addr.(type) {
-	default:
-		fmt.Printf("MakeVar %s %T %+v %v %v\n", name, ptr, ptr, required, isset)
-	}
-	switch ptr := addr.(type) {
 
+	switch ptr := addr.(type) {
 	case *map[time.Duration]time.Duration:
 		var varType = (*mapDurationDurationValue)(ptr)
 		if len(defaultValue) > 0 {
@@ -3376,7 +3372,6 @@ func MakeVar(addr interface{}, name, defaultValue, usage, override string, requi
 			}
 		}
 		CommandLine.Var(varType, name, usage, required, isset)
-		fmt.Printf("*string %s %T %v", name, CommandLine.formal[name], CommandLine.formal[name])
 		if len(override) > 0 {
 			if err := varType.Set(override); err != nil {
 				panic(fmt.Sprintf("Error setting stringValue %T %v\n", ptr, err))

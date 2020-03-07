@@ -37,7 +37,6 @@ func IsSet(name string) bool {
 
 // Ok returns if the flag has been set
 func Ok(name string) bool {
-	fmt.Println("cfg.OK", name, flag.Ok(name))
 	return flag.Ok(name)
 }
 
