@@ -1,11 +1,8 @@
 module github.com/davidwalter0/go-cfg
 
-go 1.12
-
-replace flag => github.com/davidwalter0/go-flag v0.2.1
+go 1.13
 
 require (
-	github.com/davidwalter0/go-flag v0.2.1
-	gopkg.in/yaml.v1 v1.0.0-20140924161607-9f9df34309c0
-	gopkg.in/yaml.v2 v2.2.7
+	github.com/davidwalter0/go-flag v0.0.0-20200307021324-f88d57cd6005
+	gopkg.in/yaml.v3 v3.0.0-20200121175148-a6ecf24a6d71
 )

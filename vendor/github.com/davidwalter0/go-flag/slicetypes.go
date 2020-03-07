@@ -60,31 +60,31 @@ func (slc *sliceDurationValue) String() string {
 // sliceDurationVar defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func (f *FlagSet) sliceDurationVar(p *sliceDurationValue, name string, value sliceDurationValue, usage string) {
-	f.Var(newsliceDurationValue(value, p), name, usage)
+func (f *FlagSet) sliceDurationVar(p *sliceDurationValue, name string, value sliceDurationValue, usage string, required, isset bool) {
+	f.Var(newsliceDurationValue(value, p), name, usage, required, isset)
 }
 
 // sliceDurationVar defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func sliceDurationVar(p *sliceDurationValue, name string, value sliceDurationValue, usage string) {
-	CommandLine.Var(newsliceDurationValue(value, p), name, usage)
+func sliceDurationVar(p *sliceDurationValue, name string, value sliceDurationValue, usage string, required, isset bool) {
+	CommandLine.Var(newsliceDurationValue(value, p), name, usage, required, isset)
 }
 
 // sliceDuration defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func (f *FlagSet) sliceDuration(name string, value sliceDurationValue, usage string) *sliceDurationValue {
+func (f *FlagSet) sliceDuration(name string, value sliceDurationValue, usage string, required, isset bool) *sliceDurationValue {
 	p := new(sliceDurationValue)
-	f.sliceDurationVar(p, name, value, usage)
+	f.sliceDurationVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // sliceDuration defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func sliceDuration(name string, value sliceDurationValue, usage string) *sliceDurationValue {
-	return CommandLine.sliceDuration(name, value, usage)
+func sliceDuration(name string, value sliceDurationValue, usage string, required, isset bool) *sliceDurationValue {
+	return CommandLine.sliceDuration(name, value, usage, required, isset)
 }
 
 // sliceIntValue []int
@@ -133,31 +133,31 @@ func (slc *sliceIntValue) String() string {
 // sliceIntVar defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func (f *FlagSet) sliceIntVar(p *sliceIntValue, name string, value sliceIntValue, usage string) {
-	f.Var(newsliceIntValue(value, p), name, usage)
+func (f *FlagSet) sliceIntVar(p *sliceIntValue, name string, value sliceIntValue, usage string, required, isset bool) {
+	f.Var(newsliceIntValue(value, p), name, usage, required, isset)
 }
 
 // sliceIntVar defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func sliceIntVar(p *sliceIntValue, name string, value sliceIntValue, usage string) {
-	CommandLine.Var(newsliceIntValue(value, p), name, usage)
+func sliceIntVar(p *sliceIntValue, name string, value sliceIntValue, usage string, required, isset bool) {
+	CommandLine.Var(newsliceIntValue(value, p), name, usage, required, isset)
 }
 
 // sliceInt defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func (f *FlagSet) sliceInt(name string, value sliceIntValue, usage string) *sliceIntValue {
+func (f *FlagSet) sliceInt(name string, value sliceIntValue, usage string, required, isset bool) *sliceIntValue {
 	p := new(sliceIntValue)
-	f.sliceIntVar(p, name, value, usage)
+	f.sliceIntVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // sliceInt defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func sliceInt(name string, value sliceIntValue, usage string) *sliceIntValue {
-	return CommandLine.sliceInt(name, value, usage)
+func sliceInt(name string, value sliceIntValue, usage string, required, isset bool) *sliceIntValue {
+	return CommandLine.sliceInt(name, value, usage, required, isset)
 }
 
 // sliceInt8Value []int8
@@ -206,31 +206,31 @@ func (slc *sliceInt8Value) String() string {
 // sliceInt8Var defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func (f *FlagSet) sliceInt8Var(p *sliceInt8Value, name string, value sliceInt8Value, usage string) {
-	f.Var(newsliceInt8Value(value, p), name, usage)
+func (f *FlagSet) sliceInt8Var(p *sliceInt8Value, name string, value sliceInt8Value, usage string, required, isset bool) {
+	f.Var(newsliceInt8Value(value, p), name, usage, required, isset)
 }
 
 // sliceInt8Var defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func sliceInt8Var(p *sliceInt8Value, name string, value sliceInt8Value, usage string) {
-	CommandLine.Var(newsliceInt8Value(value, p), name, usage)
+func sliceInt8Var(p *sliceInt8Value, name string, value sliceInt8Value, usage string, required, isset bool) {
+	CommandLine.Var(newsliceInt8Value(value, p), name, usage, required, isset)
 }
 
 // sliceInt8 defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func (f *FlagSet) sliceInt8(name string, value sliceInt8Value, usage string) *sliceInt8Value {
+func (f *FlagSet) sliceInt8(name string, value sliceInt8Value, usage string, required, isset bool) *sliceInt8Value {
 	p := new(sliceInt8Value)
-	f.sliceInt8Var(p, name, value, usage)
+	f.sliceInt8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // sliceInt8 defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func sliceInt8(name string, value sliceInt8Value, usage string) *sliceInt8Value {
-	return CommandLine.sliceInt8(name, value, usage)
+func sliceInt8(name string, value sliceInt8Value, usage string, required, isset bool) *sliceInt8Value {
+	return CommandLine.sliceInt8(name, value, usage, required, isset)
 }
 
 // sliceInt16Value []int16
@@ -279,31 +279,31 @@ func (slc *sliceInt16Value) String() string {
 // sliceInt16Var defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func (f *FlagSet) sliceInt16Var(p *sliceInt16Value, name string, value sliceInt16Value, usage string) {
-	f.Var(newsliceInt16Value(value, p), name, usage)
+func (f *FlagSet) sliceInt16Var(p *sliceInt16Value, name string, value sliceInt16Value, usage string, required, isset bool) {
+	f.Var(newsliceInt16Value(value, p), name, usage, required, isset)
 }
 
 // sliceInt16Var defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func sliceInt16Var(p *sliceInt16Value, name string, value sliceInt16Value, usage string) {
-	CommandLine.Var(newsliceInt16Value(value, p), name, usage)
+func sliceInt16Var(p *sliceInt16Value, name string, value sliceInt16Value, usage string, required, isset bool) {
+	CommandLine.Var(newsliceInt16Value(value, p), name, usage, required, isset)
 }
 
 // sliceInt16 defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func (f *FlagSet) sliceInt16(name string, value sliceInt16Value, usage string) *sliceInt16Value {
+func (f *FlagSet) sliceInt16(name string, value sliceInt16Value, usage string, required, isset bool) *sliceInt16Value {
 	p := new(sliceInt16Value)
-	f.sliceInt16Var(p, name, value, usage)
+	f.sliceInt16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // sliceInt16 defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func sliceInt16(name string, value sliceInt16Value, usage string) *sliceInt16Value {
-	return CommandLine.sliceInt16(name, value, usage)
+func sliceInt16(name string, value sliceInt16Value, usage string, required, isset bool) *sliceInt16Value {
+	return CommandLine.sliceInt16(name, value, usage, required, isset)
 }
 
 // sliceInt32Value []int32
@@ -352,31 +352,31 @@ func (slc *sliceInt32Value) String() string {
 // sliceInt32Var defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func (f *FlagSet) sliceInt32Var(p *sliceInt32Value, name string, value sliceInt32Value, usage string) {
-	f.Var(newsliceInt32Value(value, p), name, usage)
+func (f *FlagSet) sliceInt32Var(p *sliceInt32Value, name string, value sliceInt32Value, usage string, required, isset bool) {
+	f.Var(newsliceInt32Value(value, p), name, usage, required, isset)
 }
 
 // sliceInt32Var defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func sliceInt32Var(p *sliceInt32Value, name string, value sliceInt32Value, usage string) {
-	CommandLine.Var(newsliceInt32Value(value, p), name, usage)
+func sliceInt32Var(p *sliceInt32Value, name string, value sliceInt32Value, usage string, required, isset bool) {
+	CommandLine.Var(newsliceInt32Value(value, p), name, usage, required, isset)
 }
 
 // sliceInt32 defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func (f *FlagSet) sliceInt32(name string, value sliceInt32Value, usage string) *sliceInt32Value {
+func (f *FlagSet) sliceInt32(name string, value sliceInt32Value, usage string, required, isset bool) *sliceInt32Value {
 	p := new(sliceInt32Value)
-	f.sliceInt32Var(p, name, value, usage)
+	f.sliceInt32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // sliceInt32 defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func sliceInt32(name string, value sliceInt32Value, usage string) *sliceInt32Value {
-	return CommandLine.sliceInt32(name, value, usage)
+func sliceInt32(name string, value sliceInt32Value, usage string, required, isset bool) *sliceInt32Value {
+	return CommandLine.sliceInt32(name, value, usage, required, isset)
 }
 
 // sliceInt64Value []int64
@@ -425,31 +425,31 @@ func (slc *sliceInt64Value) String() string {
 // sliceInt64Var defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func (f *FlagSet) sliceInt64Var(p *sliceInt64Value, name string, value sliceInt64Value, usage string) {
-	f.Var(newsliceInt64Value(value, p), name, usage)
+func (f *FlagSet) sliceInt64Var(p *sliceInt64Value, name string, value sliceInt64Value, usage string, required, isset bool) {
+	f.Var(newsliceInt64Value(value, p), name, usage, required, isset)
 }
 
 // sliceInt64Var defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func sliceInt64Var(p *sliceInt64Value, name string, value sliceInt64Value, usage string) {
-	CommandLine.Var(newsliceInt64Value(value, p), name, usage)
+func sliceInt64Var(p *sliceInt64Value, name string, value sliceInt64Value, usage string, required, isset bool) {
+	CommandLine.Var(newsliceInt64Value(value, p), name, usage, required, isset)
 }
 
 // sliceInt64 defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func (f *FlagSet) sliceInt64(name string, value sliceInt64Value, usage string) *sliceInt64Value {
+func (f *FlagSet) sliceInt64(name string, value sliceInt64Value, usage string, required, isset bool) *sliceInt64Value {
 	p := new(sliceInt64Value)
-	f.sliceInt64Var(p, name, value, usage)
+	f.sliceInt64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // sliceInt64 defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func sliceInt64(name string, value sliceInt64Value, usage string) *sliceInt64Value {
-	return CommandLine.sliceInt64(name, value, usage)
+func sliceInt64(name string, value sliceInt64Value, usage string, required, isset bool) *sliceInt64Value {
+	return CommandLine.sliceInt64(name, value, usage, required, isset)
 }
 
 // sliceUintValue []uint
@@ -498,31 +498,31 @@ func (slc *sliceUintValue) String() string {
 // sliceUintVar defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func (f *FlagSet) sliceUintVar(p *sliceUintValue, name string, value sliceUintValue, usage string) {
-	f.Var(newsliceUintValue(value, p), name, usage)
+func (f *FlagSet) sliceUintVar(p *sliceUintValue, name string, value sliceUintValue, usage string, required, isset bool) {
+	f.Var(newsliceUintValue(value, p), name, usage, required, isset)
 }
 
 // sliceUintVar defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func sliceUintVar(p *sliceUintValue, name string, value sliceUintValue, usage string) {
-	CommandLine.Var(newsliceUintValue(value, p), name, usage)
+func sliceUintVar(p *sliceUintValue, name string, value sliceUintValue, usage string, required, isset bool) {
+	CommandLine.Var(newsliceUintValue(value, p), name, usage, required, isset)
 }
 
 // sliceUint defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func (f *FlagSet) sliceUint(name string, value sliceUintValue, usage string) *sliceUintValue {
+func (f *FlagSet) sliceUint(name string, value sliceUintValue, usage string, required, isset bool) *sliceUintValue {
 	p := new(sliceUintValue)
-	f.sliceUintVar(p, name, value, usage)
+	f.sliceUintVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // sliceUint defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func sliceUint(name string, value sliceUintValue, usage string) *sliceUintValue {
-	return CommandLine.sliceUint(name, value, usage)
+func sliceUint(name string, value sliceUintValue, usage string, required, isset bool) *sliceUintValue {
+	return CommandLine.sliceUint(name, value, usage, required, isset)
 }
 
 // sliceUint8Value []uint8
@@ -571,31 +571,31 @@ func (slc *sliceUint8Value) String() string {
 // sliceUint8Var defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func (f *FlagSet) sliceUint8Var(p *sliceUint8Value, name string, value sliceUint8Value, usage string) {
-	f.Var(newsliceUint8Value(value, p), name, usage)
+func (f *FlagSet) sliceUint8Var(p *sliceUint8Value, name string, value sliceUint8Value, usage string, required, isset bool) {
+	f.Var(newsliceUint8Value(value, p), name, usage, required, isset)
 }
 
 // sliceUint8Var defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func sliceUint8Var(p *sliceUint8Value, name string, value sliceUint8Value, usage string) {
-	CommandLine.Var(newsliceUint8Value(value, p), name, usage)
+func sliceUint8Var(p *sliceUint8Value, name string, value sliceUint8Value, usage string, required, isset bool) {
+	CommandLine.Var(newsliceUint8Value(value, p), name, usage, required, isset)
 }
 
 // sliceUint8 defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func (f *FlagSet) sliceUint8(name string, value sliceUint8Value, usage string) *sliceUint8Value {
+func (f *FlagSet) sliceUint8(name string, value sliceUint8Value, usage string, required, isset bool) *sliceUint8Value {
 	p := new(sliceUint8Value)
-	f.sliceUint8Var(p, name, value, usage)
+	f.sliceUint8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // sliceUint8 defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func sliceUint8(name string, value sliceUint8Value, usage string) *sliceUint8Value {
-	return CommandLine.sliceUint8(name, value, usage)
+func sliceUint8(name string, value sliceUint8Value, usage string, required, isset bool) *sliceUint8Value {
+	return CommandLine.sliceUint8(name, value, usage, required, isset)
 }
 
 // sliceUint16Value []uint16
@@ -644,31 +644,31 @@ func (slc *sliceUint16Value) String() string {
 // sliceUint16Var defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func (f *FlagSet) sliceUint16Var(p *sliceUint16Value, name string, value sliceUint16Value, usage string) {
-	f.Var(newsliceUint16Value(value, p), name, usage)
+func (f *FlagSet) sliceUint16Var(p *sliceUint16Value, name string, value sliceUint16Value, usage string, required, isset bool) {
+	f.Var(newsliceUint16Value(value, p), name, usage, required, isset)
 }
 
 // sliceUint16Var defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func sliceUint16Var(p *sliceUint16Value, name string, value sliceUint16Value, usage string) {
-	CommandLine.Var(newsliceUint16Value(value, p), name, usage)
+func sliceUint16Var(p *sliceUint16Value, name string, value sliceUint16Value, usage string, required, isset bool) {
+	CommandLine.Var(newsliceUint16Value(value, p), name, usage, required, isset)
 }
 
 // sliceUint16 defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func (f *FlagSet) sliceUint16(name string, value sliceUint16Value, usage string) *sliceUint16Value {
+func (f *FlagSet) sliceUint16(name string, value sliceUint16Value, usage string, required, isset bool) *sliceUint16Value {
 	p := new(sliceUint16Value)
-	f.sliceUint16Var(p, name, value, usage)
+	f.sliceUint16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // sliceUint16 defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func sliceUint16(name string, value sliceUint16Value, usage string) *sliceUint16Value {
-	return CommandLine.sliceUint16(name, value, usage)
+func sliceUint16(name string, value sliceUint16Value, usage string, required, isset bool) *sliceUint16Value {
+	return CommandLine.sliceUint16(name, value, usage, required, isset)
 }
 
 // sliceUint32Value []uint32
@@ -717,31 +717,31 @@ func (slc *sliceUint32Value) String() string {
 // sliceUint32Var defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func (f *FlagSet) sliceUint32Var(p *sliceUint32Value, name string, value sliceUint32Value, usage string) {
-	f.Var(newsliceUint32Value(value, p), name, usage)
+func (f *FlagSet) sliceUint32Var(p *sliceUint32Value, name string, value sliceUint32Value, usage string, required, isset bool) {
+	f.Var(newsliceUint32Value(value, p), name, usage, required, isset)
 }
 
 // sliceUint32Var defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func sliceUint32Var(p *sliceUint32Value, name string, value sliceUint32Value, usage string) {
-	CommandLine.Var(newsliceUint32Value(value, p), name, usage)
+func sliceUint32Var(p *sliceUint32Value, name string, value sliceUint32Value, usage string, required, isset bool) {
+	CommandLine.Var(newsliceUint32Value(value, p), name, usage, required, isset)
 }
 
 // sliceUint32 defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func (f *FlagSet) sliceUint32(name string, value sliceUint32Value, usage string) *sliceUint32Value {
+func (f *FlagSet) sliceUint32(name string, value sliceUint32Value, usage string, required, isset bool) *sliceUint32Value {
 	p := new(sliceUint32Value)
-	f.sliceUint32Var(p, name, value, usage)
+	f.sliceUint32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // sliceUint32 defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func sliceUint32(name string, value sliceUint32Value, usage string) *sliceUint32Value {
-	return CommandLine.sliceUint32(name, value, usage)
+func sliceUint32(name string, value sliceUint32Value, usage string, required, isset bool) *sliceUint32Value {
+	return CommandLine.sliceUint32(name, value, usage, required, isset)
 }
 
 // sliceUint64Value []uint64
@@ -790,31 +790,31 @@ func (slc *sliceUint64Value) String() string {
 // sliceUint64Var defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func (f *FlagSet) sliceUint64Var(p *sliceUint64Value, name string, value sliceUint64Value, usage string) {
-	f.Var(newsliceUint64Value(value, p), name, usage)
+func (f *FlagSet) sliceUint64Var(p *sliceUint64Value, name string, value sliceUint64Value, usage string, required, isset bool) {
+	f.Var(newsliceUint64Value(value, p), name, usage, required, isset)
 }
 
 // sliceUint64Var defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func sliceUint64Var(p *sliceUint64Value, name string, value sliceUint64Value, usage string) {
-	CommandLine.Var(newsliceUint64Value(value, p), name, usage)
+func sliceUint64Var(p *sliceUint64Value, name string, value sliceUint64Value, usage string, required, isset bool) {
+	CommandLine.Var(newsliceUint64Value(value, p), name, usage, required, isset)
 }
 
 // sliceUint64 defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func (f *FlagSet) sliceUint64(name string, value sliceUint64Value, usage string) *sliceUint64Value {
+func (f *FlagSet) sliceUint64(name string, value sliceUint64Value, usage string, required, isset bool) *sliceUint64Value {
 	p := new(sliceUint64Value)
-	f.sliceUint64Var(p, name, value, usage)
+	f.sliceUint64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // sliceUint64 defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func sliceUint64(name string, value sliceUint64Value, usage string) *sliceUint64Value {
-	return CommandLine.sliceUint64(name, value, usage)
+func sliceUint64(name string, value sliceUint64Value, usage string, required, isset bool) *sliceUint64Value {
+	return CommandLine.sliceUint64(name, value, usage, required, isset)
 }
 
 // sliceFloat64Value []float64
@@ -863,31 +863,31 @@ func (slc *sliceFloat64Value) String() string {
 // sliceFloat64Var defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func (f *FlagSet) sliceFloat64Var(p *sliceFloat64Value, name string, value sliceFloat64Value, usage string) {
-	f.Var(newsliceFloat64Value(value, p), name, usage)
+func (f *FlagSet) sliceFloat64Var(p *sliceFloat64Value, name string, value sliceFloat64Value, usage string, required, isset bool) {
+	f.Var(newsliceFloat64Value(value, p), name, usage, required, isset)
 }
 
 // sliceFloat64Var defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func sliceFloat64Var(p *sliceFloat64Value, name string, value sliceFloat64Value, usage string) {
-	CommandLine.Var(newsliceFloat64Value(value, p), name, usage)
+func sliceFloat64Var(p *sliceFloat64Value, name string, value sliceFloat64Value, usage string, required, isset bool) {
+	CommandLine.Var(newsliceFloat64Value(value, p), name, usage, required, isset)
 }
 
 // sliceFloat64 defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func (f *FlagSet) sliceFloat64(name string, value sliceFloat64Value, usage string) *sliceFloat64Value {
+func (f *FlagSet) sliceFloat64(name string, value sliceFloat64Value, usage string, required, isset bool) *sliceFloat64Value {
 	p := new(sliceFloat64Value)
-	f.sliceFloat64Var(p, name, value, usage)
+	f.sliceFloat64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // sliceFloat64 defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func sliceFloat64(name string, value sliceFloat64Value, usage string) *sliceFloat64Value {
-	return CommandLine.sliceFloat64(name, value, usage)
+func sliceFloat64(name string, value sliceFloat64Value, usage string, required, isset bool) *sliceFloat64Value {
+	return CommandLine.sliceFloat64(name, value, usage, required, isset)
 }
 
 // sliceFloat32Value []float32
@@ -936,31 +936,31 @@ func (slc *sliceFloat32Value) String() string {
 // sliceFloat32Var defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func (f *FlagSet) sliceFloat32Var(p *sliceFloat32Value, name string, value sliceFloat32Value, usage string) {
-	f.Var(newsliceFloat32Value(value, p), name, usage)
+func (f *FlagSet) sliceFloat32Var(p *sliceFloat32Value, name string, value sliceFloat32Value, usage string, required, isset bool) {
+	f.Var(newsliceFloat32Value(value, p), name, usage, required, isset)
 }
 
 // sliceFloat32Var defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func sliceFloat32Var(p *sliceFloat32Value, name string, value sliceFloat32Value, usage string) {
-	CommandLine.Var(newsliceFloat32Value(value, p), name, usage)
+func sliceFloat32Var(p *sliceFloat32Value, name string, value sliceFloat32Value, usage string, required, isset bool) {
+	CommandLine.Var(newsliceFloat32Value(value, p), name, usage, required, isset)
 }
 
 // sliceFloat32 defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func (f *FlagSet) sliceFloat32(name string, value sliceFloat32Value, usage string) *sliceFloat32Value {
+func (f *FlagSet) sliceFloat32(name string, value sliceFloat32Value, usage string, required, isset bool) *sliceFloat32Value {
 	p := new(sliceFloat32Value)
-	f.sliceFloat32Var(p, name, value, usage)
+	f.sliceFloat32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // sliceFloat32 defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func sliceFloat32(name string, value sliceFloat32Value, usage string) *sliceFloat32Value {
-	return CommandLine.sliceFloat32(name, value, usage)
+func sliceFloat32(name string, value sliceFloat32Value, usage string, required, isset bool) *sliceFloat32Value {
+	return CommandLine.sliceFloat32(name, value, usage, required, isset)
 }
 
 // sliceBoolValue []bool
@@ -1009,31 +1009,31 @@ func (slc *sliceBoolValue) String() string {
 // sliceBoolVar defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func (f *FlagSet) sliceBoolVar(p *sliceBoolValue, name string, value sliceBoolValue, usage string) {
-	f.Var(newsliceBoolValue(value, p), name, usage)
+func (f *FlagSet) sliceBoolVar(p *sliceBoolValue, name string, value sliceBoolValue, usage string, required, isset bool) {
+	f.Var(newsliceBoolValue(value, p), name, usage, required, isset)
 }
 
 // sliceBoolVar defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func sliceBoolVar(p *sliceBoolValue, name string, value sliceBoolValue, usage string) {
-	CommandLine.Var(newsliceBoolValue(value, p), name, usage)
+func sliceBoolVar(p *sliceBoolValue, name string, value sliceBoolValue, usage string, required, isset bool) {
+	CommandLine.Var(newsliceBoolValue(value, p), name, usage, required, isset)
 }
 
 // sliceBool defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func (f *FlagSet) sliceBool(name string, value sliceBoolValue, usage string) *sliceBoolValue {
+func (f *FlagSet) sliceBool(name string, value sliceBoolValue, usage string, required, isset bool) *sliceBoolValue {
 	p := new(sliceBoolValue)
-	f.sliceBoolVar(p, name, value, usage)
+	f.sliceBoolVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // sliceBool defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func sliceBool(name string, value sliceBoolValue, usage string) *sliceBoolValue {
-	return CommandLine.sliceBool(name, value, usage)
+func sliceBool(name string, value sliceBoolValue, usage string, required, isset bool) *sliceBoolValue {
+	return CommandLine.sliceBool(name, value, usage, required, isset)
 }
 
 // sliceStringValue []string
@@ -1081,29 +1081,29 @@ func (slc *sliceStringValue) String() string {
 // sliceStringVar defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func (f *FlagSet) sliceStringVar(p *sliceStringValue, name string, value sliceStringValue, usage string) {
-	f.Var(newsliceStringValue(value, p), name, usage)
+func (f *FlagSet) sliceStringVar(p *sliceStringValue, name string, value sliceStringValue, usage string, required, isset bool) {
+	f.Var(newsliceStringValue(value, p), name, usage, required, isset)
 }
 
 // sliceStringVar defines an slice flag with specified name,
 // default value, and usage string.  The argument p points to an slice
 // variable in which to store the value of the flag.
-func sliceStringVar(p *sliceStringValue, name string, value sliceStringValue, usage string) {
-	CommandLine.Var(newsliceStringValue(value, p), name, usage)
+func sliceStringVar(p *sliceStringValue, name string, value sliceStringValue, usage string, required, isset bool) {
+	CommandLine.Var(newsliceStringValue(value, p), name, usage, required, isset)
 }
 
 // sliceString defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func (f *FlagSet) sliceString(name string, value sliceStringValue, usage string) *sliceStringValue {
+func (f *FlagSet) sliceString(name string, value sliceStringValue, usage string, required, isset bool) *sliceStringValue {
 	p := new(sliceStringValue)
-	f.sliceStringVar(p, name, value, usage)
+	f.sliceStringVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // sliceString defines an slice flag with specified name, default value, and
 // usage string.  The return value is the address of an slice variable
 // that stores the value of the flag.
-func sliceString(name string, value sliceStringValue, usage string) *sliceStringValue {
-	return CommandLine.sliceString(name, value, usage)
+func sliceString(name string, value sliceStringValue, usage string, required, isset bool) *sliceStringValue {
+	return CommandLine.sliceString(name, value, usage, required, isset)
 }

@@ -40,31 +40,31 @@ func (slc *mapDurationDurationValue) String() string {
 // mapDurationDurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapDurationDurationVar(p *mapDurationDurationValue, name string, value mapDurationDurationValue, usage string) {
-	f.Var(newmapDurationDurationValue(value, p), name, usage)
+func (f *FlagSet) mapDurationDurationVar(p *mapDurationDurationValue, name string, value mapDurationDurationValue, usage string, required, isset bool) {
+	f.Var(newmapDurationDurationValue(value, p), name, usage, required, isset)
 }
 
 // mapDurationDurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapDurationDurationVar(p *mapDurationDurationValue, name string, value mapDurationDurationValue, usage string) {
-	CommandLine.Var(newmapDurationDurationValue(value, p), name, usage)
+func mapDurationDurationVar(p *mapDurationDurationValue, name string, value mapDurationDurationValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapDurationDurationValue(value, p), name, usage, required, isset)
 }
 
 // mapDurationDurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapDurationDuration(name string, value mapDurationDurationValue, usage string) *mapDurationDurationValue {
+func (f *FlagSet) mapDurationDuration(name string, value mapDurationDurationValue, usage string, required, isset bool) *mapDurationDurationValue {
 	p := new(mapDurationDurationValue)
-	f.mapDurationDurationVar(p, name, value, usage)
+	f.mapDurationDurationVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapDurationDurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapDurationDuration(name string, value mapDurationDurationValue, usage string) *mapDurationDurationValue {
-	return CommandLine.mapDurationDuration(name, value, usage)
+func mapDurationDuration(name string, value mapDurationDurationValue, usage string, required, isset bool) *mapDurationDurationValue {
+	return CommandLine.mapDurationDuration(name, value, usage, required, isset)
 }
 
 // mapDurationIntValue []mapDurationIntValue
@@ -98,31 +98,31 @@ func (slc *mapDurationIntValue) String() string {
 // mapDurationIntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapDurationIntVar(p *mapDurationIntValue, name string, value mapDurationIntValue, usage string) {
-	f.Var(newmapDurationIntValue(value, p), name, usage)
+func (f *FlagSet) mapDurationIntVar(p *mapDurationIntValue, name string, value mapDurationIntValue, usage string, required, isset bool) {
+	f.Var(newmapDurationIntValue(value, p), name, usage, required, isset)
 }
 
 // mapDurationIntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapDurationIntVar(p *mapDurationIntValue, name string, value mapDurationIntValue, usage string) {
-	CommandLine.Var(newmapDurationIntValue(value, p), name, usage)
+func mapDurationIntVar(p *mapDurationIntValue, name string, value mapDurationIntValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapDurationIntValue(value, p), name, usage, required, isset)
 }
 
 // mapDurationIntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapDurationInt(name string, value mapDurationIntValue, usage string) *mapDurationIntValue {
+func (f *FlagSet) mapDurationInt(name string, value mapDurationIntValue, usage string, required, isset bool) *mapDurationIntValue {
 	p := new(mapDurationIntValue)
-	f.mapDurationIntVar(p, name, value, usage)
+	f.mapDurationIntVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapDurationIntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapDurationInt(name string, value mapDurationIntValue, usage string) *mapDurationIntValue {
-	return CommandLine.mapDurationInt(name, value, usage)
+func mapDurationInt(name string, value mapDurationIntValue, usage string, required, isset bool) *mapDurationIntValue {
+	return CommandLine.mapDurationInt(name, value, usage, required, isset)
 }
 
 // mapDurationInt8Value []mapDurationInt8Value
@@ -156,31 +156,31 @@ func (slc *mapDurationInt8Value) String() string {
 // mapDurationInt8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapDurationInt8Var(p *mapDurationInt8Value, name string, value mapDurationInt8Value, usage string) {
-	f.Var(newmapDurationInt8Value(value, p), name, usage)
+func (f *FlagSet) mapDurationInt8Var(p *mapDurationInt8Value, name string, value mapDurationInt8Value, usage string, required, isset bool) {
+	f.Var(newmapDurationInt8Value(value, p), name, usage, required, isset)
 }
 
 // mapDurationInt8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapDurationInt8Var(p *mapDurationInt8Value, name string, value mapDurationInt8Value, usage string) {
-	CommandLine.Var(newmapDurationInt8Value(value, p), name, usage)
+func mapDurationInt8Var(p *mapDurationInt8Value, name string, value mapDurationInt8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapDurationInt8Value(value, p), name, usage, required, isset)
 }
 
 // mapDurationInt8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapDurationInt8(name string, value mapDurationInt8Value, usage string) *mapDurationInt8Value {
+func (f *FlagSet) mapDurationInt8(name string, value mapDurationInt8Value, usage string, required, isset bool) *mapDurationInt8Value {
 	p := new(mapDurationInt8Value)
-	f.mapDurationInt8Var(p, name, value, usage)
+	f.mapDurationInt8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapDurationInt8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapDurationInt8(name string, value mapDurationInt8Value, usage string) *mapDurationInt8Value {
-	return CommandLine.mapDurationInt8(name, value, usage)
+func mapDurationInt8(name string, value mapDurationInt8Value, usage string, required, isset bool) *mapDurationInt8Value {
+	return CommandLine.mapDurationInt8(name, value, usage, required, isset)
 }
 
 // mapDurationInt16Value []mapDurationInt16Value
@@ -214,31 +214,31 @@ func (slc *mapDurationInt16Value) String() string {
 // mapDurationInt16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapDurationInt16Var(p *mapDurationInt16Value, name string, value mapDurationInt16Value, usage string) {
-	f.Var(newmapDurationInt16Value(value, p), name, usage)
+func (f *FlagSet) mapDurationInt16Var(p *mapDurationInt16Value, name string, value mapDurationInt16Value, usage string, required, isset bool) {
+	f.Var(newmapDurationInt16Value(value, p), name, usage, required, isset)
 }
 
 // mapDurationInt16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapDurationInt16Var(p *mapDurationInt16Value, name string, value mapDurationInt16Value, usage string) {
-	CommandLine.Var(newmapDurationInt16Value(value, p), name, usage)
+func mapDurationInt16Var(p *mapDurationInt16Value, name string, value mapDurationInt16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapDurationInt16Value(value, p), name, usage, required, isset)
 }
 
 // mapDurationInt16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapDurationInt16(name string, value mapDurationInt16Value, usage string) *mapDurationInt16Value {
+func (f *FlagSet) mapDurationInt16(name string, value mapDurationInt16Value, usage string, required, isset bool) *mapDurationInt16Value {
 	p := new(mapDurationInt16Value)
-	f.mapDurationInt16Var(p, name, value, usage)
+	f.mapDurationInt16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapDurationInt16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapDurationInt16(name string, value mapDurationInt16Value, usage string) *mapDurationInt16Value {
-	return CommandLine.mapDurationInt16(name, value, usage)
+func mapDurationInt16(name string, value mapDurationInt16Value, usage string, required, isset bool) *mapDurationInt16Value {
+	return CommandLine.mapDurationInt16(name, value, usage, required, isset)
 }
 
 // mapDurationInt32Value []mapDurationInt32Value
@@ -272,31 +272,31 @@ func (slc *mapDurationInt32Value) String() string {
 // mapDurationInt32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapDurationInt32Var(p *mapDurationInt32Value, name string, value mapDurationInt32Value, usage string) {
-	f.Var(newmapDurationInt32Value(value, p), name, usage)
+func (f *FlagSet) mapDurationInt32Var(p *mapDurationInt32Value, name string, value mapDurationInt32Value, usage string, required, isset bool) {
+	f.Var(newmapDurationInt32Value(value, p), name, usage, required, isset)
 }
 
 // mapDurationInt32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapDurationInt32Var(p *mapDurationInt32Value, name string, value mapDurationInt32Value, usage string) {
-	CommandLine.Var(newmapDurationInt32Value(value, p), name, usage)
+func mapDurationInt32Var(p *mapDurationInt32Value, name string, value mapDurationInt32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapDurationInt32Value(value, p), name, usage, required, isset)
 }
 
 // mapDurationInt32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapDurationInt32(name string, value mapDurationInt32Value, usage string) *mapDurationInt32Value {
+func (f *FlagSet) mapDurationInt32(name string, value mapDurationInt32Value, usage string, required, isset bool) *mapDurationInt32Value {
 	p := new(mapDurationInt32Value)
-	f.mapDurationInt32Var(p, name, value, usage)
+	f.mapDurationInt32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapDurationInt32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapDurationInt32(name string, value mapDurationInt32Value, usage string) *mapDurationInt32Value {
-	return CommandLine.mapDurationInt32(name, value, usage)
+func mapDurationInt32(name string, value mapDurationInt32Value, usage string, required, isset bool) *mapDurationInt32Value {
+	return CommandLine.mapDurationInt32(name, value, usage, required, isset)
 }
 
 // mapDurationInt64Value []mapDurationInt64Value
@@ -330,31 +330,31 @@ func (slc *mapDurationInt64Value) String() string {
 // mapDurationInt64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapDurationInt64Var(p *mapDurationInt64Value, name string, value mapDurationInt64Value, usage string) {
-	f.Var(newmapDurationInt64Value(value, p), name, usage)
+func (f *FlagSet) mapDurationInt64Var(p *mapDurationInt64Value, name string, value mapDurationInt64Value, usage string, required, isset bool) {
+	f.Var(newmapDurationInt64Value(value, p), name, usage, required, isset)
 }
 
 // mapDurationInt64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapDurationInt64Var(p *mapDurationInt64Value, name string, value mapDurationInt64Value, usage string) {
-	CommandLine.Var(newmapDurationInt64Value(value, p), name, usage)
+func mapDurationInt64Var(p *mapDurationInt64Value, name string, value mapDurationInt64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapDurationInt64Value(value, p), name, usage, required, isset)
 }
 
 // mapDurationInt64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapDurationInt64(name string, value mapDurationInt64Value, usage string) *mapDurationInt64Value {
+func (f *FlagSet) mapDurationInt64(name string, value mapDurationInt64Value, usage string, required, isset bool) *mapDurationInt64Value {
 	p := new(mapDurationInt64Value)
-	f.mapDurationInt64Var(p, name, value, usage)
+	f.mapDurationInt64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapDurationInt64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapDurationInt64(name string, value mapDurationInt64Value, usage string) *mapDurationInt64Value {
-	return CommandLine.mapDurationInt64(name, value, usage)
+func mapDurationInt64(name string, value mapDurationInt64Value, usage string, required, isset bool) *mapDurationInt64Value {
+	return CommandLine.mapDurationInt64(name, value, usage, required, isset)
 }
 
 // mapDurationUintValue []mapDurationUintValue
@@ -388,31 +388,31 @@ func (slc *mapDurationUintValue) String() string {
 // mapDurationUintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapDurationUintVar(p *mapDurationUintValue, name string, value mapDurationUintValue, usage string) {
-	f.Var(newmapDurationUintValue(value, p), name, usage)
+func (f *FlagSet) mapDurationUintVar(p *mapDurationUintValue, name string, value mapDurationUintValue, usage string, required, isset bool) {
+	f.Var(newmapDurationUintValue(value, p), name, usage, required, isset)
 }
 
 // mapDurationUintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapDurationUintVar(p *mapDurationUintValue, name string, value mapDurationUintValue, usage string) {
-	CommandLine.Var(newmapDurationUintValue(value, p), name, usage)
+func mapDurationUintVar(p *mapDurationUintValue, name string, value mapDurationUintValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapDurationUintValue(value, p), name, usage, required, isset)
 }
 
 // mapDurationUintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapDurationUint(name string, value mapDurationUintValue, usage string) *mapDurationUintValue {
+func (f *FlagSet) mapDurationUint(name string, value mapDurationUintValue, usage string, required, isset bool) *mapDurationUintValue {
 	p := new(mapDurationUintValue)
-	f.mapDurationUintVar(p, name, value, usage)
+	f.mapDurationUintVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapDurationUintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapDurationUint(name string, value mapDurationUintValue, usage string) *mapDurationUintValue {
-	return CommandLine.mapDurationUint(name, value, usage)
+func mapDurationUint(name string, value mapDurationUintValue, usage string, required, isset bool) *mapDurationUintValue {
+	return CommandLine.mapDurationUint(name, value, usage, required, isset)
 }
 
 // mapDurationUint8Value []mapDurationUint8Value
@@ -446,31 +446,31 @@ func (slc *mapDurationUint8Value) String() string {
 // mapDurationUint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapDurationUint8Var(p *mapDurationUint8Value, name string, value mapDurationUint8Value, usage string) {
-	f.Var(newmapDurationUint8Value(value, p), name, usage)
+func (f *FlagSet) mapDurationUint8Var(p *mapDurationUint8Value, name string, value mapDurationUint8Value, usage string, required, isset bool) {
+	f.Var(newmapDurationUint8Value(value, p), name, usage, required, isset)
 }
 
 // mapDurationUint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapDurationUint8Var(p *mapDurationUint8Value, name string, value mapDurationUint8Value, usage string) {
-	CommandLine.Var(newmapDurationUint8Value(value, p), name, usage)
+func mapDurationUint8Var(p *mapDurationUint8Value, name string, value mapDurationUint8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapDurationUint8Value(value, p), name, usage, required, isset)
 }
 
 // mapDurationUint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapDurationUint8(name string, value mapDurationUint8Value, usage string) *mapDurationUint8Value {
+func (f *FlagSet) mapDurationUint8(name string, value mapDurationUint8Value, usage string, required, isset bool) *mapDurationUint8Value {
 	p := new(mapDurationUint8Value)
-	f.mapDurationUint8Var(p, name, value, usage)
+	f.mapDurationUint8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapDurationUint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapDurationUint8(name string, value mapDurationUint8Value, usage string) *mapDurationUint8Value {
-	return CommandLine.mapDurationUint8(name, value, usage)
+func mapDurationUint8(name string, value mapDurationUint8Value, usage string, required, isset bool) *mapDurationUint8Value {
+	return CommandLine.mapDurationUint8(name, value, usage, required, isset)
 }
 
 // mapDurationUint16Value []mapDurationUint16Value
@@ -504,31 +504,31 @@ func (slc *mapDurationUint16Value) String() string {
 // mapDurationUint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapDurationUint16Var(p *mapDurationUint16Value, name string, value mapDurationUint16Value, usage string) {
-	f.Var(newmapDurationUint16Value(value, p), name, usage)
+func (f *FlagSet) mapDurationUint16Var(p *mapDurationUint16Value, name string, value mapDurationUint16Value, usage string, required, isset bool) {
+	f.Var(newmapDurationUint16Value(value, p), name, usage, required, isset)
 }
 
 // mapDurationUint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapDurationUint16Var(p *mapDurationUint16Value, name string, value mapDurationUint16Value, usage string) {
-	CommandLine.Var(newmapDurationUint16Value(value, p), name, usage)
+func mapDurationUint16Var(p *mapDurationUint16Value, name string, value mapDurationUint16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapDurationUint16Value(value, p), name, usage, required, isset)
 }
 
 // mapDurationUint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapDurationUint16(name string, value mapDurationUint16Value, usage string) *mapDurationUint16Value {
+func (f *FlagSet) mapDurationUint16(name string, value mapDurationUint16Value, usage string, required, isset bool) *mapDurationUint16Value {
 	p := new(mapDurationUint16Value)
-	f.mapDurationUint16Var(p, name, value, usage)
+	f.mapDurationUint16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapDurationUint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapDurationUint16(name string, value mapDurationUint16Value, usage string) *mapDurationUint16Value {
-	return CommandLine.mapDurationUint16(name, value, usage)
+func mapDurationUint16(name string, value mapDurationUint16Value, usage string, required, isset bool) *mapDurationUint16Value {
+	return CommandLine.mapDurationUint16(name, value, usage, required, isset)
 }
 
 // mapDurationUint32Value []mapDurationUint32Value
@@ -562,31 +562,31 @@ func (slc *mapDurationUint32Value) String() string {
 // mapDurationUint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapDurationUint32Var(p *mapDurationUint32Value, name string, value mapDurationUint32Value, usage string) {
-	f.Var(newmapDurationUint32Value(value, p), name, usage)
+func (f *FlagSet) mapDurationUint32Var(p *mapDurationUint32Value, name string, value mapDurationUint32Value, usage string, required, isset bool) {
+	f.Var(newmapDurationUint32Value(value, p), name, usage, required, isset)
 }
 
 // mapDurationUint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapDurationUint32Var(p *mapDurationUint32Value, name string, value mapDurationUint32Value, usage string) {
-	CommandLine.Var(newmapDurationUint32Value(value, p), name, usage)
+func mapDurationUint32Var(p *mapDurationUint32Value, name string, value mapDurationUint32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapDurationUint32Value(value, p), name, usage, required, isset)
 }
 
 // mapDurationUint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapDurationUint32(name string, value mapDurationUint32Value, usage string) *mapDurationUint32Value {
+func (f *FlagSet) mapDurationUint32(name string, value mapDurationUint32Value, usage string, required, isset bool) *mapDurationUint32Value {
 	p := new(mapDurationUint32Value)
-	f.mapDurationUint32Var(p, name, value, usage)
+	f.mapDurationUint32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapDurationUint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapDurationUint32(name string, value mapDurationUint32Value, usage string) *mapDurationUint32Value {
-	return CommandLine.mapDurationUint32(name, value, usage)
+func mapDurationUint32(name string, value mapDurationUint32Value, usage string, required, isset bool) *mapDurationUint32Value {
+	return CommandLine.mapDurationUint32(name, value, usage, required, isset)
 }
 
 // mapDurationUint64Value []mapDurationUint64Value
@@ -620,31 +620,31 @@ func (slc *mapDurationUint64Value) String() string {
 // mapDurationUint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapDurationUint64Var(p *mapDurationUint64Value, name string, value mapDurationUint64Value, usage string) {
-	f.Var(newmapDurationUint64Value(value, p), name, usage)
+func (f *FlagSet) mapDurationUint64Var(p *mapDurationUint64Value, name string, value mapDurationUint64Value, usage string, required, isset bool) {
+	f.Var(newmapDurationUint64Value(value, p), name, usage, required, isset)
 }
 
 // mapDurationUint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapDurationUint64Var(p *mapDurationUint64Value, name string, value mapDurationUint64Value, usage string) {
-	CommandLine.Var(newmapDurationUint64Value(value, p), name, usage)
+func mapDurationUint64Var(p *mapDurationUint64Value, name string, value mapDurationUint64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapDurationUint64Value(value, p), name, usage, required, isset)
 }
 
 // mapDurationUint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapDurationUint64(name string, value mapDurationUint64Value, usage string) *mapDurationUint64Value {
+func (f *FlagSet) mapDurationUint64(name string, value mapDurationUint64Value, usage string, required, isset bool) *mapDurationUint64Value {
 	p := new(mapDurationUint64Value)
-	f.mapDurationUint64Var(p, name, value, usage)
+	f.mapDurationUint64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapDurationUint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapDurationUint64(name string, value mapDurationUint64Value, usage string) *mapDurationUint64Value {
-	return CommandLine.mapDurationUint64(name, value, usage)
+func mapDurationUint64(name string, value mapDurationUint64Value, usage string, required, isset bool) *mapDurationUint64Value {
+	return CommandLine.mapDurationUint64(name, value, usage, required, isset)
 }
 
 // mapDurationFloat64Value []mapDurationFloat64Value
@@ -678,31 +678,31 @@ func (slc *mapDurationFloat64Value) String() string {
 // mapDurationFloat64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapDurationFloat64Var(p *mapDurationFloat64Value, name string, value mapDurationFloat64Value, usage string) {
-	f.Var(newmapDurationFloat64Value(value, p), name, usage)
+func (f *FlagSet) mapDurationFloat64Var(p *mapDurationFloat64Value, name string, value mapDurationFloat64Value, usage string, required, isset bool) {
+	f.Var(newmapDurationFloat64Value(value, p), name, usage, required, isset)
 }
 
 // mapDurationFloat64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapDurationFloat64Var(p *mapDurationFloat64Value, name string, value mapDurationFloat64Value, usage string) {
-	CommandLine.Var(newmapDurationFloat64Value(value, p), name, usage)
+func mapDurationFloat64Var(p *mapDurationFloat64Value, name string, value mapDurationFloat64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapDurationFloat64Value(value, p), name, usage, required, isset)
 }
 
 // mapDurationFloat64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapDurationFloat64(name string, value mapDurationFloat64Value, usage string) *mapDurationFloat64Value {
+func (f *FlagSet) mapDurationFloat64(name string, value mapDurationFloat64Value, usage string, required, isset bool) *mapDurationFloat64Value {
 	p := new(mapDurationFloat64Value)
-	f.mapDurationFloat64Var(p, name, value, usage)
+	f.mapDurationFloat64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapDurationFloat64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapDurationFloat64(name string, value mapDurationFloat64Value, usage string) *mapDurationFloat64Value {
-	return CommandLine.mapDurationFloat64(name, value, usage)
+func mapDurationFloat64(name string, value mapDurationFloat64Value, usage string, required, isset bool) *mapDurationFloat64Value {
+	return CommandLine.mapDurationFloat64(name, value, usage, required, isset)
 }
 
 // mapDurationFloat32Value []mapDurationFloat32Value
@@ -736,31 +736,31 @@ func (slc *mapDurationFloat32Value) String() string {
 // mapDurationFloat32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapDurationFloat32Var(p *mapDurationFloat32Value, name string, value mapDurationFloat32Value, usage string) {
-	f.Var(newmapDurationFloat32Value(value, p), name, usage)
+func (f *FlagSet) mapDurationFloat32Var(p *mapDurationFloat32Value, name string, value mapDurationFloat32Value, usage string, required, isset bool) {
+	f.Var(newmapDurationFloat32Value(value, p), name, usage, required, isset)
 }
 
 // mapDurationFloat32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapDurationFloat32Var(p *mapDurationFloat32Value, name string, value mapDurationFloat32Value, usage string) {
-	CommandLine.Var(newmapDurationFloat32Value(value, p), name, usage)
+func mapDurationFloat32Var(p *mapDurationFloat32Value, name string, value mapDurationFloat32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapDurationFloat32Value(value, p), name, usage, required, isset)
 }
 
 // mapDurationFloat32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapDurationFloat32(name string, value mapDurationFloat32Value, usage string) *mapDurationFloat32Value {
+func (f *FlagSet) mapDurationFloat32(name string, value mapDurationFloat32Value, usage string, required, isset bool) *mapDurationFloat32Value {
 	p := new(mapDurationFloat32Value)
-	f.mapDurationFloat32Var(p, name, value, usage)
+	f.mapDurationFloat32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapDurationFloat32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapDurationFloat32(name string, value mapDurationFloat32Value, usage string) *mapDurationFloat32Value {
-	return CommandLine.mapDurationFloat32(name, value, usage)
+func mapDurationFloat32(name string, value mapDurationFloat32Value, usage string, required, isset bool) *mapDurationFloat32Value {
+	return CommandLine.mapDurationFloat32(name, value, usage, required, isset)
 }
 
 // mapDurationBoolValue []mapDurationBoolValue
@@ -794,31 +794,31 @@ func (slc *mapDurationBoolValue) String() string {
 // mapDurationBoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapDurationBoolVar(p *mapDurationBoolValue, name string, value mapDurationBoolValue, usage string) {
-	f.Var(newmapDurationBoolValue(value, p), name, usage)
+func (f *FlagSet) mapDurationBoolVar(p *mapDurationBoolValue, name string, value mapDurationBoolValue, usage string, required, isset bool) {
+	f.Var(newmapDurationBoolValue(value, p), name, usage, required, isset)
 }
 
 // mapDurationBoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapDurationBoolVar(p *mapDurationBoolValue, name string, value mapDurationBoolValue, usage string) {
-	CommandLine.Var(newmapDurationBoolValue(value, p), name, usage)
+func mapDurationBoolVar(p *mapDurationBoolValue, name string, value mapDurationBoolValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapDurationBoolValue(value, p), name, usage, required, isset)
 }
 
 // mapDurationBoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapDurationBool(name string, value mapDurationBoolValue, usage string) *mapDurationBoolValue {
+func (f *FlagSet) mapDurationBool(name string, value mapDurationBoolValue, usage string, required, isset bool) *mapDurationBoolValue {
 	p := new(mapDurationBoolValue)
-	f.mapDurationBoolVar(p, name, value, usage)
+	f.mapDurationBoolVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapDurationBoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapDurationBool(name string, value mapDurationBoolValue, usage string) *mapDurationBoolValue {
-	return CommandLine.mapDurationBool(name, value, usage)
+func mapDurationBool(name string, value mapDurationBoolValue, usage string, required, isset bool) *mapDurationBoolValue {
+	return CommandLine.mapDurationBool(name, value, usage, required, isset)
 }
 
 // mapDurationStringValue []mapDurationStringValue
@@ -852,31 +852,31 @@ func (slc *mapDurationStringValue) String() string {
 // mapDurationStringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapDurationStringVar(p *mapDurationStringValue, name string, value mapDurationStringValue, usage string) {
-	f.Var(newmapDurationStringValue(value, p), name, usage)
+func (f *FlagSet) mapDurationStringVar(p *mapDurationStringValue, name string, value mapDurationStringValue, usage string, required, isset bool) {
+	f.Var(newmapDurationStringValue(value, p), name, usage, required, isset)
 }
 
 // mapDurationStringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapDurationStringVar(p *mapDurationStringValue, name string, value mapDurationStringValue, usage string) {
-	CommandLine.Var(newmapDurationStringValue(value, p), name, usage)
+func mapDurationStringVar(p *mapDurationStringValue, name string, value mapDurationStringValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapDurationStringValue(value, p), name, usage, required, isset)
 }
 
 // mapDurationStringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapDurationString(name string, value mapDurationStringValue, usage string) *mapDurationStringValue {
+func (f *FlagSet) mapDurationString(name string, value mapDurationStringValue, usage string, required, isset bool) *mapDurationStringValue {
 	p := new(mapDurationStringValue)
-	f.mapDurationStringVar(p, name, value, usage)
+	f.mapDurationStringVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapDurationStringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapDurationString(name string, value mapDurationStringValue, usage string) *mapDurationStringValue {
-	return CommandLine.mapDurationString(name, value, usage)
+func mapDurationString(name string, value mapDurationStringValue, usage string, required, isset bool) *mapDurationStringValue {
+	return CommandLine.mapDurationString(name, value, usage, required, isset)
 }
 
 // mapIntDurationValue []mapIntDurationValue
@@ -910,31 +910,31 @@ func (slc *mapIntDurationValue) String() string {
 // mapIntDurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapIntDurationVar(p *mapIntDurationValue, name string, value mapIntDurationValue, usage string) {
-	f.Var(newmapIntDurationValue(value, p), name, usage)
+func (f *FlagSet) mapIntDurationVar(p *mapIntDurationValue, name string, value mapIntDurationValue, usage string, required, isset bool) {
+	f.Var(newmapIntDurationValue(value, p), name, usage, required, isset)
 }
 
 // mapIntDurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapIntDurationVar(p *mapIntDurationValue, name string, value mapIntDurationValue, usage string) {
-	CommandLine.Var(newmapIntDurationValue(value, p), name, usage)
+func mapIntDurationVar(p *mapIntDurationValue, name string, value mapIntDurationValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapIntDurationValue(value, p), name, usage, required, isset)
 }
 
 // mapIntDurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapIntDuration(name string, value mapIntDurationValue, usage string) *mapIntDurationValue {
+func (f *FlagSet) mapIntDuration(name string, value mapIntDurationValue, usage string, required, isset bool) *mapIntDurationValue {
 	p := new(mapIntDurationValue)
-	f.mapIntDurationVar(p, name, value, usage)
+	f.mapIntDurationVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapIntDurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapIntDuration(name string, value mapIntDurationValue, usage string) *mapIntDurationValue {
-	return CommandLine.mapIntDuration(name, value, usage)
+func mapIntDuration(name string, value mapIntDurationValue, usage string, required, isset bool) *mapIntDurationValue {
+	return CommandLine.mapIntDuration(name, value, usage, required, isset)
 }
 
 // mapIntIntValue []mapIntIntValue
@@ -968,31 +968,31 @@ func (slc *mapIntIntValue) String() string {
 // mapIntIntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapIntIntVar(p *mapIntIntValue, name string, value mapIntIntValue, usage string) {
-	f.Var(newmapIntIntValue(value, p), name, usage)
+func (f *FlagSet) mapIntIntVar(p *mapIntIntValue, name string, value mapIntIntValue, usage string, required, isset bool) {
+	f.Var(newmapIntIntValue(value, p), name, usage, required, isset)
 }
 
 // mapIntIntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapIntIntVar(p *mapIntIntValue, name string, value mapIntIntValue, usage string) {
-	CommandLine.Var(newmapIntIntValue(value, p), name, usage)
+func mapIntIntVar(p *mapIntIntValue, name string, value mapIntIntValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapIntIntValue(value, p), name, usage, required, isset)
 }
 
 // mapIntIntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapIntInt(name string, value mapIntIntValue, usage string) *mapIntIntValue {
+func (f *FlagSet) mapIntInt(name string, value mapIntIntValue, usage string, required, isset bool) *mapIntIntValue {
 	p := new(mapIntIntValue)
-	f.mapIntIntVar(p, name, value, usage)
+	f.mapIntIntVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapIntIntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapIntInt(name string, value mapIntIntValue, usage string) *mapIntIntValue {
-	return CommandLine.mapIntInt(name, value, usage)
+func mapIntInt(name string, value mapIntIntValue, usage string, required, isset bool) *mapIntIntValue {
+	return CommandLine.mapIntInt(name, value, usage, required, isset)
 }
 
 // mapIntInt8Value []mapIntInt8Value
@@ -1026,31 +1026,31 @@ func (slc *mapIntInt8Value) String() string {
 // mapIntInt8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapIntInt8Var(p *mapIntInt8Value, name string, value mapIntInt8Value, usage string) {
-	f.Var(newmapIntInt8Value(value, p), name, usage)
+func (f *FlagSet) mapIntInt8Var(p *mapIntInt8Value, name string, value mapIntInt8Value, usage string, required, isset bool) {
+	f.Var(newmapIntInt8Value(value, p), name, usage, required, isset)
 }
 
 // mapIntInt8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapIntInt8Var(p *mapIntInt8Value, name string, value mapIntInt8Value, usage string) {
-	CommandLine.Var(newmapIntInt8Value(value, p), name, usage)
+func mapIntInt8Var(p *mapIntInt8Value, name string, value mapIntInt8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapIntInt8Value(value, p), name, usage, required, isset)
 }
 
 // mapIntInt8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapIntInt8(name string, value mapIntInt8Value, usage string) *mapIntInt8Value {
+func (f *FlagSet) mapIntInt8(name string, value mapIntInt8Value, usage string, required, isset bool) *mapIntInt8Value {
 	p := new(mapIntInt8Value)
-	f.mapIntInt8Var(p, name, value, usage)
+	f.mapIntInt8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapIntInt8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapIntInt8(name string, value mapIntInt8Value, usage string) *mapIntInt8Value {
-	return CommandLine.mapIntInt8(name, value, usage)
+func mapIntInt8(name string, value mapIntInt8Value, usage string, required, isset bool) *mapIntInt8Value {
+	return CommandLine.mapIntInt8(name, value, usage, required, isset)
 }
 
 // mapIntInt16Value []mapIntInt16Value
@@ -1084,31 +1084,31 @@ func (slc *mapIntInt16Value) String() string {
 // mapIntInt16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapIntInt16Var(p *mapIntInt16Value, name string, value mapIntInt16Value, usage string) {
-	f.Var(newmapIntInt16Value(value, p), name, usage)
+func (f *FlagSet) mapIntInt16Var(p *mapIntInt16Value, name string, value mapIntInt16Value, usage string, required, isset bool) {
+	f.Var(newmapIntInt16Value(value, p), name, usage, required, isset)
 }
 
 // mapIntInt16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapIntInt16Var(p *mapIntInt16Value, name string, value mapIntInt16Value, usage string) {
-	CommandLine.Var(newmapIntInt16Value(value, p), name, usage)
+func mapIntInt16Var(p *mapIntInt16Value, name string, value mapIntInt16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapIntInt16Value(value, p), name, usage, required, isset)
 }
 
 // mapIntInt16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapIntInt16(name string, value mapIntInt16Value, usage string) *mapIntInt16Value {
+func (f *FlagSet) mapIntInt16(name string, value mapIntInt16Value, usage string, required, isset bool) *mapIntInt16Value {
 	p := new(mapIntInt16Value)
-	f.mapIntInt16Var(p, name, value, usage)
+	f.mapIntInt16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapIntInt16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapIntInt16(name string, value mapIntInt16Value, usage string) *mapIntInt16Value {
-	return CommandLine.mapIntInt16(name, value, usage)
+func mapIntInt16(name string, value mapIntInt16Value, usage string, required, isset bool) *mapIntInt16Value {
+	return CommandLine.mapIntInt16(name, value, usage, required, isset)
 }
 
 // mapIntInt32Value []mapIntInt32Value
@@ -1142,31 +1142,31 @@ func (slc *mapIntInt32Value) String() string {
 // mapIntInt32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapIntInt32Var(p *mapIntInt32Value, name string, value mapIntInt32Value, usage string) {
-	f.Var(newmapIntInt32Value(value, p), name, usage)
+func (f *FlagSet) mapIntInt32Var(p *mapIntInt32Value, name string, value mapIntInt32Value, usage string, required, isset bool) {
+	f.Var(newmapIntInt32Value(value, p), name, usage, required, isset)
 }
 
 // mapIntInt32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapIntInt32Var(p *mapIntInt32Value, name string, value mapIntInt32Value, usage string) {
-	CommandLine.Var(newmapIntInt32Value(value, p), name, usage)
+func mapIntInt32Var(p *mapIntInt32Value, name string, value mapIntInt32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapIntInt32Value(value, p), name, usage, required, isset)
 }
 
 // mapIntInt32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapIntInt32(name string, value mapIntInt32Value, usage string) *mapIntInt32Value {
+func (f *FlagSet) mapIntInt32(name string, value mapIntInt32Value, usage string, required, isset bool) *mapIntInt32Value {
 	p := new(mapIntInt32Value)
-	f.mapIntInt32Var(p, name, value, usage)
+	f.mapIntInt32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapIntInt32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapIntInt32(name string, value mapIntInt32Value, usage string) *mapIntInt32Value {
-	return CommandLine.mapIntInt32(name, value, usage)
+func mapIntInt32(name string, value mapIntInt32Value, usage string, required, isset bool) *mapIntInt32Value {
+	return CommandLine.mapIntInt32(name, value, usage, required, isset)
 }
 
 // mapIntInt64Value []mapIntInt64Value
@@ -1200,31 +1200,31 @@ func (slc *mapIntInt64Value) String() string {
 // mapIntInt64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapIntInt64Var(p *mapIntInt64Value, name string, value mapIntInt64Value, usage string) {
-	f.Var(newmapIntInt64Value(value, p), name, usage)
+func (f *FlagSet) mapIntInt64Var(p *mapIntInt64Value, name string, value mapIntInt64Value, usage string, required, isset bool) {
+	f.Var(newmapIntInt64Value(value, p), name, usage, required, isset)
 }
 
 // mapIntInt64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapIntInt64Var(p *mapIntInt64Value, name string, value mapIntInt64Value, usage string) {
-	CommandLine.Var(newmapIntInt64Value(value, p), name, usage)
+func mapIntInt64Var(p *mapIntInt64Value, name string, value mapIntInt64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapIntInt64Value(value, p), name, usage, required, isset)
 }
 
 // mapIntInt64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapIntInt64(name string, value mapIntInt64Value, usage string) *mapIntInt64Value {
+func (f *FlagSet) mapIntInt64(name string, value mapIntInt64Value, usage string, required, isset bool) *mapIntInt64Value {
 	p := new(mapIntInt64Value)
-	f.mapIntInt64Var(p, name, value, usage)
+	f.mapIntInt64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapIntInt64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapIntInt64(name string, value mapIntInt64Value, usage string) *mapIntInt64Value {
-	return CommandLine.mapIntInt64(name, value, usage)
+func mapIntInt64(name string, value mapIntInt64Value, usage string, required, isset bool) *mapIntInt64Value {
+	return CommandLine.mapIntInt64(name, value, usage, required, isset)
 }
 
 // mapIntUintValue []mapIntUintValue
@@ -1258,31 +1258,31 @@ func (slc *mapIntUintValue) String() string {
 // mapIntUintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapIntUintVar(p *mapIntUintValue, name string, value mapIntUintValue, usage string) {
-	f.Var(newmapIntUintValue(value, p), name, usage)
+func (f *FlagSet) mapIntUintVar(p *mapIntUintValue, name string, value mapIntUintValue, usage string, required, isset bool) {
+	f.Var(newmapIntUintValue(value, p), name, usage, required, isset)
 }
 
 // mapIntUintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapIntUintVar(p *mapIntUintValue, name string, value mapIntUintValue, usage string) {
-	CommandLine.Var(newmapIntUintValue(value, p), name, usage)
+func mapIntUintVar(p *mapIntUintValue, name string, value mapIntUintValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapIntUintValue(value, p), name, usage, required, isset)
 }
 
 // mapIntUintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapIntUint(name string, value mapIntUintValue, usage string) *mapIntUintValue {
+func (f *FlagSet) mapIntUint(name string, value mapIntUintValue, usage string, required, isset bool) *mapIntUintValue {
 	p := new(mapIntUintValue)
-	f.mapIntUintVar(p, name, value, usage)
+	f.mapIntUintVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapIntUintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapIntUint(name string, value mapIntUintValue, usage string) *mapIntUintValue {
-	return CommandLine.mapIntUint(name, value, usage)
+func mapIntUint(name string, value mapIntUintValue, usage string, required, isset bool) *mapIntUintValue {
+	return CommandLine.mapIntUint(name, value, usage, required, isset)
 }
 
 // mapIntUint8Value []mapIntUint8Value
@@ -1316,31 +1316,31 @@ func (slc *mapIntUint8Value) String() string {
 // mapIntUint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapIntUint8Var(p *mapIntUint8Value, name string, value mapIntUint8Value, usage string) {
-	f.Var(newmapIntUint8Value(value, p), name, usage)
+func (f *FlagSet) mapIntUint8Var(p *mapIntUint8Value, name string, value mapIntUint8Value, usage string, required, isset bool) {
+	f.Var(newmapIntUint8Value(value, p), name, usage, required, isset)
 }
 
 // mapIntUint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapIntUint8Var(p *mapIntUint8Value, name string, value mapIntUint8Value, usage string) {
-	CommandLine.Var(newmapIntUint8Value(value, p), name, usage)
+func mapIntUint8Var(p *mapIntUint8Value, name string, value mapIntUint8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapIntUint8Value(value, p), name, usage, required, isset)
 }
 
 // mapIntUint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapIntUint8(name string, value mapIntUint8Value, usage string) *mapIntUint8Value {
+func (f *FlagSet) mapIntUint8(name string, value mapIntUint8Value, usage string, required, isset bool) *mapIntUint8Value {
 	p := new(mapIntUint8Value)
-	f.mapIntUint8Var(p, name, value, usage)
+	f.mapIntUint8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapIntUint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapIntUint8(name string, value mapIntUint8Value, usage string) *mapIntUint8Value {
-	return CommandLine.mapIntUint8(name, value, usage)
+func mapIntUint8(name string, value mapIntUint8Value, usage string, required, isset bool) *mapIntUint8Value {
+	return CommandLine.mapIntUint8(name, value, usage, required, isset)
 }
 
 // mapIntUint16Value []mapIntUint16Value
@@ -1374,31 +1374,31 @@ func (slc *mapIntUint16Value) String() string {
 // mapIntUint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapIntUint16Var(p *mapIntUint16Value, name string, value mapIntUint16Value, usage string) {
-	f.Var(newmapIntUint16Value(value, p), name, usage)
+func (f *FlagSet) mapIntUint16Var(p *mapIntUint16Value, name string, value mapIntUint16Value, usage string, required, isset bool) {
+	f.Var(newmapIntUint16Value(value, p), name, usage, required, isset)
 }
 
 // mapIntUint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapIntUint16Var(p *mapIntUint16Value, name string, value mapIntUint16Value, usage string) {
-	CommandLine.Var(newmapIntUint16Value(value, p), name, usage)
+func mapIntUint16Var(p *mapIntUint16Value, name string, value mapIntUint16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapIntUint16Value(value, p), name, usage, required, isset)
 }
 
 // mapIntUint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapIntUint16(name string, value mapIntUint16Value, usage string) *mapIntUint16Value {
+func (f *FlagSet) mapIntUint16(name string, value mapIntUint16Value, usage string, required, isset bool) *mapIntUint16Value {
 	p := new(mapIntUint16Value)
-	f.mapIntUint16Var(p, name, value, usage)
+	f.mapIntUint16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapIntUint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapIntUint16(name string, value mapIntUint16Value, usage string) *mapIntUint16Value {
-	return CommandLine.mapIntUint16(name, value, usage)
+func mapIntUint16(name string, value mapIntUint16Value, usage string, required, isset bool) *mapIntUint16Value {
+	return CommandLine.mapIntUint16(name, value, usage, required, isset)
 }
 
 // mapIntUint32Value []mapIntUint32Value
@@ -1432,31 +1432,31 @@ func (slc *mapIntUint32Value) String() string {
 // mapIntUint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapIntUint32Var(p *mapIntUint32Value, name string, value mapIntUint32Value, usage string) {
-	f.Var(newmapIntUint32Value(value, p), name, usage)
+func (f *FlagSet) mapIntUint32Var(p *mapIntUint32Value, name string, value mapIntUint32Value, usage string, required, isset bool) {
+	f.Var(newmapIntUint32Value(value, p), name, usage, required, isset)
 }
 
 // mapIntUint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapIntUint32Var(p *mapIntUint32Value, name string, value mapIntUint32Value, usage string) {
-	CommandLine.Var(newmapIntUint32Value(value, p), name, usage)
+func mapIntUint32Var(p *mapIntUint32Value, name string, value mapIntUint32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapIntUint32Value(value, p), name, usage, required, isset)
 }
 
 // mapIntUint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapIntUint32(name string, value mapIntUint32Value, usage string) *mapIntUint32Value {
+func (f *FlagSet) mapIntUint32(name string, value mapIntUint32Value, usage string, required, isset bool) *mapIntUint32Value {
 	p := new(mapIntUint32Value)
-	f.mapIntUint32Var(p, name, value, usage)
+	f.mapIntUint32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapIntUint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapIntUint32(name string, value mapIntUint32Value, usage string) *mapIntUint32Value {
-	return CommandLine.mapIntUint32(name, value, usage)
+func mapIntUint32(name string, value mapIntUint32Value, usage string, required, isset bool) *mapIntUint32Value {
+	return CommandLine.mapIntUint32(name, value, usage, required, isset)
 }
 
 // mapIntUint64Value []mapIntUint64Value
@@ -1490,31 +1490,31 @@ func (slc *mapIntUint64Value) String() string {
 // mapIntUint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapIntUint64Var(p *mapIntUint64Value, name string, value mapIntUint64Value, usage string) {
-	f.Var(newmapIntUint64Value(value, p), name, usage)
+func (f *FlagSet) mapIntUint64Var(p *mapIntUint64Value, name string, value mapIntUint64Value, usage string, required, isset bool) {
+	f.Var(newmapIntUint64Value(value, p), name, usage, required, isset)
 }
 
 // mapIntUint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapIntUint64Var(p *mapIntUint64Value, name string, value mapIntUint64Value, usage string) {
-	CommandLine.Var(newmapIntUint64Value(value, p), name, usage)
+func mapIntUint64Var(p *mapIntUint64Value, name string, value mapIntUint64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapIntUint64Value(value, p), name, usage, required, isset)
 }
 
 // mapIntUint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapIntUint64(name string, value mapIntUint64Value, usage string) *mapIntUint64Value {
+func (f *FlagSet) mapIntUint64(name string, value mapIntUint64Value, usage string, required, isset bool) *mapIntUint64Value {
 	p := new(mapIntUint64Value)
-	f.mapIntUint64Var(p, name, value, usage)
+	f.mapIntUint64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapIntUint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapIntUint64(name string, value mapIntUint64Value, usage string) *mapIntUint64Value {
-	return CommandLine.mapIntUint64(name, value, usage)
+func mapIntUint64(name string, value mapIntUint64Value, usage string, required, isset bool) *mapIntUint64Value {
+	return CommandLine.mapIntUint64(name, value, usage, required, isset)
 }
 
 // mapIntFloat64Value []mapIntFloat64Value
@@ -1548,31 +1548,31 @@ func (slc *mapIntFloat64Value) String() string {
 // mapIntFloat64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapIntFloat64Var(p *mapIntFloat64Value, name string, value mapIntFloat64Value, usage string) {
-	f.Var(newmapIntFloat64Value(value, p), name, usage)
+func (f *FlagSet) mapIntFloat64Var(p *mapIntFloat64Value, name string, value mapIntFloat64Value, usage string, required, isset bool) {
+	f.Var(newmapIntFloat64Value(value, p), name, usage, required, isset)
 }
 
 // mapIntFloat64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapIntFloat64Var(p *mapIntFloat64Value, name string, value mapIntFloat64Value, usage string) {
-	CommandLine.Var(newmapIntFloat64Value(value, p), name, usage)
+func mapIntFloat64Var(p *mapIntFloat64Value, name string, value mapIntFloat64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapIntFloat64Value(value, p), name, usage, required, isset)
 }
 
 // mapIntFloat64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapIntFloat64(name string, value mapIntFloat64Value, usage string) *mapIntFloat64Value {
+func (f *FlagSet) mapIntFloat64(name string, value mapIntFloat64Value, usage string, required, isset bool) *mapIntFloat64Value {
 	p := new(mapIntFloat64Value)
-	f.mapIntFloat64Var(p, name, value, usage)
+	f.mapIntFloat64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapIntFloat64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapIntFloat64(name string, value mapIntFloat64Value, usage string) *mapIntFloat64Value {
-	return CommandLine.mapIntFloat64(name, value, usage)
+func mapIntFloat64(name string, value mapIntFloat64Value, usage string, required, isset bool) *mapIntFloat64Value {
+	return CommandLine.mapIntFloat64(name, value, usage, required, isset)
 }
 
 // mapIntFloat32Value []mapIntFloat32Value
@@ -1606,31 +1606,31 @@ func (slc *mapIntFloat32Value) String() string {
 // mapIntFloat32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapIntFloat32Var(p *mapIntFloat32Value, name string, value mapIntFloat32Value, usage string) {
-	f.Var(newmapIntFloat32Value(value, p), name, usage)
+func (f *FlagSet) mapIntFloat32Var(p *mapIntFloat32Value, name string, value mapIntFloat32Value, usage string, required, isset bool) {
+	f.Var(newmapIntFloat32Value(value, p), name, usage, required, isset)
 }
 
 // mapIntFloat32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapIntFloat32Var(p *mapIntFloat32Value, name string, value mapIntFloat32Value, usage string) {
-	CommandLine.Var(newmapIntFloat32Value(value, p), name, usage)
+func mapIntFloat32Var(p *mapIntFloat32Value, name string, value mapIntFloat32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapIntFloat32Value(value, p), name, usage, required, isset)
 }
 
 // mapIntFloat32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapIntFloat32(name string, value mapIntFloat32Value, usage string) *mapIntFloat32Value {
+func (f *FlagSet) mapIntFloat32(name string, value mapIntFloat32Value, usage string, required, isset bool) *mapIntFloat32Value {
 	p := new(mapIntFloat32Value)
-	f.mapIntFloat32Var(p, name, value, usage)
+	f.mapIntFloat32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapIntFloat32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapIntFloat32(name string, value mapIntFloat32Value, usage string) *mapIntFloat32Value {
-	return CommandLine.mapIntFloat32(name, value, usage)
+func mapIntFloat32(name string, value mapIntFloat32Value, usage string, required, isset bool) *mapIntFloat32Value {
+	return CommandLine.mapIntFloat32(name, value, usage, required, isset)
 }
 
 // mapIntBoolValue []mapIntBoolValue
@@ -1664,31 +1664,31 @@ func (slc *mapIntBoolValue) String() string {
 // mapIntBoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapIntBoolVar(p *mapIntBoolValue, name string, value mapIntBoolValue, usage string) {
-	f.Var(newmapIntBoolValue(value, p), name, usage)
+func (f *FlagSet) mapIntBoolVar(p *mapIntBoolValue, name string, value mapIntBoolValue, usage string, required, isset bool) {
+	f.Var(newmapIntBoolValue(value, p), name, usage, required, isset)
 }
 
 // mapIntBoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapIntBoolVar(p *mapIntBoolValue, name string, value mapIntBoolValue, usage string) {
-	CommandLine.Var(newmapIntBoolValue(value, p), name, usage)
+func mapIntBoolVar(p *mapIntBoolValue, name string, value mapIntBoolValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapIntBoolValue(value, p), name, usage, required, isset)
 }
 
 // mapIntBoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapIntBool(name string, value mapIntBoolValue, usage string) *mapIntBoolValue {
+func (f *FlagSet) mapIntBool(name string, value mapIntBoolValue, usage string, required, isset bool) *mapIntBoolValue {
 	p := new(mapIntBoolValue)
-	f.mapIntBoolVar(p, name, value, usage)
+	f.mapIntBoolVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapIntBoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapIntBool(name string, value mapIntBoolValue, usage string) *mapIntBoolValue {
-	return CommandLine.mapIntBool(name, value, usage)
+func mapIntBool(name string, value mapIntBoolValue, usage string, required, isset bool) *mapIntBoolValue {
+	return CommandLine.mapIntBool(name, value, usage, required, isset)
 }
 
 // mapIntStringValue []mapIntStringValue
@@ -1722,31 +1722,31 @@ func (slc *mapIntStringValue) String() string {
 // mapIntStringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapIntStringVar(p *mapIntStringValue, name string, value mapIntStringValue, usage string) {
-	f.Var(newmapIntStringValue(value, p), name, usage)
+func (f *FlagSet) mapIntStringVar(p *mapIntStringValue, name string, value mapIntStringValue, usage string, required, isset bool) {
+	f.Var(newmapIntStringValue(value, p), name, usage, required, isset)
 }
 
 // mapIntStringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapIntStringVar(p *mapIntStringValue, name string, value mapIntStringValue, usage string) {
-	CommandLine.Var(newmapIntStringValue(value, p), name, usage)
+func mapIntStringVar(p *mapIntStringValue, name string, value mapIntStringValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapIntStringValue(value, p), name, usage, required, isset)
 }
 
 // mapIntStringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapIntString(name string, value mapIntStringValue, usage string) *mapIntStringValue {
+func (f *FlagSet) mapIntString(name string, value mapIntStringValue, usage string, required, isset bool) *mapIntStringValue {
 	p := new(mapIntStringValue)
-	f.mapIntStringVar(p, name, value, usage)
+	f.mapIntStringVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapIntStringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapIntString(name string, value mapIntStringValue, usage string) *mapIntStringValue {
-	return CommandLine.mapIntString(name, value, usage)
+func mapIntString(name string, value mapIntStringValue, usage string, required, isset bool) *mapIntStringValue {
+	return CommandLine.mapIntString(name, value, usage, required, isset)
 }
 
 // mapInt8DurationValue []mapInt8DurationValue
@@ -1780,31 +1780,31 @@ func (slc *mapInt8DurationValue) String() string {
 // mapInt8DurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt8DurationVar(p *mapInt8DurationValue, name string, value mapInt8DurationValue, usage string) {
-	f.Var(newmapInt8DurationValue(value, p), name, usage)
+func (f *FlagSet) mapInt8DurationVar(p *mapInt8DurationValue, name string, value mapInt8DurationValue, usage string, required, isset bool) {
+	f.Var(newmapInt8DurationValue(value, p), name, usage, required, isset)
 }
 
 // mapInt8DurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt8DurationVar(p *mapInt8DurationValue, name string, value mapInt8DurationValue, usage string) {
-	CommandLine.Var(newmapInt8DurationValue(value, p), name, usage)
+func mapInt8DurationVar(p *mapInt8DurationValue, name string, value mapInt8DurationValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt8DurationValue(value, p), name, usage, required, isset)
 }
 
 // mapInt8DurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt8Duration(name string, value mapInt8DurationValue, usage string) *mapInt8DurationValue {
+func (f *FlagSet) mapInt8Duration(name string, value mapInt8DurationValue, usage string, required, isset bool) *mapInt8DurationValue {
 	p := new(mapInt8DurationValue)
-	f.mapInt8DurationVar(p, name, value, usage)
+	f.mapInt8DurationVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt8DurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt8Duration(name string, value mapInt8DurationValue, usage string) *mapInt8DurationValue {
-	return CommandLine.mapInt8Duration(name, value, usage)
+func mapInt8Duration(name string, value mapInt8DurationValue, usage string, required, isset bool) *mapInt8DurationValue {
+	return CommandLine.mapInt8Duration(name, value, usage, required, isset)
 }
 
 // mapInt8IntValue []mapInt8IntValue
@@ -1838,31 +1838,31 @@ func (slc *mapInt8IntValue) String() string {
 // mapInt8IntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt8IntVar(p *mapInt8IntValue, name string, value mapInt8IntValue, usage string) {
-	f.Var(newmapInt8IntValue(value, p), name, usage)
+func (f *FlagSet) mapInt8IntVar(p *mapInt8IntValue, name string, value mapInt8IntValue, usage string, required, isset bool) {
+	f.Var(newmapInt8IntValue(value, p), name, usage, required, isset)
 }
 
 // mapInt8IntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt8IntVar(p *mapInt8IntValue, name string, value mapInt8IntValue, usage string) {
-	CommandLine.Var(newmapInt8IntValue(value, p), name, usage)
+func mapInt8IntVar(p *mapInt8IntValue, name string, value mapInt8IntValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt8IntValue(value, p), name, usage, required, isset)
 }
 
 // mapInt8IntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt8Int(name string, value mapInt8IntValue, usage string) *mapInt8IntValue {
+func (f *FlagSet) mapInt8Int(name string, value mapInt8IntValue, usage string, required, isset bool) *mapInt8IntValue {
 	p := new(mapInt8IntValue)
-	f.mapInt8IntVar(p, name, value, usage)
+	f.mapInt8IntVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt8IntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt8Int(name string, value mapInt8IntValue, usage string) *mapInt8IntValue {
-	return CommandLine.mapInt8Int(name, value, usage)
+func mapInt8Int(name string, value mapInt8IntValue, usage string, required, isset bool) *mapInt8IntValue {
+	return CommandLine.mapInt8Int(name, value, usage, required, isset)
 }
 
 // mapInt8Int8Value []mapInt8Int8Value
@@ -1896,31 +1896,31 @@ func (slc *mapInt8Int8Value) String() string {
 // mapInt8Int8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt8Int8Var(p *mapInt8Int8Value, name string, value mapInt8Int8Value, usage string) {
-	f.Var(newmapInt8Int8Value(value, p), name, usage)
+func (f *FlagSet) mapInt8Int8Var(p *mapInt8Int8Value, name string, value mapInt8Int8Value, usage string, required, isset bool) {
+	f.Var(newmapInt8Int8Value(value, p), name, usage, required, isset)
 }
 
 // mapInt8Int8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt8Int8Var(p *mapInt8Int8Value, name string, value mapInt8Int8Value, usage string) {
-	CommandLine.Var(newmapInt8Int8Value(value, p), name, usage)
+func mapInt8Int8Var(p *mapInt8Int8Value, name string, value mapInt8Int8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt8Int8Value(value, p), name, usage, required, isset)
 }
 
 // mapInt8Int8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt8Int8(name string, value mapInt8Int8Value, usage string) *mapInt8Int8Value {
+func (f *FlagSet) mapInt8Int8(name string, value mapInt8Int8Value, usage string, required, isset bool) *mapInt8Int8Value {
 	p := new(mapInt8Int8Value)
-	f.mapInt8Int8Var(p, name, value, usage)
+	f.mapInt8Int8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt8Int8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt8Int8(name string, value mapInt8Int8Value, usage string) *mapInt8Int8Value {
-	return CommandLine.mapInt8Int8(name, value, usage)
+func mapInt8Int8(name string, value mapInt8Int8Value, usage string, required, isset bool) *mapInt8Int8Value {
+	return CommandLine.mapInt8Int8(name, value, usage, required, isset)
 }
 
 // mapInt8Int16Value []mapInt8Int16Value
@@ -1954,31 +1954,31 @@ func (slc *mapInt8Int16Value) String() string {
 // mapInt8Int16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt8Int16Var(p *mapInt8Int16Value, name string, value mapInt8Int16Value, usage string) {
-	f.Var(newmapInt8Int16Value(value, p), name, usage)
+func (f *FlagSet) mapInt8Int16Var(p *mapInt8Int16Value, name string, value mapInt8Int16Value, usage string, required, isset bool) {
+	f.Var(newmapInt8Int16Value(value, p), name, usage, required, isset)
 }
 
 // mapInt8Int16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt8Int16Var(p *mapInt8Int16Value, name string, value mapInt8Int16Value, usage string) {
-	CommandLine.Var(newmapInt8Int16Value(value, p), name, usage)
+func mapInt8Int16Var(p *mapInt8Int16Value, name string, value mapInt8Int16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt8Int16Value(value, p), name, usage, required, isset)
 }
 
 // mapInt8Int16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt8Int16(name string, value mapInt8Int16Value, usage string) *mapInt8Int16Value {
+func (f *FlagSet) mapInt8Int16(name string, value mapInt8Int16Value, usage string, required, isset bool) *mapInt8Int16Value {
 	p := new(mapInt8Int16Value)
-	f.mapInt8Int16Var(p, name, value, usage)
+	f.mapInt8Int16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt8Int16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt8Int16(name string, value mapInt8Int16Value, usage string) *mapInt8Int16Value {
-	return CommandLine.mapInt8Int16(name, value, usage)
+func mapInt8Int16(name string, value mapInt8Int16Value, usage string, required, isset bool) *mapInt8Int16Value {
+	return CommandLine.mapInt8Int16(name, value, usage, required, isset)
 }
 
 // mapInt8Int32Value []mapInt8Int32Value
@@ -2012,31 +2012,31 @@ func (slc *mapInt8Int32Value) String() string {
 // mapInt8Int32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt8Int32Var(p *mapInt8Int32Value, name string, value mapInt8Int32Value, usage string) {
-	f.Var(newmapInt8Int32Value(value, p), name, usage)
+func (f *FlagSet) mapInt8Int32Var(p *mapInt8Int32Value, name string, value mapInt8Int32Value, usage string, required, isset bool) {
+	f.Var(newmapInt8Int32Value(value, p), name, usage, required, isset)
 }
 
 // mapInt8Int32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt8Int32Var(p *mapInt8Int32Value, name string, value mapInt8Int32Value, usage string) {
-	CommandLine.Var(newmapInt8Int32Value(value, p), name, usage)
+func mapInt8Int32Var(p *mapInt8Int32Value, name string, value mapInt8Int32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt8Int32Value(value, p), name, usage, required, isset)
 }
 
 // mapInt8Int32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt8Int32(name string, value mapInt8Int32Value, usage string) *mapInt8Int32Value {
+func (f *FlagSet) mapInt8Int32(name string, value mapInt8Int32Value, usage string, required, isset bool) *mapInt8Int32Value {
 	p := new(mapInt8Int32Value)
-	f.mapInt8Int32Var(p, name, value, usage)
+	f.mapInt8Int32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt8Int32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt8Int32(name string, value mapInt8Int32Value, usage string) *mapInt8Int32Value {
-	return CommandLine.mapInt8Int32(name, value, usage)
+func mapInt8Int32(name string, value mapInt8Int32Value, usage string, required, isset bool) *mapInt8Int32Value {
+	return CommandLine.mapInt8Int32(name, value, usage, required, isset)
 }
 
 // mapInt8Int64Value []mapInt8Int64Value
@@ -2070,31 +2070,31 @@ func (slc *mapInt8Int64Value) String() string {
 // mapInt8Int64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt8Int64Var(p *mapInt8Int64Value, name string, value mapInt8Int64Value, usage string) {
-	f.Var(newmapInt8Int64Value(value, p), name, usage)
+func (f *FlagSet) mapInt8Int64Var(p *mapInt8Int64Value, name string, value mapInt8Int64Value, usage string, required, isset bool) {
+	f.Var(newmapInt8Int64Value(value, p), name, usage, required, isset)
 }
 
 // mapInt8Int64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt8Int64Var(p *mapInt8Int64Value, name string, value mapInt8Int64Value, usage string) {
-	CommandLine.Var(newmapInt8Int64Value(value, p), name, usage)
+func mapInt8Int64Var(p *mapInt8Int64Value, name string, value mapInt8Int64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt8Int64Value(value, p), name, usage, required, isset)
 }
 
 // mapInt8Int64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt8Int64(name string, value mapInt8Int64Value, usage string) *mapInt8Int64Value {
+func (f *FlagSet) mapInt8Int64(name string, value mapInt8Int64Value, usage string, required, isset bool) *mapInt8Int64Value {
 	p := new(mapInt8Int64Value)
-	f.mapInt8Int64Var(p, name, value, usage)
+	f.mapInt8Int64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt8Int64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt8Int64(name string, value mapInt8Int64Value, usage string) *mapInt8Int64Value {
-	return CommandLine.mapInt8Int64(name, value, usage)
+func mapInt8Int64(name string, value mapInt8Int64Value, usage string, required, isset bool) *mapInt8Int64Value {
+	return CommandLine.mapInt8Int64(name, value, usage, required, isset)
 }
 
 // mapInt8UintValue []mapInt8UintValue
@@ -2128,31 +2128,31 @@ func (slc *mapInt8UintValue) String() string {
 // mapInt8UintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt8UintVar(p *mapInt8UintValue, name string, value mapInt8UintValue, usage string) {
-	f.Var(newmapInt8UintValue(value, p), name, usage)
+func (f *FlagSet) mapInt8UintVar(p *mapInt8UintValue, name string, value mapInt8UintValue, usage string, required, isset bool) {
+	f.Var(newmapInt8UintValue(value, p), name, usage, required, isset)
 }
 
 // mapInt8UintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt8UintVar(p *mapInt8UintValue, name string, value mapInt8UintValue, usage string) {
-	CommandLine.Var(newmapInt8UintValue(value, p), name, usage)
+func mapInt8UintVar(p *mapInt8UintValue, name string, value mapInt8UintValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt8UintValue(value, p), name, usage, required, isset)
 }
 
 // mapInt8UintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt8Uint(name string, value mapInt8UintValue, usage string) *mapInt8UintValue {
+func (f *FlagSet) mapInt8Uint(name string, value mapInt8UintValue, usage string, required, isset bool) *mapInt8UintValue {
 	p := new(mapInt8UintValue)
-	f.mapInt8UintVar(p, name, value, usage)
+	f.mapInt8UintVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt8UintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt8Uint(name string, value mapInt8UintValue, usage string) *mapInt8UintValue {
-	return CommandLine.mapInt8Uint(name, value, usage)
+func mapInt8Uint(name string, value mapInt8UintValue, usage string, required, isset bool) *mapInt8UintValue {
+	return CommandLine.mapInt8Uint(name, value, usage, required, isset)
 }
 
 // mapInt8Uint8Value []mapInt8Uint8Value
@@ -2186,31 +2186,31 @@ func (slc *mapInt8Uint8Value) String() string {
 // mapInt8Uint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt8Uint8Var(p *mapInt8Uint8Value, name string, value mapInt8Uint8Value, usage string) {
-	f.Var(newmapInt8Uint8Value(value, p), name, usage)
+func (f *FlagSet) mapInt8Uint8Var(p *mapInt8Uint8Value, name string, value mapInt8Uint8Value, usage string, required, isset bool) {
+	f.Var(newmapInt8Uint8Value(value, p), name, usage, required, isset)
 }
 
 // mapInt8Uint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt8Uint8Var(p *mapInt8Uint8Value, name string, value mapInt8Uint8Value, usage string) {
-	CommandLine.Var(newmapInt8Uint8Value(value, p), name, usage)
+func mapInt8Uint8Var(p *mapInt8Uint8Value, name string, value mapInt8Uint8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt8Uint8Value(value, p), name, usage, required, isset)
 }
 
 // mapInt8Uint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt8Uint8(name string, value mapInt8Uint8Value, usage string) *mapInt8Uint8Value {
+func (f *FlagSet) mapInt8Uint8(name string, value mapInt8Uint8Value, usage string, required, isset bool) *mapInt8Uint8Value {
 	p := new(mapInt8Uint8Value)
-	f.mapInt8Uint8Var(p, name, value, usage)
+	f.mapInt8Uint8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt8Uint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt8Uint8(name string, value mapInt8Uint8Value, usage string) *mapInt8Uint8Value {
-	return CommandLine.mapInt8Uint8(name, value, usage)
+func mapInt8Uint8(name string, value mapInt8Uint8Value, usage string, required, isset bool) *mapInt8Uint8Value {
+	return CommandLine.mapInt8Uint8(name, value, usage, required, isset)
 }
 
 // mapInt8Uint16Value []mapInt8Uint16Value
@@ -2244,31 +2244,31 @@ func (slc *mapInt8Uint16Value) String() string {
 // mapInt8Uint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt8Uint16Var(p *mapInt8Uint16Value, name string, value mapInt8Uint16Value, usage string) {
-	f.Var(newmapInt8Uint16Value(value, p), name, usage)
+func (f *FlagSet) mapInt8Uint16Var(p *mapInt8Uint16Value, name string, value mapInt8Uint16Value, usage string, required, isset bool) {
+	f.Var(newmapInt8Uint16Value(value, p), name, usage, required, isset)
 }
 
 // mapInt8Uint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt8Uint16Var(p *mapInt8Uint16Value, name string, value mapInt8Uint16Value, usage string) {
-	CommandLine.Var(newmapInt8Uint16Value(value, p), name, usage)
+func mapInt8Uint16Var(p *mapInt8Uint16Value, name string, value mapInt8Uint16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt8Uint16Value(value, p), name, usage, required, isset)
 }
 
 // mapInt8Uint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt8Uint16(name string, value mapInt8Uint16Value, usage string) *mapInt8Uint16Value {
+func (f *FlagSet) mapInt8Uint16(name string, value mapInt8Uint16Value, usage string, required, isset bool) *mapInt8Uint16Value {
 	p := new(mapInt8Uint16Value)
-	f.mapInt8Uint16Var(p, name, value, usage)
+	f.mapInt8Uint16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt8Uint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt8Uint16(name string, value mapInt8Uint16Value, usage string) *mapInt8Uint16Value {
-	return CommandLine.mapInt8Uint16(name, value, usage)
+func mapInt8Uint16(name string, value mapInt8Uint16Value, usage string, required, isset bool) *mapInt8Uint16Value {
+	return CommandLine.mapInt8Uint16(name, value, usage, required, isset)
 }
 
 // mapInt8Uint32Value []mapInt8Uint32Value
@@ -2302,31 +2302,31 @@ func (slc *mapInt8Uint32Value) String() string {
 // mapInt8Uint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt8Uint32Var(p *mapInt8Uint32Value, name string, value mapInt8Uint32Value, usage string) {
-	f.Var(newmapInt8Uint32Value(value, p), name, usage)
+func (f *FlagSet) mapInt8Uint32Var(p *mapInt8Uint32Value, name string, value mapInt8Uint32Value, usage string, required, isset bool) {
+	f.Var(newmapInt8Uint32Value(value, p), name, usage, required, isset)
 }
 
 // mapInt8Uint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt8Uint32Var(p *mapInt8Uint32Value, name string, value mapInt8Uint32Value, usage string) {
-	CommandLine.Var(newmapInt8Uint32Value(value, p), name, usage)
+func mapInt8Uint32Var(p *mapInt8Uint32Value, name string, value mapInt8Uint32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt8Uint32Value(value, p), name, usage, required, isset)
 }
 
 // mapInt8Uint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt8Uint32(name string, value mapInt8Uint32Value, usage string) *mapInt8Uint32Value {
+func (f *FlagSet) mapInt8Uint32(name string, value mapInt8Uint32Value, usage string, required, isset bool) *mapInt8Uint32Value {
 	p := new(mapInt8Uint32Value)
-	f.mapInt8Uint32Var(p, name, value, usage)
+	f.mapInt8Uint32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt8Uint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt8Uint32(name string, value mapInt8Uint32Value, usage string) *mapInt8Uint32Value {
-	return CommandLine.mapInt8Uint32(name, value, usage)
+func mapInt8Uint32(name string, value mapInt8Uint32Value, usage string, required, isset bool) *mapInt8Uint32Value {
+	return CommandLine.mapInt8Uint32(name, value, usage, required, isset)
 }
 
 // mapInt8Uint64Value []mapInt8Uint64Value
@@ -2360,31 +2360,31 @@ func (slc *mapInt8Uint64Value) String() string {
 // mapInt8Uint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt8Uint64Var(p *mapInt8Uint64Value, name string, value mapInt8Uint64Value, usage string) {
-	f.Var(newmapInt8Uint64Value(value, p), name, usage)
+func (f *FlagSet) mapInt8Uint64Var(p *mapInt8Uint64Value, name string, value mapInt8Uint64Value, usage string, required, isset bool) {
+	f.Var(newmapInt8Uint64Value(value, p), name, usage, required, isset)
 }
 
 // mapInt8Uint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt8Uint64Var(p *mapInt8Uint64Value, name string, value mapInt8Uint64Value, usage string) {
-	CommandLine.Var(newmapInt8Uint64Value(value, p), name, usage)
+func mapInt8Uint64Var(p *mapInt8Uint64Value, name string, value mapInt8Uint64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt8Uint64Value(value, p), name, usage, required, isset)
 }
 
 // mapInt8Uint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt8Uint64(name string, value mapInt8Uint64Value, usage string) *mapInt8Uint64Value {
+func (f *FlagSet) mapInt8Uint64(name string, value mapInt8Uint64Value, usage string, required, isset bool) *mapInt8Uint64Value {
 	p := new(mapInt8Uint64Value)
-	f.mapInt8Uint64Var(p, name, value, usage)
+	f.mapInt8Uint64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt8Uint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt8Uint64(name string, value mapInt8Uint64Value, usage string) *mapInt8Uint64Value {
-	return CommandLine.mapInt8Uint64(name, value, usage)
+func mapInt8Uint64(name string, value mapInt8Uint64Value, usage string, required, isset bool) *mapInt8Uint64Value {
+	return CommandLine.mapInt8Uint64(name, value, usage, required, isset)
 }
 
 // mapInt8Float64Value []mapInt8Float64Value
@@ -2418,31 +2418,31 @@ func (slc *mapInt8Float64Value) String() string {
 // mapInt8Float64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt8Float64Var(p *mapInt8Float64Value, name string, value mapInt8Float64Value, usage string) {
-	f.Var(newmapInt8Float64Value(value, p), name, usage)
+func (f *FlagSet) mapInt8Float64Var(p *mapInt8Float64Value, name string, value mapInt8Float64Value, usage string, required, isset bool) {
+	f.Var(newmapInt8Float64Value(value, p), name, usage, required, isset)
 }
 
 // mapInt8Float64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt8Float64Var(p *mapInt8Float64Value, name string, value mapInt8Float64Value, usage string) {
-	CommandLine.Var(newmapInt8Float64Value(value, p), name, usage)
+func mapInt8Float64Var(p *mapInt8Float64Value, name string, value mapInt8Float64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt8Float64Value(value, p), name, usage, required, isset)
 }
 
 // mapInt8Float64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt8Float64(name string, value mapInt8Float64Value, usage string) *mapInt8Float64Value {
+func (f *FlagSet) mapInt8Float64(name string, value mapInt8Float64Value, usage string, required, isset bool) *mapInt8Float64Value {
 	p := new(mapInt8Float64Value)
-	f.mapInt8Float64Var(p, name, value, usage)
+	f.mapInt8Float64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt8Float64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt8Float64(name string, value mapInt8Float64Value, usage string) *mapInt8Float64Value {
-	return CommandLine.mapInt8Float64(name, value, usage)
+func mapInt8Float64(name string, value mapInt8Float64Value, usage string, required, isset bool) *mapInt8Float64Value {
+	return CommandLine.mapInt8Float64(name, value, usage, required, isset)
 }
 
 // mapInt8Float32Value []mapInt8Float32Value
@@ -2476,31 +2476,31 @@ func (slc *mapInt8Float32Value) String() string {
 // mapInt8Float32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt8Float32Var(p *mapInt8Float32Value, name string, value mapInt8Float32Value, usage string) {
-	f.Var(newmapInt8Float32Value(value, p), name, usage)
+func (f *FlagSet) mapInt8Float32Var(p *mapInt8Float32Value, name string, value mapInt8Float32Value, usage string, required, isset bool) {
+	f.Var(newmapInt8Float32Value(value, p), name, usage, required, isset)
 }
 
 // mapInt8Float32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt8Float32Var(p *mapInt8Float32Value, name string, value mapInt8Float32Value, usage string) {
-	CommandLine.Var(newmapInt8Float32Value(value, p), name, usage)
+func mapInt8Float32Var(p *mapInt8Float32Value, name string, value mapInt8Float32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt8Float32Value(value, p), name, usage, required, isset)
 }
 
 // mapInt8Float32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt8Float32(name string, value mapInt8Float32Value, usage string) *mapInt8Float32Value {
+func (f *FlagSet) mapInt8Float32(name string, value mapInt8Float32Value, usage string, required, isset bool) *mapInt8Float32Value {
 	p := new(mapInt8Float32Value)
-	f.mapInt8Float32Var(p, name, value, usage)
+	f.mapInt8Float32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt8Float32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt8Float32(name string, value mapInt8Float32Value, usage string) *mapInt8Float32Value {
-	return CommandLine.mapInt8Float32(name, value, usage)
+func mapInt8Float32(name string, value mapInt8Float32Value, usage string, required, isset bool) *mapInt8Float32Value {
+	return CommandLine.mapInt8Float32(name, value, usage, required, isset)
 }
 
 // mapInt8BoolValue []mapInt8BoolValue
@@ -2534,31 +2534,31 @@ func (slc *mapInt8BoolValue) String() string {
 // mapInt8BoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt8BoolVar(p *mapInt8BoolValue, name string, value mapInt8BoolValue, usage string) {
-	f.Var(newmapInt8BoolValue(value, p), name, usage)
+func (f *FlagSet) mapInt8BoolVar(p *mapInt8BoolValue, name string, value mapInt8BoolValue, usage string, required, isset bool) {
+	f.Var(newmapInt8BoolValue(value, p), name, usage, required, isset)
 }
 
 // mapInt8BoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt8BoolVar(p *mapInt8BoolValue, name string, value mapInt8BoolValue, usage string) {
-	CommandLine.Var(newmapInt8BoolValue(value, p), name, usage)
+func mapInt8BoolVar(p *mapInt8BoolValue, name string, value mapInt8BoolValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt8BoolValue(value, p), name, usage, required, isset)
 }
 
 // mapInt8BoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt8Bool(name string, value mapInt8BoolValue, usage string) *mapInt8BoolValue {
+func (f *FlagSet) mapInt8Bool(name string, value mapInt8BoolValue, usage string, required, isset bool) *mapInt8BoolValue {
 	p := new(mapInt8BoolValue)
-	f.mapInt8BoolVar(p, name, value, usage)
+	f.mapInt8BoolVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt8BoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt8Bool(name string, value mapInt8BoolValue, usage string) *mapInt8BoolValue {
-	return CommandLine.mapInt8Bool(name, value, usage)
+func mapInt8Bool(name string, value mapInt8BoolValue, usage string, required, isset bool) *mapInt8BoolValue {
+	return CommandLine.mapInt8Bool(name, value, usage, required, isset)
 }
 
 // mapInt8StringValue []mapInt8StringValue
@@ -2592,31 +2592,31 @@ func (slc *mapInt8StringValue) String() string {
 // mapInt8StringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt8StringVar(p *mapInt8StringValue, name string, value mapInt8StringValue, usage string) {
-	f.Var(newmapInt8StringValue(value, p), name, usage)
+func (f *FlagSet) mapInt8StringVar(p *mapInt8StringValue, name string, value mapInt8StringValue, usage string, required, isset bool) {
+	f.Var(newmapInt8StringValue(value, p), name, usage, required, isset)
 }
 
 // mapInt8StringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt8StringVar(p *mapInt8StringValue, name string, value mapInt8StringValue, usage string) {
-	CommandLine.Var(newmapInt8StringValue(value, p), name, usage)
+func mapInt8StringVar(p *mapInt8StringValue, name string, value mapInt8StringValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt8StringValue(value, p), name, usage, required, isset)
 }
 
 // mapInt8StringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt8String(name string, value mapInt8StringValue, usage string) *mapInt8StringValue {
+func (f *FlagSet) mapInt8String(name string, value mapInt8StringValue, usage string, required, isset bool) *mapInt8StringValue {
 	p := new(mapInt8StringValue)
-	f.mapInt8StringVar(p, name, value, usage)
+	f.mapInt8StringVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt8StringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt8String(name string, value mapInt8StringValue, usage string) *mapInt8StringValue {
-	return CommandLine.mapInt8String(name, value, usage)
+func mapInt8String(name string, value mapInt8StringValue, usage string, required, isset bool) *mapInt8StringValue {
+	return CommandLine.mapInt8String(name, value, usage, required, isset)
 }
 
 // mapInt16DurationValue []mapInt16DurationValue
@@ -2650,31 +2650,31 @@ func (slc *mapInt16DurationValue) String() string {
 // mapInt16DurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt16DurationVar(p *mapInt16DurationValue, name string, value mapInt16DurationValue, usage string) {
-	f.Var(newmapInt16DurationValue(value, p), name, usage)
+func (f *FlagSet) mapInt16DurationVar(p *mapInt16DurationValue, name string, value mapInt16DurationValue, usage string, required, isset bool) {
+	f.Var(newmapInt16DurationValue(value, p), name, usage, required, isset)
 }
 
 // mapInt16DurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt16DurationVar(p *mapInt16DurationValue, name string, value mapInt16DurationValue, usage string) {
-	CommandLine.Var(newmapInt16DurationValue(value, p), name, usage)
+func mapInt16DurationVar(p *mapInt16DurationValue, name string, value mapInt16DurationValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt16DurationValue(value, p), name, usage, required, isset)
 }
 
 // mapInt16DurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt16Duration(name string, value mapInt16DurationValue, usage string) *mapInt16DurationValue {
+func (f *FlagSet) mapInt16Duration(name string, value mapInt16DurationValue, usage string, required, isset bool) *mapInt16DurationValue {
 	p := new(mapInt16DurationValue)
-	f.mapInt16DurationVar(p, name, value, usage)
+	f.mapInt16DurationVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt16DurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt16Duration(name string, value mapInt16DurationValue, usage string) *mapInt16DurationValue {
-	return CommandLine.mapInt16Duration(name, value, usage)
+func mapInt16Duration(name string, value mapInt16DurationValue, usage string, required, isset bool) *mapInt16DurationValue {
+	return CommandLine.mapInt16Duration(name, value, usage, required, isset)
 }
 
 // mapInt16IntValue []mapInt16IntValue
@@ -2708,31 +2708,31 @@ func (slc *mapInt16IntValue) String() string {
 // mapInt16IntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt16IntVar(p *mapInt16IntValue, name string, value mapInt16IntValue, usage string) {
-	f.Var(newmapInt16IntValue(value, p), name, usage)
+func (f *FlagSet) mapInt16IntVar(p *mapInt16IntValue, name string, value mapInt16IntValue, usage string, required, isset bool) {
+	f.Var(newmapInt16IntValue(value, p), name, usage, required, isset)
 }
 
 // mapInt16IntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt16IntVar(p *mapInt16IntValue, name string, value mapInt16IntValue, usage string) {
-	CommandLine.Var(newmapInt16IntValue(value, p), name, usage)
+func mapInt16IntVar(p *mapInt16IntValue, name string, value mapInt16IntValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt16IntValue(value, p), name, usage, required, isset)
 }
 
 // mapInt16IntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt16Int(name string, value mapInt16IntValue, usage string) *mapInt16IntValue {
+func (f *FlagSet) mapInt16Int(name string, value mapInt16IntValue, usage string, required, isset bool) *mapInt16IntValue {
 	p := new(mapInt16IntValue)
-	f.mapInt16IntVar(p, name, value, usage)
+	f.mapInt16IntVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt16IntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt16Int(name string, value mapInt16IntValue, usage string) *mapInt16IntValue {
-	return CommandLine.mapInt16Int(name, value, usage)
+func mapInt16Int(name string, value mapInt16IntValue, usage string, required, isset bool) *mapInt16IntValue {
+	return CommandLine.mapInt16Int(name, value, usage, required, isset)
 }
 
 // mapInt16Int8Value []mapInt16Int8Value
@@ -2766,31 +2766,31 @@ func (slc *mapInt16Int8Value) String() string {
 // mapInt16Int8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt16Int8Var(p *mapInt16Int8Value, name string, value mapInt16Int8Value, usage string) {
-	f.Var(newmapInt16Int8Value(value, p), name, usage)
+func (f *FlagSet) mapInt16Int8Var(p *mapInt16Int8Value, name string, value mapInt16Int8Value, usage string, required, isset bool) {
+	f.Var(newmapInt16Int8Value(value, p), name, usage, required, isset)
 }
 
 // mapInt16Int8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt16Int8Var(p *mapInt16Int8Value, name string, value mapInt16Int8Value, usage string) {
-	CommandLine.Var(newmapInt16Int8Value(value, p), name, usage)
+func mapInt16Int8Var(p *mapInt16Int8Value, name string, value mapInt16Int8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt16Int8Value(value, p), name, usage, required, isset)
 }
 
 // mapInt16Int8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt16Int8(name string, value mapInt16Int8Value, usage string) *mapInt16Int8Value {
+func (f *FlagSet) mapInt16Int8(name string, value mapInt16Int8Value, usage string, required, isset bool) *mapInt16Int8Value {
 	p := new(mapInt16Int8Value)
-	f.mapInt16Int8Var(p, name, value, usage)
+	f.mapInt16Int8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt16Int8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt16Int8(name string, value mapInt16Int8Value, usage string) *mapInt16Int8Value {
-	return CommandLine.mapInt16Int8(name, value, usage)
+func mapInt16Int8(name string, value mapInt16Int8Value, usage string, required, isset bool) *mapInt16Int8Value {
+	return CommandLine.mapInt16Int8(name, value, usage, required, isset)
 }
 
 // mapInt16Int16Value []mapInt16Int16Value
@@ -2824,31 +2824,31 @@ func (slc *mapInt16Int16Value) String() string {
 // mapInt16Int16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt16Int16Var(p *mapInt16Int16Value, name string, value mapInt16Int16Value, usage string) {
-	f.Var(newmapInt16Int16Value(value, p), name, usage)
+func (f *FlagSet) mapInt16Int16Var(p *mapInt16Int16Value, name string, value mapInt16Int16Value, usage string, required, isset bool) {
+	f.Var(newmapInt16Int16Value(value, p), name, usage, required, isset)
 }
 
 // mapInt16Int16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt16Int16Var(p *mapInt16Int16Value, name string, value mapInt16Int16Value, usage string) {
-	CommandLine.Var(newmapInt16Int16Value(value, p), name, usage)
+func mapInt16Int16Var(p *mapInt16Int16Value, name string, value mapInt16Int16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt16Int16Value(value, p), name, usage, required, isset)
 }
 
 // mapInt16Int16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt16Int16(name string, value mapInt16Int16Value, usage string) *mapInt16Int16Value {
+func (f *FlagSet) mapInt16Int16(name string, value mapInt16Int16Value, usage string, required, isset bool) *mapInt16Int16Value {
 	p := new(mapInt16Int16Value)
-	f.mapInt16Int16Var(p, name, value, usage)
+	f.mapInt16Int16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt16Int16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt16Int16(name string, value mapInt16Int16Value, usage string) *mapInt16Int16Value {
-	return CommandLine.mapInt16Int16(name, value, usage)
+func mapInt16Int16(name string, value mapInt16Int16Value, usage string, required, isset bool) *mapInt16Int16Value {
+	return CommandLine.mapInt16Int16(name, value, usage, required, isset)
 }
 
 // mapInt16Int32Value []mapInt16Int32Value
@@ -2882,31 +2882,31 @@ func (slc *mapInt16Int32Value) String() string {
 // mapInt16Int32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt16Int32Var(p *mapInt16Int32Value, name string, value mapInt16Int32Value, usage string) {
-	f.Var(newmapInt16Int32Value(value, p), name, usage)
+func (f *FlagSet) mapInt16Int32Var(p *mapInt16Int32Value, name string, value mapInt16Int32Value, usage string, required, isset bool) {
+	f.Var(newmapInt16Int32Value(value, p), name, usage, required, isset)
 }
 
 // mapInt16Int32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt16Int32Var(p *mapInt16Int32Value, name string, value mapInt16Int32Value, usage string) {
-	CommandLine.Var(newmapInt16Int32Value(value, p), name, usage)
+func mapInt16Int32Var(p *mapInt16Int32Value, name string, value mapInt16Int32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt16Int32Value(value, p), name, usage, required, isset)
 }
 
 // mapInt16Int32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt16Int32(name string, value mapInt16Int32Value, usage string) *mapInt16Int32Value {
+func (f *FlagSet) mapInt16Int32(name string, value mapInt16Int32Value, usage string, required, isset bool) *mapInt16Int32Value {
 	p := new(mapInt16Int32Value)
-	f.mapInt16Int32Var(p, name, value, usage)
+	f.mapInt16Int32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt16Int32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt16Int32(name string, value mapInt16Int32Value, usage string) *mapInt16Int32Value {
-	return CommandLine.mapInt16Int32(name, value, usage)
+func mapInt16Int32(name string, value mapInt16Int32Value, usage string, required, isset bool) *mapInt16Int32Value {
+	return CommandLine.mapInt16Int32(name, value, usage, required, isset)
 }
 
 // mapInt16Int64Value []mapInt16Int64Value
@@ -2940,31 +2940,31 @@ func (slc *mapInt16Int64Value) String() string {
 // mapInt16Int64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt16Int64Var(p *mapInt16Int64Value, name string, value mapInt16Int64Value, usage string) {
-	f.Var(newmapInt16Int64Value(value, p), name, usage)
+func (f *FlagSet) mapInt16Int64Var(p *mapInt16Int64Value, name string, value mapInt16Int64Value, usage string, required, isset bool) {
+	f.Var(newmapInt16Int64Value(value, p), name, usage, required, isset)
 }
 
 // mapInt16Int64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt16Int64Var(p *mapInt16Int64Value, name string, value mapInt16Int64Value, usage string) {
-	CommandLine.Var(newmapInt16Int64Value(value, p), name, usage)
+func mapInt16Int64Var(p *mapInt16Int64Value, name string, value mapInt16Int64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt16Int64Value(value, p), name, usage, required, isset)
 }
 
 // mapInt16Int64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt16Int64(name string, value mapInt16Int64Value, usage string) *mapInt16Int64Value {
+func (f *FlagSet) mapInt16Int64(name string, value mapInt16Int64Value, usage string, required, isset bool) *mapInt16Int64Value {
 	p := new(mapInt16Int64Value)
-	f.mapInt16Int64Var(p, name, value, usage)
+	f.mapInt16Int64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt16Int64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt16Int64(name string, value mapInt16Int64Value, usage string) *mapInt16Int64Value {
-	return CommandLine.mapInt16Int64(name, value, usage)
+func mapInt16Int64(name string, value mapInt16Int64Value, usage string, required, isset bool) *mapInt16Int64Value {
+	return CommandLine.mapInt16Int64(name, value, usage, required, isset)
 }
 
 // mapInt16UintValue []mapInt16UintValue
@@ -2998,31 +2998,31 @@ func (slc *mapInt16UintValue) String() string {
 // mapInt16UintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt16UintVar(p *mapInt16UintValue, name string, value mapInt16UintValue, usage string) {
-	f.Var(newmapInt16UintValue(value, p), name, usage)
+func (f *FlagSet) mapInt16UintVar(p *mapInt16UintValue, name string, value mapInt16UintValue, usage string, required, isset bool) {
+	f.Var(newmapInt16UintValue(value, p), name, usage, required, isset)
 }
 
 // mapInt16UintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt16UintVar(p *mapInt16UintValue, name string, value mapInt16UintValue, usage string) {
-	CommandLine.Var(newmapInt16UintValue(value, p), name, usage)
+func mapInt16UintVar(p *mapInt16UintValue, name string, value mapInt16UintValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt16UintValue(value, p), name, usage, required, isset)
 }
 
 // mapInt16UintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt16Uint(name string, value mapInt16UintValue, usage string) *mapInt16UintValue {
+func (f *FlagSet) mapInt16Uint(name string, value mapInt16UintValue, usage string, required, isset bool) *mapInt16UintValue {
 	p := new(mapInt16UintValue)
-	f.mapInt16UintVar(p, name, value, usage)
+	f.mapInt16UintVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt16UintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt16Uint(name string, value mapInt16UintValue, usage string) *mapInt16UintValue {
-	return CommandLine.mapInt16Uint(name, value, usage)
+func mapInt16Uint(name string, value mapInt16UintValue, usage string, required, isset bool) *mapInt16UintValue {
+	return CommandLine.mapInt16Uint(name, value, usage, required, isset)
 }
 
 // mapInt16Uint8Value []mapInt16Uint8Value
@@ -3056,31 +3056,31 @@ func (slc *mapInt16Uint8Value) String() string {
 // mapInt16Uint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt16Uint8Var(p *mapInt16Uint8Value, name string, value mapInt16Uint8Value, usage string) {
-	f.Var(newmapInt16Uint8Value(value, p), name, usage)
+func (f *FlagSet) mapInt16Uint8Var(p *mapInt16Uint8Value, name string, value mapInt16Uint8Value, usage string, required, isset bool) {
+	f.Var(newmapInt16Uint8Value(value, p), name, usage, required, isset)
 }
 
 // mapInt16Uint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt16Uint8Var(p *mapInt16Uint8Value, name string, value mapInt16Uint8Value, usage string) {
-	CommandLine.Var(newmapInt16Uint8Value(value, p), name, usage)
+func mapInt16Uint8Var(p *mapInt16Uint8Value, name string, value mapInt16Uint8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt16Uint8Value(value, p), name, usage, required, isset)
 }
 
 // mapInt16Uint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt16Uint8(name string, value mapInt16Uint8Value, usage string) *mapInt16Uint8Value {
+func (f *FlagSet) mapInt16Uint8(name string, value mapInt16Uint8Value, usage string, required, isset bool) *mapInt16Uint8Value {
 	p := new(mapInt16Uint8Value)
-	f.mapInt16Uint8Var(p, name, value, usage)
+	f.mapInt16Uint8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt16Uint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt16Uint8(name string, value mapInt16Uint8Value, usage string) *mapInt16Uint8Value {
-	return CommandLine.mapInt16Uint8(name, value, usage)
+func mapInt16Uint8(name string, value mapInt16Uint8Value, usage string, required, isset bool) *mapInt16Uint8Value {
+	return CommandLine.mapInt16Uint8(name, value, usage, required, isset)
 }
 
 // mapInt16Uint16Value []mapInt16Uint16Value
@@ -3114,31 +3114,31 @@ func (slc *mapInt16Uint16Value) String() string {
 // mapInt16Uint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt16Uint16Var(p *mapInt16Uint16Value, name string, value mapInt16Uint16Value, usage string) {
-	f.Var(newmapInt16Uint16Value(value, p), name, usage)
+func (f *FlagSet) mapInt16Uint16Var(p *mapInt16Uint16Value, name string, value mapInt16Uint16Value, usage string, required, isset bool) {
+	f.Var(newmapInt16Uint16Value(value, p), name, usage, required, isset)
 }
 
 // mapInt16Uint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt16Uint16Var(p *mapInt16Uint16Value, name string, value mapInt16Uint16Value, usage string) {
-	CommandLine.Var(newmapInt16Uint16Value(value, p), name, usage)
+func mapInt16Uint16Var(p *mapInt16Uint16Value, name string, value mapInt16Uint16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt16Uint16Value(value, p), name, usage, required, isset)
 }
 
 // mapInt16Uint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt16Uint16(name string, value mapInt16Uint16Value, usage string) *mapInt16Uint16Value {
+func (f *FlagSet) mapInt16Uint16(name string, value mapInt16Uint16Value, usage string, required, isset bool) *mapInt16Uint16Value {
 	p := new(mapInt16Uint16Value)
-	f.mapInt16Uint16Var(p, name, value, usage)
+	f.mapInt16Uint16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt16Uint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt16Uint16(name string, value mapInt16Uint16Value, usage string) *mapInt16Uint16Value {
-	return CommandLine.mapInt16Uint16(name, value, usage)
+func mapInt16Uint16(name string, value mapInt16Uint16Value, usage string, required, isset bool) *mapInt16Uint16Value {
+	return CommandLine.mapInt16Uint16(name, value, usage, required, isset)
 }
 
 // mapInt16Uint32Value []mapInt16Uint32Value
@@ -3172,31 +3172,31 @@ func (slc *mapInt16Uint32Value) String() string {
 // mapInt16Uint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt16Uint32Var(p *mapInt16Uint32Value, name string, value mapInt16Uint32Value, usage string) {
-	f.Var(newmapInt16Uint32Value(value, p), name, usage)
+func (f *FlagSet) mapInt16Uint32Var(p *mapInt16Uint32Value, name string, value mapInt16Uint32Value, usage string, required, isset bool) {
+	f.Var(newmapInt16Uint32Value(value, p), name, usage, required, isset)
 }
 
 // mapInt16Uint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt16Uint32Var(p *mapInt16Uint32Value, name string, value mapInt16Uint32Value, usage string) {
-	CommandLine.Var(newmapInt16Uint32Value(value, p), name, usage)
+func mapInt16Uint32Var(p *mapInt16Uint32Value, name string, value mapInt16Uint32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt16Uint32Value(value, p), name, usage, required, isset)
 }
 
 // mapInt16Uint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt16Uint32(name string, value mapInt16Uint32Value, usage string) *mapInt16Uint32Value {
+func (f *FlagSet) mapInt16Uint32(name string, value mapInt16Uint32Value, usage string, required, isset bool) *mapInt16Uint32Value {
 	p := new(mapInt16Uint32Value)
-	f.mapInt16Uint32Var(p, name, value, usage)
+	f.mapInt16Uint32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt16Uint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt16Uint32(name string, value mapInt16Uint32Value, usage string) *mapInt16Uint32Value {
-	return CommandLine.mapInt16Uint32(name, value, usage)
+func mapInt16Uint32(name string, value mapInt16Uint32Value, usage string, required, isset bool) *mapInt16Uint32Value {
+	return CommandLine.mapInt16Uint32(name, value, usage, required, isset)
 }
 
 // mapInt16Uint64Value []mapInt16Uint64Value
@@ -3230,31 +3230,31 @@ func (slc *mapInt16Uint64Value) String() string {
 // mapInt16Uint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt16Uint64Var(p *mapInt16Uint64Value, name string, value mapInt16Uint64Value, usage string) {
-	f.Var(newmapInt16Uint64Value(value, p), name, usage)
+func (f *FlagSet) mapInt16Uint64Var(p *mapInt16Uint64Value, name string, value mapInt16Uint64Value, usage string, required, isset bool) {
+	f.Var(newmapInt16Uint64Value(value, p), name, usage, required, isset)
 }
 
 // mapInt16Uint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt16Uint64Var(p *mapInt16Uint64Value, name string, value mapInt16Uint64Value, usage string) {
-	CommandLine.Var(newmapInt16Uint64Value(value, p), name, usage)
+func mapInt16Uint64Var(p *mapInt16Uint64Value, name string, value mapInt16Uint64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt16Uint64Value(value, p), name, usage, required, isset)
 }
 
 // mapInt16Uint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt16Uint64(name string, value mapInt16Uint64Value, usage string) *mapInt16Uint64Value {
+func (f *FlagSet) mapInt16Uint64(name string, value mapInt16Uint64Value, usage string, required, isset bool) *mapInt16Uint64Value {
 	p := new(mapInt16Uint64Value)
-	f.mapInt16Uint64Var(p, name, value, usage)
+	f.mapInt16Uint64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt16Uint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt16Uint64(name string, value mapInt16Uint64Value, usage string) *mapInt16Uint64Value {
-	return CommandLine.mapInt16Uint64(name, value, usage)
+func mapInt16Uint64(name string, value mapInt16Uint64Value, usage string, required, isset bool) *mapInt16Uint64Value {
+	return CommandLine.mapInt16Uint64(name, value, usage, required, isset)
 }
 
 // mapInt16Float64Value []mapInt16Float64Value
@@ -3288,31 +3288,31 @@ func (slc *mapInt16Float64Value) String() string {
 // mapInt16Float64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt16Float64Var(p *mapInt16Float64Value, name string, value mapInt16Float64Value, usage string) {
-	f.Var(newmapInt16Float64Value(value, p), name, usage)
+func (f *FlagSet) mapInt16Float64Var(p *mapInt16Float64Value, name string, value mapInt16Float64Value, usage string, required, isset bool) {
+	f.Var(newmapInt16Float64Value(value, p), name, usage, required, isset)
 }
 
 // mapInt16Float64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt16Float64Var(p *mapInt16Float64Value, name string, value mapInt16Float64Value, usage string) {
-	CommandLine.Var(newmapInt16Float64Value(value, p), name, usage)
+func mapInt16Float64Var(p *mapInt16Float64Value, name string, value mapInt16Float64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt16Float64Value(value, p), name, usage, required, isset)
 }
 
 // mapInt16Float64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt16Float64(name string, value mapInt16Float64Value, usage string) *mapInt16Float64Value {
+func (f *FlagSet) mapInt16Float64(name string, value mapInt16Float64Value, usage string, required, isset bool) *mapInt16Float64Value {
 	p := new(mapInt16Float64Value)
-	f.mapInt16Float64Var(p, name, value, usage)
+	f.mapInt16Float64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt16Float64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt16Float64(name string, value mapInt16Float64Value, usage string) *mapInt16Float64Value {
-	return CommandLine.mapInt16Float64(name, value, usage)
+func mapInt16Float64(name string, value mapInt16Float64Value, usage string, required, isset bool) *mapInt16Float64Value {
+	return CommandLine.mapInt16Float64(name, value, usage, required, isset)
 }
 
 // mapInt16Float32Value []mapInt16Float32Value
@@ -3346,31 +3346,31 @@ func (slc *mapInt16Float32Value) String() string {
 // mapInt16Float32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt16Float32Var(p *mapInt16Float32Value, name string, value mapInt16Float32Value, usage string) {
-	f.Var(newmapInt16Float32Value(value, p), name, usage)
+func (f *FlagSet) mapInt16Float32Var(p *mapInt16Float32Value, name string, value mapInt16Float32Value, usage string, required, isset bool) {
+	f.Var(newmapInt16Float32Value(value, p), name, usage, required, isset)
 }
 
 // mapInt16Float32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt16Float32Var(p *mapInt16Float32Value, name string, value mapInt16Float32Value, usage string) {
-	CommandLine.Var(newmapInt16Float32Value(value, p), name, usage)
+func mapInt16Float32Var(p *mapInt16Float32Value, name string, value mapInt16Float32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt16Float32Value(value, p), name, usage, required, isset)
 }
 
 // mapInt16Float32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt16Float32(name string, value mapInt16Float32Value, usage string) *mapInt16Float32Value {
+func (f *FlagSet) mapInt16Float32(name string, value mapInt16Float32Value, usage string, required, isset bool) *mapInt16Float32Value {
 	p := new(mapInt16Float32Value)
-	f.mapInt16Float32Var(p, name, value, usage)
+	f.mapInt16Float32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt16Float32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt16Float32(name string, value mapInt16Float32Value, usage string) *mapInt16Float32Value {
-	return CommandLine.mapInt16Float32(name, value, usage)
+func mapInt16Float32(name string, value mapInt16Float32Value, usage string, required, isset bool) *mapInt16Float32Value {
+	return CommandLine.mapInt16Float32(name, value, usage, required, isset)
 }
 
 // mapInt16BoolValue []mapInt16BoolValue
@@ -3404,31 +3404,31 @@ func (slc *mapInt16BoolValue) String() string {
 // mapInt16BoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt16BoolVar(p *mapInt16BoolValue, name string, value mapInt16BoolValue, usage string) {
-	f.Var(newmapInt16BoolValue(value, p), name, usage)
+func (f *FlagSet) mapInt16BoolVar(p *mapInt16BoolValue, name string, value mapInt16BoolValue, usage string, required, isset bool) {
+	f.Var(newmapInt16BoolValue(value, p), name, usage, required, isset)
 }
 
 // mapInt16BoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt16BoolVar(p *mapInt16BoolValue, name string, value mapInt16BoolValue, usage string) {
-	CommandLine.Var(newmapInt16BoolValue(value, p), name, usage)
+func mapInt16BoolVar(p *mapInt16BoolValue, name string, value mapInt16BoolValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt16BoolValue(value, p), name, usage, required, isset)
 }
 
 // mapInt16BoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt16Bool(name string, value mapInt16BoolValue, usage string) *mapInt16BoolValue {
+func (f *FlagSet) mapInt16Bool(name string, value mapInt16BoolValue, usage string, required, isset bool) *mapInt16BoolValue {
 	p := new(mapInt16BoolValue)
-	f.mapInt16BoolVar(p, name, value, usage)
+	f.mapInt16BoolVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt16BoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt16Bool(name string, value mapInt16BoolValue, usage string) *mapInt16BoolValue {
-	return CommandLine.mapInt16Bool(name, value, usage)
+func mapInt16Bool(name string, value mapInt16BoolValue, usage string, required, isset bool) *mapInt16BoolValue {
+	return CommandLine.mapInt16Bool(name, value, usage, required, isset)
 }
 
 // mapInt16StringValue []mapInt16StringValue
@@ -3462,31 +3462,31 @@ func (slc *mapInt16StringValue) String() string {
 // mapInt16StringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt16StringVar(p *mapInt16StringValue, name string, value mapInt16StringValue, usage string) {
-	f.Var(newmapInt16StringValue(value, p), name, usage)
+func (f *FlagSet) mapInt16StringVar(p *mapInt16StringValue, name string, value mapInt16StringValue, usage string, required, isset bool) {
+	f.Var(newmapInt16StringValue(value, p), name, usage, required, isset)
 }
 
 // mapInt16StringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt16StringVar(p *mapInt16StringValue, name string, value mapInt16StringValue, usage string) {
-	CommandLine.Var(newmapInt16StringValue(value, p), name, usage)
+func mapInt16StringVar(p *mapInt16StringValue, name string, value mapInt16StringValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt16StringValue(value, p), name, usage, required, isset)
 }
 
 // mapInt16StringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt16String(name string, value mapInt16StringValue, usage string) *mapInt16StringValue {
+func (f *FlagSet) mapInt16String(name string, value mapInt16StringValue, usage string, required, isset bool) *mapInt16StringValue {
 	p := new(mapInt16StringValue)
-	f.mapInt16StringVar(p, name, value, usage)
+	f.mapInt16StringVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt16StringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt16String(name string, value mapInt16StringValue, usage string) *mapInt16StringValue {
-	return CommandLine.mapInt16String(name, value, usage)
+func mapInt16String(name string, value mapInt16StringValue, usage string, required, isset bool) *mapInt16StringValue {
+	return CommandLine.mapInt16String(name, value, usage, required, isset)
 }
 
 // mapInt32DurationValue []mapInt32DurationValue
@@ -3520,31 +3520,31 @@ func (slc *mapInt32DurationValue) String() string {
 // mapInt32DurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt32DurationVar(p *mapInt32DurationValue, name string, value mapInt32DurationValue, usage string) {
-	f.Var(newmapInt32DurationValue(value, p), name, usage)
+func (f *FlagSet) mapInt32DurationVar(p *mapInt32DurationValue, name string, value mapInt32DurationValue, usage string, required, isset bool) {
+	f.Var(newmapInt32DurationValue(value, p), name, usage, required, isset)
 }
 
 // mapInt32DurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt32DurationVar(p *mapInt32DurationValue, name string, value mapInt32DurationValue, usage string) {
-	CommandLine.Var(newmapInt32DurationValue(value, p), name, usage)
+func mapInt32DurationVar(p *mapInt32DurationValue, name string, value mapInt32DurationValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt32DurationValue(value, p), name, usage, required, isset)
 }
 
 // mapInt32DurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt32Duration(name string, value mapInt32DurationValue, usage string) *mapInt32DurationValue {
+func (f *FlagSet) mapInt32Duration(name string, value mapInt32DurationValue, usage string, required, isset bool) *mapInt32DurationValue {
 	p := new(mapInt32DurationValue)
-	f.mapInt32DurationVar(p, name, value, usage)
+	f.mapInt32DurationVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt32DurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt32Duration(name string, value mapInt32DurationValue, usage string) *mapInt32DurationValue {
-	return CommandLine.mapInt32Duration(name, value, usage)
+func mapInt32Duration(name string, value mapInt32DurationValue, usage string, required, isset bool) *mapInt32DurationValue {
+	return CommandLine.mapInt32Duration(name, value, usage, required, isset)
 }
 
 // mapInt32IntValue []mapInt32IntValue
@@ -3578,31 +3578,31 @@ func (slc *mapInt32IntValue) String() string {
 // mapInt32IntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt32IntVar(p *mapInt32IntValue, name string, value mapInt32IntValue, usage string) {
-	f.Var(newmapInt32IntValue(value, p), name, usage)
+func (f *FlagSet) mapInt32IntVar(p *mapInt32IntValue, name string, value mapInt32IntValue, usage string, required, isset bool) {
+	f.Var(newmapInt32IntValue(value, p), name, usage, required, isset)
 }
 
 // mapInt32IntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt32IntVar(p *mapInt32IntValue, name string, value mapInt32IntValue, usage string) {
-	CommandLine.Var(newmapInt32IntValue(value, p), name, usage)
+func mapInt32IntVar(p *mapInt32IntValue, name string, value mapInt32IntValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt32IntValue(value, p), name, usage, required, isset)
 }
 
 // mapInt32IntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt32Int(name string, value mapInt32IntValue, usage string) *mapInt32IntValue {
+func (f *FlagSet) mapInt32Int(name string, value mapInt32IntValue, usage string, required, isset bool) *mapInt32IntValue {
 	p := new(mapInt32IntValue)
-	f.mapInt32IntVar(p, name, value, usage)
+	f.mapInt32IntVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt32IntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt32Int(name string, value mapInt32IntValue, usage string) *mapInt32IntValue {
-	return CommandLine.mapInt32Int(name, value, usage)
+func mapInt32Int(name string, value mapInt32IntValue, usage string, required, isset bool) *mapInt32IntValue {
+	return CommandLine.mapInt32Int(name, value, usage, required, isset)
 }
 
 // mapInt32Int8Value []mapInt32Int8Value
@@ -3636,31 +3636,31 @@ func (slc *mapInt32Int8Value) String() string {
 // mapInt32Int8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt32Int8Var(p *mapInt32Int8Value, name string, value mapInt32Int8Value, usage string) {
-	f.Var(newmapInt32Int8Value(value, p), name, usage)
+func (f *FlagSet) mapInt32Int8Var(p *mapInt32Int8Value, name string, value mapInt32Int8Value, usage string, required, isset bool) {
+	f.Var(newmapInt32Int8Value(value, p), name, usage, required, isset)
 }
 
 // mapInt32Int8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt32Int8Var(p *mapInt32Int8Value, name string, value mapInt32Int8Value, usage string) {
-	CommandLine.Var(newmapInt32Int8Value(value, p), name, usage)
+func mapInt32Int8Var(p *mapInt32Int8Value, name string, value mapInt32Int8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt32Int8Value(value, p), name, usage, required, isset)
 }
 
 // mapInt32Int8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt32Int8(name string, value mapInt32Int8Value, usage string) *mapInt32Int8Value {
+func (f *FlagSet) mapInt32Int8(name string, value mapInt32Int8Value, usage string, required, isset bool) *mapInt32Int8Value {
 	p := new(mapInt32Int8Value)
-	f.mapInt32Int8Var(p, name, value, usage)
+	f.mapInt32Int8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt32Int8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt32Int8(name string, value mapInt32Int8Value, usage string) *mapInt32Int8Value {
-	return CommandLine.mapInt32Int8(name, value, usage)
+func mapInt32Int8(name string, value mapInt32Int8Value, usage string, required, isset bool) *mapInt32Int8Value {
+	return CommandLine.mapInt32Int8(name, value, usage, required, isset)
 }
 
 // mapInt32Int16Value []mapInt32Int16Value
@@ -3694,31 +3694,31 @@ func (slc *mapInt32Int16Value) String() string {
 // mapInt32Int16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt32Int16Var(p *mapInt32Int16Value, name string, value mapInt32Int16Value, usage string) {
-	f.Var(newmapInt32Int16Value(value, p), name, usage)
+func (f *FlagSet) mapInt32Int16Var(p *mapInt32Int16Value, name string, value mapInt32Int16Value, usage string, required, isset bool) {
+	f.Var(newmapInt32Int16Value(value, p), name, usage, required, isset)
 }
 
 // mapInt32Int16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt32Int16Var(p *mapInt32Int16Value, name string, value mapInt32Int16Value, usage string) {
-	CommandLine.Var(newmapInt32Int16Value(value, p), name, usage)
+func mapInt32Int16Var(p *mapInt32Int16Value, name string, value mapInt32Int16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt32Int16Value(value, p), name, usage, required, isset)
 }
 
 // mapInt32Int16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt32Int16(name string, value mapInt32Int16Value, usage string) *mapInt32Int16Value {
+func (f *FlagSet) mapInt32Int16(name string, value mapInt32Int16Value, usage string, required, isset bool) *mapInt32Int16Value {
 	p := new(mapInt32Int16Value)
-	f.mapInt32Int16Var(p, name, value, usage)
+	f.mapInt32Int16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt32Int16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt32Int16(name string, value mapInt32Int16Value, usage string) *mapInt32Int16Value {
-	return CommandLine.mapInt32Int16(name, value, usage)
+func mapInt32Int16(name string, value mapInt32Int16Value, usage string, required, isset bool) *mapInt32Int16Value {
+	return CommandLine.mapInt32Int16(name, value, usage, required, isset)
 }
 
 // mapInt32Int32Value []mapInt32Int32Value
@@ -3752,31 +3752,31 @@ func (slc *mapInt32Int32Value) String() string {
 // mapInt32Int32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt32Int32Var(p *mapInt32Int32Value, name string, value mapInt32Int32Value, usage string) {
-	f.Var(newmapInt32Int32Value(value, p), name, usage)
+func (f *FlagSet) mapInt32Int32Var(p *mapInt32Int32Value, name string, value mapInt32Int32Value, usage string, required, isset bool) {
+	f.Var(newmapInt32Int32Value(value, p), name, usage, required, isset)
 }
 
 // mapInt32Int32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt32Int32Var(p *mapInt32Int32Value, name string, value mapInt32Int32Value, usage string) {
-	CommandLine.Var(newmapInt32Int32Value(value, p), name, usage)
+func mapInt32Int32Var(p *mapInt32Int32Value, name string, value mapInt32Int32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt32Int32Value(value, p), name, usage, required, isset)
 }
 
 // mapInt32Int32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt32Int32(name string, value mapInt32Int32Value, usage string) *mapInt32Int32Value {
+func (f *FlagSet) mapInt32Int32(name string, value mapInt32Int32Value, usage string, required, isset bool) *mapInt32Int32Value {
 	p := new(mapInt32Int32Value)
-	f.mapInt32Int32Var(p, name, value, usage)
+	f.mapInt32Int32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt32Int32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt32Int32(name string, value mapInt32Int32Value, usage string) *mapInt32Int32Value {
-	return CommandLine.mapInt32Int32(name, value, usage)
+func mapInt32Int32(name string, value mapInt32Int32Value, usage string, required, isset bool) *mapInt32Int32Value {
+	return CommandLine.mapInt32Int32(name, value, usage, required, isset)
 }
 
 // mapInt32Int64Value []mapInt32Int64Value
@@ -3810,31 +3810,31 @@ func (slc *mapInt32Int64Value) String() string {
 // mapInt32Int64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt32Int64Var(p *mapInt32Int64Value, name string, value mapInt32Int64Value, usage string) {
-	f.Var(newmapInt32Int64Value(value, p), name, usage)
+func (f *FlagSet) mapInt32Int64Var(p *mapInt32Int64Value, name string, value mapInt32Int64Value, usage string, required, isset bool) {
+	f.Var(newmapInt32Int64Value(value, p), name, usage, required, isset)
 }
 
 // mapInt32Int64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt32Int64Var(p *mapInt32Int64Value, name string, value mapInt32Int64Value, usage string) {
-	CommandLine.Var(newmapInt32Int64Value(value, p), name, usage)
+func mapInt32Int64Var(p *mapInt32Int64Value, name string, value mapInt32Int64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt32Int64Value(value, p), name, usage, required, isset)
 }
 
 // mapInt32Int64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt32Int64(name string, value mapInt32Int64Value, usage string) *mapInt32Int64Value {
+func (f *FlagSet) mapInt32Int64(name string, value mapInt32Int64Value, usage string, required, isset bool) *mapInt32Int64Value {
 	p := new(mapInt32Int64Value)
-	f.mapInt32Int64Var(p, name, value, usage)
+	f.mapInt32Int64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt32Int64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt32Int64(name string, value mapInt32Int64Value, usage string) *mapInt32Int64Value {
-	return CommandLine.mapInt32Int64(name, value, usage)
+func mapInt32Int64(name string, value mapInt32Int64Value, usage string, required, isset bool) *mapInt32Int64Value {
+	return CommandLine.mapInt32Int64(name, value, usage, required, isset)
 }
 
 // mapInt32UintValue []mapInt32UintValue
@@ -3868,31 +3868,31 @@ func (slc *mapInt32UintValue) String() string {
 // mapInt32UintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt32UintVar(p *mapInt32UintValue, name string, value mapInt32UintValue, usage string) {
-	f.Var(newmapInt32UintValue(value, p), name, usage)
+func (f *FlagSet) mapInt32UintVar(p *mapInt32UintValue, name string, value mapInt32UintValue, usage string, required, isset bool) {
+	f.Var(newmapInt32UintValue(value, p), name, usage, required, isset)
 }
 
 // mapInt32UintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt32UintVar(p *mapInt32UintValue, name string, value mapInt32UintValue, usage string) {
-	CommandLine.Var(newmapInt32UintValue(value, p), name, usage)
+func mapInt32UintVar(p *mapInt32UintValue, name string, value mapInt32UintValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt32UintValue(value, p), name, usage, required, isset)
 }
 
 // mapInt32UintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt32Uint(name string, value mapInt32UintValue, usage string) *mapInt32UintValue {
+func (f *FlagSet) mapInt32Uint(name string, value mapInt32UintValue, usage string, required, isset bool) *mapInt32UintValue {
 	p := new(mapInt32UintValue)
-	f.mapInt32UintVar(p, name, value, usage)
+	f.mapInt32UintVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt32UintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt32Uint(name string, value mapInt32UintValue, usage string) *mapInt32UintValue {
-	return CommandLine.mapInt32Uint(name, value, usage)
+func mapInt32Uint(name string, value mapInt32UintValue, usage string, required, isset bool) *mapInt32UintValue {
+	return CommandLine.mapInt32Uint(name, value, usage, required, isset)
 }
 
 // mapInt32Uint8Value []mapInt32Uint8Value
@@ -3926,31 +3926,31 @@ func (slc *mapInt32Uint8Value) String() string {
 // mapInt32Uint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt32Uint8Var(p *mapInt32Uint8Value, name string, value mapInt32Uint8Value, usage string) {
-	f.Var(newmapInt32Uint8Value(value, p), name, usage)
+func (f *FlagSet) mapInt32Uint8Var(p *mapInt32Uint8Value, name string, value mapInt32Uint8Value, usage string, required, isset bool) {
+	f.Var(newmapInt32Uint8Value(value, p), name, usage, required, isset)
 }
 
 // mapInt32Uint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt32Uint8Var(p *mapInt32Uint8Value, name string, value mapInt32Uint8Value, usage string) {
-	CommandLine.Var(newmapInt32Uint8Value(value, p), name, usage)
+func mapInt32Uint8Var(p *mapInt32Uint8Value, name string, value mapInt32Uint8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt32Uint8Value(value, p), name, usage, required, isset)
 }
 
 // mapInt32Uint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt32Uint8(name string, value mapInt32Uint8Value, usage string) *mapInt32Uint8Value {
+func (f *FlagSet) mapInt32Uint8(name string, value mapInt32Uint8Value, usage string, required, isset bool) *mapInt32Uint8Value {
 	p := new(mapInt32Uint8Value)
-	f.mapInt32Uint8Var(p, name, value, usage)
+	f.mapInt32Uint8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt32Uint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt32Uint8(name string, value mapInt32Uint8Value, usage string) *mapInt32Uint8Value {
-	return CommandLine.mapInt32Uint8(name, value, usage)
+func mapInt32Uint8(name string, value mapInt32Uint8Value, usage string, required, isset bool) *mapInt32Uint8Value {
+	return CommandLine.mapInt32Uint8(name, value, usage, required, isset)
 }
 
 // mapInt32Uint16Value []mapInt32Uint16Value
@@ -3984,31 +3984,31 @@ func (slc *mapInt32Uint16Value) String() string {
 // mapInt32Uint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt32Uint16Var(p *mapInt32Uint16Value, name string, value mapInt32Uint16Value, usage string) {
-	f.Var(newmapInt32Uint16Value(value, p), name, usage)
+func (f *FlagSet) mapInt32Uint16Var(p *mapInt32Uint16Value, name string, value mapInt32Uint16Value, usage string, required, isset bool) {
+	f.Var(newmapInt32Uint16Value(value, p), name, usage, required, isset)
 }
 
 // mapInt32Uint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt32Uint16Var(p *mapInt32Uint16Value, name string, value mapInt32Uint16Value, usage string) {
-	CommandLine.Var(newmapInt32Uint16Value(value, p), name, usage)
+func mapInt32Uint16Var(p *mapInt32Uint16Value, name string, value mapInt32Uint16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt32Uint16Value(value, p), name, usage, required, isset)
 }
 
 // mapInt32Uint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt32Uint16(name string, value mapInt32Uint16Value, usage string) *mapInt32Uint16Value {
+func (f *FlagSet) mapInt32Uint16(name string, value mapInt32Uint16Value, usage string, required, isset bool) *mapInt32Uint16Value {
 	p := new(mapInt32Uint16Value)
-	f.mapInt32Uint16Var(p, name, value, usage)
+	f.mapInt32Uint16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt32Uint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt32Uint16(name string, value mapInt32Uint16Value, usage string) *mapInt32Uint16Value {
-	return CommandLine.mapInt32Uint16(name, value, usage)
+func mapInt32Uint16(name string, value mapInt32Uint16Value, usage string, required, isset bool) *mapInt32Uint16Value {
+	return CommandLine.mapInt32Uint16(name, value, usage, required, isset)
 }
 
 // mapInt32Uint32Value []mapInt32Uint32Value
@@ -4042,31 +4042,31 @@ func (slc *mapInt32Uint32Value) String() string {
 // mapInt32Uint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt32Uint32Var(p *mapInt32Uint32Value, name string, value mapInt32Uint32Value, usage string) {
-	f.Var(newmapInt32Uint32Value(value, p), name, usage)
+func (f *FlagSet) mapInt32Uint32Var(p *mapInt32Uint32Value, name string, value mapInt32Uint32Value, usage string, required, isset bool) {
+	f.Var(newmapInt32Uint32Value(value, p), name, usage, required, isset)
 }
 
 // mapInt32Uint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt32Uint32Var(p *mapInt32Uint32Value, name string, value mapInt32Uint32Value, usage string) {
-	CommandLine.Var(newmapInt32Uint32Value(value, p), name, usage)
+func mapInt32Uint32Var(p *mapInt32Uint32Value, name string, value mapInt32Uint32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt32Uint32Value(value, p), name, usage, required, isset)
 }
 
 // mapInt32Uint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt32Uint32(name string, value mapInt32Uint32Value, usage string) *mapInt32Uint32Value {
+func (f *FlagSet) mapInt32Uint32(name string, value mapInt32Uint32Value, usage string, required, isset bool) *mapInt32Uint32Value {
 	p := new(mapInt32Uint32Value)
-	f.mapInt32Uint32Var(p, name, value, usage)
+	f.mapInt32Uint32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt32Uint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt32Uint32(name string, value mapInt32Uint32Value, usage string) *mapInt32Uint32Value {
-	return CommandLine.mapInt32Uint32(name, value, usage)
+func mapInt32Uint32(name string, value mapInt32Uint32Value, usage string, required, isset bool) *mapInt32Uint32Value {
+	return CommandLine.mapInt32Uint32(name, value, usage, required, isset)
 }
 
 // mapInt32Uint64Value []mapInt32Uint64Value
@@ -4100,31 +4100,31 @@ func (slc *mapInt32Uint64Value) String() string {
 // mapInt32Uint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt32Uint64Var(p *mapInt32Uint64Value, name string, value mapInt32Uint64Value, usage string) {
-	f.Var(newmapInt32Uint64Value(value, p), name, usage)
+func (f *FlagSet) mapInt32Uint64Var(p *mapInt32Uint64Value, name string, value mapInt32Uint64Value, usage string, required, isset bool) {
+	f.Var(newmapInt32Uint64Value(value, p), name, usage, required, isset)
 }
 
 // mapInt32Uint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt32Uint64Var(p *mapInt32Uint64Value, name string, value mapInt32Uint64Value, usage string) {
-	CommandLine.Var(newmapInt32Uint64Value(value, p), name, usage)
+func mapInt32Uint64Var(p *mapInt32Uint64Value, name string, value mapInt32Uint64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt32Uint64Value(value, p), name, usage, required, isset)
 }
 
 // mapInt32Uint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt32Uint64(name string, value mapInt32Uint64Value, usage string) *mapInt32Uint64Value {
+func (f *FlagSet) mapInt32Uint64(name string, value mapInt32Uint64Value, usage string, required, isset bool) *mapInt32Uint64Value {
 	p := new(mapInt32Uint64Value)
-	f.mapInt32Uint64Var(p, name, value, usage)
+	f.mapInt32Uint64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt32Uint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt32Uint64(name string, value mapInt32Uint64Value, usage string) *mapInt32Uint64Value {
-	return CommandLine.mapInt32Uint64(name, value, usage)
+func mapInt32Uint64(name string, value mapInt32Uint64Value, usage string, required, isset bool) *mapInt32Uint64Value {
+	return CommandLine.mapInt32Uint64(name, value, usage, required, isset)
 }
 
 // mapInt32Float64Value []mapInt32Float64Value
@@ -4158,31 +4158,31 @@ func (slc *mapInt32Float64Value) String() string {
 // mapInt32Float64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt32Float64Var(p *mapInt32Float64Value, name string, value mapInt32Float64Value, usage string) {
-	f.Var(newmapInt32Float64Value(value, p), name, usage)
+func (f *FlagSet) mapInt32Float64Var(p *mapInt32Float64Value, name string, value mapInt32Float64Value, usage string, required, isset bool) {
+	f.Var(newmapInt32Float64Value(value, p), name, usage, required, isset)
 }
 
 // mapInt32Float64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt32Float64Var(p *mapInt32Float64Value, name string, value mapInt32Float64Value, usage string) {
-	CommandLine.Var(newmapInt32Float64Value(value, p), name, usage)
+func mapInt32Float64Var(p *mapInt32Float64Value, name string, value mapInt32Float64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt32Float64Value(value, p), name, usage, required, isset)
 }
 
 // mapInt32Float64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt32Float64(name string, value mapInt32Float64Value, usage string) *mapInt32Float64Value {
+func (f *FlagSet) mapInt32Float64(name string, value mapInt32Float64Value, usage string, required, isset bool) *mapInt32Float64Value {
 	p := new(mapInt32Float64Value)
-	f.mapInt32Float64Var(p, name, value, usage)
+	f.mapInt32Float64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt32Float64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt32Float64(name string, value mapInt32Float64Value, usage string) *mapInt32Float64Value {
-	return CommandLine.mapInt32Float64(name, value, usage)
+func mapInt32Float64(name string, value mapInt32Float64Value, usage string, required, isset bool) *mapInt32Float64Value {
+	return CommandLine.mapInt32Float64(name, value, usage, required, isset)
 }
 
 // mapInt32Float32Value []mapInt32Float32Value
@@ -4216,31 +4216,31 @@ func (slc *mapInt32Float32Value) String() string {
 // mapInt32Float32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt32Float32Var(p *mapInt32Float32Value, name string, value mapInt32Float32Value, usage string) {
-	f.Var(newmapInt32Float32Value(value, p), name, usage)
+func (f *FlagSet) mapInt32Float32Var(p *mapInt32Float32Value, name string, value mapInt32Float32Value, usage string, required, isset bool) {
+	f.Var(newmapInt32Float32Value(value, p), name, usage, required, isset)
 }
 
 // mapInt32Float32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt32Float32Var(p *mapInt32Float32Value, name string, value mapInt32Float32Value, usage string) {
-	CommandLine.Var(newmapInt32Float32Value(value, p), name, usage)
+func mapInt32Float32Var(p *mapInt32Float32Value, name string, value mapInt32Float32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt32Float32Value(value, p), name, usage, required, isset)
 }
 
 // mapInt32Float32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt32Float32(name string, value mapInt32Float32Value, usage string) *mapInt32Float32Value {
+func (f *FlagSet) mapInt32Float32(name string, value mapInt32Float32Value, usage string, required, isset bool) *mapInt32Float32Value {
 	p := new(mapInt32Float32Value)
-	f.mapInt32Float32Var(p, name, value, usage)
+	f.mapInt32Float32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt32Float32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt32Float32(name string, value mapInt32Float32Value, usage string) *mapInt32Float32Value {
-	return CommandLine.mapInt32Float32(name, value, usage)
+func mapInt32Float32(name string, value mapInt32Float32Value, usage string, required, isset bool) *mapInt32Float32Value {
+	return CommandLine.mapInt32Float32(name, value, usage, required, isset)
 }
 
 // mapInt32BoolValue []mapInt32BoolValue
@@ -4274,31 +4274,31 @@ func (slc *mapInt32BoolValue) String() string {
 // mapInt32BoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt32BoolVar(p *mapInt32BoolValue, name string, value mapInt32BoolValue, usage string) {
-	f.Var(newmapInt32BoolValue(value, p), name, usage)
+func (f *FlagSet) mapInt32BoolVar(p *mapInt32BoolValue, name string, value mapInt32BoolValue, usage string, required, isset bool) {
+	f.Var(newmapInt32BoolValue(value, p), name, usage, required, isset)
 }
 
 // mapInt32BoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt32BoolVar(p *mapInt32BoolValue, name string, value mapInt32BoolValue, usage string) {
-	CommandLine.Var(newmapInt32BoolValue(value, p), name, usage)
+func mapInt32BoolVar(p *mapInt32BoolValue, name string, value mapInt32BoolValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt32BoolValue(value, p), name, usage, required, isset)
 }
 
 // mapInt32BoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt32Bool(name string, value mapInt32BoolValue, usage string) *mapInt32BoolValue {
+func (f *FlagSet) mapInt32Bool(name string, value mapInt32BoolValue, usage string, required, isset bool) *mapInt32BoolValue {
 	p := new(mapInt32BoolValue)
-	f.mapInt32BoolVar(p, name, value, usage)
+	f.mapInt32BoolVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt32BoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt32Bool(name string, value mapInt32BoolValue, usage string) *mapInt32BoolValue {
-	return CommandLine.mapInt32Bool(name, value, usage)
+func mapInt32Bool(name string, value mapInt32BoolValue, usage string, required, isset bool) *mapInt32BoolValue {
+	return CommandLine.mapInt32Bool(name, value, usage, required, isset)
 }
 
 // mapInt32StringValue []mapInt32StringValue
@@ -4332,31 +4332,31 @@ func (slc *mapInt32StringValue) String() string {
 // mapInt32StringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt32StringVar(p *mapInt32StringValue, name string, value mapInt32StringValue, usage string) {
-	f.Var(newmapInt32StringValue(value, p), name, usage)
+func (f *FlagSet) mapInt32StringVar(p *mapInt32StringValue, name string, value mapInt32StringValue, usage string, required, isset bool) {
+	f.Var(newmapInt32StringValue(value, p), name, usage, required, isset)
 }
 
 // mapInt32StringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt32StringVar(p *mapInt32StringValue, name string, value mapInt32StringValue, usage string) {
-	CommandLine.Var(newmapInt32StringValue(value, p), name, usage)
+func mapInt32StringVar(p *mapInt32StringValue, name string, value mapInt32StringValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt32StringValue(value, p), name, usage, required, isset)
 }
 
 // mapInt32StringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt32String(name string, value mapInt32StringValue, usage string) *mapInt32StringValue {
+func (f *FlagSet) mapInt32String(name string, value mapInt32StringValue, usage string, required, isset bool) *mapInt32StringValue {
 	p := new(mapInt32StringValue)
-	f.mapInt32StringVar(p, name, value, usage)
+	f.mapInt32StringVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt32StringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt32String(name string, value mapInt32StringValue, usage string) *mapInt32StringValue {
-	return CommandLine.mapInt32String(name, value, usage)
+func mapInt32String(name string, value mapInt32StringValue, usage string, required, isset bool) *mapInt32StringValue {
+	return CommandLine.mapInt32String(name, value, usage, required, isset)
 }
 
 // mapInt64DurationValue []mapInt64DurationValue
@@ -4390,31 +4390,31 @@ func (slc *mapInt64DurationValue) String() string {
 // mapInt64DurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt64DurationVar(p *mapInt64DurationValue, name string, value mapInt64DurationValue, usage string) {
-	f.Var(newmapInt64DurationValue(value, p), name, usage)
+func (f *FlagSet) mapInt64DurationVar(p *mapInt64DurationValue, name string, value mapInt64DurationValue, usage string, required, isset bool) {
+	f.Var(newmapInt64DurationValue(value, p), name, usage, required, isset)
 }
 
 // mapInt64DurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt64DurationVar(p *mapInt64DurationValue, name string, value mapInt64DurationValue, usage string) {
-	CommandLine.Var(newmapInt64DurationValue(value, p), name, usage)
+func mapInt64DurationVar(p *mapInt64DurationValue, name string, value mapInt64DurationValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt64DurationValue(value, p), name, usage, required, isset)
 }
 
 // mapInt64DurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt64Duration(name string, value mapInt64DurationValue, usage string) *mapInt64DurationValue {
+func (f *FlagSet) mapInt64Duration(name string, value mapInt64DurationValue, usage string, required, isset bool) *mapInt64DurationValue {
 	p := new(mapInt64DurationValue)
-	f.mapInt64DurationVar(p, name, value, usage)
+	f.mapInt64DurationVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt64DurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt64Duration(name string, value mapInt64DurationValue, usage string) *mapInt64DurationValue {
-	return CommandLine.mapInt64Duration(name, value, usage)
+func mapInt64Duration(name string, value mapInt64DurationValue, usage string, required, isset bool) *mapInt64DurationValue {
+	return CommandLine.mapInt64Duration(name, value, usage, required, isset)
 }
 
 // mapInt64IntValue []mapInt64IntValue
@@ -4448,31 +4448,31 @@ func (slc *mapInt64IntValue) String() string {
 // mapInt64IntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt64IntVar(p *mapInt64IntValue, name string, value mapInt64IntValue, usage string) {
-	f.Var(newmapInt64IntValue(value, p), name, usage)
+func (f *FlagSet) mapInt64IntVar(p *mapInt64IntValue, name string, value mapInt64IntValue, usage string, required, isset bool) {
+	f.Var(newmapInt64IntValue(value, p), name, usage, required, isset)
 }
 
 // mapInt64IntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt64IntVar(p *mapInt64IntValue, name string, value mapInt64IntValue, usage string) {
-	CommandLine.Var(newmapInt64IntValue(value, p), name, usage)
+func mapInt64IntVar(p *mapInt64IntValue, name string, value mapInt64IntValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt64IntValue(value, p), name, usage, required, isset)
 }
 
 // mapInt64IntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt64Int(name string, value mapInt64IntValue, usage string) *mapInt64IntValue {
+func (f *FlagSet) mapInt64Int(name string, value mapInt64IntValue, usage string, required, isset bool) *mapInt64IntValue {
 	p := new(mapInt64IntValue)
-	f.mapInt64IntVar(p, name, value, usage)
+	f.mapInt64IntVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt64IntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt64Int(name string, value mapInt64IntValue, usage string) *mapInt64IntValue {
-	return CommandLine.mapInt64Int(name, value, usage)
+func mapInt64Int(name string, value mapInt64IntValue, usage string, required, isset bool) *mapInt64IntValue {
+	return CommandLine.mapInt64Int(name, value, usage, required, isset)
 }
 
 // mapInt64Int8Value []mapInt64Int8Value
@@ -4506,31 +4506,31 @@ func (slc *mapInt64Int8Value) String() string {
 // mapInt64Int8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt64Int8Var(p *mapInt64Int8Value, name string, value mapInt64Int8Value, usage string) {
-	f.Var(newmapInt64Int8Value(value, p), name, usage)
+func (f *FlagSet) mapInt64Int8Var(p *mapInt64Int8Value, name string, value mapInt64Int8Value, usage string, required, isset bool) {
+	f.Var(newmapInt64Int8Value(value, p), name, usage, required, isset)
 }
 
 // mapInt64Int8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt64Int8Var(p *mapInt64Int8Value, name string, value mapInt64Int8Value, usage string) {
-	CommandLine.Var(newmapInt64Int8Value(value, p), name, usage)
+func mapInt64Int8Var(p *mapInt64Int8Value, name string, value mapInt64Int8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt64Int8Value(value, p), name, usage, required, isset)
 }
 
 // mapInt64Int8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt64Int8(name string, value mapInt64Int8Value, usage string) *mapInt64Int8Value {
+func (f *FlagSet) mapInt64Int8(name string, value mapInt64Int8Value, usage string, required, isset bool) *mapInt64Int8Value {
 	p := new(mapInt64Int8Value)
-	f.mapInt64Int8Var(p, name, value, usage)
+	f.mapInt64Int8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt64Int8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt64Int8(name string, value mapInt64Int8Value, usage string) *mapInt64Int8Value {
-	return CommandLine.mapInt64Int8(name, value, usage)
+func mapInt64Int8(name string, value mapInt64Int8Value, usage string, required, isset bool) *mapInt64Int8Value {
+	return CommandLine.mapInt64Int8(name, value, usage, required, isset)
 }
 
 // mapInt64Int16Value []mapInt64Int16Value
@@ -4564,31 +4564,31 @@ func (slc *mapInt64Int16Value) String() string {
 // mapInt64Int16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt64Int16Var(p *mapInt64Int16Value, name string, value mapInt64Int16Value, usage string) {
-	f.Var(newmapInt64Int16Value(value, p), name, usage)
+func (f *FlagSet) mapInt64Int16Var(p *mapInt64Int16Value, name string, value mapInt64Int16Value, usage string, required, isset bool) {
+	f.Var(newmapInt64Int16Value(value, p), name, usage, required, isset)
 }
 
 // mapInt64Int16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt64Int16Var(p *mapInt64Int16Value, name string, value mapInt64Int16Value, usage string) {
-	CommandLine.Var(newmapInt64Int16Value(value, p), name, usage)
+func mapInt64Int16Var(p *mapInt64Int16Value, name string, value mapInt64Int16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt64Int16Value(value, p), name, usage, required, isset)
 }
 
 // mapInt64Int16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt64Int16(name string, value mapInt64Int16Value, usage string) *mapInt64Int16Value {
+func (f *FlagSet) mapInt64Int16(name string, value mapInt64Int16Value, usage string, required, isset bool) *mapInt64Int16Value {
 	p := new(mapInt64Int16Value)
-	f.mapInt64Int16Var(p, name, value, usage)
+	f.mapInt64Int16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt64Int16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt64Int16(name string, value mapInt64Int16Value, usage string) *mapInt64Int16Value {
-	return CommandLine.mapInt64Int16(name, value, usage)
+func mapInt64Int16(name string, value mapInt64Int16Value, usage string, required, isset bool) *mapInt64Int16Value {
+	return CommandLine.mapInt64Int16(name, value, usage, required, isset)
 }
 
 // mapInt64Int32Value []mapInt64Int32Value
@@ -4622,31 +4622,31 @@ func (slc *mapInt64Int32Value) String() string {
 // mapInt64Int32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt64Int32Var(p *mapInt64Int32Value, name string, value mapInt64Int32Value, usage string) {
-	f.Var(newmapInt64Int32Value(value, p), name, usage)
+func (f *FlagSet) mapInt64Int32Var(p *mapInt64Int32Value, name string, value mapInt64Int32Value, usage string, required, isset bool) {
+	f.Var(newmapInt64Int32Value(value, p), name, usage, required, isset)
 }
 
 // mapInt64Int32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt64Int32Var(p *mapInt64Int32Value, name string, value mapInt64Int32Value, usage string) {
-	CommandLine.Var(newmapInt64Int32Value(value, p), name, usage)
+func mapInt64Int32Var(p *mapInt64Int32Value, name string, value mapInt64Int32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt64Int32Value(value, p), name, usage, required, isset)
 }
 
 // mapInt64Int32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt64Int32(name string, value mapInt64Int32Value, usage string) *mapInt64Int32Value {
+func (f *FlagSet) mapInt64Int32(name string, value mapInt64Int32Value, usage string, required, isset bool) *mapInt64Int32Value {
 	p := new(mapInt64Int32Value)
-	f.mapInt64Int32Var(p, name, value, usage)
+	f.mapInt64Int32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt64Int32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt64Int32(name string, value mapInt64Int32Value, usage string) *mapInt64Int32Value {
-	return CommandLine.mapInt64Int32(name, value, usage)
+func mapInt64Int32(name string, value mapInt64Int32Value, usage string, required, isset bool) *mapInt64Int32Value {
+	return CommandLine.mapInt64Int32(name, value, usage, required, isset)
 }
 
 // mapInt64Int64Value []mapInt64Int64Value
@@ -4680,31 +4680,31 @@ func (slc *mapInt64Int64Value) String() string {
 // mapInt64Int64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt64Int64Var(p *mapInt64Int64Value, name string, value mapInt64Int64Value, usage string) {
-	f.Var(newmapInt64Int64Value(value, p), name, usage)
+func (f *FlagSet) mapInt64Int64Var(p *mapInt64Int64Value, name string, value mapInt64Int64Value, usage string, required, isset bool) {
+	f.Var(newmapInt64Int64Value(value, p), name, usage, required, isset)
 }
 
 // mapInt64Int64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt64Int64Var(p *mapInt64Int64Value, name string, value mapInt64Int64Value, usage string) {
-	CommandLine.Var(newmapInt64Int64Value(value, p), name, usage)
+func mapInt64Int64Var(p *mapInt64Int64Value, name string, value mapInt64Int64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt64Int64Value(value, p), name, usage, required, isset)
 }
 
 // mapInt64Int64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt64Int64(name string, value mapInt64Int64Value, usage string) *mapInt64Int64Value {
+func (f *FlagSet) mapInt64Int64(name string, value mapInt64Int64Value, usage string, required, isset bool) *mapInt64Int64Value {
 	p := new(mapInt64Int64Value)
-	f.mapInt64Int64Var(p, name, value, usage)
+	f.mapInt64Int64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt64Int64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt64Int64(name string, value mapInt64Int64Value, usage string) *mapInt64Int64Value {
-	return CommandLine.mapInt64Int64(name, value, usage)
+func mapInt64Int64(name string, value mapInt64Int64Value, usage string, required, isset bool) *mapInt64Int64Value {
+	return CommandLine.mapInt64Int64(name, value, usage, required, isset)
 }
 
 // mapInt64UintValue []mapInt64UintValue
@@ -4738,31 +4738,31 @@ func (slc *mapInt64UintValue) String() string {
 // mapInt64UintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt64UintVar(p *mapInt64UintValue, name string, value mapInt64UintValue, usage string) {
-	f.Var(newmapInt64UintValue(value, p), name, usage)
+func (f *FlagSet) mapInt64UintVar(p *mapInt64UintValue, name string, value mapInt64UintValue, usage string, required, isset bool) {
+	f.Var(newmapInt64UintValue(value, p), name, usage, required, isset)
 }
 
 // mapInt64UintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt64UintVar(p *mapInt64UintValue, name string, value mapInt64UintValue, usage string) {
-	CommandLine.Var(newmapInt64UintValue(value, p), name, usage)
+func mapInt64UintVar(p *mapInt64UintValue, name string, value mapInt64UintValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt64UintValue(value, p), name, usage, required, isset)
 }
 
 // mapInt64UintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt64Uint(name string, value mapInt64UintValue, usage string) *mapInt64UintValue {
+func (f *FlagSet) mapInt64Uint(name string, value mapInt64UintValue, usage string, required, isset bool) *mapInt64UintValue {
 	p := new(mapInt64UintValue)
-	f.mapInt64UintVar(p, name, value, usage)
+	f.mapInt64UintVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt64UintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt64Uint(name string, value mapInt64UintValue, usage string) *mapInt64UintValue {
-	return CommandLine.mapInt64Uint(name, value, usage)
+func mapInt64Uint(name string, value mapInt64UintValue, usage string, required, isset bool) *mapInt64UintValue {
+	return CommandLine.mapInt64Uint(name, value, usage, required, isset)
 }
 
 // mapInt64Uint8Value []mapInt64Uint8Value
@@ -4796,31 +4796,31 @@ func (slc *mapInt64Uint8Value) String() string {
 // mapInt64Uint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt64Uint8Var(p *mapInt64Uint8Value, name string, value mapInt64Uint8Value, usage string) {
-	f.Var(newmapInt64Uint8Value(value, p), name, usage)
+func (f *FlagSet) mapInt64Uint8Var(p *mapInt64Uint8Value, name string, value mapInt64Uint8Value, usage string, required, isset bool) {
+	f.Var(newmapInt64Uint8Value(value, p), name, usage, required, isset)
 }
 
 // mapInt64Uint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt64Uint8Var(p *mapInt64Uint8Value, name string, value mapInt64Uint8Value, usage string) {
-	CommandLine.Var(newmapInt64Uint8Value(value, p), name, usage)
+func mapInt64Uint8Var(p *mapInt64Uint8Value, name string, value mapInt64Uint8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt64Uint8Value(value, p), name, usage, required, isset)
 }
 
 // mapInt64Uint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt64Uint8(name string, value mapInt64Uint8Value, usage string) *mapInt64Uint8Value {
+func (f *FlagSet) mapInt64Uint8(name string, value mapInt64Uint8Value, usage string, required, isset bool) *mapInt64Uint8Value {
 	p := new(mapInt64Uint8Value)
-	f.mapInt64Uint8Var(p, name, value, usage)
+	f.mapInt64Uint8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt64Uint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt64Uint8(name string, value mapInt64Uint8Value, usage string) *mapInt64Uint8Value {
-	return CommandLine.mapInt64Uint8(name, value, usage)
+func mapInt64Uint8(name string, value mapInt64Uint8Value, usage string, required, isset bool) *mapInt64Uint8Value {
+	return CommandLine.mapInt64Uint8(name, value, usage, required, isset)
 }
 
 // mapInt64Uint16Value []mapInt64Uint16Value
@@ -4854,31 +4854,31 @@ func (slc *mapInt64Uint16Value) String() string {
 // mapInt64Uint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt64Uint16Var(p *mapInt64Uint16Value, name string, value mapInt64Uint16Value, usage string) {
-	f.Var(newmapInt64Uint16Value(value, p), name, usage)
+func (f *FlagSet) mapInt64Uint16Var(p *mapInt64Uint16Value, name string, value mapInt64Uint16Value, usage string, required, isset bool) {
+	f.Var(newmapInt64Uint16Value(value, p), name, usage, required, isset)
 }
 
 // mapInt64Uint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt64Uint16Var(p *mapInt64Uint16Value, name string, value mapInt64Uint16Value, usage string) {
-	CommandLine.Var(newmapInt64Uint16Value(value, p), name, usage)
+func mapInt64Uint16Var(p *mapInt64Uint16Value, name string, value mapInt64Uint16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt64Uint16Value(value, p), name, usage, required, isset)
 }
 
 // mapInt64Uint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt64Uint16(name string, value mapInt64Uint16Value, usage string) *mapInt64Uint16Value {
+func (f *FlagSet) mapInt64Uint16(name string, value mapInt64Uint16Value, usage string, required, isset bool) *mapInt64Uint16Value {
 	p := new(mapInt64Uint16Value)
-	f.mapInt64Uint16Var(p, name, value, usage)
+	f.mapInt64Uint16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt64Uint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt64Uint16(name string, value mapInt64Uint16Value, usage string) *mapInt64Uint16Value {
-	return CommandLine.mapInt64Uint16(name, value, usage)
+func mapInt64Uint16(name string, value mapInt64Uint16Value, usage string, required, isset bool) *mapInt64Uint16Value {
+	return CommandLine.mapInt64Uint16(name, value, usage, required, isset)
 }
 
 // mapInt64Uint32Value []mapInt64Uint32Value
@@ -4912,31 +4912,31 @@ func (slc *mapInt64Uint32Value) String() string {
 // mapInt64Uint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt64Uint32Var(p *mapInt64Uint32Value, name string, value mapInt64Uint32Value, usage string) {
-	f.Var(newmapInt64Uint32Value(value, p), name, usage)
+func (f *FlagSet) mapInt64Uint32Var(p *mapInt64Uint32Value, name string, value mapInt64Uint32Value, usage string, required, isset bool) {
+	f.Var(newmapInt64Uint32Value(value, p), name, usage, required, isset)
 }
 
 // mapInt64Uint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt64Uint32Var(p *mapInt64Uint32Value, name string, value mapInt64Uint32Value, usage string) {
-	CommandLine.Var(newmapInt64Uint32Value(value, p), name, usage)
+func mapInt64Uint32Var(p *mapInt64Uint32Value, name string, value mapInt64Uint32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt64Uint32Value(value, p), name, usage, required, isset)
 }
 
 // mapInt64Uint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt64Uint32(name string, value mapInt64Uint32Value, usage string) *mapInt64Uint32Value {
+func (f *FlagSet) mapInt64Uint32(name string, value mapInt64Uint32Value, usage string, required, isset bool) *mapInt64Uint32Value {
 	p := new(mapInt64Uint32Value)
-	f.mapInt64Uint32Var(p, name, value, usage)
+	f.mapInt64Uint32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt64Uint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt64Uint32(name string, value mapInt64Uint32Value, usage string) *mapInt64Uint32Value {
-	return CommandLine.mapInt64Uint32(name, value, usage)
+func mapInt64Uint32(name string, value mapInt64Uint32Value, usage string, required, isset bool) *mapInt64Uint32Value {
+	return CommandLine.mapInt64Uint32(name, value, usage, required, isset)
 }
 
 // mapInt64Uint64Value []mapInt64Uint64Value
@@ -4970,31 +4970,31 @@ func (slc *mapInt64Uint64Value) String() string {
 // mapInt64Uint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt64Uint64Var(p *mapInt64Uint64Value, name string, value mapInt64Uint64Value, usage string) {
-	f.Var(newmapInt64Uint64Value(value, p), name, usage)
+func (f *FlagSet) mapInt64Uint64Var(p *mapInt64Uint64Value, name string, value mapInt64Uint64Value, usage string, required, isset bool) {
+	f.Var(newmapInt64Uint64Value(value, p), name, usage, required, isset)
 }
 
 // mapInt64Uint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt64Uint64Var(p *mapInt64Uint64Value, name string, value mapInt64Uint64Value, usage string) {
-	CommandLine.Var(newmapInt64Uint64Value(value, p), name, usage)
+func mapInt64Uint64Var(p *mapInt64Uint64Value, name string, value mapInt64Uint64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt64Uint64Value(value, p), name, usage, required, isset)
 }
 
 // mapInt64Uint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt64Uint64(name string, value mapInt64Uint64Value, usage string) *mapInt64Uint64Value {
+func (f *FlagSet) mapInt64Uint64(name string, value mapInt64Uint64Value, usage string, required, isset bool) *mapInt64Uint64Value {
 	p := new(mapInt64Uint64Value)
-	f.mapInt64Uint64Var(p, name, value, usage)
+	f.mapInt64Uint64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt64Uint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt64Uint64(name string, value mapInt64Uint64Value, usage string) *mapInt64Uint64Value {
-	return CommandLine.mapInt64Uint64(name, value, usage)
+func mapInt64Uint64(name string, value mapInt64Uint64Value, usage string, required, isset bool) *mapInt64Uint64Value {
+	return CommandLine.mapInt64Uint64(name, value, usage, required, isset)
 }
 
 // mapInt64Float64Value []mapInt64Float64Value
@@ -5028,31 +5028,31 @@ func (slc *mapInt64Float64Value) String() string {
 // mapInt64Float64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt64Float64Var(p *mapInt64Float64Value, name string, value mapInt64Float64Value, usage string) {
-	f.Var(newmapInt64Float64Value(value, p), name, usage)
+func (f *FlagSet) mapInt64Float64Var(p *mapInt64Float64Value, name string, value mapInt64Float64Value, usage string, required, isset bool) {
+	f.Var(newmapInt64Float64Value(value, p), name, usage, required, isset)
 }
 
 // mapInt64Float64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt64Float64Var(p *mapInt64Float64Value, name string, value mapInt64Float64Value, usage string) {
-	CommandLine.Var(newmapInt64Float64Value(value, p), name, usage)
+func mapInt64Float64Var(p *mapInt64Float64Value, name string, value mapInt64Float64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt64Float64Value(value, p), name, usage, required, isset)
 }
 
 // mapInt64Float64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt64Float64(name string, value mapInt64Float64Value, usage string) *mapInt64Float64Value {
+func (f *FlagSet) mapInt64Float64(name string, value mapInt64Float64Value, usage string, required, isset bool) *mapInt64Float64Value {
 	p := new(mapInt64Float64Value)
-	f.mapInt64Float64Var(p, name, value, usage)
+	f.mapInt64Float64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt64Float64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt64Float64(name string, value mapInt64Float64Value, usage string) *mapInt64Float64Value {
-	return CommandLine.mapInt64Float64(name, value, usage)
+func mapInt64Float64(name string, value mapInt64Float64Value, usage string, required, isset bool) *mapInt64Float64Value {
+	return CommandLine.mapInt64Float64(name, value, usage, required, isset)
 }
 
 // mapInt64Float32Value []mapInt64Float32Value
@@ -5086,31 +5086,31 @@ func (slc *mapInt64Float32Value) String() string {
 // mapInt64Float32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt64Float32Var(p *mapInt64Float32Value, name string, value mapInt64Float32Value, usage string) {
-	f.Var(newmapInt64Float32Value(value, p), name, usage)
+func (f *FlagSet) mapInt64Float32Var(p *mapInt64Float32Value, name string, value mapInt64Float32Value, usage string, required, isset bool) {
+	f.Var(newmapInt64Float32Value(value, p), name, usage, required, isset)
 }
 
 // mapInt64Float32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt64Float32Var(p *mapInt64Float32Value, name string, value mapInt64Float32Value, usage string) {
-	CommandLine.Var(newmapInt64Float32Value(value, p), name, usage)
+func mapInt64Float32Var(p *mapInt64Float32Value, name string, value mapInt64Float32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt64Float32Value(value, p), name, usage, required, isset)
 }
 
 // mapInt64Float32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt64Float32(name string, value mapInt64Float32Value, usage string) *mapInt64Float32Value {
+func (f *FlagSet) mapInt64Float32(name string, value mapInt64Float32Value, usage string, required, isset bool) *mapInt64Float32Value {
 	p := new(mapInt64Float32Value)
-	f.mapInt64Float32Var(p, name, value, usage)
+	f.mapInt64Float32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt64Float32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt64Float32(name string, value mapInt64Float32Value, usage string) *mapInt64Float32Value {
-	return CommandLine.mapInt64Float32(name, value, usage)
+func mapInt64Float32(name string, value mapInt64Float32Value, usage string, required, isset bool) *mapInt64Float32Value {
+	return CommandLine.mapInt64Float32(name, value, usage, required, isset)
 }
 
 // mapInt64BoolValue []mapInt64BoolValue
@@ -5144,31 +5144,31 @@ func (slc *mapInt64BoolValue) String() string {
 // mapInt64BoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt64BoolVar(p *mapInt64BoolValue, name string, value mapInt64BoolValue, usage string) {
-	f.Var(newmapInt64BoolValue(value, p), name, usage)
+func (f *FlagSet) mapInt64BoolVar(p *mapInt64BoolValue, name string, value mapInt64BoolValue, usage string, required, isset bool) {
+	f.Var(newmapInt64BoolValue(value, p), name, usage, required, isset)
 }
 
 // mapInt64BoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt64BoolVar(p *mapInt64BoolValue, name string, value mapInt64BoolValue, usage string) {
-	CommandLine.Var(newmapInt64BoolValue(value, p), name, usage)
+func mapInt64BoolVar(p *mapInt64BoolValue, name string, value mapInt64BoolValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt64BoolValue(value, p), name, usage, required, isset)
 }
 
 // mapInt64BoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt64Bool(name string, value mapInt64BoolValue, usage string) *mapInt64BoolValue {
+func (f *FlagSet) mapInt64Bool(name string, value mapInt64BoolValue, usage string, required, isset bool) *mapInt64BoolValue {
 	p := new(mapInt64BoolValue)
-	f.mapInt64BoolVar(p, name, value, usage)
+	f.mapInt64BoolVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt64BoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt64Bool(name string, value mapInt64BoolValue, usage string) *mapInt64BoolValue {
-	return CommandLine.mapInt64Bool(name, value, usage)
+func mapInt64Bool(name string, value mapInt64BoolValue, usage string, required, isset bool) *mapInt64BoolValue {
+	return CommandLine.mapInt64Bool(name, value, usage, required, isset)
 }
 
 // mapInt64StringValue []mapInt64StringValue
@@ -5202,31 +5202,31 @@ func (slc *mapInt64StringValue) String() string {
 // mapInt64StringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapInt64StringVar(p *mapInt64StringValue, name string, value mapInt64StringValue, usage string) {
-	f.Var(newmapInt64StringValue(value, p), name, usage)
+func (f *FlagSet) mapInt64StringVar(p *mapInt64StringValue, name string, value mapInt64StringValue, usage string, required, isset bool) {
+	f.Var(newmapInt64StringValue(value, p), name, usage, required, isset)
 }
 
 // mapInt64StringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapInt64StringVar(p *mapInt64StringValue, name string, value mapInt64StringValue, usage string) {
-	CommandLine.Var(newmapInt64StringValue(value, p), name, usage)
+func mapInt64StringVar(p *mapInt64StringValue, name string, value mapInt64StringValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapInt64StringValue(value, p), name, usage, required, isset)
 }
 
 // mapInt64StringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapInt64String(name string, value mapInt64StringValue, usage string) *mapInt64StringValue {
+func (f *FlagSet) mapInt64String(name string, value mapInt64StringValue, usage string, required, isset bool) *mapInt64StringValue {
 	p := new(mapInt64StringValue)
-	f.mapInt64StringVar(p, name, value, usage)
+	f.mapInt64StringVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapInt64StringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapInt64String(name string, value mapInt64StringValue, usage string) *mapInt64StringValue {
-	return CommandLine.mapInt64String(name, value, usage)
+func mapInt64String(name string, value mapInt64StringValue, usage string, required, isset bool) *mapInt64StringValue {
+	return CommandLine.mapInt64String(name, value, usage, required, isset)
 }
 
 // mapUintDurationValue []mapUintDurationValue
@@ -5260,31 +5260,31 @@ func (slc *mapUintDurationValue) String() string {
 // mapUintDurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUintDurationVar(p *mapUintDurationValue, name string, value mapUintDurationValue, usage string) {
-	f.Var(newmapUintDurationValue(value, p), name, usage)
+func (f *FlagSet) mapUintDurationVar(p *mapUintDurationValue, name string, value mapUintDurationValue, usage string, required, isset bool) {
+	f.Var(newmapUintDurationValue(value, p), name, usage, required, isset)
 }
 
 // mapUintDurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUintDurationVar(p *mapUintDurationValue, name string, value mapUintDurationValue, usage string) {
-	CommandLine.Var(newmapUintDurationValue(value, p), name, usage)
+func mapUintDurationVar(p *mapUintDurationValue, name string, value mapUintDurationValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapUintDurationValue(value, p), name, usage, required, isset)
 }
 
 // mapUintDurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUintDuration(name string, value mapUintDurationValue, usage string) *mapUintDurationValue {
+func (f *FlagSet) mapUintDuration(name string, value mapUintDurationValue, usage string, required, isset bool) *mapUintDurationValue {
 	p := new(mapUintDurationValue)
-	f.mapUintDurationVar(p, name, value, usage)
+	f.mapUintDurationVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUintDurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUintDuration(name string, value mapUintDurationValue, usage string) *mapUintDurationValue {
-	return CommandLine.mapUintDuration(name, value, usage)
+func mapUintDuration(name string, value mapUintDurationValue, usage string, required, isset bool) *mapUintDurationValue {
+	return CommandLine.mapUintDuration(name, value, usage, required, isset)
 }
 
 // mapUintIntValue []mapUintIntValue
@@ -5318,31 +5318,31 @@ func (slc *mapUintIntValue) String() string {
 // mapUintIntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUintIntVar(p *mapUintIntValue, name string, value mapUintIntValue, usage string) {
-	f.Var(newmapUintIntValue(value, p), name, usage)
+func (f *FlagSet) mapUintIntVar(p *mapUintIntValue, name string, value mapUintIntValue, usage string, required, isset bool) {
+	f.Var(newmapUintIntValue(value, p), name, usage, required, isset)
 }
 
 // mapUintIntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUintIntVar(p *mapUintIntValue, name string, value mapUintIntValue, usage string) {
-	CommandLine.Var(newmapUintIntValue(value, p), name, usage)
+func mapUintIntVar(p *mapUintIntValue, name string, value mapUintIntValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapUintIntValue(value, p), name, usage, required, isset)
 }
 
 // mapUintIntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUintInt(name string, value mapUintIntValue, usage string) *mapUintIntValue {
+func (f *FlagSet) mapUintInt(name string, value mapUintIntValue, usage string, required, isset bool) *mapUintIntValue {
 	p := new(mapUintIntValue)
-	f.mapUintIntVar(p, name, value, usage)
+	f.mapUintIntVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUintIntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUintInt(name string, value mapUintIntValue, usage string) *mapUintIntValue {
-	return CommandLine.mapUintInt(name, value, usage)
+func mapUintInt(name string, value mapUintIntValue, usage string, required, isset bool) *mapUintIntValue {
+	return CommandLine.mapUintInt(name, value, usage, required, isset)
 }
 
 // mapUintInt8Value []mapUintInt8Value
@@ -5376,31 +5376,31 @@ func (slc *mapUintInt8Value) String() string {
 // mapUintInt8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUintInt8Var(p *mapUintInt8Value, name string, value mapUintInt8Value, usage string) {
-	f.Var(newmapUintInt8Value(value, p), name, usage)
+func (f *FlagSet) mapUintInt8Var(p *mapUintInt8Value, name string, value mapUintInt8Value, usage string, required, isset bool) {
+	f.Var(newmapUintInt8Value(value, p), name, usage, required, isset)
 }
 
 // mapUintInt8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUintInt8Var(p *mapUintInt8Value, name string, value mapUintInt8Value, usage string) {
-	CommandLine.Var(newmapUintInt8Value(value, p), name, usage)
+func mapUintInt8Var(p *mapUintInt8Value, name string, value mapUintInt8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUintInt8Value(value, p), name, usage, required, isset)
 }
 
 // mapUintInt8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUintInt8(name string, value mapUintInt8Value, usage string) *mapUintInt8Value {
+func (f *FlagSet) mapUintInt8(name string, value mapUintInt8Value, usage string, required, isset bool) *mapUintInt8Value {
 	p := new(mapUintInt8Value)
-	f.mapUintInt8Var(p, name, value, usage)
+	f.mapUintInt8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUintInt8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUintInt8(name string, value mapUintInt8Value, usage string) *mapUintInt8Value {
-	return CommandLine.mapUintInt8(name, value, usage)
+func mapUintInt8(name string, value mapUintInt8Value, usage string, required, isset bool) *mapUintInt8Value {
+	return CommandLine.mapUintInt8(name, value, usage, required, isset)
 }
 
 // mapUintInt16Value []mapUintInt16Value
@@ -5434,31 +5434,31 @@ func (slc *mapUintInt16Value) String() string {
 // mapUintInt16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUintInt16Var(p *mapUintInt16Value, name string, value mapUintInt16Value, usage string) {
-	f.Var(newmapUintInt16Value(value, p), name, usage)
+func (f *FlagSet) mapUintInt16Var(p *mapUintInt16Value, name string, value mapUintInt16Value, usage string, required, isset bool) {
+	f.Var(newmapUintInt16Value(value, p), name, usage, required, isset)
 }
 
 // mapUintInt16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUintInt16Var(p *mapUintInt16Value, name string, value mapUintInt16Value, usage string) {
-	CommandLine.Var(newmapUintInt16Value(value, p), name, usage)
+func mapUintInt16Var(p *mapUintInt16Value, name string, value mapUintInt16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUintInt16Value(value, p), name, usage, required, isset)
 }
 
 // mapUintInt16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUintInt16(name string, value mapUintInt16Value, usage string) *mapUintInt16Value {
+func (f *FlagSet) mapUintInt16(name string, value mapUintInt16Value, usage string, required, isset bool) *mapUintInt16Value {
 	p := new(mapUintInt16Value)
-	f.mapUintInt16Var(p, name, value, usage)
+	f.mapUintInt16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUintInt16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUintInt16(name string, value mapUintInt16Value, usage string) *mapUintInt16Value {
-	return CommandLine.mapUintInt16(name, value, usage)
+func mapUintInt16(name string, value mapUintInt16Value, usage string, required, isset bool) *mapUintInt16Value {
+	return CommandLine.mapUintInt16(name, value, usage, required, isset)
 }
 
 // mapUintInt32Value []mapUintInt32Value
@@ -5492,31 +5492,31 @@ func (slc *mapUintInt32Value) String() string {
 // mapUintInt32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUintInt32Var(p *mapUintInt32Value, name string, value mapUintInt32Value, usage string) {
-	f.Var(newmapUintInt32Value(value, p), name, usage)
+func (f *FlagSet) mapUintInt32Var(p *mapUintInt32Value, name string, value mapUintInt32Value, usage string, required, isset bool) {
+	f.Var(newmapUintInt32Value(value, p), name, usage, required, isset)
 }
 
 // mapUintInt32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUintInt32Var(p *mapUintInt32Value, name string, value mapUintInt32Value, usage string) {
-	CommandLine.Var(newmapUintInt32Value(value, p), name, usage)
+func mapUintInt32Var(p *mapUintInt32Value, name string, value mapUintInt32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUintInt32Value(value, p), name, usage, required, isset)
 }
 
 // mapUintInt32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUintInt32(name string, value mapUintInt32Value, usage string) *mapUintInt32Value {
+func (f *FlagSet) mapUintInt32(name string, value mapUintInt32Value, usage string, required, isset bool) *mapUintInt32Value {
 	p := new(mapUintInt32Value)
-	f.mapUintInt32Var(p, name, value, usage)
+	f.mapUintInt32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUintInt32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUintInt32(name string, value mapUintInt32Value, usage string) *mapUintInt32Value {
-	return CommandLine.mapUintInt32(name, value, usage)
+func mapUintInt32(name string, value mapUintInt32Value, usage string, required, isset bool) *mapUintInt32Value {
+	return CommandLine.mapUintInt32(name, value, usage, required, isset)
 }
 
 // mapUintInt64Value []mapUintInt64Value
@@ -5550,31 +5550,31 @@ func (slc *mapUintInt64Value) String() string {
 // mapUintInt64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUintInt64Var(p *mapUintInt64Value, name string, value mapUintInt64Value, usage string) {
-	f.Var(newmapUintInt64Value(value, p), name, usage)
+func (f *FlagSet) mapUintInt64Var(p *mapUintInt64Value, name string, value mapUintInt64Value, usage string, required, isset bool) {
+	f.Var(newmapUintInt64Value(value, p), name, usage, required, isset)
 }
 
 // mapUintInt64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUintInt64Var(p *mapUintInt64Value, name string, value mapUintInt64Value, usage string) {
-	CommandLine.Var(newmapUintInt64Value(value, p), name, usage)
+func mapUintInt64Var(p *mapUintInt64Value, name string, value mapUintInt64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUintInt64Value(value, p), name, usage, required, isset)
 }
 
 // mapUintInt64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUintInt64(name string, value mapUintInt64Value, usage string) *mapUintInt64Value {
+func (f *FlagSet) mapUintInt64(name string, value mapUintInt64Value, usage string, required, isset bool) *mapUintInt64Value {
 	p := new(mapUintInt64Value)
-	f.mapUintInt64Var(p, name, value, usage)
+	f.mapUintInt64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUintInt64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUintInt64(name string, value mapUintInt64Value, usage string) *mapUintInt64Value {
-	return CommandLine.mapUintInt64(name, value, usage)
+func mapUintInt64(name string, value mapUintInt64Value, usage string, required, isset bool) *mapUintInt64Value {
+	return CommandLine.mapUintInt64(name, value, usage, required, isset)
 }
 
 // mapUintUintValue []mapUintUintValue
@@ -5608,31 +5608,31 @@ func (slc *mapUintUintValue) String() string {
 // mapUintUintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUintUintVar(p *mapUintUintValue, name string, value mapUintUintValue, usage string) {
-	f.Var(newmapUintUintValue(value, p), name, usage)
+func (f *FlagSet) mapUintUintVar(p *mapUintUintValue, name string, value mapUintUintValue, usage string, required, isset bool) {
+	f.Var(newmapUintUintValue(value, p), name, usage, required, isset)
 }
 
 // mapUintUintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUintUintVar(p *mapUintUintValue, name string, value mapUintUintValue, usage string) {
-	CommandLine.Var(newmapUintUintValue(value, p), name, usage)
+func mapUintUintVar(p *mapUintUintValue, name string, value mapUintUintValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapUintUintValue(value, p), name, usage, required, isset)
 }
 
 // mapUintUintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUintUint(name string, value mapUintUintValue, usage string) *mapUintUintValue {
+func (f *FlagSet) mapUintUint(name string, value mapUintUintValue, usage string, required, isset bool) *mapUintUintValue {
 	p := new(mapUintUintValue)
-	f.mapUintUintVar(p, name, value, usage)
+	f.mapUintUintVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUintUintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUintUint(name string, value mapUintUintValue, usage string) *mapUintUintValue {
-	return CommandLine.mapUintUint(name, value, usage)
+func mapUintUint(name string, value mapUintUintValue, usage string, required, isset bool) *mapUintUintValue {
+	return CommandLine.mapUintUint(name, value, usage, required, isset)
 }
 
 // mapUintUint8Value []mapUintUint8Value
@@ -5666,31 +5666,31 @@ func (slc *mapUintUint8Value) String() string {
 // mapUintUint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUintUint8Var(p *mapUintUint8Value, name string, value mapUintUint8Value, usage string) {
-	f.Var(newmapUintUint8Value(value, p), name, usage)
+func (f *FlagSet) mapUintUint8Var(p *mapUintUint8Value, name string, value mapUintUint8Value, usage string, required, isset bool) {
+	f.Var(newmapUintUint8Value(value, p), name, usage, required, isset)
 }
 
 // mapUintUint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUintUint8Var(p *mapUintUint8Value, name string, value mapUintUint8Value, usage string) {
-	CommandLine.Var(newmapUintUint8Value(value, p), name, usage)
+func mapUintUint8Var(p *mapUintUint8Value, name string, value mapUintUint8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUintUint8Value(value, p), name, usage, required, isset)
 }
 
 // mapUintUint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUintUint8(name string, value mapUintUint8Value, usage string) *mapUintUint8Value {
+func (f *FlagSet) mapUintUint8(name string, value mapUintUint8Value, usage string, required, isset bool) *mapUintUint8Value {
 	p := new(mapUintUint8Value)
-	f.mapUintUint8Var(p, name, value, usage)
+	f.mapUintUint8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUintUint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUintUint8(name string, value mapUintUint8Value, usage string) *mapUintUint8Value {
-	return CommandLine.mapUintUint8(name, value, usage)
+func mapUintUint8(name string, value mapUintUint8Value, usage string, required, isset bool) *mapUintUint8Value {
+	return CommandLine.mapUintUint8(name, value, usage, required, isset)
 }
 
 // mapUintUint16Value []mapUintUint16Value
@@ -5724,31 +5724,31 @@ func (slc *mapUintUint16Value) String() string {
 // mapUintUint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUintUint16Var(p *mapUintUint16Value, name string, value mapUintUint16Value, usage string) {
-	f.Var(newmapUintUint16Value(value, p), name, usage)
+func (f *FlagSet) mapUintUint16Var(p *mapUintUint16Value, name string, value mapUintUint16Value, usage string, required, isset bool) {
+	f.Var(newmapUintUint16Value(value, p), name, usage, required, isset)
 }
 
 // mapUintUint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUintUint16Var(p *mapUintUint16Value, name string, value mapUintUint16Value, usage string) {
-	CommandLine.Var(newmapUintUint16Value(value, p), name, usage)
+func mapUintUint16Var(p *mapUintUint16Value, name string, value mapUintUint16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUintUint16Value(value, p), name, usage, required, isset)
 }
 
 // mapUintUint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUintUint16(name string, value mapUintUint16Value, usage string) *mapUintUint16Value {
+func (f *FlagSet) mapUintUint16(name string, value mapUintUint16Value, usage string, required, isset bool) *mapUintUint16Value {
 	p := new(mapUintUint16Value)
-	f.mapUintUint16Var(p, name, value, usage)
+	f.mapUintUint16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUintUint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUintUint16(name string, value mapUintUint16Value, usage string) *mapUintUint16Value {
-	return CommandLine.mapUintUint16(name, value, usage)
+func mapUintUint16(name string, value mapUintUint16Value, usage string, required, isset bool) *mapUintUint16Value {
+	return CommandLine.mapUintUint16(name, value, usage, required, isset)
 }
 
 // mapUintUint32Value []mapUintUint32Value
@@ -5782,31 +5782,31 @@ func (slc *mapUintUint32Value) String() string {
 // mapUintUint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUintUint32Var(p *mapUintUint32Value, name string, value mapUintUint32Value, usage string) {
-	f.Var(newmapUintUint32Value(value, p), name, usage)
+func (f *FlagSet) mapUintUint32Var(p *mapUintUint32Value, name string, value mapUintUint32Value, usage string, required, isset bool) {
+	f.Var(newmapUintUint32Value(value, p), name, usage, required, isset)
 }
 
 // mapUintUint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUintUint32Var(p *mapUintUint32Value, name string, value mapUintUint32Value, usage string) {
-	CommandLine.Var(newmapUintUint32Value(value, p), name, usage)
+func mapUintUint32Var(p *mapUintUint32Value, name string, value mapUintUint32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUintUint32Value(value, p), name, usage, required, isset)
 }
 
 // mapUintUint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUintUint32(name string, value mapUintUint32Value, usage string) *mapUintUint32Value {
+func (f *FlagSet) mapUintUint32(name string, value mapUintUint32Value, usage string, required, isset bool) *mapUintUint32Value {
 	p := new(mapUintUint32Value)
-	f.mapUintUint32Var(p, name, value, usage)
+	f.mapUintUint32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUintUint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUintUint32(name string, value mapUintUint32Value, usage string) *mapUintUint32Value {
-	return CommandLine.mapUintUint32(name, value, usage)
+func mapUintUint32(name string, value mapUintUint32Value, usage string, required, isset bool) *mapUintUint32Value {
+	return CommandLine.mapUintUint32(name, value, usage, required, isset)
 }
 
 // mapUintUint64Value []mapUintUint64Value
@@ -5840,31 +5840,31 @@ func (slc *mapUintUint64Value) String() string {
 // mapUintUint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUintUint64Var(p *mapUintUint64Value, name string, value mapUintUint64Value, usage string) {
-	f.Var(newmapUintUint64Value(value, p), name, usage)
+func (f *FlagSet) mapUintUint64Var(p *mapUintUint64Value, name string, value mapUintUint64Value, usage string, required, isset bool) {
+	f.Var(newmapUintUint64Value(value, p), name, usage, required, isset)
 }
 
 // mapUintUint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUintUint64Var(p *mapUintUint64Value, name string, value mapUintUint64Value, usage string) {
-	CommandLine.Var(newmapUintUint64Value(value, p), name, usage)
+func mapUintUint64Var(p *mapUintUint64Value, name string, value mapUintUint64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUintUint64Value(value, p), name, usage, required, isset)
 }
 
 // mapUintUint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUintUint64(name string, value mapUintUint64Value, usage string) *mapUintUint64Value {
+func (f *FlagSet) mapUintUint64(name string, value mapUintUint64Value, usage string, required, isset bool) *mapUintUint64Value {
 	p := new(mapUintUint64Value)
-	f.mapUintUint64Var(p, name, value, usage)
+	f.mapUintUint64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUintUint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUintUint64(name string, value mapUintUint64Value, usage string) *mapUintUint64Value {
-	return CommandLine.mapUintUint64(name, value, usage)
+func mapUintUint64(name string, value mapUintUint64Value, usage string, required, isset bool) *mapUintUint64Value {
+	return CommandLine.mapUintUint64(name, value, usage, required, isset)
 }
 
 // mapUintFloat64Value []mapUintFloat64Value
@@ -5898,31 +5898,31 @@ func (slc *mapUintFloat64Value) String() string {
 // mapUintFloat64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUintFloat64Var(p *mapUintFloat64Value, name string, value mapUintFloat64Value, usage string) {
-	f.Var(newmapUintFloat64Value(value, p), name, usage)
+func (f *FlagSet) mapUintFloat64Var(p *mapUintFloat64Value, name string, value mapUintFloat64Value, usage string, required, isset bool) {
+	f.Var(newmapUintFloat64Value(value, p), name, usage, required, isset)
 }
 
 // mapUintFloat64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUintFloat64Var(p *mapUintFloat64Value, name string, value mapUintFloat64Value, usage string) {
-	CommandLine.Var(newmapUintFloat64Value(value, p), name, usage)
+func mapUintFloat64Var(p *mapUintFloat64Value, name string, value mapUintFloat64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUintFloat64Value(value, p), name, usage, required, isset)
 }
 
 // mapUintFloat64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUintFloat64(name string, value mapUintFloat64Value, usage string) *mapUintFloat64Value {
+func (f *FlagSet) mapUintFloat64(name string, value mapUintFloat64Value, usage string, required, isset bool) *mapUintFloat64Value {
 	p := new(mapUintFloat64Value)
-	f.mapUintFloat64Var(p, name, value, usage)
+	f.mapUintFloat64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUintFloat64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUintFloat64(name string, value mapUintFloat64Value, usage string) *mapUintFloat64Value {
-	return CommandLine.mapUintFloat64(name, value, usage)
+func mapUintFloat64(name string, value mapUintFloat64Value, usage string, required, isset bool) *mapUintFloat64Value {
+	return CommandLine.mapUintFloat64(name, value, usage, required, isset)
 }
 
 // mapUintFloat32Value []mapUintFloat32Value
@@ -5956,31 +5956,31 @@ func (slc *mapUintFloat32Value) String() string {
 // mapUintFloat32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUintFloat32Var(p *mapUintFloat32Value, name string, value mapUintFloat32Value, usage string) {
-	f.Var(newmapUintFloat32Value(value, p), name, usage)
+func (f *FlagSet) mapUintFloat32Var(p *mapUintFloat32Value, name string, value mapUintFloat32Value, usage string, required, isset bool) {
+	f.Var(newmapUintFloat32Value(value, p), name, usage, required, isset)
 }
 
 // mapUintFloat32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUintFloat32Var(p *mapUintFloat32Value, name string, value mapUintFloat32Value, usage string) {
-	CommandLine.Var(newmapUintFloat32Value(value, p), name, usage)
+func mapUintFloat32Var(p *mapUintFloat32Value, name string, value mapUintFloat32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUintFloat32Value(value, p), name, usage, required, isset)
 }
 
 // mapUintFloat32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUintFloat32(name string, value mapUintFloat32Value, usage string) *mapUintFloat32Value {
+func (f *FlagSet) mapUintFloat32(name string, value mapUintFloat32Value, usage string, required, isset bool) *mapUintFloat32Value {
 	p := new(mapUintFloat32Value)
-	f.mapUintFloat32Var(p, name, value, usage)
+	f.mapUintFloat32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUintFloat32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUintFloat32(name string, value mapUintFloat32Value, usage string) *mapUintFloat32Value {
-	return CommandLine.mapUintFloat32(name, value, usage)
+func mapUintFloat32(name string, value mapUintFloat32Value, usage string, required, isset bool) *mapUintFloat32Value {
+	return CommandLine.mapUintFloat32(name, value, usage, required, isset)
 }
 
 // mapUintBoolValue []mapUintBoolValue
@@ -6014,31 +6014,31 @@ func (slc *mapUintBoolValue) String() string {
 // mapUintBoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUintBoolVar(p *mapUintBoolValue, name string, value mapUintBoolValue, usage string) {
-	f.Var(newmapUintBoolValue(value, p), name, usage)
+func (f *FlagSet) mapUintBoolVar(p *mapUintBoolValue, name string, value mapUintBoolValue, usage string, required, isset bool) {
+	f.Var(newmapUintBoolValue(value, p), name, usage, required, isset)
 }
 
 // mapUintBoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUintBoolVar(p *mapUintBoolValue, name string, value mapUintBoolValue, usage string) {
-	CommandLine.Var(newmapUintBoolValue(value, p), name, usage)
+func mapUintBoolVar(p *mapUintBoolValue, name string, value mapUintBoolValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapUintBoolValue(value, p), name, usage, required, isset)
 }
 
 // mapUintBoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUintBool(name string, value mapUintBoolValue, usage string) *mapUintBoolValue {
+func (f *FlagSet) mapUintBool(name string, value mapUintBoolValue, usage string, required, isset bool) *mapUintBoolValue {
 	p := new(mapUintBoolValue)
-	f.mapUintBoolVar(p, name, value, usage)
+	f.mapUintBoolVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUintBoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUintBool(name string, value mapUintBoolValue, usage string) *mapUintBoolValue {
-	return CommandLine.mapUintBool(name, value, usage)
+func mapUintBool(name string, value mapUintBoolValue, usage string, required, isset bool) *mapUintBoolValue {
+	return CommandLine.mapUintBool(name, value, usage, required, isset)
 }
 
 // mapUintStringValue []mapUintStringValue
@@ -6072,31 +6072,31 @@ func (slc *mapUintStringValue) String() string {
 // mapUintStringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUintStringVar(p *mapUintStringValue, name string, value mapUintStringValue, usage string) {
-	f.Var(newmapUintStringValue(value, p), name, usage)
+func (f *FlagSet) mapUintStringVar(p *mapUintStringValue, name string, value mapUintStringValue, usage string, required, isset bool) {
+	f.Var(newmapUintStringValue(value, p), name, usage, required, isset)
 }
 
 // mapUintStringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUintStringVar(p *mapUintStringValue, name string, value mapUintStringValue, usage string) {
-	CommandLine.Var(newmapUintStringValue(value, p), name, usage)
+func mapUintStringVar(p *mapUintStringValue, name string, value mapUintStringValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapUintStringValue(value, p), name, usage, required, isset)
 }
 
 // mapUintStringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUintString(name string, value mapUintStringValue, usage string) *mapUintStringValue {
+func (f *FlagSet) mapUintString(name string, value mapUintStringValue, usage string, required, isset bool) *mapUintStringValue {
 	p := new(mapUintStringValue)
-	f.mapUintStringVar(p, name, value, usage)
+	f.mapUintStringVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUintStringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUintString(name string, value mapUintStringValue, usage string) *mapUintStringValue {
-	return CommandLine.mapUintString(name, value, usage)
+func mapUintString(name string, value mapUintStringValue, usage string, required, isset bool) *mapUintStringValue {
+	return CommandLine.mapUintString(name, value, usage, required, isset)
 }
 
 // mapUint8DurationValue []mapUint8DurationValue
@@ -6130,31 +6130,31 @@ func (slc *mapUint8DurationValue) String() string {
 // mapUint8DurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint8DurationVar(p *mapUint8DurationValue, name string, value mapUint8DurationValue, usage string) {
-	f.Var(newmapUint8DurationValue(value, p), name, usage)
+func (f *FlagSet) mapUint8DurationVar(p *mapUint8DurationValue, name string, value mapUint8DurationValue, usage string, required, isset bool) {
+	f.Var(newmapUint8DurationValue(value, p), name, usage, required, isset)
 }
 
 // mapUint8DurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint8DurationVar(p *mapUint8DurationValue, name string, value mapUint8DurationValue, usage string) {
-	CommandLine.Var(newmapUint8DurationValue(value, p), name, usage)
+func mapUint8DurationVar(p *mapUint8DurationValue, name string, value mapUint8DurationValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint8DurationValue(value, p), name, usage, required, isset)
 }
 
 // mapUint8DurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint8Duration(name string, value mapUint8DurationValue, usage string) *mapUint8DurationValue {
+func (f *FlagSet) mapUint8Duration(name string, value mapUint8DurationValue, usage string, required, isset bool) *mapUint8DurationValue {
 	p := new(mapUint8DurationValue)
-	f.mapUint8DurationVar(p, name, value, usage)
+	f.mapUint8DurationVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint8DurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint8Duration(name string, value mapUint8DurationValue, usage string) *mapUint8DurationValue {
-	return CommandLine.mapUint8Duration(name, value, usage)
+func mapUint8Duration(name string, value mapUint8DurationValue, usage string, required, isset bool) *mapUint8DurationValue {
+	return CommandLine.mapUint8Duration(name, value, usage, required, isset)
 }
 
 // mapUint8IntValue []mapUint8IntValue
@@ -6188,31 +6188,31 @@ func (slc *mapUint8IntValue) String() string {
 // mapUint8IntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint8IntVar(p *mapUint8IntValue, name string, value mapUint8IntValue, usage string) {
-	f.Var(newmapUint8IntValue(value, p), name, usage)
+func (f *FlagSet) mapUint8IntVar(p *mapUint8IntValue, name string, value mapUint8IntValue, usage string, required, isset bool) {
+	f.Var(newmapUint8IntValue(value, p), name, usage, required, isset)
 }
 
 // mapUint8IntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint8IntVar(p *mapUint8IntValue, name string, value mapUint8IntValue, usage string) {
-	CommandLine.Var(newmapUint8IntValue(value, p), name, usage)
+func mapUint8IntVar(p *mapUint8IntValue, name string, value mapUint8IntValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint8IntValue(value, p), name, usage, required, isset)
 }
 
 // mapUint8IntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint8Int(name string, value mapUint8IntValue, usage string) *mapUint8IntValue {
+func (f *FlagSet) mapUint8Int(name string, value mapUint8IntValue, usage string, required, isset bool) *mapUint8IntValue {
 	p := new(mapUint8IntValue)
-	f.mapUint8IntVar(p, name, value, usage)
+	f.mapUint8IntVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint8IntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint8Int(name string, value mapUint8IntValue, usage string) *mapUint8IntValue {
-	return CommandLine.mapUint8Int(name, value, usage)
+func mapUint8Int(name string, value mapUint8IntValue, usage string, required, isset bool) *mapUint8IntValue {
+	return CommandLine.mapUint8Int(name, value, usage, required, isset)
 }
 
 // mapUint8Int8Value []mapUint8Int8Value
@@ -6246,31 +6246,31 @@ func (slc *mapUint8Int8Value) String() string {
 // mapUint8Int8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint8Int8Var(p *mapUint8Int8Value, name string, value mapUint8Int8Value, usage string) {
-	f.Var(newmapUint8Int8Value(value, p), name, usage)
+func (f *FlagSet) mapUint8Int8Var(p *mapUint8Int8Value, name string, value mapUint8Int8Value, usage string, required, isset bool) {
+	f.Var(newmapUint8Int8Value(value, p), name, usage, required, isset)
 }
 
 // mapUint8Int8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint8Int8Var(p *mapUint8Int8Value, name string, value mapUint8Int8Value, usage string) {
-	CommandLine.Var(newmapUint8Int8Value(value, p), name, usage)
+func mapUint8Int8Var(p *mapUint8Int8Value, name string, value mapUint8Int8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint8Int8Value(value, p), name, usage, required, isset)
 }
 
 // mapUint8Int8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint8Int8(name string, value mapUint8Int8Value, usage string) *mapUint8Int8Value {
+func (f *FlagSet) mapUint8Int8(name string, value mapUint8Int8Value, usage string, required, isset bool) *mapUint8Int8Value {
 	p := new(mapUint8Int8Value)
-	f.mapUint8Int8Var(p, name, value, usage)
+	f.mapUint8Int8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint8Int8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint8Int8(name string, value mapUint8Int8Value, usage string) *mapUint8Int8Value {
-	return CommandLine.mapUint8Int8(name, value, usage)
+func mapUint8Int8(name string, value mapUint8Int8Value, usage string, required, isset bool) *mapUint8Int8Value {
+	return CommandLine.mapUint8Int8(name, value, usage, required, isset)
 }
 
 // mapUint8Int16Value []mapUint8Int16Value
@@ -6304,31 +6304,31 @@ func (slc *mapUint8Int16Value) String() string {
 // mapUint8Int16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint8Int16Var(p *mapUint8Int16Value, name string, value mapUint8Int16Value, usage string) {
-	f.Var(newmapUint8Int16Value(value, p), name, usage)
+func (f *FlagSet) mapUint8Int16Var(p *mapUint8Int16Value, name string, value mapUint8Int16Value, usage string, required, isset bool) {
+	f.Var(newmapUint8Int16Value(value, p), name, usage, required, isset)
 }
 
 // mapUint8Int16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint8Int16Var(p *mapUint8Int16Value, name string, value mapUint8Int16Value, usage string) {
-	CommandLine.Var(newmapUint8Int16Value(value, p), name, usage)
+func mapUint8Int16Var(p *mapUint8Int16Value, name string, value mapUint8Int16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint8Int16Value(value, p), name, usage, required, isset)
 }
 
 // mapUint8Int16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint8Int16(name string, value mapUint8Int16Value, usage string) *mapUint8Int16Value {
+func (f *FlagSet) mapUint8Int16(name string, value mapUint8Int16Value, usage string, required, isset bool) *mapUint8Int16Value {
 	p := new(mapUint8Int16Value)
-	f.mapUint8Int16Var(p, name, value, usage)
+	f.mapUint8Int16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint8Int16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint8Int16(name string, value mapUint8Int16Value, usage string) *mapUint8Int16Value {
-	return CommandLine.mapUint8Int16(name, value, usage)
+func mapUint8Int16(name string, value mapUint8Int16Value, usage string, required, isset bool) *mapUint8Int16Value {
+	return CommandLine.mapUint8Int16(name, value, usage, required, isset)
 }
 
 // mapUint8Int32Value []mapUint8Int32Value
@@ -6362,31 +6362,31 @@ func (slc *mapUint8Int32Value) String() string {
 // mapUint8Int32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint8Int32Var(p *mapUint8Int32Value, name string, value mapUint8Int32Value, usage string) {
-	f.Var(newmapUint8Int32Value(value, p), name, usage)
+func (f *FlagSet) mapUint8Int32Var(p *mapUint8Int32Value, name string, value mapUint8Int32Value, usage string, required, isset bool) {
+	f.Var(newmapUint8Int32Value(value, p), name, usage, required, isset)
 }
 
 // mapUint8Int32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint8Int32Var(p *mapUint8Int32Value, name string, value mapUint8Int32Value, usage string) {
-	CommandLine.Var(newmapUint8Int32Value(value, p), name, usage)
+func mapUint8Int32Var(p *mapUint8Int32Value, name string, value mapUint8Int32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint8Int32Value(value, p), name, usage, required, isset)
 }
 
 // mapUint8Int32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint8Int32(name string, value mapUint8Int32Value, usage string) *mapUint8Int32Value {
+func (f *FlagSet) mapUint8Int32(name string, value mapUint8Int32Value, usage string, required, isset bool) *mapUint8Int32Value {
 	p := new(mapUint8Int32Value)
-	f.mapUint8Int32Var(p, name, value, usage)
+	f.mapUint8Int32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint8Int32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint8Int32(name string, value mapUint8Int32Value, usage string) *mapUint8Int32Value {
-	return CommandLine.mapUint8Int32(name, value, usage)
+func mapUint8Int32(name string, value mapUint8Int32Value, usage string, required, isset bool) *mapUint8Int32Value {
+	return CommandLine.mapUint8Int32(name, value, usage, required, isset)
 }
 
 // mapUint8Int64Value []mapUint8Int64Value
@@ -6420,31 +6420,31 @@ func (slc *mapUint8Int64Value) String() string {
 // mapUint8Int64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint8Int64Var(p *mapUint8Int64Value, name string, value mapUint8Int64Value, usage string) {
-	f.Var(newmapUint8Int64Value(value, p), name, usage)
+func (f *FlagSet) mapUint8Int64Var(p *mapUint8Int64Value, name string, value mapUint8Int64Value, usage string, required, isset bool) {
+	f.Var(newmapUint8Int64Value(value, p), name, usage, required, isset)
 }
 
 // mapUint8Int64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint8Int64Var(p *mapUint8Int64Value, name string, value mapUint8Int64Value, usage string) {
-	CommandLine.Var(newmapUint8Int64Value(value, p), name, usage)
+func mapUint8Int64Var(p *mapUint8Int64Value, name string, value mapUint8Int64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint8Int64Value(value, p), name, usage, required, isset)
 }
 
 // mapUint8Int64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint8Int64(name string, value mapUint8Int64Value, usage string) *mapUint8Int64Value {
+func (f *FlagSet) mapUint8Int64(name string, value mapUint8Int64Value, usage string, required, isset bool) *mapUint8Int64Value {
 	p := new(mapUint8Int64Value)
-	f.mapUint8Int64Var(p, name, value, usage)
+	f.mapUint8Int64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint8Int64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint8Int64(name string, value mapUint8Int64Value, usage string) *mapUint8Int64Value {
-	return CommandLine.mapUint8Int64(name, value, usage)
+func mapUint8Int64(name string, value mapUint8Int64Value, usage string, required, isset bool) *mapUint8Int64Value {
+	return CommandLine.mapUint8Int64(name, value, usage, required, isset)
 }
 
 // mapUint8UintValue []mapUint8UintValue
@@ -6478,31 +6478,31 @@ func (slc *mapUint8UintValue) String() string {
 // mapUint8UintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint8UintVar(p *mapUint8UintValue, name string, value mapUint8UintValue, usage string) {
-	f.Var(newmapUint8UintValue(value, p), name, usage)
+func (f *FlagSet) mapUint8UintVar(p *mapUint8UintValue, name string, value mapUint8UintValue, usage string, required, isset bool) {
+	f.Var(newmapUint8UintValue(value, p), name, usage, required, isset)
 }
 
 // mapUint8UintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint8UintVar(p *mapUint8UintValue, name string, value mapUint8UintValue, usage string) {
-	CommandLine.Var(newmapUint8UintValue(value, p), name, usage)
+func mapUint8UintVar(p *mapUint8UintValue, name string, value mapUint8UintValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint8UintValue(value, p), name, usage, required, isset)
 }
 
 // mapUint8UintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint8Uint(name string, value mapUint8UintValue, usage string) *mapUint8UintValue {
+func (f *FlagSet) mapUint8Uint(name string, value mapUint8UintValue, usage string, required, isset bool) *mapUint8UintValue {
 	p := new(mapUint8UintValue)
-	f.mapUint8UintVar(p, name, value, usage)
+	f.mapUint8UintVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint8UintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint8Uint(name string, value mapUint8UintValue, usage string) *mapUint8UintValue {
-	return CommandLine.mapUint8Uint(name, value, usage)
+func mapUint8Uint(name string, value mapUint8UintValue, usage string, required, isset bool) *mapUint8UintValue {
+	return CommandLine.mapUint8Uint(name, value, usage, required, isset)
 }
 
 // mapUint8Uint8Value []mapUint8Uint8Value
@@ -6536,31 +6536,31 @@ func (slc *mapUint8Uint8Value) String() string {
 // mapUint8Uint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint8Uint8Var(p *mapUint8Uint8Value, name string, value mapUint8Uint8Value, usage string) {
-	f.Var(newmapUint8Uint8Value(value, p), name, usage)
+func (f *FlagSet) mapUint8Uint8Var(p *mapUint8Uint8Value, name string, value mapUint8Uint8Value, usage string, required, isset bool) {
+	f.Var(newmapUint8Uint8Value(value, p), name, usage, required, isset)
 }
 
 // mapUint8Uint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint8Uint8Var(p *mapUint8Uint8Value, name string, value mapUint8Uint8Value, usage string) {
-	CommandLine.Var(newmapUint8Uint8Value(value, p), name, usage)
+func mapUint8Uint8Var(p *mapUint8Uint8Value, name string, value mapUint8Uint8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint8Uint8Value(value, p), name, usage, required, isset)
 }
 
 // mapUint8Uint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint8Uint8(name string, value mapUint8Uint8Value, usage string) *mapUint8Uint8Value {
+func (f *FlagSet) mapUint8Uint8(name string, value mapUint8Uint8Value, usage string, required, isset bool) *mapUint8Uint8Value {
 	p := new(mapUint8Uint8Value)
-	f.mapUint8Uint8Var(p, name, value, usage)
+	f.mapUint8Uint8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint8Uint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint8Uint8(name string, value mapUint8Uint8Value, usage string) *mapUint8Uint8Value {
-	return CommandLine.mapUint8Uint8(name, value, usage)
+func mapUint8Uint8(name string, value mapUint8Uint8Value, usage string, required, isset bool) *mapUint8Uint8Value {
+	return CommandLine.mapUint8Uint8(name, value, usage, required, isset)
 }
 
 // mapUint8Uint16Value []mapUint8Uint16Value
@@ -6594,31 +6594,31 @@ func (slc *mapUint8Uint16Value) String() string {
 // mapUint8Uint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint8Uint16Var(p *mapUint8Uint16Value, name string, value mapUint8Uint16Value, usage string) {
-	f.Var(newmapUint8Uint16Value(value, p), name, usage)
+func (f *FlagSet) mapUint8Uint16Var(p *mapUint8Uint16Value, name string, value mapUint8Uint16Value, usage string, required, isset bool) {
+	f.Var(newmapUint8Uint16Value(value, p), name, usage, required, isset)
 }
 
 // mapUint8Uint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint8Uint16Var(p *mapUint8Uint16Value, name string, value mapUint8Uint16Value, usage string) {
-	CommandLine.Var(newmapUint8Uint16Value(value, p), name, usage)
+func mapUint8Uint16Var(p *mapUint8Uint16Value, name string, value mapUint8Uint16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint8Uint16Value(value, p), name, usage, required, isset)
 }
 
 // mapUint8Uint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint8Uint16(name string, value mapUint8Uint16Value, usage string) *mapUint8Uint16Value {
+func (f *FlagSet) mapUint8Uint16(name string, value mapUint8Uint16Value, usage string, required, isset bool) *mapUint8Uint16Value {
 	p := new(mapUint8Uint16Value)
-	f.mapUint8Uint16Var(p, name, value, usage)
+	f.mapUint8Uint16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint8Uint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint8Uint16(name string, value mapUint8Uint16Value, usage string) *mapUint8Uint16Value {
-	return CommandLine.mapUint8Uint16(name, value, usage)
+func mapUint8Uint16(name string, value mapUint8Uint16Value, usage string, required, isset bool) *mapUint8Uint16Value {
+	return CommandLine.mapUint8Uint16(name, value, usage, required, isset)
 }
 
 // mapUint8Uint32Value []mapUint8Uint32Value
@@ -6652,31 +6652,31 @@ func (slc *mapUint8Uint32Value) String() string {
 // mapUint8Uint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint8Uint32Var(p *mapUint8Uint32Value, name string, value mapUint8Uint32Value, usage string) {
-	f.Var(newmapUint8Uint32Value(value, p), name, usage)
+func (f *FlagSet) mapUint8Uint32Var(p *mapUint8Uint32Value, name string, value mapUint8Uint32Value, usage string, required, isset bool) {
+	f.Var(newmapUint8Uint32Value(value, p), name, usage, required, isset)
 }
 
 // mapUint8Uint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint8Uint32Var(p *mapUint8Uint32Value, name string, value mapUint8Uint32Value, usage string) {
-	CommandLine.Var(newmapUint8Uint32Value(value, p), name, usage)
+func mapUint8Uint32Var(p *mapUint8Uint32Value, name string, value mapUint8Uint32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint8Uint32Value(value, p), name, usage, required, isset)
 }
 
 // mapUint8Uint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint8Uint32(name string, value mapUint8Uint32Value, usage string) *mapUint8Uint32Value {
+func (f *FlagSet) mapUint8Uint32(name string, value mapUint8Uint32Value, usage string, required, isset bool) *mapUint8Uint32Value {
 	p := new(mapUint8Uint32Value)
-	f.mapUint8Uint32Var(p, name, value, usage)
+	f.mapUint8Uint32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint8Uint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint8Uint32(name string, value mapUint8Uint32Value, usage string) *mapUint8Uint32Value {
-	return CommandLine.mapUint8Uint32(name, value, usage)
+func mapUint8Uint32(name string, value mapUint8Uint32Value, usage string, required, isset bool) *mapUint8Uint32Value {
+	return CommandLine.mapUint8Uint32(name, value, usage, required, isset)
 }
 
 // mapUint8Uint64Value []mapUint8Uint64Value
@@ -6710,31 +6710,31 @@ func (slc *mapUint8Uint64Value) String() string {
 // mapUint8Uint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint8Uint64Var(p *mapUint8Uint64Value, name string, value mapUint8Uint64Value, usage string) {
-	f.Var(newmapUint8Uint64Value(value, p), name, usage)
+func (f *FlagSet) mapUint8Uint64Var(p *mapUint8Uint64Value, name string, value mapUint8Uint64Value, usage string, required, isset bool) {
+	f.Var(newmapUint8Uint64Value(value, p), name, usage, required, isset)
 }
 
 // mapUint8Uint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint8Uint64Var(p *mapUint8Uint64Value, name string, value mapUint8Uint64Value, usage string) {
-	CommandLine.Var(newmapUint8Uint64Value(value, p), name, usage)
+func mapUint8Uint64Var(p *mapUint8Uint64Value, name string, value mapUint8Uint64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint8Uint64Value(value, p), name, usage, required, isset)
 }
 
 // mapUint8Uint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint8Uint64(name string, value mapUint8Uint64Value, usage string) *mapUint8Uint64Value {
+func (f *FlagSet) mapUint8Uint64(name string, value mapUint8Uint64Value, usage string, required, isset bool) *mapUint8Uint64Value {
 	p := new(mapUint8Uint64Value)
-	f.mapUint8Uint64Var(p, name, value, usage)
+	f.mapUint8Uint64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint8Uint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint8Uint64(name string, value mapUint8Uint64Value, usage string) *mapUint8Uint64Value {
-	return CommandLine.mapUint8Uint64(name, value, usage)
+func mapUint8Uint64(name string, value mapUint8Uint64Value, usage string, required, isset bool) *mapUint8Uint64Value {
+	return CommandLine.mapUint8Uint64(name, value, usage, required, isset)
 }
 
 // mapUint8Float64Value []mapUint8Float64Value
@@ -6768,31 +6768,31 @@ func (slc *mapUint8Float64Value) String() string {
 // mapUint8Float64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint8Float64Var(p *mapUint8Float64Value, name string, value mapUint8Float64Value, usage string) {
-	f.Var(newmapUint8Float64Value(value, p), name, usage)
+func (f *FlagSet) mapUint8Float64Var(p *mapUint8Float64Value, name string, value mapUint8Float64Value, usage string, required, isset bool) {
+	f.Var(newmapUint8Float64Value(value, p), name, usage, required, isset)
 }
 
 // mapUint8Float64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint8Float64Var(p *mapUint8Float64Value, name string, value mapUint8Float64Value, usage string) {
-	CommandLine.Var(newmapUint8Float64Value(value, p), name, usage)
+func mapUint8Float64Var(p *mapUint8Float64Value, name string, value mapUint8Float64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint8Float64Value(value, p), name, usage, required, isset)
 }
 
 // mapUint8Float64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint8Float64(name string, value mapUint8Float64Value, usage string) *mapUint8Float64Value {
+func (f *FlagSet) mapUint8Float64(name string, value mapUint8Float64Value, usage string, required, isset bool) *mapUint8Float64Value {
 	p := new(mapUint8Float64Value)
-	f.mapUint8Float64Var(p, name, value, usage)
+	f.mapUint8Float64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint8Float64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint8Float64(name string, value mapUint8Float64Value, usage string) *mapUint8Float64Value {
-	return CommandLine.mapUint8Float64(name, value, usage)
+func mapUint8Float64(name string, value mapUint8Float64Value, usage string, required, isset bool) *mapUint8Float64Value {
+	return CommandLine.mapUint8Float64(name, value, usage, required, isset)
 }
 
 // mapUint8Float32Value []mapUint8Float32Value
@@ -6826,31 +6826,31 @@ func (slc *mapUint8Float32Value) String() string {
 // mapUint8Float32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint8Float32Var(p *mapUint8Float32Value, name string, value mapUint8Float32Value, usage string) {
-	f.Var(newmapUint8Float32Value(value, p), name, usage)
+func (f *FlagSet) mapUint8Float32Var(p *mapUint8Float32Value, name string, value mapUint8Float32Value, usage string, required, isset bool) {
+	f.Var(newmapUint8Float32Value(value, p), name, usage, required, isset)
 }
 
 // mapUint8Float32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint8Float32Var(p *mapUint8Float32Value, name string, value mapUint8Float32Value, usage string) {
-	CommandLine.Var(newmapUint8Float32Value(value, p), name, usage)
+func mapUint8Float32Var(p *mapUint8Float32Value, name string, value mapUint8Float32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint8Float32Value(value, p), name, usage, required, isset)
 }
 
 // mapUint8Float32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint8Float32(name string, value mapUint8Float32Value, usage string) *mapUint8Float32Value {
+func (f *FlagSet) mapUint8Float32(name string, value mapUint8Float32Value, usage string, required, isset bool) *mapUint8Float32Value {
 	p := new(mapUint8Float32Value)
-	f.mapUint8Float32Var(p, name, value, usage)
+	f.mapUint8Float32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint8Float32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint8Float32(name string, value mapUint8Float32Value, usage string) *mapUint8Float32Value {
-	return CommandLine.mapUint8Float32(name, value, usage)
+func mapUint8Float32(name string, value mapUint8Float32Value, usage string, required, isset bool) *mapUint8Float32Value {
+	return CommandLine.mapUint8Float32(name, value, usage, required, isset)
 }
 
 // mapUint8BoolValue []mapUint8BoolValue
@@ -6884,31 +6884,31 @@ func (slc *mapUint8BoolValue) String() string {
 // mapUint8BoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint8BoolVar(p *mapUint8BoolValue, name string, value mapUint8BoolValue, usage string) {
-	f.Var(newmapUint8BoolValue(value, p), name, usage)
+func (f *FlagSet) mapUint8BoolVar(p *mapUint8BoolValue, name string, value mapUint8BoolValue, usage string, required, isset bool) {
+	f.Var(newmapUint8BoolValue(value, p), name, usage, required, isset)
 }
 
 // mapUint8BoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint8BoolVar(p *mapUint8BoolValue, name string, value mapUint8BoolValue, usage string) {
-	CommandLine.Var(newmapUint8BoolValue(value, p), name, usage)
+func mapUint8BoolVar(p *mapUint8BoolValue, name string, value mapUint8BoolValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint8BoolValue(value, p), name, usage, required, isset)
 }
 
 // mapUint8BoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint8Bool(name string, value mapUint8BoolValue, usage string) *mapUint8BoolValue {
+func (f *FlagSet) mapUint8Bool(name string, value mapUint8BoolValue, usage string, required, isset bool) *mapUint8BoolValue {
 	p := new(mapUint8BoolValue)
-	f.mapUint8BoolVar(p, name, value, usage)
+	f.mapUint8BoolVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint8BoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint8Bool(name string, value mapUint8BoolValue, usage string) *mapUint8BoolValue {
-	return CommandLine.mapUint8Bool(name, value, usage)
+func mapUint8Bool(name string, value mapUint8BoolValue, usage string, required, isset bool) *mapUint8BoolValue {
+	return CommandLine.mapUint8Bool(name, value, usage, required, isset)
 }
 
 // mapUint8StringValue []mapUint8StringValue
@@ -6942,31 +6942,31 @@ func (slc *mapUint8StringValue) String() string {
 // mapUint8StringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint8StringVar(p *mapUint8StringValue, name string, value mapUint8StringValue, usage string) {
-	f.Var(newmapUint8StringValue(value, p), name, usage)
+func (f *FlagSet) mapUint8StringVar(p *mapUint8StringValue, name string, value mapUint8StringValue, usage string, required, isset bool) {
+	f.Var(newmapUint8StringValue(value, p), name, usage, required, isset)
 }
 
 // mapUint8StringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint8StringVar(p *mapUint8StringValue, name string, value mapUint8StringValue, usage string) {
-	CommandLine.Var(newmapUint8StringValue(value, p), name, usage)
+func mapUint8StringVar(p *mapUint8StringValue, name string, value mapUint8StringValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint8StringValue(value, p), name, usage, required, isset)
 }
 
 // mapUint8StringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint8String(name string, value mapUint8StringValue, usage string) *mapUint8StringValue {
+func (f *FlagSet) mapUint8String(name string, value mapUint8StringValue, usage string, required, isset bool) *mapUint8StringValue {
 	p := new(mapUint8StringValue)
-	f.mapUint8StringVar(p, name, value, usage)
+	f.mapUint8StringVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint8StringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint8String(name string, value mapUint8StringValue, usage string) *mapUint8StringValue {
-	return CommandLine.mapUint8String(name, value, usage)
+func mapUint8String(name string, value mapUint8StringValue, usage string, required, isset bool) *mapUint8StringValue {
+	return CommandLine.mapUint8String(name, value, usage, required, isset)
 }
 
 // mapUint16DurationValue []mapUint16DurationValue
@@ -7000,31 +7000,31 @@ func (slc *mapUint16DurationValue) String() string {
 // mapUint16DurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint16DurationVar(p *mapUint16DurationValue, name string, value mapUint16DurationValue, usage string) {
-	f.Var(newmapUint16DurationValue(value, p), name, usage)
+func (f *FlagSet) mapUint16DurationVar(p *mapUint16DurationValue, name string, value mapUint16DurationValue, usage string, required, isset bool) {
+	f.Var(newmapUint16DurationValue(value, p), name, usage, required, isset)
 }
 
 // mapUint16DurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint16DurationVar(p *mapUint16DurationValue, name string, value mapUint16DurationValue, usage string) {
-	CommandLine.Var(newmapUint16DurationValue(value, p), name, usage)
+func mapUint16DurationVar(p *mapUint16DurationValue, name string, value mapUint16DurationValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint16DurationValue(value, p), name, usage, required, isset)
 }
 
 // mapUint16DurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint16Duration(name string, value mapUint16DurationValue, usage string) *mapUint16DurationValue {
+func (f *FlagSet) mapUint16Duration(name string, value mapUint16DurationValue, usage string, required, isset bool) *mapUint16DurationValue {
 	p := new(mapUint16DurationValue)
-	f.mapUint16DurationVar(p, name, value, usage)
+	f.mapUint16DurationVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint16DurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint16Duration(name string, value mapUint16DurationValue, usage string) *mapUint16DurationValue {
-	return CommandLine.mapUint16Duration(name, value, usage)
+func mapUint16Duration(name string, value mapUint16DurationValue, usage string, required, isset bool) *mapUint16DurationValue {
+	return CommandLine.mapUint16Duration(name, value, usage, required, isset)
 }
 
 // mapUint16IntValue []mapUint16IntValue
@@ -7058,31 +7058,31 @@ func (slc *mapUint16IntValue) String() string {
 // mapUint16IntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint16IntVar(p *mapUint16IntValue, name string, value mapUint16IntValue, usage string) {
-	f.Var(newmapUint16IntValue(value, p), name, usage)
+func (f *FlagSet) mapUint16IntVar(p *mapUint16IntValue, name string, value mapUint16IntValue, usage string, required, isset bool) {
+	f.Var(newmapUint16IntValue(value, p), name, usage, required, isset)
 }
 
 // mapUint16IntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint16IntVar(p *mapUint16IntValue, name string, value mapUint16IntValue, usage string) {
-	CommandLine.Var(newmapUint16IntValue(value, p), name, usage)
+func mapUint16IntVar(p *mapUint16IntValue, name string, value mapUint16IntValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint16IntValue(value, p), name, usage, required, isset)
 }
 
 // mapUint16IntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint16Int(name string, value mapUint16IntValue, usage string) *mapUint16IntValue {
+func (f *FlagSet) mapUint16Int(name string, value mapUint16IntValue, usage string, required, isset bool) *mapUint16IntValue {
 	p := new(mapUint16IntValue)
-	f.mapUint16IntVar(p, name, value, usage)
+	f.mapUint16IntVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint16IntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint16Int(name string, value mapUint16IntValue, usage string) *mapUint16IntValue {
-	return CommandLine.mapUint16Int(name, value, usage)
+func mapUint16Int(name string, value mapUint16IntValue, usage string, required, isset bool) *mapUint16IntValue {
+	return CommandLine.mapUint16Int(name, value, usage, required, isset)
 }
 
 // mapUint16Int8Value []mapUint16Int8Value
@@ -7116,31 +7116,31 @@ func (slc *mapUint16Int8Value) String() string {
 // mapUint16Int8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint16Int8Var(p *mapUint16Int8Value, name string, value mapUint16Int8Value, usage string) {
-	f.Var(newmapUint16Int8Value(value, p), name, usage)
+func (f *FlagSet) mapUint16Int8Var(p *mapUint16Int8Value, name string, value mapUint16Int8Value, usage string, required, isset bool) {
+	f.Var(newmapUint16Int8Value(value, p), name, usage, required, isset)
 }
 
 // mapUint16Int8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint16Int8Var(p *mapUint16Int8Value, name string, value mapUint16Int8Value, usage string) {
-	CommandLine.Var(newmapUint16Int8Value(value, p), name, usage)
+func mapUint16Int8Var(p *mapUint16Int8Value, name string, value mapUint16Int8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint16Int8Value(value, p), name, usage, required, isset)
 }
 
 // mapUint16Int8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint16Int8(name string, value mapUint16Int8Value, usage string) *mapUint16Int8Value {
+func (f *FlagSet) mapUint16Int8(name string, value mapUint16Int8Value, usage string, required, isset bool) *mapUint16Int8Value {
 	p := new(mapUint16Int8Value)
-	f.mapUint16Int8Var(p, name, value, usage)
+	f.mapUint16Int8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint16Int8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint16Int8(name string, value mapUint16Int8Value, usage string) *mapUint16Int8Value {
-	return CommandLine.mapUint16Int8(name, value, usage)
+func mapUint16Int8(name string, value mapUint16Int8Value, usage string, required, isset bool) *mapUint16Int8Value {
+	return CommandLine.mapUint16Int8(name, value, usage, required, isset)
 }
 
 // mapUint16Int16Value []mapUint16Int16Value
@@ -7174,31 +7174,31 @@ func (slc *mapUint16Int16Value) String() string {
 // mapUint16Int16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint16Int16Var(p *mapUint16Int16Value, name string, value mapUint16Int16Value, usage string) {
-	f.Var(newmapUint16Int16Value(value, p), name, usage)
+func (f *FlagSet) mapUint16Int16Var(p *mapUint16Int16Value, name string, value mapUint16Int16Value, usage string, required, isset bool) {
+	f.Var(newmapUint16Int16Value(value, p), name, usage, required, isset)
 }
 
 // mapUint16Int16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint16Int16Var(p *mapUint16Int16Value, name string, value mapUint16Int16Value, usage string) {
-	CommandLine.Var(newmapUint16Int16Value(value, p), name, usage)
+func mapUint16Int16Var(p *mapUint16Int16Value, name string, value mapUint16Int16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint16Int16Value(value, p), name, usage, required, isset)
 }
 
 // mapUint16Int16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint16Int16(name string, value mapUint16Int16Value, usage string) *mapUint16Int16Value {
+func (f *FlagSet) mapUint16Int16(name string, value mapUint16Int16Value, usage string, required, isset bool) *mapUint16Int16Value {
 	p := new(mapUint16Int16Value)
-	f.mapUint16Int16Var(p, name, value, usage)
+	f.mapUint16Int16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint16Int16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint16Int16(name string, value mapUint16Int16Value, usage string) *mapUint16Int16Value {
-	return CommandLine.mapUint16Int16(name, value, usage)
+func mapUint16Int16(name string, value mapUint16Int16Value, usage string, required, isset bool) *mapUint16Int16Value {
+	return CommandLine.mapUint16Int16(name, value, usage, required, isset)
 }
 
 // mapUint16Int32Value []mapUint16Int32Value
@@ -7232,31 +7232,31 @@ func (slc *mapUint16Int32Value) String() string {
 // mapUint16Int32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint16Int32Var(p *mapUint16Int32Value, name string, value mapUint16Int32Value, usage string) {
-	f.Var(newmapUint16Int32Value(value, p), name, usage)
+func (f *FlagSet) mapUint16Int32Var(p *mapUint16Int32Value, name string, value mapUint16Int32Value, usage string, required, isset bool) {
+	f.Var(newmapUint16Int32Value(value, p), name, usage, required, isset)
 }
 
 // mapUint16Int32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint16Int32Var(p *mapUint16Int32Value, name string, value mapUint16Int32Value, usage string) {
-	CommandLine.Var(newmapUint16Int32Value(value, p), name, usage)
+func mapUint16Int32Var(p *mapUint16Int32Value, name string, value mapUint16Int32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint16Int32Value(value, p), name, usage, required, isset)
 }
 
 // mapUint16Int32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint16Int32(name string, value mapUint16Int32Value, usage string) *mapUint16Int32Value {
+func (f *FlagSet) mapUint16Int32(name string, value mapUint16Int32Value, usage string, required, isset bool) *mapUint16Int32Value {
 	p := new(mapUint16Int32Value)
-	f.mapUint16Int32Var(p, name, value, usage)
+	f.mapUint16Int32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint16Int32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint16Int32(name string, value mapUint16Int32Value, usage string) *mapUint16Int32Value {
-	return CommandLine.mapUint16Int32(name, value, usage)
+func mapUint16Int32(name string, value mapUint16Int32Value, usage string, required, isset bool) *mapUint16Int32Value {
+	return CommandLine.mapUint16Int32(name, value, usage, required, isset)
 }
 
 // mapUint16Int64Value []mapUint16Int64Value
@@ -7290,31 +7290,31 @@ func (slc *mapUint16Int64Value) String() string {
 // mapUint16Int64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint16Int64Var(p *mapUint16Int64Value, name string, value mapUint16Int64Value, usage string) {
-	f.Var(newmapUint16Int64Value(value, p), name, usage)
+func (f *FlagSet) mapUint16Int64Var(p *mapUint16Int64Value, name string, value mapUint16Int64Value, usage string, required, isset bool) {
+	f.Var(newmapUint16Int64Value(value, p), name, usage, required, isset)
 }
 
 // mapUint16Int64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint16Int64Var(p *mapUint16Int64Value, name string, value mapUint16Int64Value, usage string) {
-	CommandLine.Var(newmapUint16Int64Value(value, p), name, usage)
+func mapUint16Int64Var(p *mapUint16Int64Value, name string, value mapUint16Int64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint16Int64Value(value, p), name, usage, required, isset)
 }
 
 // mapUint16Int64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint16Int64(name string, value mapUint16Int64Value, usage string) *mapUint16Int64Value {
+func (f *FlagSet) mapUint16Int64(name string, value mapUint16Int64Value, usage string, required, isset bool) *mapUint16Int64Value {
 	p := new(mapUint16Int64Value)
-	f.mapUint16Int64Var(p, name, value, usage)
+	f.mapUint16Int64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint16Int64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint16Int64(name string, value mapUint16Int64Value, usage string) *mapUint16Int64Value {
-	return CommandLine.mapUint16Int64(name, value, usage)
+func mapUint16Int64(name string, value mapUint16Int64Value, usage string, required, isset bool) *mapUint16Int64Value {
+	return CommandLine.mapUint16Int64(name, value, usage, required, isset)
 }
 
 // mapUint16UintValue []mapUint16UintValue
@@ -7348,31 +7348,31 @@ func (slc *mapUint16UintValue) String() string {
 // mapUint16UintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint16UintVar(p *mapUint16UintValue, name string, value mapUint16UintValue, usage string) {
-	f.Var(newmapUint16UintValue(value, p), name, usage)
+func (f *FlagSet) mapUint16UintVar(p *mapUint16UintValue, name string, value mapUint16UintValue, usage string, required, isset bool) {
+	f.Var(newmapUint16UintValue(value, p), name, usage, required, isset)
 }
 
 // mapUint16UintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint16UintVar(p *mapUint16UintValue, name string, value mapUint16UintValue, usage string) {
-	CommandLine.Var(newmapUint16UintValue(value, p), name, usage)
+func mapUint16UintVar(p *mapUint16UintValue, name string, value mapUint16UintValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint16UintValue(value, p), name, usage, required, isset)
 }
 
 // mapUint16UintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint16Uint(name string, value mapUint16UintValue, usage string) *mapUint16UintValue {
+func (f *FlagSet) mapUint16Uint(name string, value mapUint16UintValue, usage string, required, isset bool) *mapUint16UintValue {
 	p := new(mapUint16UintValue)
-	f.mapUint16UintVar(p, name, value, usage)
+	f.mapUint16UintVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint16UintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint16Uint(name string, value mapUint16UintValue, usage string) *mapUint16UintValue {
-	return CommandLine.mapUint16Uint(name, value, usage)
+func mapUint16Uint(name string, value mapUint16UintValue, usage string, required, isset bool) *mapUint16UintValue {
+	return CommandLine.mapUint16Uint(name, value, usage, required, isset)
 }
 
 // mapUint16Uint8Value []mapUint16Uint8Value
@@ -7406,31 +7406,31 @@ func (slc *mapUint16Uint8Value) String() string {
 // mapUint16Uint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint16Uint8Var(p *mapUint16Uint8Value, name string, value mapUint16Uint8Value, usage string) {
-	f.Var(newmapUint16Uint8Value(value, p), name, usage)
+func (f *FlagSet) mapUint16Uint8Var(p *mapUint16Uint8Value, name string, value mapUint16Uint8Value, usage string, required, isset bool) {
+	f.Var(newmapUint16Uint8Value(value, p), name, usage, required, isset)
 }
 
 // mapUint16Uint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint16Uint8Var(p *mapUint16Uint8Value, name string, value mapUint16Uint8Value, usage string) {
-	CommandLine.Var(newmapUint16Uint8Value(value, p), name, usage)
+func mapUint16Uint8Var(p *mapUint16Uint8Value, name string, value mapUint16Uint8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint16Uint8Value(value, p), name, usage, required, isset)
 }
 
 // mapUint16Uint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint16Uint8(name string, value mapUint16Uint8Value, usage string) *mapUint16Uint8Value {
+func (f *FlagSet) mapUint16Uint8(name string, value mapUint16Uint8Value, usage string, required, isset bool) *mapUint16Uint8Value {
 	p := new(mapUint16Uint8Value)
-	f.mapUint16Uint8Var(p, name, value, usage)
+	f.mapUint16Uint8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint16Uint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint16Uint8(name string, value mapUint16Uint8Value, usage string) *mapUint16Uint8Value {
-	return CommandLine.mapUint16Uint8(name, value, usage)
+func mapUint16Uint8(name string, value mapUint16Uint8Value, usage string, required, isset bool) *mapUint16Uint8Value {
+	return CommandLine.mapUint16Uint8(name, value, usage, required, isset)
 }
 
 // mapUint16Uint16Value []mapUint16Uint16Value
@@ -7464,31 +7464,31 @@ func (slc *mapUint16Uint16Value) String() string {
 // mapUint16Uint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint16Uint16Var(p *mapUint16Uint16Value, name string, value mapUint16Uint16Value, usage string) {
-	f.Var(newmapUint16Uint16Value(value, p), name, usage)
+func (f *FlagSet) mapUint16Uint16Var(p *mapUint16Uint16Value, name string, value mapUint16Uint16Value, usage string, required, isset bool) {
+	f.Var(newmapUint16Uint16Value(value, p), name, usage, required, isset)
 }
 
 // mapUint16Uint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint16Uint16Var(p *mapUint16Uint16Value, name string, value mapUint16Uint16Value, usage string) {
-	CommandLine.Var(newmapUint16Uint16Value(value, p), name, usage)
+func mapUint16Uint16Var(p *mapUint16Uint16Value, name string, value mapUint16Uint16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint16Uint16Value(value, p), name, usage, required, isset)
 }
 
 // mapUint16Uint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint16Uint16(name string, value mapUint16Uint16Value, usage string) *mapUint16Uint16Value {
+func (f *FlagSet) mapUint16Uint16(name string, value mapUint16Uint16Value, usage string, required, isset bool) *mapUint16Uint16Value {
 	p := new(mapUint16Uint16Value)
-	f.mapUint16Uint16Var(p, name, value, usage)
+	f.mapUint16Uint16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint16Uint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint16Uint16(name string, value mapUint16Uint16Value, usage string) *mapUint16Uint16Value {
-	return CommandLine.mapUint16Uint16(name, value, usage)
+func mapUint16Uint16(name string, value mapUint16Uint16Value, usage string, required, isset bool) *mapUint16Uint16Value {
+	return CommandLine.mapUint16Uint16(name, value, usage, required, isset)
 }
 
 // mapUint16Uint32Value []mapUint16Uint32Value
@@ -7522,31 +7522,31 @@ func (slc *mapUint16Uint32Value) String() string {
 // mapUint16Uint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint16Uint32Var(p *mapUint16Uint32Value, name string, value mapUint16Uint32Value, usage string) {
-	f.Var(newmapUint16Uint32Value(value, p), name, usage)
+func (f *FlagSet) mapUint16Uint32Var(p *mapUint16Uint32Value, name string, value mapUint16Uint32Value, usage string, required, isset bool) {
+	f.Var(newmapUint16Uint32Value(value, p), name, usage, required, isset)
 }
 
 // mapUint16Uint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint16Uint32Var(p *mapUint16Uint32Value, name string, value mapUint16Uint32Value, usage string) {
-	CommandLine.Var(newmapUint16Uint32Value(value, p), name, usage)
+func mapUint16Uint32Var(p *mapUint16Uint32Value, name string, value mapUint16Uint32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint16Uint32Value(value, p), name, usage, required, isset)
 }
 
 // mapUint16Uint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint16Uint32(name string, value mapUint16Uint32Value, usage string) *mapUint16Uint32Value {
+func (f *FlagSet) mapUint16Uint32(name string, value mapUint16Uint32Value, usage string, required, isset bool) *mapUint16Uint32Value {
 	p := new(mapUint16Uint32Value)
-	f.mapUint16Uint32Var(p, name, value, usage)
+	f.mapUint16Uint32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint16Uint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint16Uint32(name string, value mapUint16Uint32Value, usage string) *mapUint16Uint32Value {
-	return CommandLine.mapUint16Uint32(name, value, usage)
+func mapUint16Uint32(name string, value mapUint16Uint32Value, usage string, required, isset bool) *mapUint16Uint32Value {
+	return CommandLine.mapUint16Uint32(name, value, usage, required, isset)
 }
 
 // mapUint16Uint64Value []mapUint16Uint64Value
@@ -7580,31 +7580,31 @@ func (slc *mapUint16Uint64Value) String() string {
 // mapUint16Uint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint16Uint64Var(p *mapUint16Uint64Value, name string, value mapUint16Uint64Value, usage string) {
-	f.Var(newmapUint16Uint64Value(value, p), name, usage)
+func (f *FlagSet) mapUint16Uint64Var(p *mapUint16Uint64Value, name string, value mapUint16Uint64Value, usage string, required, isset bool) {
+	f.Var(newmapUint16Uint64Value(value, p), name, usage, required, isset)
 }
 
 // mapUint16Uint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint16Uint64Var(p *mapUint16Uint64Value, name string, value mapUint16Uint64Value, usage string) {
-	CommandLine.Var(newmapUint16Uint64Value(value, p), name, usage)
+func mapUint16Uint64Var(p *mapUint16Uint64Value, name string, value mapUint16Uint64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint16Uint64Value(value, p), name, usage, required, isset)
 }
 
 // mapUint16Uint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint16Uint64(name string, value mapUint16Uint64Value, usage string) *mapUint16Uint64Value {
+func (f *FlagSet) mapUint16Uint64(name string, value mapUint16Uint64Value, usage string, required, isset bool) *mapUint16Uint64Value {
 	p := new(mapUint16Uint64Value)
-	f.mapUint16Uint64Var(p, name, value, usage)
+	f.mapUint16Uint64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint16Uint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint16Uint64(name string, value mapUint16Uint64Value, usage string) *mapUint16Uint64Value {
-	return CommandLine.mapUint16Uint64(name, value, usage)
+func mapUint16Uint64(name string, value mapUint16Uint64Value, usage string, required, isset bool) *mapUint16Uint64Value {
+	return CommandLine.mapUint16Uint64(name, value, usage, required, isset)
 }
 
 // mapUint16Float64Value []mapUint16Float64Value
@@ -7638,31 +7638,31 @@ func (slc *mapUint16Float64Value) String() string {
 // mapUint16Float64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint16Float64Var(p *mapUint16Float64Value, name string, value mapUint16Float64Value, usage string) {
-	f.Var(newmapUint16Float64Value(value, p), name, usage)
+func (f *FlagSet) mapUint16Float64Var(p *mapUint16Float64Value, name string, value mapUint16Float64Value, usage string, required, isset bool) {
+	f.Var(newmapUint16Float64Value(value, p), name, usage, required, isset)
 }
 
 // mapUint16Float64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint16Float64Var(p *mapUint16Float64Value, name string, value mapUint16Float64Value, usage string) {
-	CommandLine.Var(newmapUint16Float64Value(value, p), name, usage)
+func mapUint16Float64Var(p *mapUint16Float64Value, name string, value mapUint16Float64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint16Float64Value(value, p), name, usage, required, isset)
 }
 
 // mapUint16Float64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint16Float64(name string, value mapUint16Float64Value, usage string) *mapUint16Float64Value {
+func (f *FlagSet) mapUint16Float64(name string, value mapUint16Float64Value, usage string, required, isset bool) *mapUint16Float64Value {
 	p := new(mapUint16Float64Value)
-	f.mapUint16Float64Var(p, name, value, usage)
+	f.mapUint16Float64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint16Float64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint16Float64(name string, value mapUint16Float64Value, usage string) *mapUint16Float64Value {
-	return CommandLine.mapUint16Float64(name, value, usage)
+func mapUint16Float64(name string, value mapUint16Float64Value, usage string, required, isset bool) *mapUint16Float64Value {
+	return CommandLine.mapUint16Float64(name, value, usage, required, isset)
 }
 
 // mapUint16Float32Value []mapUint16Float32Value
@@ -7696,31 +7696,31 @@ func (slc *mapUint16Float32Value) String() string {
 // mapUint16Float32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint16Float32Var(p *mapUint16Float32Value, name string, value mapUint16Float32Value, usage string) {
-	f.Var(newmapUint16Float32Value(value, p), name, usage)
+func (f *FlagSet) mapUint16Float32Var(p *mapUint16Float32Value, name string, value mapUint16Float32Value, usage string, required, isset bool) {
+	f.Var(newmapUint16Float32Value(value, p), name, usage, required, isset)
 }
 
 // mapUint16Float32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint16Float32Var(p *mapUint16Float32Value, name string, value mapUint16Float32Value, usage string) {
-	CommandLine.Var(newmapUint16Float32Value(value, p), name, usage)
+func mapUint16Float32Var(p *mapUint16Float32Value, name string, value mapUint16Float32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint16Float32Value(value, p), name, usage, required, isset)
 }
 
 // mapUint16Float32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint16Float32(name string, value mapUint16Float32Value, usage string) *mapUint16Float32Value {
+func (f *FlagSet) mapUint16Float32(name string, value mapUint16Float32Value, usage string, required, isset bool) *mapUint16Float32Value {
 	p := new(mapUint16Float32Value)
-	f.mapUint16Float32Var(p, name, value, usage)
+	f.mapUint16Float32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint16Float32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint16Float32(name string, value mapUint16Float32Value, usage string) *mapUint16Float32Value {
-	return CommandLine.mapUint16Float32(name, value, usage)
+func mapUint16Float32(name string, value mapUint16Float32Value, usage string, required, isset bool) *mapUint16Float32Value {
+	return CommandLine.mapUint16Float32(name, value, usage, required, isset)
 }
 
 // mapUint16BoolValue []mapUint16BoolValue
@@ -7754,31 +7754,31 @@ func (slc *mapUint16BoolValue) String() string {
 // mapUint16BoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint16BoolVar(p *mapUint16BoolValue, name string, value mapUint16BoolValue, usage string) {
-	f.Var(newmapUint16BoolValue(value, p), name, usage)
+func (f *FlagSet) mapUint16BoolVar(p *mapUint16BoolValue, name string, value mapUint16BoolValue, usage string, required, isset bool) {
+	f.Var(newmapUint16BoolValue(value, p), name, usage, required, isset)
 }
 
 // mapUint16BoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint16BoolVar(p *mapUint16BoolValue, name string, value mapUint16BoolValue, usage string) {
-	CommandLine.Var(newmapUint16BoolValue(value, p), name, usage)
+func mapUint16BoolVar(p *mapUint16BoolValue, name string, value mapUint16BoolValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint16BoolValue(value, p), name, usage, required, isset)
 }
 
 // mapUint16BoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint16Bool(name string, value mapUint16BoolValue, usage string) *mapUint16BoolValue {
+func (f *FlagSet) mapUint16Bool(name string, value mapUint16BoolValue, usage string, required, isset bool) *mapUint16BoolValue {
 	p := new(mapUint16BoolValue)
-	f.mapUint16BoolVar(p, name, value, usage)
+	f.mapUint16BoolVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint16BoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint16Bool(name string, value mapUint16BoolValue, usage string) *mapUint16BoolValue {
-	return CommandLine.mapUint16Bool(name, value, usage)
+func mapUint16Bool(name string, value mapUint16BoolValue, usage string, required, isset bool) *mapUint16BoolValue {
+	return CommandLine.mapUint16Bool(name, value, usage, required, isset)
 }
 
 // mapUint16StringValue []mapUint16StringValue
@@ -7812,31 +7812,31 @@ func (slc *mapUint16StringValue) String() string {
 // mapUint16StringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint16StringVar(p *mapUint16StringValue, name string, value mapUint16StringValue, usage string) {
-	f.Var(newmapUint16StringValue(value, p), name, usage)
+func (f *FlagSet) mapUint16StringVar(p *mapUint16StringValue, name string, value mapUint16StringValue, usage string, required, isset bool) {
+	f.Var(newmapUint16StringValue(value, p), name, usage, required, isset)
 }
 
 // mapUint16StringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint16StringVar(p *mapUint16StringValue, name string, value mapUint16StringValue, usage string) {
-	CommandLine.Var(newmapUint16StringValue(value, p), name, usage)
+func mapUint16StringVar(p *mapUint16StringValue, name string, value mapUint16StringValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint16StringValue(value, p), name, usage, required, isset)
 }
 
 // mapUint16StringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint16String(name string, value mapUint16StringValue, usage string) *mapUint16StringValue {
+func (f *FlagSet) mapUint16String(name string, value mapUint16StringValue, usage string, required, isset bool) *mapUint16StringValue {
 	p := new(mapUint16StringValue)
-	f.mapUint16StringVar(p, name, value, usage)
+	f.mapUint16StringVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint16StringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint16String(name string, value mapUint16StringValue, usage string) *mapUint16StringValue {
-	return CommandLine.mapUint16String(name, value, usage)
+func mapUint16String(name string, value mapUint16StringValue, usage string, required, isset bool) *mapUint16StringValue {
+	return CommandLine.mapUint16String(name, value, usage, required, isset)
 }
 
 // mapUint32DurationValue []mapUint32DurationValue
@@ -7870,31 +7870,31 @@ func (slc *mapUint32DurationValue) String() string {
 // mapUint32DurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint32DurationVar(p *mapUint32DurationValue, name string, value mapUint32DurationValue, usage string) {
-	f.Var(newmapUint32DurationValue(value, p), name, usage)
+func (f *FlagSet) mapUint32DurationVar(p *mapUint32DurationValue, name string, value mapUint32DurationValue, usage string, required, isset bool) {
+	f.Var(newmapUint32DurationValue(value, p), name, usage, required, isset)
 }
 
 // mapUint32DurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint32DurationVar(p *mapUint32DurationValue, name string, value mapUint32DurationValue, usage string) {
-	CommandLine.Var(newmapUint32DurationValue(value, p), name, usage)
+func mapUint32DurationVar(p *mapUint32DurationValue, name string, value mapUint32DurationValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint32DurationValue(value, p), name, usage, required, isset)
 }
 
 // mapUint32DurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint32Duration(name string, value mapUint32DurationValue, usage string) *mapUint32DurationValue {
+func (f *FlagSet) mapUint32Duration(name string, value mapUint32DurationValue, usage string, required, isset bool) *mapUint32DurationValue {
 	p := new(mapUint32DurationValue)
-	f.mapUint32DurationVar(p, name, value, usage)
+	f.mapUint32DurationVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint32DurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint32Duration(name string, value mapUint32DurationValue, usage string) *mapUint32DurationValue {
-	return CommandLine.mapUint32Duration(name, value, usage)
+func mapUint32Duration(name string, value mapUint32DurationValue, usage string, required, isset bool) *mapUint32DurationValue {
+	return CommandLine.mapUint32Duration(name, value, usage, required, isset)
 }
 
 // mapUint32IntValue []mapUint32IntValue
@@ -7928,31 +7928,31 @@ func (slc *mapUint32IntValue) String() string {
 // mapUint32IntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint32IntVar(p *mapUint32IntValue, name string, value mapUint32IntValue, usage string) {
-	f.Var(newmapUint32IntValue(value, p), name, usage)
+func (f *FlagSet) mapUint32IntVar(p *mapUint32IntValue, name string, value mapUint32IntValue, usage string, required, isset bool) {
+	f.Var(newmapUint32IntValue(value, p), name, usage, required, isset)
 }
 
 // mapUint32IntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint32IntVar(p *mapUint32IntValue, name string, value mapUint32IntValue, usage string) {
-	CommandLine.Var(newmapUint32IntValue(value, p), name, usage)
+func mapUint32IntVar(p *mapUint32IntValue, name string, value mapUint32IntValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint32IntValue(value, p), name, usage, required, isset)
 }
 
 // mapUint32IntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint32Int(name string, value mapUint32IntValue, usage string) *mapUint32IntValue {
+func (f *FlagSet) mapUint32Int(name string, value mapUint32IntValue, usage string, required, isset bool) *mapUint32IntValue {
 	p := new(mapUint32IntValue)
-	f.mapUint32IntVar(p, name, value, usage)
+	f.mapUint32IntVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint32IntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint32Int(name string, value mapUint32IntValue, usage string) *mapUint32IntValue {
-	return CommandLine.mapUint32Int(name, value, usage)
+func mapUint32Int(name string, value mapUint32IntValue, usage string, required, isset bool) *mapUint32IntValue {
+	return CommandLine.mapUint32Int(name, value, usage, required, isset)
 }
 
 // mapUint32Int8Value []mapUint32Int8Value
@@ -7986,31 +7986,31 @@ func (slc *mapUint32Int8Value) String() string {
 // mapUint32Int8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint32Int8Var(p *mapUint32Int8Value, name string, value mapUint32Int8Value, usage string) {
-	f.Var(newmapUint32Int8Value(value, p), name, usage)
+func (f *FlagSet) mapUint32Int8Var(p *mapUint32Int8Value, name string, value mapUint32Int8Value, usage string, required, isset bool) {
+	f.Var(newmapUint32Int8Value(value, p), name, usage, required, isset)
 }
 
 // mapUint32Int8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint32Int8Var(p *mapUint32Int8Value, name string, value mapUint32Int8Value, usage string) {
-	CommandLine.Var(newmapUint32Int8Value(value, p), name, usage)
+func mapUint32Int8Var(p *mapUint32Int8Value, name string, value mapUint32Int8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint32Int8Value(value, p), name, usage, required, isset)
 }
 
 // mapUint32Int8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint32Int8(name string, value mapUint32Int8Value, usage string) *mapUint32Int8Value {
+func (f *FlagSet) mapUint32Int8(name string, value mapUint32Int8Value, usage string, required, isset bool) *mapUint32Int8Value {
 	p := new(mapUint32Int8Value)
-	f.mapUint32Int8Var(p, name, value, usage)
+	f.mapUint32Int8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint32Int8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint32Int8(name string, value mapUint32Int8Value, usage string) *mapUint32Int8Value {
-	return CommandLine.mapUint32Int8(name, value, usage)
+func mapUint32Int8(name string, value mapUint32Int8Value, usage string, required, isset bool) *mapUint32Int8Value {
+	return CommandLine.mapUint32Int8(name, value, usage, required, isset)
 }
 
 // mapUint32Int16Value []mapUint32Int16Value
@@ -8044,31 +8044,31 @@ func (slc *mapUint32Int16Value) String() string {
 // mapUint32Int16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint32Int16Var(p *mapUint32Int16Value, name string, value mapUint32Int16Value, usage string) {
-	f.Var(newmapUint32Int16Value(value, p), name, usage)
+func (f *FlagSet) mapUint32Int16Var(p *mapUint32Int16Value, name string, value mapUint32Int16Value, usage string, required, isset bool) {
+	f.Var(newmapUint32Int16Value(value, p), name, usage, required, isset)
 }
 
 // mapUint32Int16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint32Int16Var(p *mapUint32Int16Value, name string, value mapUint32Int16Value, usage string) {
-	CommandLine.Var(newmapUint32Int16Value(value, p), name, usage)
+func mapUint32Int16Var(p *mapUint32Int16Value, name string, value mapUint32Int16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint32Int16Value(value, p), name, usage, required, isset)
 }
 
 // mapUint32Int16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint32Int16(name string, value mapUint32Int16Value, usage string) *mapUint32Int16Value {
+func (f *FlagSet) mapUint32Int16(name string, value mapUint32Int16Value, usage string, required, isset bool) *mapUint32Int16Value {
 	p := new(mapUint32Int16Value)
-	f.mapUint32Int16Var(p, name, value, usage)
+	f.mapUint32Int16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint32Int16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint32Int16(name string, value mapUint32Int16Value, usage string) *mapUint32Int16Value {
-	return CommandLine.mapUint32Int16(name, value, usage)
+func mapUint32Int16(name string, value mapUint32Int16Value, usage string, required, isset bool) *mapUint32Int16Value {
+	return CommandLine.mapUint32Int16(name, value, usage, required, isset)
 }
 
 // mapUint32Int32Value []mapUint32Int32Value
@@ -8102,31 +8102,31 @@ func (slc *mapUint32Int32Value) String() string {
 // mapUint32Int32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint32Int32Var(p *mapUint32Int32Value, name string, value mapUint32Int32Value, usage string) {
-	f.Var(newmapUint32Int32Value(value, p), name, usage)
+func (f *FlagSet) mapUint32Int32Var(p *mapUint32Int32Value, name string, value mapUint32Int32Value, usage string, required, isset bool) {
+	f.Var(newmapUint32Int32Value(value, p), name, usage, required, isset)
 }
 
 // mapUint32Int32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint32Int32Var(p *mapUint32Int32Value, name string, value mapUint32Int32Value, usage string) {
-	CommandLine.Var(newmapUint32Int32Value(value, p), name, usage)
+func mapUint32Int32Var(p *mapUint32Int32Value, name string, value mapUint32Int32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint32Int32Value(value, p), name, usage, required, isset)
 }
 
 // mapUint32Int32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint32Int32(name string, value mapUint32Int32Value, usage string) *mapUint32Int32Value {
+func (f *FlagSet) mapUint32Int32(name string, value mapUint32Int32Value, usage string, required, isset bool) *mapUint32Int32Value {
 	p := new(mapUint32Int32Value)
-	f.mapUint32Int32Var(p, name, value, usage)
+	f.mapUint32Int32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint32Int32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint32Int32(name string, value mapUint32Int32Value, usage string) *mapUint32Int32Value {
-	return CommandLine.mapUint32Int32(name, value, usage)
+func mapUint32Int32(name string, value mapUint32Int32Value, usage string, required, isset bool) *mapUint32Int32Value {
+	return CommandLine.mapUint32Int32(name, value, usage, required, isset)
 }
 
 // mapUint32Int64Value []mapUint32Int64Value
@@ -8160,31 +8160,31 @@ func (slc *mapUint32Int64Value) String() string {
 // mapUint32Int64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint32Int64Var(p *mapUint32Int64Value, name string, value mapUint32Int64Value, usage string) {
-	f.Var(newmapUint32Int64Value(value, p), name, usage)
+func (f *FlagSet) mapUint32Int64Var(p *mapUint32Int64Value, name string, value mapUint32Int64Value, usage string, required, isset bool) {
+	f.Var(newmapUint32Int64Value(value, p), name, usage, required, isset)
 }
 
 // mapUint32Int64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint32Int64Var(p *mapUint32Int64Value, name string, value mapUint32Int64Value, usage string) {
-	CommandLine.Var(newmapUint32Int64Value(value, p), name, usage)
+func mapUint32Int64Var(p *mapUint32Int64Value, name string, value mapUint32Int64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint32Int64Value(value, p), name, usage, required, isset)
 }
 
 // mapUint32Int64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint32Int64(name string, value mapUint32Int64Value, usage string) *mapUint32Int64Value {
+func (f *FlagSet) mapUint32Int64(name string, value mapUint32Int64Value, usage string, required, isset bool) *mapUint32Int64Value {
 	p := new(mapUint32Int64Value)
-	f.mapUint32Int64Var(p, name, value, usage)
+	f.mapUint32Int64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint32Int64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint32Int64(name string, value mapUint32Int64Value, usage string) *mapUint32Int64Value {
-	return CommandLine.mapUint32Int64(name, value, usage)
+func mapUint32Int64(name string, value mapUint32Int64Value, usage string, required, isset bool) *mapUint32Int64Value {
+	return CommandLine.mapUint32Int64(name, value, usage, required, isset)
 }
 
 // mapUint32UintValue []mapUint32UintValue
@@ -8218,31 +8218,31 @@ func (slc *mapUint32UintValue) String() string {
 // mapUint32UintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint32UintVar(p *mapUint32UintValue, name string, value mapUint32UintValue, usage string) {
-	f.Var(newmapUint32UintValue(value, p), name, usage)
+func (f *FlagSet) mapUint32UintVar(p *mapUint32UintValue, name string, value mapUint32UintValue, usage string, required, isset bool) {
+	f.Var(newmapUint32UintValue(value, p), name, usage, required, isset)
 }
 
 // mapUint32UintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint32UintVar(p *mapUint32UintValue, name string, value mapUint32UintValue, usage string) {
-	CommandLine.Var(newmapUint32UintValue(value, p), name, usage)
+func mapUint32UintVar(p *mapUint32UintValue, name string, value mapUint32UintValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint32UintValue(value, p), name, usage, required, isset)
 }
 
 // mapUint32UintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint32Uint(name string, value mapUint32UintValue, usage string) *mapUint32UintValue {
+func (f *FlagSet) mapUint32Uint(name string, value mapUint32UintValue, usage string, required, isset bool) *mapUint32UintValue {
 	p := new(mapUint32UintValue)
-	f.mapUint32UintVar(p, name, value, usage)
+	f.mapUint32UintVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint32UintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint32Uint(name string, value mapUint32UintValue, usage string) *mapUint32UintValue {
-	return CommandLine.mapUint32Uint(name, value, usage)
+func mapUint32Uint(name string, value mapUint32UintValue, usage string, required, isset bool) *mapUint32UintValue {
+	return CommandLine.mapUint32Uint(name, value, usage, required, isset)
 }
 
 // mapUint32Uint8Value []mapUint32Uint8Value
@@ -8276,31 +8276,31 @@ func (slc *mapUint32Uint8Value) String() string {
 // mapUint32Uint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint32Uint8Var(p *mapUint32Uint8Value, name string, value mapUint32Uint8Value, usage string) {
-	f.Var(newmapUint32Uint8Value(value, p), name, usage)
+func (f *FlagSet) mapUint32Uint8Var(p *mapUint32Uint8Value, name string, value mapUint32Uint8Value, usage string, required, isset bool) {
+	f.Var(newmapUint32Uint8Value(value, p), name, usage, required, isset)
 }
 
 // mapUint32Uint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint32Uint8Var(p *mapUint32Uint8Value, name string, value mapUint32Uint8Value, usage string) {
-	CommandLine.Var(newmapUint32Uint8Value(value, p), name, usage)
+func mapUint32Uint8Var(p *mapUint32Uint8Value, name string, value mapUint32Uint8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint32Uint8Value(value, p), name, usage, required, isset)
 }
 
 // mapUint32Uint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint32Uint8(name string, value mapUint32Uint8Value, usage string) *mapUint32Uint8Value {
+func (f *FlagSet) mapUint32Uint8(name string, value mapUint32Uint8Value, usage string, required, isset bool) *mapUint32Uint8Value {
 	p := new(mapUint32Uint8Value)
-	f.mapUint32Uint8Var(p, name, value, usage)
+	f.mapUint32Uint8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint32Uint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint32Uint8(name string, value mapUint32Uint8Value, usage string) *mapUint32Uint8Value {
-	return CommandLine.mapUint32Uint8(name, value, usage)
+func mapUint32Uint8(name string, value mapUint32Uint8Value, usage string, required, isset bool) *mapUint32Uint8Value {
+	return CommandLine.mapUint32Uint8(name, value, usage, required, isset)
 }
 
 // mapUint32Uint16Value []mapUint32Uint16Value
@@ -8334,31 +8334,31 @@ func (slc *mapUint32Uint16Value) String() string {
 // mapUint32Uint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint32Uint16Var(p *mapUint32Uint16Value, name string, value mapUint32Uint16Value, usage string) {
-	f.Var(newmapUint32Uint16Value(value, p), name, usage)
+func (f *FlagSet) mapUint32Uint16Var(p *mapUint32Uint16Value, name string, value mapUint32Uint16Value, usage string, required, isset bool) {
+	f.Var(newmapUint32Uint16Value(value, p), name, usage, required, isset)
 }
 
 // mapUint32Uint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint32Uint16Var(p *mapUint32Uint16Value, name string, value mapUint32Uint16Value, usage string) {
-	CommandLine.Var(newmapUint32Uint16Value(value, p), name, usage)
+func mapUint32Uint16Var(p *mapUint32Uint16Value, name string, value mapUint32Uint16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint32Uint16Value(value, p), name, usage, required, isset)
 }
 
 // mapUint32Uint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint32Uint16(name string, value mapUint32Uint16Value, usage string) *mapUint32Uint16Value {
+func (f *FlagSet) mapUint32Uint16(name string, value mapUint32Uint16Value, usage string, required, isset bool) *mapUint32Uint16Value {
 	p := new(mapUint32Uint16Value)
-	f.mapUint32Uint16Var(p, name, value, usage)
+	f.mapUint32Uint16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint32Uint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint32Uint16(name string, value mapUint32Uint16Value, usage string) *mapUint32Uint16Value {
-	return CommandLine.mapUint32Uint16(name, value, usage)
+func mapUint32Uint16(name string, value mapUint32Uint16Value, usage string, required, isset bool) *mapUint32Uint16Value {
+	return CommandLine.mapUint32Uint16(name, value, usage, required, isset)
 }
 
 // mapUint32Uint32Value []mapUint32Uint32Value
@@ -8392,31 +8392,31 @@ func (slc *mapUint32Uint32Value) String() string {
 // mapUint32Uint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint32Uint32Var(p *mapUint32Uint32Value, name string, value mapUint32Uint32Value, usage string) {
-	f.Var(newmapUint32Uint32Value(value, p), name, usage)
+func (f *FlagSet) mapUint32Uint32Var(p *mapUint32Uint32Value, name string, value mapUint32Uint32Value, usage string, required, isset bool) {
+	f.Var(newmapUint32Uint32Value(value, p), name, usage, required, isset)
 }
 
 // mapUint32Uint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint32Uint32Var(p *mapUint32Uint32Value, name string, value mapUint32Uint32Value, usage string) {
-	CommandLine.Var(newmapUint32Uint32Value(value, p), name, usage)
+func mapUint32Uint32Var(p *mapUint32Uint32Value, name string, value mapUint32Uint32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint32Uint32Value(value, p), name, usage, required, isset)
 }
 
 // mapUint32Uint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint32Uint32(name string, value mapUint32Uint32Value, usage string) *mapUint32Uint32Value {
+func (f *FlagSet) mapUint32Uint32(name string, value mapUint32Uint32Value, usage string, required, isset bool) *mapUint32Uint32Value {
 	p := new(mapUint32Uint32Value)
-	f.mapUint32Uint32Var(p, name, value, usage)
+	f.mapUint32Uint32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint32Uint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint32Uint32(name string, value mapUint32Uint32Value, usage string) *mapUint32Uint32Value {
-	return CommandLine.mapUint32Uint32(name, value, usage)
+func mapUint32Uint32(name string, value mapUint32Uint32Value, usage string, required, isset bool) *mapUint32Uint32Value {
+	return CommandLine.mapUint32Uint32(name, value, usage, required, isset)
 }
 
 // mapUint32Uint64Value []mapUint32Uint64Value
@@ -8450,31 +8450,31 @@ func (slc *mapUint32Uint64Value) String() string {
 // mapUint32Uint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint32Uint64Var(p *mapUint32Uint64Value, name string, value mapUint32Uint64Value, usage string) {
-	f.Var(newmapUint32Uint64Value(value, p), name, usage)
+func (f *FlagSet) mapUint32Uint64Var(p *mapUint32Uint64Value, name string, value mapUint32Uint64Value, usage string, required, isset bool) {
+	f.Var(newmapUint32Uint64Value(value, p), name, usage, required, isset)
 }
 
 // mapUint32Uint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint32Uint64Var(p *mapUint32Uint64Value, name string, value mapUint32Uint64Value, usage string) {
-	CommandLine.Var(newmapUint32Uint64Value(value, p), name, usage)
+func mapUint32Uint64Var(p *mapUint32Uint64Value, name string, value mapUint32Uint64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint32Uint64Value(value, p), name, usage, required, isset)
 }
 
 // mapUint32Uint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint32Uint64(name string, value mapUint32Uint64Value, usage string) *mapUint32Uint64Value {
+func (f *FlagSet) mapUint32Uint64(name string, value mapUint32Uint64Value, usage string, required, isset bool) *mapUint32Uint64Value {
 	p := new(mapUint32Uint64Value)
-	f.mapUint32Uint64Var(p, name, value, usage)
+	f.mapUint32Uint64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint32Uint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint32Uint64(name string, value mapUint32Uint64Value, usage string) *mapUint32Uint64Value {
-	return CommandLine.mapUint32Uint64(name, value, usage)
+func mapUint32Uint64(name string, value mapUint32Uint64Value, usage string, required, isset bool) *mapUint32Uint64Value {
+	return CommandLine.mapUint32Uint64(name, value, usage, required, isset)
 }
 
 // mapUint32Float64Value []mapUint32Float64Value
@@ -8508,31 +8508,31 @@ func (slc *mapUint32Float64Value) String() string {
 // mapUint32Float64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint32Float64Var(p *mapUint32Float64Value, name string, value mapUint32Float64Value, usage string) {
-	f.Var(newmapUint32Float64Value(value, p), name, usage)
+func (f *FlagSet) mapUint32Float64Var(p *mapUint32Float64Value, name string, value mapUint32Float64Value, usage string, required, isset bool) {
+	f.Var(newmapUint32Float64Value(value, p), name, usage, required, isset)
 }
 
 // mapUint32Float64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint32Float64Var(p *mapUint32Float64Value, name string, value mapUint32Float64Value, usage string) {
-	CommandLine.Var(newmapUint32Float64Value(value, p), name, usage)
+func mapUint32Float64Var(p *mapUint32Float64Value, name string, value mapUint32Float64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint32Float64Value(value, p), name, usage, required, isset)
 }
 
 // mapUint32Float64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint32Float64(name string, value mapUint32Float64Value, usage string) *mapUint32Float64Value {
+func (f *FlagSet) mapUint32Float64(name string, value mapUint32Float64Value, usage string, required, isset bool) *mapUint32Float64Value {
 	p := new(mapUint32Float64Value)
-	f.mapUint32Float64Var(p, name, value, usage)
+	f.mapUint32Float64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint32Float64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint32Float64(name string, value mapUint32Float64Value, usage string) *mapUint32Float64Value {
-	return CommandLine.mapUint32Float64(name, value, usage)
+func mapUint32Float64(name string, value mapUint32Float64Value, usage string, required, isset bool) *mapUint32Float64Value {
+	return CommandLine.mapUint32Float64(name, value, usage, required, isset)
 }
 
 // mapUint32Float32Value []mapUint32Float32Value
@@ -8566,31 +8566,31 @@ func (slc *mapUint32Float32Value) String() string {
 // mapUint32Float32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint32Float32Var(p *mapUint32Float32Value, name string, value mapUint32Float32Value, usage string) {
-	f.Var(newmapUint32Float32Value(value, p), name, usage)
+func (f *FlagSet) mapUint32Float32Var(p *mapUint32Float32Value, name string, value mapUint32Float32Value, usage string, required, isset bool) {
+	f.Var(newmapUint32Float32Value(value, p), name, usage, required, isset)
 }
 
 // mapUint32Float32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint32Float32Var(p *mapUint32Float32Value, name string, value mapUint32Float32Value, usage string) {
-	CommandLine.Var(newmapUint32Float32Value(value, p), name, usage)
+func mapUint32Float32Var(p *mapUint32Float32Value, name string, value mapUint32Float32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint32Float32Value(value, p), name, usage, required, isset)
 }
 
 // mapUint32Float32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint32Float32(name string, value mapUint32Float32Value, usage string) *mapUint32Float32Value {
+func (f *FlagSet) mapUint32Float32(name string, value mapUint32Float32Value, usage string, required, isset bool) *mapUint32Float32Value {
 	p := new(mapUint32Float32Value)
-	f.mapUint32Float32Var(p, name, value, usage)
+	f.mapUint32Float32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint32Float32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint32Float32(name string, value mapUint32Float32Value, usage string) *mapUint32Float32Value {
-	return CommandLine.mapUint32Float32(name, value, usage)
+func mapUint32Float32(name string, value mapUint32Float32Value, usage string, required, isset bool) *mapUint32Float32Value {
+	return CommandLine.mapUint32Float32(name, value, usage, required, isset)
 }
 
 // mapUint32BoolValue []mapUint32BoolValue
@@ -8624,31 +8624,31 @@ func (slc *mapUint32BoolValue) String() string {
 // mapUint32BoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint32BoolVar(p *mapUint32BoolValue, name string, value mapUint32BoolValue, usage string) {
-	f.Var(newmapUint32BoolValue(value, p), name, usage)
+func (f *FlagSet) mapUint32BoolVar(p *mapUint32BoolValue, name string, value mapUint32BoolValue, usage string, required, isset bool) {
+	f.Var(newmapUint32BoolValue(value, p), name, usage, required, isset)
 }
 
 // mapUint32BoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint32BoolVar(p *mapUint32BoolValue, name string, value mapUint32BoolValue, usage string) {
-	CommandLine.Var(newmapUint32BoolValue(value, p), name, usage)
+func mapUint32BoolVar(p *mapUint32BoolValue, name string, value mapUint32BoolValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint32BoolValue(value, p), name, usage, required, isset)
 }
 
 // mapUint32BoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint32Bool(name string, value mapUint32BoolValue, usage string) *mapUint32BoolValue {
+func (f *FlagSet) mapUint32Bool(name string, value mapUint32BoolValue, usage string, required, isset bool) *mapUint32BoolValue {
 	p := new(mapUint32BoolValue)
-	f.mapUint32BoolVar(p, name, value, usage)
+	f.mapUint32BoolVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint32BoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint32Bool(name string, value mapUint32BoolValue, usage string) *mapUint32BoolValue {
-	return CommandLine.mapUint32Bool(name, value, usage)
+func mapUint32Bool(name string, value mapUint32BoolValue, usage string, required, isset bool) *mapUint32BoolValue {
+	return CommandLine.mapUint32Bool(name, value, usage, required, isset)
 }
 
 // mapUint32StringValue []mapUint32StringValue
@@ -8682,31 +8682,31 @@ func (slc *mapUint32StringValue) String() string {
 // mapUint32StringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint32StringVar(p *mapUint32StringValue, name string, value mapUint32StringValue, usage string) {
-	f.Var(newmapUint32StringValue(value, p), name, usage)
+func (f *FlagSet) mapUint32StringVar(p *mapUint32StringValue, name string, value mapUint32StringValue, usage string, required, isset bool) {
+	f.Var(newmapUint32StringValue(value, p), name, usage, required, isset)
 }
 
 // mapUint32StringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint32StringVar(p *mapUint32StringValue, name string, value mapUint32StringValue, usage string) {
-	CommandLine.Var(newmapUint32StringValue(value, p), name, usage)
+func mapUint32StringVar(p *mapUint32StringValue, name string, value mapUint32StringValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint32StringValue(value, p), name, usage, required, isset)
 }
 
 // mapUint32StringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint32String(name string, value mapUint32StringValue, usage string) *mapUint32StringValue {
+func (f *FlagSet) mapUint32String(name string, value mapUint32StringValue, usage string, required, isset bool) *mapUint32StringValue {
 	p := new(mapUint32StringValue)
-	f.mapUint32StringVar(p, name, value, usage)
+	f.mapUint32StringVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint32StringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint32String(name string, value mapUint32StringValue, usage string) *mapUint32StringValue {
-	return CommandLine.mapUint32String(name, value, usage)
+func mapUint32String(name string, value mapUint32StringValue, usage string, required, isset bool) *mapUint32StringValue {
+	return CommandLine.mapUint32String(name, value, usage, required, isset)
 }
 
 // mapUint64DurationValue []mapUint64DurationValue
@@ -8740,31 +8740,31 @@ func (slc *mapUint64DurationValue) String() string {
 // mapUint64DurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint64DurationVar(p *mapUint64DurationValue, name string, value mapUint64DurationValue, usage string) {
-	f.Var(newmapUint64DurationValue(value, p), name, usage)
+func (f *FlagSet) mapUint64DurationVar(p *mapUint64DurationValue, name string, value mapUint64DurationValue, usage string, required, isset bool) {
+	f.Var(newmapUint64DurationValue(value, p), name, usage, required, isset)
 }
 
 // mapUint64DurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint64DurationVar(p *mapUint64DurationValue, name string, value mapUint64DurationValue, usage string) {
-	CommandLine.Var(newmapUint64DurationValue(value, p), name, usage)
+func mapUint64DurationVar(p *mapUint64DurationValue, name string, value mapUint64DurationValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint64DurationValue(value, p), name, usage, required, isset)
 }
 
 // mapUint64DurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint64Duration(name string, value mapUint64DurationValue, usage string) *mapUint64DurationValue {
+func (f *FlagSet) mapUint64Duration(name string, value mapUint64DurationValue, usage string, required, isset bool) *mapUint64DurationValue {
 	p := new(mapUint64DurationValue)
-	f.mapUint64DurationVar(p, name, value, usage)
+	f.mapUint64DurationVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint64DurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint64Duration(name string, value mapUint64DurationValue, usage string) *mapUint64DurationValue {
-	return CommandLine.mapUint64Duration(name, value, usage)
+func mapUint64Duration(name string, value mapUint64DurationValue, usage string, required, isset bool) *mapUint64DurationValue {
+	return CommandLine.mapUint64Duration(name, value, usage, required, isset)
 }
 
 // mapUint64IntValue []mapUint64IntValue
@@ -8798,31 +8798,31 @@ func (slc *mapUint64IntValue) String() string {
 // mapUint64IntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint64IntVar(p *mapUint64IntValue, name string, value mapUint64IntValue, usage string) {
-	f.Var(newmapUint64IntValue(value, p), name, usage)
+func (f *FlagSet) mapUint64IntVar(p *mapUint64IntValue, name string, value mapUint64IntValue, usage string, required, isset bool) {
+	f.Var(newmapUint64IntValue(value, p), name, usage, required, isset)
 }
 
 // mapUint64IntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint64IntVar(p *mapUint64IntValue, name string, value mapUint64IntValue, usage string) {
-	CommandLine.Var(newmapUint64IntValue(value, p), name, usage)
+func mapUint64IntVar(p *mapUint64IntValue, name string, value mapUint64IntValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint64IntValue(value, p), name, usage, required, isset)
 }
 
 // mapUint64IntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint64Int(name string, value mapUint64IntValue, usage string) *mapUint64IntValue {
+func (f *FlagSet) mapUint64Int(name string, value mapUint64IntValue, usage string, required, isset bool) *mapUint64IntValue {
 	p := new(mapUint64IntValue)
-	f.mapUint64IntVar(p, name, value, usage)
+	f.mapUint64IntVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint64IntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint64Int(name string, value mapUint64IntValue, usage string) *mapUint64IntValue {
-	return CommandLine.mapUint64Int(name, value, usage)
+func mapUint64Int(name string, value mapUint64IntValue, usage string, required, isset bool) *mapUint64IntValue {
+	return CommandLine.mapUint64Int(name, value, usage, required, isset)
 }
 
 // mapUint64Int8Value []mapUint64Int8Value
@@ -8856,31 +8856,31 @@ func (slc *mapUint64Int8Value) String() string {
 // mapUint64Int8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint64Int8Var(p *mapUint64Int8Value, name string, value mapUint64Int8Value, usage string) {
-	f.Var(newmapUint64Int8Value(value, p), name, usage)
+func (f *FlagSet) mapUint64Int8Var(p *mapUint64Int8Value, name string, value mapUint64Int8Value, usage string, required, isset bool) {
+	f.Var(newmapUint64Int8Value(value, p), name, usage, required, isset)
 }
 
 // mapUint64Int8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint64Int8Var(p *mapUint64Int8Value, name string, value mapUint64Int8Value, usage string) {
-	CommandLine.Var(newmapUint64Int8Value(value, p), name, usage)
+func mapUint64Int8Var(p *mapUint64Int8Value, name string, value mapUint64Int8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint64Int8Value(value, p), name, usage, required, isset)
 }
 
 // mapUint64Int8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint64Int8(name string, value mapUint64Int8Value, usage string) *mapUint64Int8Value {
+func (f *FlagSet) mapUint64Int8(name string, value mapUint64Int8Value, usage string, required, isset bool) *mapUint64Int8Value {
 	p := new(mapUint64Int8Value)
-	f.mapUint64Int8Var(p, name, value, usage)
+	f.mapUint64Int8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint64Int8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint64Int8(name string, value mapUint64Int8Value, usage string) *mapUint64Int8Value {
-	return CommandLine.mapUint64Int8(name, value, usage)
+func mapUint64Int8(name string, value mapUint64Int8Value, usage string, required, isset bool) *mapUint64Int8Value {
+	return CommandLine.mapUint64Int8(name, value, usage, required, isset)
 }
 
 // mapUint64Int16Value []mapUint64Int16Value
@@ -8914,31 +8914,31 @@ func (slc *mapUint64Int16Value) String() string {
 // mapUint64Int16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint64Int16Var(p *mapUint64Int16Value, name string, value mapUint64Int16Value, usage string) {
-	f.Var(newmapUint64Int16Value(value, p), name, usage)
+func (f *FlagSet) mapUint64Int16Var(p *mapUint64Int16Value, name string, value mapUint64Int16Value, usage string, required, isset bool) {
+	f.Var(newmapUint64Int16Value(value, p), name, usage, required, isset)
 }
 
 // mapUint64Int16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint64Int16Var(p *mapUint64Int16Value, name string, value mapUint64Int16Value, usage string) {
-	CommandLine.Var(newmapUint64Int16Value(value, p), name, usage)
+func mapUint64Int16Var(p *mapUint64Int16Value, name string, value mapUint64Int16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint64Int16Value(value, p), name, usage, required, isset)
 }
 
 // mapUint64Int16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint64Int16(name string, value mapUint64Int16Value, usage string) *mapUint64Int16Value {
+func (f *FlagSet) mapUint64Int16(name string, value mapUint64Int16Value, usage string, required, isset bool) *mapUint64Int16Value {
 	p := new(mapUint64Int16Value)
-	f.mapUint64Int16Var(p, name, value, usage)
+	f.mapUint64Int16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint64Int16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint64Int16(name string, value mapUint64Int16Value, usage string) *mapUint64Int16Value {
-	return CommandLine.mapUint64Int16(name, value, usage)
+func mapUint64Int16(name string, value mapUint64Int16Value, usage string, required, isset bool) *mapUint64Int16Value {
+	return CommandLine.mapUint64Int16(name, value, usage, required, isset)
 }
 
 // mapUint64Int32Value []mapUint64Int32Value
@@ -8972,31 +8972,31 @@ func (slc *mapUint64Int32Value) String() string {
 // mapUint64Int32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint64Int32Var(p *mapUint64Int32Value, name string, value mapUint64Int32Value, usage string) {
-	f.Var(newmapUint64Int32Value(value, p), name, usage)
+func (f *FlagSet) mapUint64Int32Var(p *mapUint64Int32Value, name string, value mapUint64Int32Value, usage string, required, isset bool) {
+	f.Var(newmapUint64Int32Value(value, p), name, usage, required, isset)
 }
 
 // mapUint64Int32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint64Int32Var(p *mapUint64Int32Value, name string, value mapUint64Int32Value, usage string) {
-	CommandLine.Var(newmapUint64Int32Value(value, p), name, usage)
+func mapUint64Int32Var(p *mapUint64Int32Value, name string, value mapUint64Int32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint64Int32Value(value, p), name, usage, required, isset)
 }
 
 // mapUint64Int32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint64Int32(name string, value mapUint64Int32Value, usage string) *mapUint64Int32Value {
+func (f *FlagSet) mapUint64Int32(name string, value mapUint64Int32Value, usage string, required, isset bool) *mapUint64Int32Value {
 	p := new(mapUint64Int32Value)
-	f.mapUint64Int32Var(p, name, value, usage)
+	f.mapUint64Int32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint64Int32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint64Int32(name string, value mapUint64Int32Value, usage string) *mapUint64Int32Value {
-	return CommandLine.mapUint64Int32(name, value, usage)
+func mapUint64Int32(name string, value mapUint64Int32Value, usage string, required, isset bool) *mapUint64Int32Value {
+	return CommandLine.mapUint64Int32(name, value, usage, required, isset)
 }
 
 // mapUint64Int64Value []mapUint64Int64Value
@@ -9030,31 +9030,31 @@ func (slc *mapUint64Int64Value) String() string {
 // mapUint64Int64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint64Int64Var(p *mapUint64Int64Value, name string, value mapUint64Int64Value, usage string) {
-	f.Var(newmapUint64Int64Value(value, p), name, usage)
+func (f *FlagSet) mapUint64Int64Var(p *mapUint64Int64Value, name string, value mapUint64Int64Value, usage string, required, isset bool) {
+	f.Var(newmapUint64Int64Value(value, p), name, usage, required, isset)
 }
 
 // mapUint64Int64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint64Int64Var(p *mapUint64Int64Value, name string, value mapUint64Int64Value, usage string) {
-	CommandLine.Var(newmapUint64Int64Value(value, p), name, usage)
+func mapUint64Int64Var(p *mapUint64Int64Value, name string, value mapUint64Int64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint64Int64Value(value, p), name, usage, required, isset)
 }
 
 // mapUint64Int64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint64Int64(name string, value mapUint64Int64Value, usage string) *mapUint64Int64Value {
+func (f *FlagSet) mapUint64Int64(name string, value mapUint64Int64Value, usage string, required, isset bool) *mapUint64Int64Value {
 	p := new(mapUint64Int64Value)
-	f.mapUint64Int64Var(p, name, value, usage)
+	f.mapUint64Int64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint64Int64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint64Int64(name string, value mapUint64Int64Value, usage string) *mapUint64Int64Value {
-	return CommandLine.mapUint64Int64(name, value, usage)
+func mapUint64Int64(name string, value mapUint64Int64Value, usage string, required, isset bool) *mapUint64Int64Value {
+	return CommandLine.mapUint64Int64(name, value, usage, required, isset)
 }
 
 // mapUint64UintValue []mapUint64UintValue
@@ -9088,31 +9088,31 @@ func (slc *mapUint64UintValue) String() string {
 // mapUint64UintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint64UintVar(p *mapUint64UintValue, name string, value mapUint64UintValue, usage string) {
-	f.Var(newmapUint64UintValue(value, p), name, usage)
+func (f *FlagSet) mapUint64UintVar(p *mapUint64UintValue, name string, value mapUint64UintValue, usage string, required, isset bool) {
+	f.Var(newmapUint64UintValue(value, p), name, usage, required, isset)
 }
 
 // mapUint64UintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint64UintVar(p *mapUint64UintValue, name string, value mapUint64UintValue, usage string) {
-	CommandLine.Var(newmapUint64UintValue(value, p), name, usage)
+func mapUint64UintVar(p *mapUint64UintValue, name string, value mapUint64UintValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint64UintValue(value, p), name, usage, required, isset)
 }
 
 // mapUint64UintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint64Uint(name string, value mapUint64UintValue, usage string) *mapUint64UintValue {
+func (f *FlagSet) mapUint64Uint(name string, value mapUint64UintValue, usage string, required, isset bool) *mapUint64UintValue {
 	p := new(mapUint64UintValue)
-	f.mapUint64UintVar(p, name, value, usage)
+	f.mapUint64UintVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint64UintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint64Uint(name string, value mapUint64UintValue, usage string) *mapUint64UintValue {
-	return CommandLine.mapUint64Uint(name, value, usage)
+func mapUint64Uint(name string, value mapUint64UintValue, usage string, required, isset bool) *mapUint64UintValue {
+	return CommandLine.mapUint64Uint(name, value, usage, required, isset)
 }
 
 // mapUint64Uint8Value []mapUint64Uint8Value
@@ -9146,31 +9146,31 @@ func (slc *mapUint64Uint8Value) String() string {
 // mapUint64Uint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint64Uint8Var(p *mapUint64Uint8Value, name string, value mapUint64Uint8Value, usage string) {
-	f.Var(newmapUint64Uint8Value(value, p), name, usage)
+func (f *FlagSet) mapUint64Uint8Var(p *mapUint64Uint8Value, name string, value mapUint64Uint8Value, usage string, required, isset bool) {
+	f.Var(newmapUint64Uint8Value(value, p), name, usage, required, isset)
 }
 
 // mapUint64Uint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint64Uint8Var(p *mapUint64Uint8Value, name string, value mapUint64Uint8Value, usage string) {
-	CommandLine.Var(newmapUint64Uint8Value(value, p), name, usage)
+func mapUint64Uint8Var(p *mapUint64Uint8Value, name string, value mapUint64Uint8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint64Uint8Value(value, p), name, usage, required, isset)
 }
 
 // mapUint64Uint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint64Uint8(name string, value mapUint64Uint8Value, usage string) *mapUint64Uint8Value {
+func (f *FlagSet) mapUint64Uint8(name string, value mapUint64Uint8Value, usage string, required, isset bool) *mapUint64Uint8Value {
 	p := new(mapUint64Uint8Value)
-	f.mapUint64Uint8Var(p, name, value, usage)
+	f.mapUint64Uint8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint64Uint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint64Uint8(name string, value mapUint64Uint8Value, usage string) *mapUint64Uint8Value {
-	return CommandLine.mapUint64Uint8(name, value, usage)
+func mapUint64Uint8(name string, value mapUint64Uint8Value, usage string, required, isset bool) *mapUint64Uint8Value {
+	return CommandLine.mapUint64Uint8(name, value, usage, required, isset)
 }
 
 // mapUint64Uint16Value []mapUint64Uint16Value
@@ -9204,31 +9204,31 @@ func (slc *mapUint64Uint16Value) String() string {
 // mapUint64Uint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint64Uint16Var(p *mapUint64Uint16Value, name string, value mapUint64Uint16Value, usage string) {
-	f.Var(newmapUint64Uint16Value(value, p), name, usage)
+func (f *FlagSet) mapUint64Uint16Var(p *mapUint64Uint16Value, name string, value mapUint64Uint16Value, usage string, required, isset bool) {
+	f.Var(newmapUint64Uint16Value(value, p), name, usage, required, isset)
 }
 
 // mapUint64Uint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint64Uint16Var(p *mapUint64Uint16Value, name string, value mapUint64Uint16Value, usage string) {
-	CommandLine.Var(newmapUint64Uint16Value(value, p), name, usage)
+func mapUint64Uint16Var(p *mapUint64Uint16Value, name string, value mapUint64Uint16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint64Uint16Value(value, p), name, usage, required, isset)
 }
 
 // mapUint64Uint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint64Uint16(name string, value mapUint64Uint16Value, usage string) *mapUint64Uint16Value {
+func (f *FlagSet) mapUint64Uint16(name string, value mapUint64Uint16Value, usage string, required, isset bool) *mapUint64Uint16Value {
 	p := new(mapUint64Uint16Value)
-	f.mapUint64Uint16Var(p, name, value, usage)
+	f.mapUint64Uint16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint64Uint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint64Uint16(name string, value mapUint64Uint16Value, usage string) *mapUint64Uint16Value {
-	return CommandLine.mapUint64Uint16(name, value, usage)
+func mapUint64Uint16(name string, value mapUint64Uint16Value, usage string, required, isset bool) *mapUint64Uint16Value {
+	return CommandLine.mapUint64Uint16(name, value, usage, required, isset)
 }
 
 // mapUint64Uint32Value []mapUint64Uint32Value
@@ -9262,31 +9262,31 @@ func (slc *mapUint64Uint32Value) String() string {
 // mapUint64Uint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint64Uint32Var(p *mapUint64Uint32Value, name string, value mapUint64Uint32Value, usage string) {
-	f.Var(newmapUint64Uint32Value(value, p), name, usage)
+func (f *FlagSet) mapUint64Uint32Var(p *mapUint64Uint32Value, name string, value mapUint64Uint32Value, usage string, required, isset bool) {
+	f.Var(newmapUint64Uint32Value(value, p), name, usage, required, isset)
 }
 
 // mapUint64Uint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint64Uint32Var(p *mapUint64Uint32Value, name string, value mapUint64Uint32Value, usage string) {
-	CommandLine.Var(newmapUint64Uint32Value(value, p), name, usage)
+func mapUint64Uint32Var(p *mapUint64Uint32Value, name string, value mapUint64Uint32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint64Uint32Value(value, p), name, usage, required, isset)
 }
 
 // mapUint64Uint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint64Uint32(name string, value mapUint64Uint32Value, usage string) *mapUint64Uint32Value {
+func (f *FlagSet) mapUint64Uint32(name string, value mapUint64Uint32Value, usage string, required, isset bool) *mapUint64Uint32Value {
 	p := new(mapUint64Uint32Value)
-	f.mapUint64Uint32Var(p, name, value, usage)
+	f.mapUint64Uint32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint64Uint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint64Uint32(name string, value mapUint64Uint32Value, usage string) *mapUint64Uint32Value {
-	return CommandLine.mapUint64Uint32(name, value, usage)
+func mapUint64Uint32(name string, value mapUint64Uint32Value, usage string, required, isset bool) *mapUint64Uint32Value {
+	return CommandLine.mapUint64Uint32(name, value, usage, required, isset)
 }
 
 // mapUint64Uint64Value []mapUint64Uint64Value
@@ -9320,31 +9320,31 @@ func (slc *mapUint64Uint64Value) String() string {
 // mapUint64Uint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint64Uint64Var(p *mapUint64Uint64Value, name string, value mapUint64Uint64Value, usage string) {
-	f.Var(newmapUint64Uint64Value(value, p), name, usage)
+func (f *FlagSet) mapUint64Uint64Var(p *mapUint64Uint64Value, name string, value mapUint64Uint64Value, usage string, required, isset bool) {
+	f.Var(newmapUint64Uint64Value(value, p), name, usage, required, isset)
 }
 
 // mapUint64Uint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint64Uint64Var(p *mapUint64Uint64Value, name string, value mapUint64Uint64Value, usage string) {
-	CommandLine.Var(newmapUint64Uint64Value(value, p), name, usage)
+func mapUint64Uint64Var(p *mapUint64Uint64Value, name string, value mapUint64Uint64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint64Uint64Value(value, p), name, usage, required, isset)
 }
 
 // mapUint64Uint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint64Uint64(name string, value mapUint64Uint64Value, usage string) *mapUint64Uint64Value {
+func (f *FlagSet) mapUint64Uint64(name string, value mapUint64Uint64Value, usage string, required, isset bool) *mapUint64Uint64Value {
 	p := new(mapUint64Uint64Value)
-	f.mapUint64Uint64Var(p, name, value, usage)
+	f.mapUint64Uint64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint64Uint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint64Uint64(name string, value mapUint64Uint64Value, usage string) *mapUint64Uint64Value {
-	return CommandLine.mapUint64Uint64(name, value, usage)
+func mapUint64Uint64(name string, value mapUint64Uint64Value, usage string, required, isset bool) *mapUint64Uint64Value {
+	return CommandLine.mapUint64Uint64(name, value, usage, required, isset)
 }
 
 // mapUint64Float64Value []mapUint64Float64Value
@@ -9378,31 +9378,31 @@ func (slc *mapUint64Float64Value) String() string {
 // mapUint64Float64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint64Float64Var(p *mapUint64Float64Value, name string, value mapUint64Float64Value, usage string) {
-	f.Var(newmapUint64Float64Value(value, p), name, usage)
+func (f *FlagSet) mapUint64Float64Var(p *mapUint64Float64Value, name string, value mapUint64Float64Value, usage string, required, isset bool) {
+	f.Var(newmapUint64Float64Value(value, p), name, usage, required, isset)
 }
 
 // mapUint64Float64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint64Float64Var(p *mapUint64Float64Value, name string, value mapUint64Float64Value, usage string) {
-	CommandLine.Var(newmapUint64Float64Value(value, p), name, usage)
+func mapUint64Float64Var(p *mapUint64Float64Value, name string, value mapUint64Float64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint64Float64Value(value, p), name, usage, required, isset)
 }
 
 // mapUint64Float64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint64Float64(name string, value mapUint64Float64Value, usage string) *mapUint64Float64Value {
+func (f *FlagSet) mapUint64Float64(name string, value mapUint64Float64Value, usage string, required, isset bool) *mapUint64Float64Value {
 	p := new(mapUint64Float64Value)
-	f.mapUint64Float64Var(p, name, value, usage)
+	f.mapUint64Float64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint64Float64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint64Float64(name string, value mapUint64Float64Value, usage string) *mapUint64Float64Value {
-	return CommandLine.mapUint64Float64(name, value, usage)
+func mapUint64Float64(name string, value mapUint64Float64Value, usage string, required, isset bool) *mapUint64Float64Value {
+	return CommandLine.mapUint64Float64(name, value, usage, required, isset)
 }
 
 // mapUint64Float32Value []mapUint64Float32Value
@@ -9436,31 +9436,31 @@ func (slc *mapUint64Float32Value) String() string {
 // mapUint64Float32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint64Float32Var(p *mapUint64Float32Value, name string, value mapUint64Float32Value, usage string) {
-	f.Var(newmapUint64Float32Value(value, p), name, usage)
+func (f *FlagSet) mapUint64Float32Var(p *mapUint64Float32Value, name string, value mapUint64Float32Value, usage string, required, isset bool) {
+	f.Var(newmapUint64Float32Value(value, p), name, usage, required, isset)
 }
 
 // mapUint64Float32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint64Float32Var(p *mapUint64Float32Value, name string, value mapUint64Float32Value, usage string) {
-	CommandLine.Var(newmapUint64Float32Value(value, p), name, usage)
+func mapUint64Float32Var(p *mapUint64Float32Value, name string, value mapUint64Float32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint64Float32Value(value, p), name, usage, required, isset)
 }
 
 // mapUint64Float32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint64Float32(name string, value mapUint64Float32Value, usage string) *mapUint64Float32Value {
+func (f *FlagSet) mapUint64Float32(name string, value mapUint64Float32Value, usage string, required, isset bool) *mapUint64Float32Value {
 	p := new(mapUint64Float32Value)
-	f.mapUint64Float32Var(p, name, value, usage)
+	f.mapUint64Float32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint64Float32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint64Float32(name string, value mapUint64Float32Value, usage string) *mapUint64Float32Value {
-	return CommandLine.mapUint64Float32(name, value, usage)
+func mapUint64Float32(name string, value mapUint64Float32Value, usage string, required, isset bool) *mapUint64Float32Value {
+	return CommandLine.mapUint64Float32(name, value, usage, required, isset)
 }
 
 // mapUint64BoolValue []mapUint64BoolValue
@@ -9494,31 +9494,31 @@ func (slc *mapUint64BoolValue) String() string {
 // mapUint64BoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint64BoolVar(p *mapUint64BoolValue, name string, value mapUint64BoolValue, usage string) {
-	f.Var(newmapUint64BoolValue(value, p), name, usage)
+func (f *FlagSet) mapUint64BoolVar(p *mapUint64BoolValue, name string, value mapUint64BoolValue, usage string, required, isset bool) {
+	f.Var(newmapUint64BoolValue(value, p), name, usage, required, isset)
 }
 
 // mapUint64BoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint64BoolVar(p *mapUint64BoolValue, name string, value mapUint64BoolValue, usage string) {
-	CommandLine.Var(newmapUint64BoolValue(value, p), name, usage)
+func mapUint64BoolVar(p *mapUint64BoolValue, name string, value mapUint64BoolValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint64BoolValue(value, p), name, usage, required, isset)
 }
 
 // mapUint64BoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint64Bool(name string, value mapUint64BoolValue, usage string) *mapUint64BoolValue {
+func (f *FlagSet) mapUint64Bool(name string, value mapUint64BoolValue, usage string, required, isset bool) *mapUint64BoolValue {
 	p := new(mapUint64BoolValue)
-	f.mapUint64BoolVar(p, name, value, usage)
+	f.mapUint64BoolVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint64BoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint64Bool(name string, value mapUint64BoolValue, usage string) *mapUint64BoolValue {
-	return CommandLine.mapUint64Bool(name, value, usage)
+func mapUint64Bool(name string, value mapUint64BoolValue, usage string, required, isset bool) *mapUint64BoolValue {
+	return CommandLine.mapUint64Bool(name, value, usage, required, isset)
 }
 
 // mapUint64StringValue []mapUint64StringValue
@@ -9552,31 +9552,31 @@ func (slc *mapUint64StringValue) String() string {
 // mapUint64StringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapUint64StringVar(p *mapUint64StringValue, name string, value mapUint64StringValue, usage string) {
-	f.Var(newmapUint64StringValue(value, p), name, usage)
+func (f *FlagSet) mapUint64StringVar(p *mapUint64StringValue, name string, value mapUint64StringValue, usage string, required, isset bool) {
+	f.Var(newmapUint64StringValue(value, p), name, usage, required, isset)
 }
 
 // mapUint64StringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapUint64StringVar(p *mapUint64StringValue, name string, value mapUint64StringValue, usage string) {
-	CommandLine.Var(newmapUint64StringValue(value, p), name, usage)
+func mapUint64StringVar(p *mapUint64StringValue, name string, value mapUint64StringValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapUint64StringValue(value, p), name, usage, required, isset)
 }
 
 // mapUint64StringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapUint64String(name string, value mapUint64StringValue, usage string) *mapUint64StringValue {
+func (f *FlagSet) mapUint64String(name string, value mapUint64StringValue, usage string, required, isset bool) *mapUint64StringValue {
 	p := new(mapUint64StringValue)
-	f.mapUint64StringVar(p, name, value, usage)
+	f.mapUint64StringVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapUint64StringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapUint64String(name string, value mapUint64StringValue, usage string) *mapUint64StringValue {
-	return CommandLine.mapUint64String(name, value, usage)
+func mapUint64String(name string, value mapUint64StringValue, usage string, required, isset bool) *mapUint64StringValue {
+	return CommandLine.mapUint64String(name, value, usage, required, isset)
 }
 
 // mapFloat64DurationValue []mapFloat64DurationValue
@@ -9610,31 +9610,31 @@ func (slc *mapFloat64DurationValue) String() string {
 // mapFloat64DurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat64DurationVar(p *mapFloat64DurationValue, name string, value mapFloat64DurationValue, usage string) {
-	f.Var(newmapFloat64DurationValue(value, p), name, usage)
+func (f *FlagSet) mapFloat64DurationVar(p *mapFloat64DurationValue, name string, value mapFloat64DurationValue, usage string, required, isset bool) {
+	f.Var(newmapFloat64DurationValue(value, p), name, usage, required, isset)
 }
 
 // mapFloat64DurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat64DurationVar(p *mapFloat64DurationValue, name string, value mapFloat64DurationValue, usage string) {
-	CommandLine.Var(newmapFloat64DurationValue(value, p), name, usage)
+func mapFloat64DurationVar(p *mapFloat64DurationValue, name string, value mapFloat64DurationValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat64DurationValue(value, p), name, usage, required, isset)
 }
 
 // mapFloat64DurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat64Duration(name string, value mapFloat64DurationValue, usage string) *mapFloat64DurationValue {
+func (f *FlagSet) mapFloat64Duration(name string, value mapFloat64DurationValue, usage string, required, isset bool) *mapFloat64DurationValue {
 	p := new(mapFloat64DurationValue)
-	f.mapFloat64DurationVar(p, name, value, usage)
+	f.mapFloat64DurationVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat64DurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat64Duration(name string, value mapFloat64DurationValue, usage string) *mapFloat64DurationValue {
-	return CommandLine.mapFloat64Duration(name, value, usage)
+func mapFloat64Duration(name string, value mapFloat64DurationValue, usage string, required, isset bool) *mapFloat64DurationValue {
+	return CommandLine.mapFloat64Duration(name, value, usage, required, isset)
 }
 
 // mapFloat64IntValue []mapFloat64IntValue
@@ -9668,31 +9668,31 @@ func (slc *mapFloat64IntValue) String() string {
 // mapFloat64IntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat64IntVar(p *mapFloat64IntValue, name string, value mapFloat64IntValue, usage string) {
-	f.Var(newmapFloat64IntValue(value, p), name, usage)
+func (f *FlagSet) mapFloat64IntVar(p *mapFloat64IntValue, name string, value mapFloat64IntValue, usage string, required, isset bool) {
+	f.Var(newmapFloat64IntValue(value, p), name, usage, required, isset)
 }
 
 // mapFloat64IntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat64IntVar(p *mapFloat64IntValue, name string, value mapFloat64IntValue, usage string) {
-	CommandLine.Var(newmapFloat64IntValue(value, p), name, usage)
+func mapFloat64IntVar(p *mapFloat64IntValue, name string, value mapFloat64IntValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat64IntValue(value, p), name, usage, required, isset)
 }
 
 // mapFloat64IntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat64Int(name string, value mapFloat64IntValue, usage string) *mapFloat64IntValue {
+func (f *FlagSet) mapFloat64Int(name string, value mapFloat64IntValue, usage string, required, isset bool) *mapFloat64IntValue {
 	p := new(mapFloat64IntValue)
-	f.mapFloat64IntVar(p, name, value, usage)
+	f.mapFloat64IntVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat64IntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat64Int(name string, value mapFloat64IntValue, usage string) *mapFloat64IntValue {
-	return CommandLine.mapFloat64Int(name, value, usage)
+func mapFloat64Int(name string, value mapFloat64IntValue, usage string, required, isset bool) *mapFloat64IntValue {
+	return CommandLine.mapFloat64Int(name, value, usage, required, isset)
 }
 
 // mapFloat64Int8Value []mapFloat64Int8Value
@@ -9726,31 +9726,31 @@ func (slc *mapFloat64Int8Value) String() string {
 // mapFloat64Int8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat64Int8Var(p *mapFloat64Int8Value, name string, value mapFloat64Int8Value, usage string) {
-	f.Var(newmapFloat64Int8Value(value, p), name, usage)
+func (f *FlagSet) mapFloat64Int8Var(p *mapFloat64Int8Value, name string, value mapFloat64Int8Value, usage string, required, isset bool) {
+	f.Var(newmapFloat64Int8Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat64Int8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat64Int8Var(p *mapFloat64Int8Value, name string, value mapFloat64Int8Value, usage string) {
-	CommandLine.Var(newmapFloat64Int8Value(value, p), name, usage)
+func mapFloat64Int8Var(p *mapFloat64Int8Value, name string, value mapFloat64Int8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat64Int8Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat64Int8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat64Int8(name string, value mapFloat64Int8Value, usage string) *mapFloat64Int8Value {
+func (f *FlagSet) mapFloat64Int8(name string, value mapFloat64Int8Value, usage string, required, isset bool) *mapFloat64Int8Value {
 	p := new(mapFloat64Int8Value)
-	f.mapFloat64Int8Var(p, name, value, usage)
+	f.mapFloat64Int8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat64Int8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat64Int8(name string, value mapFloat64Int8Value, usage string) *mapFloat64Int8Value {
-	return CommandLine.mapFloat64Int8(name, value, usage)
+func mapFloat64Int8(name string, value mapFloat64Int8Value, usage string, required, isset bool) *mapFloat64Int8Value {
+	return CommandLine.mapFloat64Int8(name, value, usage, required, isset)
 }
 
 // mapFloat64Int16Value []mapFloat64Int16Value
@@ -9784,31 +9784,31 @@ func (slc *mapFloat64Int16Value) String() string {
 // mapFloat64Int16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat64Int16Var(p *mapFloat64Int16Value, name string, value mapFloat64Int16Value, usage string) {
-	f.Var(newmapFloat64Int16Value(value, p), name, usage)
+func (f *FlagSet) mapFloat64Int16Var(p *mapFloat64Int16Value, name string, value mapFloat64Int16Value, usage string, required, isset bool) {
+	f.Var(newmapFloat64Int16Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat64Int16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat64Int16Var(p *mapFloat64Int16Value, name string, value mapFloat64Int16Value, usage string) {
-	CommandLine.Var(newmapFloat64Int16Value(value, p), name, usage)
+func mapFloat64Int16Var(p *mapFloat64Int16Value, name string, value mapFloat64Int16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat64Int16Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat64Int16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat64Int16(name string, value mapFloat64Int16Value, usage string) *mapFloat64Int16Value {
+func (f *FlagSet) mapFloat64Int16(name string, value mapFloat64Int16Value, usage string, required, isset bool) *mapFloat64Int16Value {
 	p := new(mapFloat64Int16Value)
-	f.mapFloat64Int16Var(p, name, value, usage)
+	f.mapFloat64Int16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat64Int16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat64Int16(name string, value mapFloat64Int16Value, usage string) *mapFloat64Int16Value {
-	return CommandLine.mapFloat64Int16(name, value, usage)
+func mapFloat64Int16(name string, value mapFloat64Int16Value, usage string, required, isset bool) *mapFloat64Int16Value {
+	return CommandLine.mapFloat64Int16(name, value, usage, required, isset)
 }
 
 // mapFloat64Int32Value []mapFloat64Int32Value
@@ -9842,31 +9842,31 @@ func (slc *mapFloat64Int32Value) String() string {
 // mapFloat64Int32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat64Int32Var(p *mapFloat64Int32Value, name string, value mapFloat64Int32Value, usage string) {
-	f.Var(newmapFloat64Int32Value(value, p), name, usage)
+func (f *FlagSet) mapFloat64Int32Var(p *mapFloat64Int32Value, name string, value mapFloat64Int32Value, usage string, required, isset bool) {
+	f.Var(newmapFloat64Int32Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat64Int32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat64Int32Var(p *mapFloat64Int32Value, name string, value mapFloat64Int32Value, usage string) {
-	CommandLine.Var(newmapFloat64Int32Value(value, p), name, usage)
+func mapFloat64Int32Var(p *mapFloat64Int32Value, name string, value mapFloat64Int32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat64Int32Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat64Int32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat64Int32(name string, value mapFloat64Int32Value, usage string) *mapFloat64Int32Value {
+func (f *FlagSet) mapFloat64Int32(name string, value mapFloat64Int32Value, usage string, required, isset bool) *mapFloat64Int32Value {
 	p := new(mapFloat64Int32Value)
-	f.mapFloat64Int32Var(p, name, value, usage)
+	f.mapFloat64Int32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat64Int32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat64Int32(name string, value mapFloat64Int32Value, usage string) *mapFloat64Int32Value {
-	return CommandLine.mapFloat64Int32(name, value, usage)
+func mapFloat64Int32(name string, value mapFloat64Int32Value, usage string, required, isset bool) *mapFloat64Int32Value {
+	return CommandLine.mapFloat64Int32(name, value, usage, required, isset)
 }
 
 // mapFloat64Int64Value []mapFloat64Int64Value
@@ -9900,31 +9900,31 @@ func (slc *mapFloat64Int64Value) String() string {
 // mapFloat64Int64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat64Int64Var(p *mapFloat64Int64Value, name string, value mapFloat64Int64Value, usage string) {
-	f.Var(newmapFloat64Int64Value(value, p), name, usage)
+func (f *FlagSet) mapFloat64Int64Var(p *mapFloat64Int64Value, name string, value mapFloat64Int64Value, usage string, required, isset bool) {
+	f.Var(newmapFloat64Int64Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat64Int64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat64Int64Var(p *mapFloat64Int64Value, name string, value mapFloat64Int64Value, usage string) {
-	CommandLine.Var(newmapFloat64Int64Value(value, p), name, usage)
+func mapFloat64Int64Var(p *mapFloat64Int64Value, name string, value mapFloat64Int64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat64Int64Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat64Int64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat64Int64(name string, value mapFloat64Int64Value, usage string) *mapFloat64Int64Value {
+func (f *FlagSet) mapFloat64Int64(name string, value mapFloat64Int64Value, usage string, required, isset bool) *mapFloat64Int64Value {
 	p := new(mapFloat64Int64Value)
-	f.mapFloat64Int64Var(p, name, value, usage)
+	f.mapFloat64Int64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat64Int64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat64Int64(name string, value mapFloat64Int64Value, usage string) *mapFloat64Int64Value {
-	return CommandLine.mapFloat64Int64(name, value, usage)
+func mapFloat64Int64(name string, value mapFloat64Int64Value, usage string, required, isset bool) *mapFloat64Int64Value {
+	return CommandLine.mapFloat64Int64(name, value, usage, required, isset)
 }
 
 // mapFloat64UintValue []mapFloat64UintValue
@@ -9958,31 +9958,31 @@ func (slc *mapFloat64UintValue) String() string {
 // mapFloat64UintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat64UintVar(p *mapFloat64UintValue, name string, value mapFloat64UintValue, usage string) {
-	f.Var(newmapFloat64UintValue(value, p), name, usage)
+func (f *FlagSet) mapFloat64UintVar(p *mapFloat64UintValue, name string, value mapFloat64UintValue, usage string, required, isset bool) {
+	f.Var(newmapFloat64UintValue(value, p), name, usage, required, isset)
 }
 
 // mapFloat64UintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat64UintVar(p *mapFloat64UintValue, name string, value mapFloat64UintValue, usage string) {
-	CommandLine.Var(newmapFloat64UintValue(value, p), name, usage)
+func mapFloat64UintVar(p *mapFloat64UintValue, name string, value mapFloat64UintValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat64UintValue(value, p), name, usage, required, isset)
 }
 
 // mapFloat64UintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat64Uint(name string, value mapFloat64UintValue, usage string) *mapFloat64UintValue {
+func (f *FlagSet) mapFloat64Uint(name string, value mapFloat64UintValue, usage string, required, isset bool) *mapFloat64UintValue {
 	p := new(mapFloat64UintValue)
-	f.mapFloat64UintVar(p, name, value, usage)
+	f.mapFloat64UintVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat64UintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat64Uint(name string, value mapFloat64UintValue, usage string) *mapFloat64UintValue {
-	return CommandLine.mapFloat64Uint(name, value, usage)
+func mapFloat64Uint(name string, value mapFloat64UintValue, usage string, required, isset bool) *mapFloat64UintValue {
+	return CommandLine.mapFloat64Uint(name, value, usage, required, isset)
 }
 
 // mapFloat64Uint8Value []mapFloat64Uint8Value
@@ -10016,31 +10016,31 @@ func (slc *mapFloat64Uint8Value) String() string {
 // mapFloat64Uint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat64Uint8Var(p *mapFloat64Uint8Value, name string, value mapFloat64Uint8Value, usage string) {
-	f.Var(newmapFloat64Uint8Value(value, p), name, usage)
+func (f *FlagSet) mapFloat64Uint8Var(p *mapFloat64Uint8Value, name string, value mapFloat64Uint8Value, usage string, required, isset bool) {
+	f.Var(newmapFloat64Uint8Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat64Uint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat64Uint8Var(p *mapFloat64Uint8Value, name string, value mapFloat64Uint8Value, usage string) {
-	CommandLine.Var(newmapFloat64Uint8Value(value, p), name, usage)
+func mapFloat64Uint8Var(p *mapFloat64Uint8Value, name string, value mapFloat64Uint8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat64Uint8Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat64Uint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat64Uint8(name string, value mapFloat64Uint8Value, usage string) *mapFloat64Uint8Value {
+func (f *FlagSet) mapFloat64Uint8(name string, value mapFloat64Uint8Value, usage string, required, isset bool) *mapFloat64Uint8Value {
 	p := new(mapFloat64Uint8Value)
-	f.mapFloat64Uint8Var(p, name, value, usage)
+	f.mapFloat64Uint8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat64Uint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat64Uint8(name string, value mapFloat64Uint8Value, usage string) *mapFloat64Uint8Value {
-	return CommandLine.mapFloat64Uint8(name, value, usage)
+func mapFloat64Uint8(name string, value mapFloat64Uint8Value, usage string, required, isset bool) *mapFloat64Uint8Value {
+	return CommandLine.mapFloat64Uint8(name, value, usage, required, isset)
 }
 
 // mapFloat64Uint16Value []mapFloat64Uint16Value
@@ -10074,31 +10074,31 @@ func (slc *mapFloat64Uint16Value) String() string {
 // mapFloat64Uint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat64Uint16Var(p *mapFloat64Uint16Value, name string, value mapFloat64Uint16Value, usage string) {
-	f.Var(newmapFloat64Uint16Value(value, p), name, usage)
+func (f *FlagSet) mapFloat64Uint16Var(p *mapFloat64Uint16Value, name string, value mapFloat64Uint16Value, usage string, required, isset bool) {
+	f.Var(newmapFloat64Uint16Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat64Uint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat64Uint16Var(p *mapFloat64Uint16Value, name string, value mapFloat64Uint16Value, usage string) {
-	CommandLine.Var(newmapFloat64Uint16Value(value, p), name, usage)
+func mapFloat64Uint16Var(p *mapFloat64Uint16Value, name string, value mapFloat64Uint16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat64Uint16Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat64Uint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat64Uint16(name string, value mapFloat64Uint16Value, usage string) *mapFloat64Uint16Value {
+func (f *FlagSet) mapFloat64Uint16(name string, value mapFloat64Uint16Value, usage string, required, isset bool) *mapFloat64Uint16Value {
 	p := new(mapFloat64Uint16Value)
-	f.mapFloat64Uint16Var(p, name, value, usage)
+	f.mapFloat64Uint16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat64Uint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat64Uint16(name string, value mapFloat64Uint16Value, usage string) *mapFloat64Uint16Value {
-	return CommandLine.mapFloat64Uint16(name, value, usage)
+func mapFloat64Uint16(name string, value mapFloat64Uint16Value, usage string, required, isset bool) *mapFloat64Uint16Value {
+	return CommandLine.mapFloat64Uint16(name, value, usage, required, isset)
 }
 
 // mapFloat64Uint32Value []mapFloat64Uint32Value
@@ -10132,31 +10132,31 @@ func (slc *mapFloat64Uint32Value) String() string {
 // mapFloat64Uint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat64Uint32Var(p *mapFloat64Uint32Value, name string, value mapFloat64Uint32Value, usage string) {
-	f.Var(newmapFloat64Uint32Value(value, p), name, usage)
+func (f *FlagSet) mapFloat64Uint32Var(p *mapFloat64Uint32Value, name string, value mapFloat64Uint32Value, usage string, required, isset bool) {
+	f.Var(newmapFloat64Uint32Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat64Uint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat64Uint32Var(p *mapFloat64Uint32Value, name string, value mapFloat64Uint32Value, usage string) {
-	CommandLine.Var(newmapFloat64Uint32Value(value, p), name, usage)
+func mapFloat64Uint32Var(p *mapFloat64Uint32Value, name string, value mapFloat64Uint32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat64Uint32Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat64Uint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat64Uint32(name string, value mapFloat64Uint32Value, usage string) *mapFloat64Uint32Value {
+func (f *FlagSet) mapFloat64Uint32(name string, value mapFloat64Uint32Value, usage string, required, isset bool) *mapFloat64Uint32Value {
 	p := new(mapFloat64Uint32Value)
-	f.mapFloat64Uint32Var(p, name, value, usage)
+	f.mapFloat64Uint32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat64Uint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat64Uint32(name string, value mapFloat64Uint32Value, usage string) *mapFloat64Uint32Value {
-	return CommandLine.mapFloat64Uint32(name, value, usage)
+func mapFloat64Uint32(name string, value mapFloat64Uint32Value, usage string, required, isset bool) *mapFloat64Uint32Value {
+	return CommandLine.mapFloat64Uint32(name, value, usage, required, isset)
 }
 
 // mapFloat64Uint64Value []mapFloat64Uint64Value
@@ -10190,31 +10190,31 @@ func (slc *mapFloat64Uint64Value) String() string {
 // mapFloat64Uint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat64Uint64Var(p *mapFloat64Uint64Value, name string, value mapFloat64Uint64Value, usage string) {
-	f.Var(newmapFloat64Uint64Value(value, p), name, usage)
+func (f *FlagSet) mapFloat64Uint64Var(p *mapFloat64Uint64Value, name string, value mapFloat64Uint64Value, usage string, required, isset bool) {
+	f.Var(newmapFloat64Uint64Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat64Uint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat64Uint64Var(p *mapFloat64Uint64Value, name string, value mapFloat64Uint64Value, usage string) {
-	CommandLine.Var(newmapFloat64Uint64Value(value, p), name, usage)
+func mapFloat64Uint64Var(p *mapFloat64Uint64Value, name string, value mapFloat64Uint64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat64Uint64Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat64Uint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat64Uint64(name string, value mapFloat64Uint64Value, usage string) *mapFloat64Uint64Value {
+func (f *FlagSet) mapFloat64Uint64(name string, value mapFloat64Uint64Value, usage string, required, isset bool) *mapFloat64Uint64Value {
 	p := new(mapFloat64Uint64Value)
-	f.mapFloat64Uint64Var(p, name, value, usage)
+	f.mapFloat64Uint64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat64Uint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat64Uint64(name string, value mapFloat64Uint64Value, usage string) *mapFloat64Uint64Value {
-	return CommandLine.mapFloat64Uint64(name, value, usage)
+func mapFloat64Uint64(name string, value mapFloat64Uint64Value, usage string, required, isset bool) *mapFloat64Uint64Value {
+	return CommandLine.mapFloat64Uint64(name, value, usage, required, isset)
 }
 
 // mapFloat64Float64Value []mapFloat64Float64Value
@@ -10248,31 +10248,31 @@ func (slc *mapFloat64Float64Value) String() string {
 // mapFloat64Float64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat64Float64Var(p *mapFloat64Float64Value, name string, value mapFloat64Float64Value, usage string) {
-	f.Var(newmapFloat64Float64Value(value, p), name, usage)
+func (f *FlagSet) mapFloat64Float64Var(p *mapFloat64Float64Value, name string, value mapFloat64Float64Value, usage string, required, isset bool) {
+	f.Var(newmapFloat64Float64Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat64Float64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat64Float64Var(p *mapFloat64Float64Value, name string, value mapFloat64Float64Value, usage string) {
-	CommandLine.Var(newmapFloat64Float64Value(value, p), name, usage)
+func mapFloat64Float64Var(p *mapFloat64Float64Value, name string, value mapFloat64Float64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat64Float64Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat64Float64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat64Float64(name string, value mapFloat64Float64Value, usage string) *mapFloat64Float64Value {
+func (f *FlagSet) mapFloat64Float64(name string, value mapFloat64Float64Value, usage string, required, isset bool) *mapFloat64Float64Value {
 	p := new(mapFloat64Float64Value)
-	f.mapFloat64Float64Var(p, name, value, usage)
+	f.mapFloat64Float64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat64Float64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat64Float64(name string, value mapFloat64Float64Value, usage string) *mapFloat64Float64Value {
-	return CommandLine.mapFloat64Float64(name, value, usage)
+func mapFloat64Float64(name string, value mapFloat64Float64Value, usage string, required, isset bool) *mapFloat64Float64Value {
+	return CommandLine.mapFloat64Float64(name, value, usage, required, isset)
 }
 
 // mapFloat64Float32Value []mapFloat64Float32Value
@@ -10306,31 +10306,31 @@ func (slc *mapFloat64Float32Value) String() string {
 // mapFloat64Float32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat64Float32Var(p *mapFloat64Float32Value, name string, value mapFloat64Float32Value, usage string) {
-	f.Var(newmapFloat64Float32Value(value, p), name, usage)
+func (f *FlagSet) mapFloat64Float32Var(p *mapFloat64Float32Value, name string, value mapFloat64Float32Value, usage string, required, isset bool) {
+	f.Var(newmapFloat64Float32Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat64Float32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat64Float32Var(p *mapFloat64Float32Value, name string, value mapFloat64Float32Value, usage string) {
-	CommandLine.Var(newmapFloat64Float32Value(value, p), name, usage)
+func mapFloat64Float32Var(p *mapFloat64Float32Value, name string, value mapFloat64Float32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat64Float32Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat64Float32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat64Float32(name string, value mapFloat64Float32Value, usage string) *mapFloat64Float32Value {
+func (f *FlagSet) mapFloat64Float32(name string, value mapFloat64Float32Value, usage string, required, isset bool) *mapFloat64Float32Value {
 	p := new(mapFloat64Float32Value)
-	f.mapFloat64Float32Var(p, name, value, usage)
+	f.mapFloat64Float32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat64Float32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat64Float32(name string, value mapFloat64Float32Value, usage string) *mapFloat64Float32Value {
-	return CommandLine.mapFloat64Float32(name, value, usage)
+func mapFloat64Float32(name string, value mapFloat64Float32Value, usage string, required, isset bool) *mapFloat64Float32Value {
+	return CommandLine.mapFloat64Float32(name, value, usage, required, isset)
 }
 
 // mapFloat64BoolValue []mapFloat64BoolValue
@@ -10364,31 +10364,31 @@ func (slc *mapFloat64BoolValue) String() string {
 // mapFloat64BoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat64BoolVar(p *mapFloat64BoolValue, name string, value mapFloat64BoolValue, usage string) {
-	f.Var(newmapFloat64BoolValue(value, p), name, usage)
+func (f *FlagSet) mapFloat64BoolVar(p *mapFloat64BoolValue, name string, value mapFloat64BoolValue, usage string, required, isset bool) {
+	f.Var(newmapFloat64BoolValue(value, p), name, usage, required, isset)
 }
 
 // mapFloat64BoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat64BoolVar(p *mapFloat64BoolValue, name string, value mapFloat64BoolValue, usage string) {
-	CommandLine.Var(newmapFloat64BoolValue(value, p), name, usage)
+func mapFloat64BoolVar(p *mapFloat64BoolValue, name string, value mapFloat64BoolValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat64BoolValue(value, p), name, usage, required, isset)
 }
 
 // mapFloat64BoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat64Bool(name string, value mapFloat64BoolValue, usage string) *mapFloat64BoolValue {
+func (f *FlagSet) mapFloat64Bool(name string, value mapFloat64BoolValue, usage string, required, isset bool) *mapFloat64BoolValue {
 	p := new(mapFloat64BoolValue)
-	f.mapFloat64BoolVar(p, name, value, usage)
+	f.mapFloat64BoolVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat64BoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat64Bool(name string, value mapFloat64BoolValue, usage string) *mapFloat64BoolValue {
-	return CommandLine.mapFloat64Bool(name, value, usage)
+func mapFloat64Bool(name string, value mapFloat64BoolValue, usage string, required, isset bool) *mapFloat64BoolValue {
+	return CommandLine.mapFloat64Bool(name, value, usage, required, isset)
 }
 
 // mapFloat64StringValue []mapFloat64StringValue
@@ -10422,31 +10422,31 @@ func (slc *mapFloat64StringValue) String() string {
 // mapFloat64StringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat64StringVar(p *mapFloat64StringValue, name string, value mapFloat64StringValue, usage string) {
-	f.Var(newmapFloat64StringValue(value, p), name, usage)
+func (f *FlagSet) mapFloat64StringVar(p *mapFloat64StringValue, name string, value mapFloat64StringValue, usage string, required, isset bool) {
+	f.Var(newmapFloat64StringValue(value, p), name, usage, required, isset)
 }
 
 // mapFloat64StringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat64StringVar(p *mapFloat64StringValue, name string, value mapFloat64StringValue, usage string) {
-	CommandLine.Var(newmapFloat64StringValue(value, p), name, usage)
+func mapFloat64StringVar(p *mapFloat64StringValue, name string, value mapFloat64StringValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat64StringValue(value, p), name, usage, required, isset)
 }
 
 // mapFloat64StringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat64String(name string, value mapFloat64StringValue, usage string) *mapFloat64StringValue {
+func (f *FlagSet) mapFloat64String(name string, value mapFloat64StringValue, usage string, required, isset bool) *mapFloat64StringValue {
 	p := new(mapFloat64StringValue)
-	f.mapFloat64StringVar(p, name, value, usage)
+	f.mapFloat64StringVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat64StringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat64String(name string, value mapFloat64StringValue, usage string) *mapFloat64StringValue {
-	return CommandLine.mapFloat64String(name, value, usage)
+func mapFloat64String(name string, value mapFloat64StringValue, usage string, required, isset bool) *mapFloat64StringValue {
+	return CommandLine.mapFloat64String(name, value, usage, required, isset)
 }
 
 // mapFloat32DurationValue []mapFloat32DurationValue
@@ -10480,31 +10480,31 @@ func (slc *mapFloat32DurationValue) String() string {
 // mapFloat32DurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat32DurationVar(p *mapFloat32DurationValue, name string, value mapFloat32DurationValue, usage string) {
-	f.Var(newmapFloat32DurationValue(value, p), name, usage)
+func (f *FlagSet) mapFloat32DurationVar(p *mapFloat32DurationValue, name string, value mapFloat32DurationValue, usage string, required, isset bool) {
+	f.Var(newmapFloat32DurationValue(value, p), name, usage, required, isset)
 }
 
 // mapFloat32DurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat32DurationVar(p *mapFloat32DurationValue, name string, value mapFloat32DurationValue, usage string) {
-	CommandLine.Var(newmapFloat32DurationValue(value, p), name, usage)
+func mapFloat32DurationVar(p *mapFloat32DurationValue, name string, value mapFloat32DurationValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat32DurationValue(value, p), name, usage, required, isset)
 }
 
 // mapFloat32DurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat32Duration(name string, value mapFloat32DurationValue, usage string) *mapFloat32DurationValue {
+func (f *FlagSet) mapFloat32Duration(name string, value mapFloat32DurationValue, usage string, required, isset bool) *mapFloat32DurationValue {
 	p := new(mapFloat32DurationValue)
-	f.mapFloat32DurationVar(p, name, value, usage)
+	f.mapFloat32DurationVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat32DurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat32Duration(name string, value mapFloat32DurationValue, usage string) *mapFloat32DurationValue {
-	return CommandLine.mapFloat32Duration(name, value, usage)
+func mapFloat32Duration(name string, value mapFloat32DurationValue, usage string, required, isset bool) *mapFloat32DurationValue {
+	return CommandLine.mapFloat32Duration(name, value, usage, required, isset)
 }
 
 // mapFloat32IntValue []mapFloat32IntValue
@@ -10538,31 +10538,31 @@ func (slc *mapFloat32IntValue) String() string {
 // mapFloat32IntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat32IntVar(p *mapFloat32IntValue, name string, value mapFloat32IntValue, usage string) {
-	f.Var(newmapFloat32IntValue(value, p), name, usage)
+func (f *FlagSet) mapFloat32IntVar(p *mapFloat32IntValue, name string, value mapFloat32IntValue, usage string, required, isset bool) {
+	f.Var(newmapFloat32IntValue(value, p), name, usage, required, isset)
 }
 
 // mapFloat32IntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat32IntVar(p *mapFloat32IntValue, name string, value mapFloat32IntValue, usage string) {
-	CommandLine.Var(newmapFloat32IntValue(value, p), name, usage)
+func mapFloat32IntVar(p *mapFloat32IntValue, name string, value mapFloat32IntValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat32IntValue(value, p), name, usage, required, isset)
 }
 
 // mapFloat32IntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat32Int(name string, value mapFloat32IntValue, usage string) *mapFloat32IntValue {
+func (f *FlagSet) mapFloat32Int(name string, value mapFloat32IntValue, usage string, required, isset bool) *mapFloat32IntValue {
 	p := new(mapFloat32IntValue)
-	f.mapFloat32IntVar(p, name, value, usage)
+	f.mapFloat32IntVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat32IntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat32Int(name string, value mapFloat32IntValue, usage string) *mapFloat32IntValue {
-	return CommandLine.mapFloat32Int(name, value, usage)
+func mapFloat32Int(name string, value mapFloat32IntValue, usage string, required, isset bool) *mapFloat32IntValue {
+	return CommandLine.mapFloat32Int(name, value, usage, required, isset)
 }
 
 // mapFloat32Int8Value []mapFloat32Int8Value
@@ -10596,31 +10596,31 @@ func (slc *mapFloat32Int8Value) String() string {
 // mapFloat32Int8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat32Int8Var(p *mapFloat32Int8Value, name string, value mapFloat32Int8Value, usage string) {
-	f.Var(newmapFloat32Int8Value(value, p), name, usage)
+func (f *FlagSet) mapFloat32Int8Var(p *mapFloat32Int8Value, name string, value mapFloat32Int8Value, usage string, required, isset bool) {
+	f.Var(newmapFloat32Int8Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat32Int8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat32Int8Var(p *mapFloat32Int8Value, name string, value mapFloat32Int8Value, usage string) {
-	CommandLine.Var(newmapFloat32Int8Value(value, p), name, usage)
+func mapFloat32Int8Var(p *mapFloat32Int8Value, name string, value mapFloat32Int8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat32Int8Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat32Int8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat32Int8(name string, value mapFloat32Int8Value, usage string) *mapFloat32Int8Value {
+func (f *FlagSet) mapFloat32Int8(name string, value mapFloat32Int8Value, usage string, required, isset bool) *mapFloat32Int8Value {
 	p := new(mapFloat32Int8Value)
-	f.mapFloat32Int8Var(p, name, value, usage)
+	f.mapFloat32Int8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat32Int8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat32Int8(name string, value mapFloat32Int8Value, usage string) *mapFloat32Int8Value {
-	return CommandLine.mapFloat32Int8(name, value, usage)
+func mapFloat32Int8(name string, value mapFloat32Int8Value, usage string, required, isset bool) *mapFloat32Int8Value {
+	return CommandLine.mapFloat32Int8(name, value, usage, required, isset)
 }
 
 // mapFloat32Int16Value []mapFloat32Int16Value
@@ -10654,31 +10654,31 @@ func (slc *mapFloat32Int16Value) String() string {
 // mapFloat32Int16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat32Int16Var(p *mapFloat32Int16Value, name string, value mapFloat32Int16Value, usage string) {
-	f.Var(newmapFloat32Int16Value(value, p), name, usage)
+func (f *FlagSet) mapFloat32Int16Var(p *mapFloat32Int16Value, name string, value mapFloat32Int16Value, usage string, required, isset bool) {
+	f.Var(newmapFloat32Int16Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat32Int16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat32Int16Var(p *mapFloat32Int16Value, name string, value mapFloat32Int16Value, usage string) {
-	CommandLine.Var(newmapFloat32Int16Value(value, p), name, usage)
+func mapFloat32Int16Var(p *mapFloat32Int16Value, name string, value mapFloat32Int16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat32Int16Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat32Int16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat32Int16(name string, value mapFloat32Int16Value, usage string) *mapFloat32Int16Value {
+func (f *FlagSet) mapFloat32Int16(name string, value mapFloat32Int16Value, usage string, required, isset bool) *mapFloat32Int16Value {
 	p := new(mapFloat32Int16Value)
-	f.mapFloat32Int16Var(p, name, value, usage)
+	f.mapFloat32Int16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat32Int16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat32Int16(name string, value mapFloat32Int16Value, usage string) *mapFloat32Int16Value {
-	return CommandLine.mapFloat32Int16(name, value, usage)
+func mapFloat32Int16(name string, value mapFloat32Int16Value, usage string, required, isset bool) *mapFloat32Int16Value {
+	return CommandLine.mapFloat32Int16(name, value, usage, required, isset)
 }
 
 // mapFloat32Int32Value []mapFloat32Int32Value
@@ -10712,31 +10712,31 @@ func (slc *mapFloat32Int32Value) String() string {
 // mapFloat32Int32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat32Int32Var(p *mapFloat32Int32Value, name string, value mapFloat32Int32Value, usage string) {
-	f.Var(newmapFloat32Int32Value(value, p), name, usage)
+func (f *FlagSet) mapFloat32Int32Var(p *mapFloat32Int32Value, name string, value mapFloat32Int32Value, usage string, required, isset bool) {
+	f.Var(newmapFloat32Int32Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat32Int32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat32Int32Var(p *mapFloat32Int32Value, name string, value mapFloat32Int32Value, usage string) {
-	CommandLine.Var(newmapFloat32Int32Value(value, p), name, usage)
+func mapFloat32Int32Var(p *mapFloat32Int32Value, name string, value mapFloat32Int32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat32Int32Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat32Int32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat32Int32(name string, value mapFloat32Int32Value, usage string) *mapFloat32Int32Value {
+func (f *FlagSet) mapFloat32Int32(name string, value mapFloat32Int32Value, usage string, required, isset bool) *mapFloat32Int32Value {
 	p := new(mapFloat32Int32Value)
-	f.mapFloat32Int32Var(p, name, value, usage)
+	f.mapFloat32Int32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat32Int32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat32Int32(name string, value mapFloat32Int32Value, usage string) *mapFloat32Int32Value {
-	return CommandLine.mapFloat32Int32(name, value, usage)
+func mapFloat32Int32(name string, value mapFloat32Int32Value, usage string, required, isset bool) *mapFloat32Int32Value {
+	return CommandLine.mapFloat32Int32(name, value, usage, required, isset)
 }
 
 // mapFloat32Int64Value []mapFloat32Int64Value
@@ -10770,31 +10770,31 @@ func (slc *mapFloat32Int64Value) String() string {
 // mapFloat32Int64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat32Int64Var(p *mapFloat32Int64Value, name string, value mapFloat32Int64Value, usage string) {
-	f.Var(newmapFloat32Int64Value(value, p), name, usage)
+func (f *FlagSet) mapFloat32Int64Var(p *mapFloat32Int64Value, name string, value mapFloat32Int64Value, usage string, required, isset bool) {
+	f.Var(newmapFloat32Int64Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat32Int64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat32Int64Var(p *mapFloat32Int64Value, name string, value mapFloat32Int64Value, usage string) {
-	CommandLine.Var(newmapFloat32Int64Value(value, p), name, usage)
+func mapFloat32Int64Var(p *mapFloat32Int64Value, name string, value mapFloat32Int64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat32Int64Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat32Int64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat32Int64(name string, value mapFloat32Int64Value, usage string) *mapFloat32Int64Value {
+func (f *FlagSet) mapFloat32Int64(name string, value mapFloat32Int64Value, usage string, required, isset bool) *mapFloat32Int64Value {
 	p := new(mapFloat32Int64Value)
-	f.mapFloat32Int64Var(p, name, value, usage)
+	f.mapFloat32Int64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat32Int64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat32Int64(name string, value mapFloat32Int64Value, usage string) *mapFloat32Int64Value {
-	return CommandLine.mapFloat32Int64(name, value, usage)
+func mapFloat32Int64(name string, value mapFloat32Int64Value, usage string, required, isset bool) *mapFloat32Int64Value {
+	return CommandLine.mapFloat32Int64(name, value, usage, required, isset)
 }
 
 // mapFloat32UintValue []mapFloat32UintValue
@@ -10828,31 +10828,31 @@ func (slc *mapFloat32UintValue) String() string {
 // mapFloat32UintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat32UintVar(p *mapFloat32UintValue, name string, value mapFloat32UintValue, usage string) {
-	f.Var(newmapFloat32UintValue(value, p), name, usage)
+func (f *FlagSet) mapFloat32UintVar(p *mapFloat32UintValue, name string, value mapFloat32UintValue, usage string, required, isset bool) {
+	f.Var(newmapFloat32UintValue(value, p), name, usage, required, isset)
 }
 
 // mapFloat32UintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat32UintVar(p *mapFloat32UintValue, name string, value mapFloat32UintValue, usage string) {
-	CommandLine.Var(newmapFloat32UintValue(value, p), name, usage)
+func mapFloat32UintVar(p *mapFloat32UintValue, name string, value mapFloat32UintValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat32UintValue(value, p), name, usage, required, isset)
 }
 
 // mapFloat32UintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat32Uint(name string, value mapFloat32UintValue, usage string) *mapFloat32UintValue {
+func (f *FlagSet) mapFloat32Uint(name string, value mapFloat32UintValue, usage string, required, isset bool) *mapFloat32UintValue {
 	p := new(mapFloat32UintValue)
-	f.mapFloat32UintVar(p, name, value, usage)
+	f.mapFloat32UintVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat32UintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat32Uint(name string, value mapFloat32UintValue, usage string) *mapFloat32UintValue {
-	return CommandLine.mapFloat32Uint(name, value, usage)
+func mapFloat32Uint(name string, value mapFloat32UintValue, usage string, required, isset bool) *mapFloat32UintValue {
+	return CommandLine.mapFloat32Uint(name, value, usage, required, isset)
 }
 
 // mapFloat32Uint8Value []mapFloat32Uint8Value
@@ -10886,31 +10886,31 @@ func (slc *mapFloat32Uint8Value) String() string {
 // mapFloat32Uint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat32Uint8Var(p *mapFloat32Uint8Value, name string, value mapFloat32Uint8Value, usage string) {
-	f.Var(newmapFloat32Uint8Value(value, p), name, usage)
+func (f *FlagSet) mapFloat32Uint8Var(p *mapFloat32Uint8Value, name string, value mapFloat32Uint8Value, usage string, required, isset bool) {
+	f.Var(newmapFloat32Uint8Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat32Uint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat32Uint8Var(p *mapFloat32Uint8Value, name string, value mapFloat32Uint8Value, usage string) {
-	CommandLine.Var(newmapFloat32Uint8Value(value, p), name, usage)
+func mapFloat32Uint8Var(p *mapFloat32Uint8Value, name string, value mapFloat32Uint8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat32Uint8Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat32Uint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat32Uint8(name string, value mapFloat32Uint8Value, usage string) *mapFloat32Uint8Value {
+func (f *FlagSet) mapFloat32Uint8(name string, value mapFloat32Uint8Value, usage string, required, isset bool) *mapFloat32Uint8Value {
 	p := new(mapFloat32Uint8Value)
-	f.mapFloat32Uint8Var(p, name, value, usage)
+	f.mapFloat32Uint8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat32Uint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat32Uint8(name string, value mapFloat32Uint8Value, usage string) *mapFloat32Uint8Value {
-	return CommandLine.mapFloat32Uint8(name, value, usage)
+func mapFloat32Uint8(name string, value mapFloat32Uint8Value, usage string, required, isset bool) *mapFloat32Uint8Value {
+	return CommandLine.mapFloat32Uint8(name, value, usage, required, isset)
 }
 
 // mapFloat32Uint16Value []mapFloat32Uint16Value
@@ -10944,31 +10944,31 @@ func (slc *mapFloat32Uint16Value) String() string {
 // mapFloat32Uint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat32Uint16Var(p *mapFloat32Uint16Value, name string, value mapFloat32Uint16Value, usage string) {
-	f.Var(newmapFloat32Uint16Value(value, p), name, usage)
+func (f *FlagSet) mapFloat32Uint16Var(p *mapFloat32Uint16Value, name string, value mapFloat32Uint16Value, usage string, required, isset bool) {
+	f.Var(newmapFloat32Uint16Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat32Uint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat32Uint16Var(p *mapFloat32Uint16Value, name string, value mapFloat32Uint16Value, usage string) {
-	CommandLine.Var(newmapFloat32Uint16Value(value, p), name, usage)
+func mapFloat32Uint16Var(p *mapFloat32Uint16Value, name string, value mapFloat32Uint16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat32Uint16Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat32Uint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat32Uint16(name string, value mapFloat32Uint16Value, usage string) *mapFloat32Uint16Value {
+func (f *FlagSet) mapFloat32Uint16(name string, value mapFloat32Uint16Value, usage string, required, isset bool) *mapFloat32Uint16Value {
 	p := new(mapFloat32Uint16Value)
-	f.mapFloat32Uint16Var(p, name, value, usage)
+	f.mapFloat32Uint16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat32Uint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat32Uint16(name string, value mapFloat32Uint16Value, usage string) *mapFloat32Uint16Value {
-	return CommandLine.mapFloat32Uint16(name, value, usage)
+func mapFloat32Uint16(name string, value mapFloat32Uint16Value, usage string, required, isset bool) *mapFloat32Uint16Value {
+	return CommandLine.mapFloat32Uint16(name, value, usage, required, isset)
 }
 
 // mapFloat32Uint32Value []mapFloat32Uint32Value
@@ -11002,31 +11002,31 @@ func (slc *mapFloat32Uint32Value) String() string {
 // mapFloat32Uint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat32Uint32Var(p *mapFloat32Uint32Value, name string, value mapFloat32Uint32Value, usage string) {
-	f.Var(newmapFloat32Uint32Value(value, p), name, usage)
+func (f *FlagSet) mapFloat32Uint32Var(p *mapFloat32Uint32Value, name string, value mapFloat32Uint32Value, usage string, required, isset bool) {
+	f.Var(newmapFloat32Uint32Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat32Uint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat32Uint32Var(p *mapFloat32Uint32Value, name string, value mapFloat32Uint32Value, usage string) {
-	CommandLine.Var(newmapFloat32Uint32Value(value, p), name, usage)
+func mapFloat32Uint32Var(p *mapFloat32Uint32Value, name string, value mapFloat32Uint32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat32Uint32Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat32Uint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat32Uint32(name string, value mapFloat32Uint32Value, usage string) *mapFloat32Uint32Value {
+func (f *FlagSet) mapFloat32Uint32(name string, value mapFloat32Uint32Value, usage string, required, isset bool) *mapFloat32Uint32Value {
 	p := new(mapFloat32Uint32Value)
-	f.mapFloat32Uint32Var(p, name, value, usage)
+	f.mapFloat32Uint32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat32Uint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat32Uint32(name string, value mapFloat32Uint32Value, usage string) *mapFloat32Uint32Value {
-	return CommandLine.mapFloat32Uint32(name, value, usage)
+func mapFloat32Uint32(name string, value mapFloat32Uint32Value, usage string, required, isset bool) *mapFloat32Uint32Value {
+	return CommandLine.mapFloat32Uint32(name, value, usage, required, isset)
 }
 
 // mapFloat32Uint64Value []mapFloat32Uint64Value
@@ -11060,31 +11060,31 @@ func (slc *mapFloat32Uint64Value) String() string {
 // mapFloat32Uint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat32Uint64Var(p *mapFloat32Uint64Value, name string, value mapFloat32Uint64Value, usage string) {
-	f.Var(newmapFloat32Uint64Value(value, p), name, usage)
+func (f *FlagSet) mapFloat32Uint64Var(p *mapFloat32Uint64Value, name string, value mapFloat32Uint64Value, usage string, required, isset bool) {
+	f.Var(newmapFloat32Uint64Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat32Uint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat32Uint64Var(p *mapFloat32Uint64Value, name string, value mapFloat32Uint64Value, usage string) {
-	CommandLine.Var(newmapFloat32Uint64Value(value, p), name, usage)
+func mapFloat32Uint64Var(p *mapFloat32Uint64Value, name string, value mapFloat32Uint64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat32Uint64Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat32Uint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat32Uint64(name string, value mapFloat32Uint64Value, usage string) *mapFloat32Uint64Value {
+func (f *FlagSet) mapFloat32Uint64(name string, value mapFloat32Uint64Value, usage string, required, isset bool) *mapFloat32Uint64Value {
 	p := new(mapFloat32Uint64Value)
-	f.mapFloat32Uint64Var(p, name, value, usage)
+	f.mapFloat32Uint64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat32Uint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat32Uint64(name string, value mapFloat32Uint64Value, usage string) *mapFloat32Uint64Value {
-	return CommandLine.mapFloat32Uint64(name, value, usage)
+func mapFloat32Uint64(name string, value mapFloat32Uint64Value, usage string, required, isset bool) *mapFloat32Uint64Value {
+	return CommandLine.mapFloat32Uint64(name, value, usage, required, isset)
 }
 
 // mapFloat32Float64Value []mapFloat32Float64Value
@@ -11118,31 +11118,31 @@ func (slc *mapFloat32Float64Value) String() string {
 // mapFloat32Float64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat32Float64Var(p *mapFloat32Float64Value, name string, value mapFloat32Float64Value, usage string) {
-	f.Var(newmapFloat32Float64Value(value, p), name, usage)
+func (f *FlagSet) mapFloat32Float64Var(p *mapFloat32Float64Value, name string, value mapFloat32Float64Value, usage string, required, isset bool) {
+	f.Var(newmapFloat32Float64Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat32Float64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat32Float64Var(p *mapFloat32Float64Value, name string, value mapFloat32Float64Value, usage string) {
-	CommandLine.Var(newmapFloat32Float64Value(value, p), name, usage)
+func mapFloat32Float64Var(p *mapFloat32Float64Value, name string, value mapFloat32Float64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat32Float64Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat32Float64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat32Float64(name string, value mapFloat32Float64Value, usage string) *mapFloat32Float64Value {
+func (f *FlagSet) mapFloat32Float64(name string, value mapFloat32Float64Value, usage string, required, isset bool) *mapFloat32Float64Value {
 	p := new(mapFloat32Float64Value)
-	f.mapFloat32Float64Var(p, name, value, usage)
+	f.mapFloat32Float64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat32Float64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat32Float64(name string, value mapFloat32Float64Value, usage string) *mapFloat32Float64Value {
-	return CommandLine.mapFloat32Float64(name, value, usage)
+func mapFloat32Float64(name string, value mapFloat32Float64Value, usage string, required, isset bool) *mapFloat32Float64Value {
+	return CommandLine.mapFloat32Float64(name, value, usage, required, isset)
 }
 
 // mapFloat32Float32Value []mapFloat32Float32Value
@@ -11176,31 +11176,31 @@ func (slc *mapFloat32Float32Value) String() string {
 // mapFloat32Float32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat32Float32Var(p *mapFloat32Float32Value, name string, value mapFloat32Float32Value, usage string) {
-	f.Var(newmapFloat32Float32Value(value, p), name, usage)
+func (f *FlagSet) mapFloat32Float32Var(p *mapFloat32Float32Value, name string, value mapFloat32Float32Value, usage string, required, isset bool) {
+	f.Var(newmapFloat32Float32Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat32Float32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat32Float32Var(p *mapFloat32Float32Value, name string, value mapFloat32Float32Value, usage string) {
-	CommandLine.Var(newmapFloat32Float32Value(value, p), name, usage)
+func mapFloat32Float32Var(p *mapFloat32Float32Value, name string, value mapFloat32Float32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat32Float32Value(value, p), name, usage, required, isset)
 }
 
 // mapFloat32Float32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat32Float32(name string, value mapFloat32Float32Value, usage string) *mapFloat32Float32Value {
+func (f *FlagSet) mapFloat32Float32(name string, value mapFloat32Float32Value, usage string, required, isset bool) *mapFloat32Float32Value {
 	p := new(mapFloat32Float32Value)
-	f.mapFloat32Float32Var(p, name, value, usage)
+	f.mapFloat32Float32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat32Float32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat32Float32(name string, value mapFloat32Float32Value, usage string) *mapFloat32Float32Value {
-	return CommandLine.mapFloat32Float32(name, value, usage)
+func mapFloat32Float32(name string, value mapFloat32Float32Value, usage string, required, isset bool) *mapFloat32Float32Value {
+	return CommandLine.mapFloat32Float32(name, value, usage, required, isset)
 }
 
 // mapFloat32BoolValue []mapFloat32BoolValue
@@ -11234,31 +11234,31 @@ func (slc *mapFloat32BoolValue) String() string {
 // mapFloat32BoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat32BoolVar(p *mapFloat32BoolValue, name string, value mapFloat32BoolValue, usage string) {
-	f.Var(newmapFloat32BoolValue(value, p), name, usage)
+func (f *FlagSet) mapFloat32BoolVar(p *mapFloat32BoolValue, name string, value mapFloat32BoolValue, usage string, required, isset bool) {
+	f.Var(newmapFloat32BoolValue(value, p), name, usage, required, isset)
 }
 
 // mapFloat32BoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat32BoolVar(p *mapFloat32BoolValue, name string, value mapFloat32BoolValue, usage string) {
-	CommandLine.Var(newmapFloat32BoolValue(value, p), name, usage)
+func mapFloat32BoolVar(p *mapFloat32BoolValue, name string, value mapFloat32BoolValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat32BoolValue(value, p), name, usage, required, isset)
 }
 
 // mapFloat32BoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat32Bool(name string, value mapFloat32BoolValue, usage string) *mapFloat32BoolValue {
+func (f *FlagSet) mapFloat32Bool(name string, value mapFloat32BoolValue, usage string, required, isset bool) *mapFloat32BoolValue {
 	p := new(mapFloat32BoolValue)
-	f.mapFloat32BoolVar(p, name, value, usage)
+	f.mapFloat32BoolVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat32BoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat32Bool(name string, value mapFloat32BoolValue, usage string) *mapFloat32BoolValue {
-	return CommandLine.mapFloat32Bool(name, value, usage)
+func mapFloat32Bool(name string, value mapFloat32BoolValue, usage string, required, isset bool) *mapFloat32BoolValue {
+	return CommandLine.mapFloat32Bool(name, value, usage, required, isset)
 }
 
 // mapFloat32StringValue []mapFloat32StringValue
@@ -11292,31 +11292,31 @@ func (slc *mapFloat32StringValue) String() string {
 // mapFloat32StringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapFloat32StringVar(p *mapFloat32StringValue, name string, value mapFloat32StringValue, usage string) {
-	f.Var(newmapFloat32StringValue(value, p), name, usage)
+func (f *FlagSet) mapFloat32StringVar(p *mapFloat32StringValue, name string, value mapFloat32StringValue, usage string, required, isset bool) {
+	f.Var(newmapFloat32StringValue(value, p), name, usage, required, isset)
 }
 
 // mapFloat32StringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapFloat32StringVar(p *mapFloat32StringValue, name string, value mapFloat32StringValue, usage string) {
-	CommandLine.Var(newmapFloat32StringValue(value, p), name, usage)
+func mapFloat32StringVar(p *mapFloat32StringValue, name string, value mapFloat32StringValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapFloat32StringValue(value, p), name, usage, required, isset)
 }
 
 // mapFloat32StringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapFloat32String(name string, value mapFloat32StringValue, usage string) *mapFloat32StringValue {
+func (f *FlagSet) mapFloat32String(name string, value mapFloat32StringValue, usage string, required, isset bool) *mapFloat32StringValue {
 	p := new(mapFloat32StringValue)
-	f.mapFloat32StringVar(p, name, value, usage)
+	f.mapFloat32StringVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapFloat32StringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapFloat32String(name string, value mapFloat32StringValue, usage string) *mapFloat32StringValue {
-	return CommandLine.mapFloat32String(name, value, usage)
+func mapFloat32String(name string, value mapFloat32StringValue, usage string, required, isset bool) *mapFloat32StringValue {
+	return CommandLine.mapFloat32String(name, value, usage, required, isset)
 }
 
 // mapBoolDurationValue []mapBoolDurationValue
@@ -11350,31 +11350,31 @@ func (slc *mapBoolDurationValue) String() string {
 // mapBoolDurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapBoolDurationVar(p *mapBoolDurationValue, name string, value mapBoolDurationValue, usage string) {
-	f.Var(newmapBoolDurationValue(value, p), name, usage)
+func (f *FlagSet) mapBoolDurationVar(p *mapBoolDurationValue, name string, value mapBoolDurationValue, usage string, required, isset bool) {
+	f.Var(newmapBoolDurationValue(value, p), name, usage, required, isset)
 }
 
 // mapBoolDurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapBoolDurationVar(p *mapBoolDurationValue, name string, value mapBoolDurationValue, usage string) {
-	CommandLine.Var(newmapBoolDurationValue(value, p), name, usage)
+func mapBoolDurationVar(p *mapBoolDurationValue, name string, value mapBoolDurationValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapBoolDurationValue(value, p), name, usage, required, isset)
 }
 
 // mapBoolDurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapBoolDuration(name string, value mapBoolDurationValue, usage string) *mapBoolDurationValue {
+func (f *FlagSet) mapBoolDuration(name string, value mapBoolDurationValue, usage string, required, isset bool) *mapBoolDurationValue {
 	p := new(mapBoolDurationValue)
-	f.mapBoolDurationVar(p, name, value, usage)
+	f.mapBoolDurationVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapBoolDurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapBoolDuration(name string, value mapBoolDurationValue, usage string) *mapBoolDurationValue {
-	return CommandLine.mapBoolDuration(name, value, usage)
+func mapBoolDuration(name string, value mapBoolDurationValue, usage string, required, isset bool) *mapBoolDurationValue {
+	return CommandLine.mapBoolDuration(name, value, usage, required, isset)
 }
 
 // mapBoolIntValue []mapBoolIntValue
@@ -11408,31 +11408,31 @@ func (slc *mapBoolIntValue) String() string {
 // mapBoolIntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapBoolIntVar(p *mapBoolIntValue, name string, value mapBoolIntValue, usage string) {
-	f.Var(newmapBoolIntValue(value, p), name, usage)
+func (f *FlagSet) mapBoolIntVar(p *mapBoolIntValue, name string, value mapBoolIntValue, usage string, required, isset bool) {
+	f.Var(newmapBoolIntValue(value, p), name, usage, required, isset)
 }
 
 // mapBoolIntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapBoolIntVar(p *mapBoolIntValue, name string, value mapBoolIntValue, usage string) {
-	CommandLine.Var(newmapBoolIntValue(value, p), name, usage)
+func mapBoolIntVar(p *mapBoolIntValue, name string, value mapBoolIntValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapBoolIntValue(value, p), name, usage, required, isset)
 }
 
 // mapBoolIntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapBoolInt(name string, value mapBoolIntValue, usage string) *mapBoolIntValue {
+func (f *FlagSet) mapBoolInt(name string, value mapBoolIntValue, usage string, required, isset bool) *mapBoolIntValue {
 	p := new(mapBoolIntValue)
-	f.mapBoolIntVar(p, name, value, usage)
+	f.mapBoolIntVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapBoolIntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapBoolInt(name string, value mapBoolIntValue, usage string) *mapBoolIntValue {
-	return CommandLine.mapBoolInt(name, value, usage)
+func mapBoolInt(name string, value mapBoolIntValue, usage string, required, isset bool) *mapBoolIntValue {
+	return CommandLine.mapBoolInt(name, value, usage, required, isset)
 }
 
 // mapBoolInt8Value []mapBoolInt8Value
@@ -11466,31 +11466,31 @@ func (slc *mapBoolInt8Value) String() string {
 // mapBoolInt8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapBoolInt8Var(p *mapBoolInt8Value, name string, value mapBoolInt8Value, usage string) {
-	f.Var(newmapBoolInt8Value(value, p), name, usage)
+func (f *FlagSet) mapBoolInt8Var(p *mapBoolInt8Value, name string, value mapBoolInt8Value, usage string, required, isset bool) {
+	f.Var(newmapBoolInt8Value(value, p), name, usage, required, isset)
 }
 
 // mapBoolInt8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapBoolInt8Var(p *mapBoolInt8Value, name string, value mapBoolInt8Value, usage string) {
-	CommandLine.Var(newmapBoolInt8Value(value, p), name, usage)
+func mapBoolInt8Var(p *mapBoolInt8Value, name string, value mapBoolInt8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapBoolInt8Value(value, p), name, usage, required, isset)
 }
 
 // mapBoolInt8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapBoolInt8(name string, value mapBoolInt8Value, usage string) *mapBoolInt8Value {
+func (f *FlagSet) mapBoolInt8(name string, value mapBoolInt8Value, usage string, required, isset bool) *mapBoolInt8Value {
 	p := new(mapBoolInt8Value)
-	f.mapBoolInt8Var(p, name, value, usage)
+	f.mapBoolInt8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapBoolInt8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapBoolInt8(name string, value mapBoolInt8Value, usage string) *mapBoolInt8Value {
-	return CommandLine.mapBoolInt8(name, value, usage)
+func mapBoolInt8(name string, value mapBoolInt8Value, usage string, required, isset bool) *mapBoolInt8Value {
+	return CommandLine.mapBoolInt8(name, value, usage, required, isset)
 }
 
 // mapBoolInt16Value []mapBoolInt16Value
@@ -11524,31 +11524,31 @@ func (slc *mapBoolInt16Value) String() string {
 // mapBoolInt16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapBoolInt16Var(p *mapBoolInt16Value, name string, value mapBoolInt16Value, usage string) {
-	f.Var(newmapBoolInt16Value(value, p), name, usage)
+func (f *FlagSet) mapBoolInt16Var(p *mapBoolInt16Value, name string, value mapBoolInt16Value, usage string, required, isset bool) {
+	f.Var(newmapBoolInt16Value(value, p), name, usage, required, isset)
 }
 
 // mapBoolInt16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapBoolInt16Var(p *mapBoolInt16Value, name string, value mapBoolInt16Value, usage string) {
-	CommandLine.Var(newmapBoolInt16Value(value, p), name, usage)
+func mapBoolInt16Var(p *mapBoolInt16Value, name string, value mapBoolInt16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapBoolInt16Value(value, p), name, usage, required, isset)
 }
 
 // mapBoolInt16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapBoolInt16(name string, value mapBoolInt16Value, usage string) *mapBoolInt16Value {
+func (f *FlagSet) mapBoolInt16(name string, value mapBoolInt16Value, usage string, required, isset bool) *mapBoolInt16Value {
 	p := new(mapBoolInt16Value)
-	f.mapBoolInt16Var(p, name, value, usage)
+	f.mapBoolInt16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapBoolInt16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapBoolInt16(name string, value mapBoolInt16Value, usage string) *mapBoolInt16Value {
-	return CommandLine.mapBoolInt16(name, value, usage)
+func mapBoolInt16(name string, value mapBoolInt16Value, usage string, required, isset bool) *mapBoolInt16Value {
+	return CommandLine.mapBoolInt16(name, value, usage, required, isset)
 }
 
 // mapBoolInt32Value []mapBoolInt32Value
@@ -11582,31 +11582,31 @@ func (slc *mapBoolInt32Value) String() string {
 // mapBoolInt32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapBoolInt32Var(p *mapBoolInt32Value, name string, value mapBoolInt32Value, usage string) {
-	f.Var(newmapBoolInt32Value(value, p), name, usage)
+func (f *FlagSet) mapBoolInt32Var(p *mapBoolInt32Value, name string, value mapBoolInt32Value, usage string, required, isset bool) {
+	f.Var(newmapBoolInt32Value(value, p), name, usage, required, isset)
 }
 
 // mapBoolInt32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapBoolInt32Var(p *mapBoolInt32Value, name string, value mapBoolInt32Value, usage string) {
-	CommandLine.Var(newmapBoolInt32Value(value, p), name, usage)
+func mapBoolInt32Var(p *mapBoolInt32Value, name string, value mapBoolInt32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapBoolInt32Value(value, p), name, usage, required, isset)
 }
 
 // mapBoolInt32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapBoolInt32(name string, value mapBoolInt32Value, usage string) *mapBoolInt32Value {
+func (f *FlagSet) mapBoolInt32(name string, value mapBoolInt32Value, usage string, required, isset bool) *mapBoolInt32Value {
 	p := new(mapBoolInt32Value)
-	f.mapBoolInt32Var(p, name, value, usage)
+	f.mapBoolInt32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapBoolInt32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapBoolInt32(name string, value mapBoolInt32Value, usage string) *mapBoolInt32Value {
-	return CommandLine.mapBoolInt32(name, value, usage)
+func mapBoolInt32(name string, value mapBoolInt32Value, usage string, required, isset bool) *mapBoolInt32Value {
+	return CommandLine.mapBoolInt32(name, value, usage, required, isset)
 }
 
 // mapBoolInt64Value []mapBoolInt64Value
@@ -11640,31 +11640,31 @@ func (slc *mapBoolInt64Value) String() string {
 // mapBoolInt64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapBoolInt64Var(p *mapBoolInt64Value, name string, value mapBoolInt64Value, usage string) {
-	f.Var(newmapBoolInt64Value(value, p), name, usage)
+func (f *FlagSet) mapBoolInt64Var(p *mapBoolInt64Value, name string, value mapBoolInt64Value, usage string, required, isset bool) {
+	f.Var(newmapBoolInt64Value(value, p), name, usage, required, isset)
 }
 
 // mapBoolInt64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapBoolInt64Var(p *mapBoolInt64Value, name string, value mapBoolInt64Value, usage string) {
-	CommandLine.Var(newmapBoolInt64Value(value, p), name, usage)
+func mapBoolInt64Var(p *mapBoolInt64Value, name string, value mapBoolInt64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapBoolInt64Value(value, p), name, usage, required, isset)
 }
 
 // mapBoolInt64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapBoolInt64(name string, value mapBoolInt64Value, usage string) *mapBoolInt64Value {
+func (f *FlagSet) mapBoolInt64(name string, value mapBoolInt64Value, usage string, required, isset bool) *mapBoolInt64Value {
 	p := new(mapBoolInt64Value)
-	f.mapBoolInt64Var(p, name, value, usage)
+	f.mapBoolInt64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapBoolInt64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapBoolInt64(name string, value mapBoolInt64Value, usage string) *mapBoolInt64Value {
-	return CommandLine.mapBoolInt64(name, value, usage)
+func mapBoolInt64(name string, value mapBoolInt64Value, usage string, required, isset bool) *mapBoolInt64Value {
+	return CommandLine.mapBoolInt64(name, value, usage, required, isset)
 }
 
 // mapBoolUintValue []mapBoolUintValue
@@ -11698,31 +11698,31 @@ func (slc *mapBoolUintValue) String() string {
 // mapBoolUintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapBoolUintVar(p *mapBoolUintValue, name string, value mapBoolUintValue, usage string) {
-	f.Var(newmapBoolUintValue(value, p), name, usage)
+func (f *FlagSet) mapBoolUintVar(p *mapBoolUintValue, name string, value mapBoolUintValue, usage string, required, isset bool) {
+	f.Var(newmapBoolUintValue(value, p), name, usage, required, isset)
 }
 
 // mapBoolUintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapBoolUintVar(p *mapBoolUintValue, name string, value mapBoolUintValue, usage string) {
-	CommandLine.Var(newmapBoolUintValue(value, p), name, usage)
+func mapBoolUintVar(p *mapBoolUintValue, name string, value mapBoolUintValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapBoolUintValue(value, p), name, usage, required, isset)
 }
 
 // mapBoolUintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapBoolUint(name string, value mapBoolUintValue, usage string) *mapBoolUintValue {
+func (f *FlagSet) mapBoolUint(name string, value mapBoolUintValue, usage string, required, isset bool) *mapBoolUintValue {
 	p := new(mapBoolUintValue)
-	f.mapBoolUintVar(p, name, value, usage)
+	f.mapBoolUintVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapBoolUintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapBoolUint(name string, value mapBoolUintValue, usage string) *mapBoolUintValue {
-	return CommandLine.mapBoolUint(name, value, usage)
+func mapBoolUint(name string, value mapBoolUintValue, usage string, required, isset bool) *mapBoolUintValue {
+	return CommandLine.mapBoolUint(name, value, usage, required, isset)
 }
 
 // mapBoolUint8Value []mapBoolUint8Value
@@ -11756,31 +11756,31 @@ func (slc *mapBoolUint8Value) String() string {
 // mapBoolUint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapBoolUint8Var(p *mapBoolUint8Value, name string, value mapBoolUint8Value, usage string) {
-	f.Var(newmapBoolUint8Value(value, p), name, usage)
+func (f *FlagSet) mapBoolUint8Var(p *mapBoolUint8Value, name string, value mapBoolUint8Value, usage string, required, isset bool) {
+	f.Var(newmapBoolUint8Value(value, p), name, usage, required, isset)
 }
 
 // mapBoolUint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapBoolUint8Var(p *mapBoolUint8Value, name string, value mapBoolUint8Value, usage string) {
-	CommandLine.Var(newmapBoolUint8Value(value, p), name, usage)
+func mapBoolUint8Var(p *mapBoolUint8Value, name string, value mapBoolUint8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapBoolUint8Value(value, p), name, usage, required, isset)
 }
 
 // mapBoolUint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapBoolUint8(name string, value mapBoolUint8Value, usage string) *mapBoolUint8Value {
+func (f *FlagSet) mapBoolUint8(name string, value mapBoolUint8Value, usage string, required, isset bool) *mapBoolUint8Value {
 	p := new(mapBoolUint8Value)
-	f.mapBoolUint8Var(p, name, value, usage)
+	f.mapBoolUint8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapBoolUint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapBoolUint8(name string, value mapBoolUint8Value, usage string) *mapBoolUint8Value {
-	return CommandLine.mapBoolUint8(name, value, usage)
+func mapBoolUint8(name string, value mapBoolUint8Value, usage string, required, isset bool) *mapBoolUint8Value {
+	return CommandLine.mapBoolUint8(name, value, usage, required, isset)
 }
 
 // mapBoolUint16Value []mapBoolUint16Value
@@ -11814,31 +11814,31 @@ func (slc *mapBoolUint16Value) String() string {
 // mapBoolUint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapBoolUint16Var(p *mapBoolUint16Value, name string, value mapBoolUint16Value, usage string) {
-	f.Var(newmapBoolUint16Value(value, p), name, usage)
+func (f *FlagSet) mapBoolUint16Var(p *mapBoolUint16Value, name string, value mapBoolUint16Value, usage string, required, isset bool) {
+	f.Var(newmapBoolUint16Value(value, p), name, usage, required, isset)
 }
 
 // mapBoolUint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapBoolUint16Var(p *mapBoolUint16Value, name string, value mapBoolUint16Value, usage string) {
-	CommandLine.Var(newmapBoolUint16Value(value, p), name, usage)
+func mapBoolUint16Var(p *mapBoolUint16Value, name string, value mapBoolUint16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapBoolUint16Value(value, p), name, usage, required, isset)
 }
 
 // mapBoolUint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapBoolUint16(name string, value mapBoolUint16Value, usage string) *mapBoolUint16Value {
+func (f *FlagSet) mapBoolUint16(name string, value mapBoolUint16Value, usage string, required, isset bool) *mapBoolUint16Value {
 	p := new(mapBoolUint16Value)
-	f.mapBoolUint16Var(p, name, value, usage)
+	f.mapBoolUint16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapBoolUint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapBoolUint16(name string, value mapBoolUint16Value, usage string) *mapBoolUint16Value {
-	return CommandLine.mapBoolUint16(name, value, usage)
+func mapBoolUint16(name string, value mapBoolUint16Value, usage string, required, isset bool) *mapBoolUint16Value {
+	return CommandLine.mapBoolUint16(name, value, usage, required, isset)
 }
 
 // mapBoolUint32Value []mapBoolUint32Value
@@ -11872,31 +11872,31 @@ func (slc *mapBoolUint32Value) String() string {
 // mapBoolUint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapBoolUint32Var(p *mapBoolUint32Value, name string, value mapBoolUint32Value, usage string) {
-	f.Var(newmapBoolUint32Value(value, p), name, usage)
+func (f *FlagSet) mapBoolUint32Var(p *mapBoolUint32Value, name string, value mapBoolUint32Value, usage string, required, isset bool) {
+	f.Var(newmapBoolUint32Value(value, p), name, usage, required, isset)
 }
 
 // mapBoolUint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapBoolUint32Var(p *mapBoolUint32Value, name string, value mapBoolUint32Value, usage string) {
-	CommandLine.Var(newmapBoolUint32Value(value, p), name, usage)
+func mapBoolUint32Var(p *mapBoolUint32Value, name string, value mapBoolUint32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapBoolUint32Value(value, p), name, usage, required, isset)
 }
 
 // mapBoolUint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapBoolUint32(name string, value mapBoolUint32Value, usage string) *mapBoolUint32Value {
+func (f *FlagSet) mapBoolUint32(name string, value mapBoolUint32Value, usage string, required, isset bool) *mapBoolUint32Value {
 	p := new(mapBoolUint32Value)
-	f.mapBoolUint32Var(p, name, value, usage)
+	f.mapBoolUint32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapBoolUint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapBoolUint32(name string, value mapBoolUint32Value, usage string) *mapBoolUint32Value {
-	return CommandLine.mapBoolUint32(name, value, usage)
+func mapBoolUint32(name string, value mapBoolUint32Value, usage string, required, isset bool) *mapBoolUint32Value {
+	return CommandLine.mapBoolUint32(name, value, usage, required, isset)
 }
 
 // mapBoolUint64Value []mapBoolUint64Value
@@ -11930,31 +11930,31 @@ func (slc *mapBoolUint64Value) String() string {
 // mapBoolUint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapBoolUint64Var(p *mapBoolUint64Value, name string, value mapBoolUint64Value, usage string) {
-	f.Var(newmapBoolUint64Value(value, p), name, usage)
+func (f *FlagSet) mapBoolUint64Var(p *mapBoolUint64Value, name string, value mapBoolUint64Value, usage string, required, isset bool) {
+	f.Var(newmapBoolUint64Value(value, p), name, usage, required, isset)
 }
 
 // mapBoolUint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapBoolUint64Var(p *mapBoolUint64Value, name string, value mapBoolUint64Value, usage string) {
-	CommandLine.Var(newmapBoolUint64Value(value, p), name, usage)
+func mapBoolUint64Var(p *mapBoolUint64Value, name string, value mapBoolUint64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapBoolUint64Value(value, p), name, usage, required, isset)
 }
 
 // mapBoolUint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapBoolUint64(name string, value mapBoolUint64Value, usage string) *mapBoolUint64Value {
+func (f *FlagSet) mapBoolUint64(name string, value mapBoolUint64Value, usage string, required, isset bool) *mapBoolUint64Value {
 	p := new(mapBoolUint64Value)
-	f.mapBoolUint64Var(p, name, value, usage)
+	f.mapBoolUint64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapBoolUint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapBoolUint64(name string, value mapBoolUint64Value, usage string) *mapBoolUint64Value {
-	return CommandLine.mapBoolUint64(name, value, usage)
+func mapBoolUint64(name string, value mapBoolUint64Value, usage string, required, isset bool) *mapBoolUint64Value {
+	return CommandLine.mapBoolUint64(name, value, usage, required, isset)
 }
 
 // mapBoolFloat64Value []mapBoolFloat64Value
@@ -11988,31 +11988,31 @@ func (slc *mapBoolFloat64Value) String() string {
 // mapBoolFloat64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapBoolFloat64Var(p *mapBoolFloat64Value, name string, value mapBoolFloat64Value, usage string) {
-	f.Var(newmapBoolFloat64Value(value, p), name, usage)
+func (f *FlagSet) mapBoolFloat64Var(p *mapBoolFloat64Value, name string, value mapBoolFloat64Value, usage string, required, isset bool) {
+	f.Var(newmapBoolFloat64Value(value, p), name, usage, required, isset)
 }
 
 // mapBoolFloat64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapBoolFloat64Var(p *mapBoolFloat64Value, name string, value mapBoolFloat64Value, usage string) {
-	CommandLine.Var(newmapBoolFloat64Value(value, p), name, usage)
+func mapBoolFloat64Var(p *mapBoolFloat64Value, name string, value mapBoolFloat64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapBoolFloat64Value(value, p), name, usage, required, isset)
 }
 
 // mapBoolFloat64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapBoolFloat64(name string, value mapBoolFloat64Value, usage string) *mapBoolFloat64Value {
+func (f *FlagSet) mapBoolFloat64(name string, value mapBoolFloat64Value, usage string, required, isset bool) *mapBoolFloat64Value {
 	p := new(mapBoolFloat64Value)
-	f.mapBoolFloat64Var(p, name, value, usage)
+	f.mapBoolFloat64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapBoolFloat64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapBoolFloat64(name string, value mapBoolFloat64Value, usage string) *mapBoolFloat64Value {
-	return CommandLine.mapBoolFloat64(name, value, usage)
+func mapBoolFloat64(name string, value mapBoolFloat64Value, usage string, required, isset bool) *mapBoolFloat64Value {
+	return CommandLine.mapBoolFloat64(name, value, usage, required, isset)
 }
 
 // mapBoolFloat32Value []mapBoolFloat32Value
@@ -12046,31 +12046,31 @@ func (slc *mapBoolFloat32Value) String() string {
 // mapBoolFloat32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapBoolFloat32Var(p *mapBoolFloat32Value, name string, value mapBoolFloat32Value, usage string) {
-	f.Var(newmapBoolFloat32Value(value, p), name, usage)
+func (f *FlagSet) mapBoolFloat32Var(p *mapBoolFloat32Value, name string, value mapBoolFloat32Value, usage string, required, isset bool) {
+	f.Var(newmapBoolFloat32Value(value, p), name, usage, required, isset)
 }
 
 // mapBoolFloat32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapBoolFloat32Var(p *mapBoolFloat32Value, name string, value mapBoolFloat32Value, usage string) {
-	CommandLine.Var(newmapBoolFloat32Value(value, p), name, usage)
+func mapBoolFloat32Var(p *mapBoolFloat32Value, name string, value mapBoolFloat32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapBoolFloat32Value(value, p), name, usage, required, isset)
 }
 
 // mapBoolFloat32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapBoolFloat32(name string, value mapBoolFloat32Value, usage string) *mapBoolFloat32Value {
+func (f *FlagSet) mapBoolFloat32(name string, value mapBoolFloat32Value, usage string, required, isset bool) *mapBoolFloat32Value {
 	p := new(mapBoolFloat32Value)
-	f.mapBoolFloat32Var(p, name, value, usage)
+	f.mapBoolFloat32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapBoolFloat32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapBoolFloat32(name string, value mapBoolFloat32Value, usage string) *mapBoolFloat32Value {
-	return CommandLine.mapBoolFloat32(name, value, usage)
+func mapBoolFloat32(name string, value mapBoolFloat32Value, usage string, required, isset bool) *mapBoolFloat32Value {
+	return CommandLine.mapBoolFloat32(name, value, usage, required, isset)
 }
 
 // mapBoolBoolValue []mapBoolBoolValue
@@ -12104,31 +12104,31 @@ func (slc *mapBoolBoolValue) String() string {
 // mapBoolBoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapBoolBoolVar(p *mapBoolBoolValue, name string, value mapBoolBoolValue, usage string) {
-	f.Var(newmapBoolBoolValue(value, p), name, usage)
+func (f *FlagSet) mapBoolBoolVar(p *mapBoolBoolValue, name string, value mapBoolBoolValue, usage string, required, isset bool) {
+	f.Var(newmapBoolBoolValue(value, p), name, usage, required, isset)
 }
 
 // mapBoolBoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapBoolBoolVar(p *mapBoolBoolValue, name string, value mapBoolBoolValue, usage string) {
-	CommandLine.Var(newmapBoolBoolValue(value, p), name, usage)
+func mapBoolBoolVar(p *mapBoolBoolValue, name string, value mapBoolBoolValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapBoolBoolValue(value, p), name, usage, required, isset)
 }
 
 // mapBoolBoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapBoolBool(name string, value mapBoolBoolValue, usage string) *mapBoolBoolValue {
+func (f *FlagSet) mapBoolBool(name string, value mapBoolBoolValue, usage string, required, isset bool) *mapBoolBoolValue {
 	p := new(mapBoolBoolValue)
-	f.mapBoolBoolVar(p, name, value, usage)
+	f.mapBoolBoolVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapBoolBoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapBoolBool(name string, value mapBoolBoolValue, usage string) *mapBoolBoolValue {
-	return CommandLine.mapBoolBool(name, value, usage)
+func mapBoolBool(name string, value mapBoolBoolValue, usage string, required, isset bool) *mapBoolBoolValue {
+	return CommandLine.mapBoolBool(name, value, usage, required, isset)
 }
 
 // mapBoolStringValue []mapBoolStringValue
@@ -12162,31 +12162,31 @@ func (slc *mapBoolStringValue) String() string {
 // mapBoolStringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapBoolStringVar(p *mapBoolStringValue, name string, value mapBoolStringValue, usage string) {
-	f.Var(newmapBoolStringValue(value, p), name, usage)
+func (f *FlagSet) mapBoolStringVar(p *mapBoolStringValue, name string, value mapBoolStringValue, usage string, required, isset bool) {
+	f.Var(newmapBoolStringValue(value, p), name, usage, required, isset)
 }
 
 // mapBoolStringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapBoolStringVar(p *mapBoolStringValue, name string, value mapBoolStringValue, usage string) {
-	CommandLine.Var(newmapBoolStringValue(value, p), name, usage)
+func mapBoolStringVar(p *mapBoolStringValue, name string, value mapBoolStringValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapBoolStringValue(value, p), name, usage, required, isset)
 }
 
 // mapBoolStringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapBoolString(name string, value mapBoolStringValue, usage string) *mapBoolStringValue {
+func (f *FlagSet) mapBoolString(name string, value mapBoolStringValue, usage string, required, isset bool) *mapBoolStringValue {
 	p := new(mapBoolStringValue)
-	f.mapBoolStringVar(p, name, value, usage)
+	f.mapBoolStringVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapBoolStringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapBoolString(name string, value mapBoolStringValue, usage string) *mapBoolStringValue {
-	return CommandLine.mapBoolString(name, value, usage)
+func mapBoolString(name string, value mapBoolStringValue, usage string, required, isset bool) *mapBoolStringValue {
+	return CommandLine.mapBoolString(name, value, usage, required, isset)
 }
 
 // mapStringDurationValue []mapStringDurationValue
@@ -12220,31 +12220,31 @@ func (slc *mapStringDurationValue) String() string {
 // mapStringDurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapStringDurationVar(p *mapStringDurationValue, name string, value mapStringDurationValue, usage string) {
-	f.Var(newmapStringDurationValue(value, p), name, usage)
+func (f *FlagSet) mapStringDurationVar(p *mapStringDurationValue, name string, value mapStringDurationValue, usage string, required, isset bool) {
+	f.Var(newmapStringDurationValue(value, p), name, usage, required, isset)
 }
 
 // mapStringDurationValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapStringDurationVar(p *mapStringDurationValue, name string, value mapStringDurationValue, usage string) {
-	CommandLine.Var(newmapStringDurationValue(value, p), name, usage)
+func mapStringDurationVar(p *mapStringDurationValue, name string, value mapStringDurationValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapStringDurationValue(value, p), name, usage, required, isset)
 }
 
 // mapStringDurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapStringDuration(name string, value mapStringDurationValue, usage string) *mapStringDurationValue {
+func (f *FlagSet) mapStringDuration(name string, value mapStringDurationValue, usage string, required, isset bool) *mapStringDurationValue {
 	p := new(mapStringDurationValue)
-	f.mapStringDurationVar(p, name, value, usage)
+	f.mapStringDurationVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapStringDurationValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapStringDuration(name string, value mapStringDurationValue, usage string) *mapStringDurationValue {
-	return CommandLine.mapStringDuration(name, value, usage)
+func mapStringDuration(name string, value mapStringDurationValue, usage string, required, isset bool) *mapStringDurationValue {
+	return CommandLine.mapStringDuration(name, value, usage, required, isset)
 }
 
 // mapStringIntValue []mapStringIntValue
@@ -12278,31 +12278,31 @@ func (slc *mapStringIntValue) String() string {
 // mapStringIntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapStringIntVar(p *mapStringIntValue, name string, value mapStringIntValue, usage string) {
-	f.Var(newmapStringIntValue(value, p), name, usage)
+func (f *FlagSet) mapStringIntVar(p *mapStringIntValue, name string, value mapStringIntValue, usage string, required, isset bool) {
+	f.Var(newmapStringIntValue(value, p), name, usage, required, isset)
 }
 
 // mapStringIntValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapStringIntVar(p *mapStringIntValue, name string, value mapStringIntValue, usage string) {
-	CommandLine.Var(newmapStringIntValue(value, p), name, usage)
+func mapStringIntVar(p *mapStringIntValue, name string, value mapStringIntValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapStringIntValue(value, p), name, usage, required, isset)
 }
 
 // mapStringIntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapStringInt(name string, value mapStringIntValue, usage string) *mapStringIntValue {
+func (f *FlagSet) mapStringInt(name string, value mapStringIntValue, usage string, required, isset bool) *mapStringIntValue {
 	p := new(mapStringIntValue)
-	f.mapStringIntVar(p, name, value, usage)
+	f.mapStringIntVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapStringIntValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapStringInt(name string, value mapStringIntValue, usage string) *mapStringIntValue {
-	return CommandLine.mapStringInt(name, value, usage)
+func mapStringInt(name string, value mapStringIntValue, usage string, required, isset bool) *mapStringIntValue {
+	return CommandLine.mapStringInt(name, value, usage, required, isset)
 }
 
 // mapStringInt8Value []mapStringInt8Value
@@ -12336,31 +12336,31 @@ func (slc *mapStringInt8Value) String() string {
 // mapStringInt8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapStringInt8Var(p *mapStringInt8Value, name string, value mapStringInt8Value, usage string) {
-	f.Var(newmapStringInt8Value(value, p), name, usage)
+func (f *FlagSet) mapStringInt8Var(p *mapStringInt8Value, name string, value mapStringInt8Value, usage string, required, isset bool) {
+	f.Var(newmapStringInt8Value(value, p), name, usage, required, isset)
 }
 
 // mapStringInt8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapStringInt8Var(p *mapStringInt8Value, name string, value mapStringInt8Value, usage string) {
-	CommandLine.Var(newmapStringInt8Value(value, p), name, usage)
+func mapStringInt8Var(p *mapStringInt8Value, name string, value mapStringInt8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapStringInt8Value(value, p), name, usage, required, isset)
 }
 
 // mapStringInt8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapStringInt8(name string, value mapStringInt8Value, usage string) *mapStringInt8Value {
+func (f *FlagSet) mapStringInt8(name string, value mapStringInt8Value, usage string, required, isset bool) *mapStringInt8Value {
 	p := new(mapStringInt8Value)
-	f.mapStringInt8Var(p, name, value, usage)
+	f.mapStringInt8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapStringInt8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapStringInt8(name string, value mapStringInt8Value, usage string) *mapStringInt8Value {
-	return CommandLine.mapStringInt8(name, value, usage)
+func mapStringInt8(name string, value mapStringInt8Value, usage string, required, isset bool) *mapStringInt8Value {
+	return CommandLine.mapStringInt8(name, value, usage, required, isset)
 }
 
 // mapStringInt16Value []mapStringInt16Value
@@ -12394,31 +12394,31 @@ func (slc *mapStringInt16Value) String() string {
 // mapStringInt16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapStringInt16Var(p *mapStringInt16Value, name string, value mapStringInt16Value, usage string) {
-	f.Var(newmapStringInt16Value(value, p), name, usage)
+func (f *FlagSet) mapStringInt16Var(p *mapStringInt16Value, name string, value mapStringInt16Value, usage string, required, isset bool) {
+	f.Var(newmapStringInt16Value(value, p), name, usage, required, isset)
 }
 
 // mapStringInt16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapStringInt16Var(p *mapStringInt16Value, name string, value mapStringInt16Value, usage string) {
-	CommandLine.Var(newmapStringInt16Value(value, p), name, usage)
+func mapStringInt16Var(p *mapStringInt16Value, name string, value mapStringInt16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapStringInt16Value(value, p), name, usage, required, isset)
 }
 
 // mapStringInt16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapStringInt16(name string, value mapStringInt16Value, usage string) *mapStringInt16Value {
+func (f *FlagSet) mapStringInt16(name string, value mapStringInt16Value, usage string, required, isset bool) *mapStringInt16Value {
 	p := new(mapStringInt16Value)
-	f.mapStringInt16Var(p, name, value, usage)
+	f.mapStringInt16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapStringInt16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapStringInt16(name string, value mapStringInt16Value, usage string) *mapStringInt16Value {
-	return CommandLine.mapStringInt16(name, value, usage)
+func mapStringInt16(name string, value mapStringInt16Value, usage string, required, isset bool) *mapStringInt16Value {
+	return CommandLine.mapStringInt16(name, value, usage, required, isset)
 }
 
 // mapStringInt32Value []mapStringInt32Value
@@ -12452,31 +12452,31 @@ func (slc *mapStringInt32Value) String() string {
 // mapStringInt32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapStringInt32Var(p *mapStringInt32Value, name string, value mapStringInt32Value, usage string) {
-	f.Var(newmapStringInt32Value(value, p), name, usage)
+func (f *FlagSet) mapStringInt32Var(p *mapStringInt32Value, name string, value mapStringInt32Value, usage string, required, isset bool) {
+	f.Var(newmapStringInt32Value(value, p), name, usage, required, isset)
 }
 
 // mapStringInt32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapStringInt32Var(p *mapStringInt32Value, name string, value mapStringInt32Value, usage string) {
-	CommandLine.Var(newmapStringInt32Value(value, p), name, usage)
+func mapStringInt32Var(p *mapStringInt32Value, name string, value mapStringInt32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapStringInt32Value(value, p), name, usage, required, isset)
 }
 
 // mapStringInt32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapStringInt32(name string, value mapStringInt32Value, usage string) *mapStringInt32Value {
+func (f *FlagSet) mapStringInt32(name string, value mapStringInt32Value, usage string, required, isset bool) *mapStringInt32Value {
 	p := new(mapStringInt32Value)
-	f.mapStringInt32Var(p, name, value, usage)
+	f.mapStringInt32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapStringInt32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapStringInt32(name string, value mapStringInt32Value, usage string) *mapStringInt32Value {
-	return CommandLine.mapStringInt32(name, value, usage)
+func mapStringInt32(name string, value mapStringInt32Value, usage string, required, isset bool) *mapStringInt32Value {
+	return CommandLine.mapStringInt32(name, value, usage, required, isset)
 }
 
 // mapStringInt64Value []mapStringInt64Value
@@ -12510,31 +12510,31 @@ func (slc *mapStringInt64Value) String() string {
 // mapStringInt64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapStringInt64Var(p *mapStringInt64Value, name string, value mapStringInt64Value, usage string) {
-	f.Var(newmapStringInt64Value(value, p), name, usage)
+func (f *FlagSet) mapStringInt64Var(p *mapStringInt64Value, name string, value mapStringInt64Value, usage string, required, isset bool) {
+	f.Var(newmapStringInt64Value(value, p), name, usage, required, isset)
 }
 
 // mapStringInt64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapStringInt64Var(p *mapStringInt64Value, name string, value mapStringInt64Value, usage string) {
-	CommandLine.Var(newmapStringInt64Value(value, p), name, usage)
+func mapStringInt64Var(p *mapStringInt64Value, name string, value mapStringInt64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapStringInt64Value(value, p), name, usage, required, isset)
 }
 
 // mapStringInt64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapStringInt64(name string, value mapStringInt64Value, usage string) *mapStringInt64Value {
+func (f *FlagSet) mapStringInt64(name string, value mapStringInt64Value, usage string, required, isset bool) *mapStringInt64Value {
 	p := new(mapStringInt64Value)
-	f.mapStringInt64Var(p, name, value, usage)
+	f.mapStringInt64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapStringInt64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapStringInt64(name string, value mapStringInt64Value, usage string) *mapStringInt64Value {
-	return CommandLine.mapStringInt64(name, value, usage)
+func mapStringInt64(name string, value mapStringInt64Value, usage string, required, isset bool) *mapStringInt64Value {
+	return CommandLine.mapStringInt64(name, value, usage, required, isset)
 }
 
 // mapStringUintValue []mapStringUintValue
@@ -12568,31 +12568,31 @@ func (slc *mapStringUintValue) String() string {
 // mapStringUintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapStringUintVar(p *mapStringUintValue, name string, value mapStringUintValue, usage string) {
-	f.Var(newmapStringUintValue(value, p), name, usage)
+func (f *FlagSet) mapStringUintVar(p *mapStringUintValue, name string, value mapStringUintValue, usage string, required, isset bool) {
+	f.Var(newmapStringUintValue(value, p), name, usage, required, isset)
 }
 
 // mapStringUintValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapStringUintVar(p *mapStringUintValue, name string, value mapStringUintValue, usage string) {
-	CommandLine.Var(newmapStringUintValue(value, p), name, usage)
+func mapStringUintVar(p *mapStringUintValue, name string, value mapStringUintValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapStringUintValue(value, p), name, usage, required, isset)
 }
 
 // mapStringUintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapStringUint(name string, value mapStringUintValue, usage string) *mapStringUintValue {
+func (f *FlagSet) mapStringUint(name string, value mapStringUintValue, usage string, required, isset bool) *mapStringUintValue {
 	p := new(mapStringUintValue)
-	f.mapStringUintVar(p, name, value, usage)
+	f.mapStringUintVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapStringUintValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapStringUint(name string, value mapStringUintValue, usage string) *mapStringUintValue {
-	return CommandLine.mapStringUint(name, value, usage)
+func mapStringUint(name string, value mapStringUintValue, usage string, required, isset bool) *mapStringUintValue {
+	return CommandLine.mapStringUint(name, value, usage, required, isset)
 }
 
 // mapStringUint8Value []mapStringUint8Value
@@ -12626,31 +12626,31 @@ func (slc *mapStringUint8Value) String() string {
 // mapStringUint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapStringUint8Var(p *mapStringUint8Value, name string, value mapStringUint8Value, usage string) {
-	f.Var(newmapStringUint8Value(value, p), name, usage)
+func (f *FlagSet) mapStringUint8Var(p *mapStringUint8Value, name string, value mapStringUint8Value, usage string, required, isset bool) {
+	f.Var(newmapStringUint8Value(value, p), name, usage, required, isset)
 }
 
 // mapStringUint8ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapStringUint8Var(p *mapStringUint8Value, name string, value mapStringUint8Value, usage string) {
-	CommandLine.Var(newmapStringUint8Value(value, p), name, usage)
+func mapStringUint8Var(p *mapStringUint8Value, name string, value mapStringUint8Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapStringUint8Value(value, p), name, usage, required, isset)
 }
 
 // mapStringUint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapStringUint8(name string, value mapStringUint8Value, usage string) *mapStringUint8Value {
+func (f *FlagSet) mapStringUint8(name string, value mapStringUint8Value, usage string, required, isset bool) *mapStringUint8Value {
 	p := new(mapStringUint8Value)
-	f.mapStringUint8Var(p, name, value, usage)
+	f.mapStringUint8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapStringUint8Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapStringUint8(name string, value mapStringUint8Value, usage string) *mapStringUint8Value {
-	return CommandLine.mapStringUint8(name, value, usage)
+func mapStringUint8(name string, value mapStringUint8Value, usage string, required, isset bool) *mapStringUint8Value {
+	return CommandLine.mapStringUint8(name, value, usage, required, isset)
 }
 
 // mapStringUint16Value []mapStringUint16Value
@@ -12684,31 +12684,31 @@ func (slc *mapStringUint16Value) String() string {
 // mapStringUint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapStringUint16Var(p *mapStringUint16Value, name string, value mapStringUint16Value, usage string) {
-	f.Var(newmapStringUint16Value(value, p), name, usage)
+func (f *FlagSet) mapStringUint16Var(p *mapStringUint16Value, name string, value mapStringUint16Value, usage string, required, isset bool) {
+	f.Var(newmapStringUint16Value(value, p), name, usage, required, isset)
 }
 
 // mapStringUint16ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapStringUint16Var(p *mapStringUint16Value, name string, value mapStringUint16Value, usage string) {
-	CommandLine.Var(newmapStringUint16Value(value, p), name, usage)
+func mapStringUint16Var(p *mapStringUint16Value, name string, value mapStringUint16Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapStringUint16Value(value, p), name, usage, required, isset)
 }
 
 // mapStringUint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapStringUint16(name string, value mapStringUint16Value, usage string) *mapStringUint16Value {
+func (f *FlagSet) mapStringUint16(name string, value mapStringUint16Value, usage string, required, isset bool) *mapStringUint16Value {
 	p := new(mapStringUint16Value)
-	f.mapStringUint16Var(p, name, value, usage)
+	f.mapStringUint16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapStringUint16Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapStringUint16(name string, value mapStringUint16Value, usage string) *mapStringUint16Value {
-	return CommandLine.mapStringUint16(name, value, usage)
+func mapStringUint16(name string, value mapStringUint16Value, usage string, required, isset bool) *mapStringUint16Value {
+	return CommandLine.mapStringUint16(name, value, usage, required, isset)
 }
 
 // mapStringUint32Value []mapStringUint32Value
@@ -12742,31 +12742,31 @@ func (slc *mapStringUint32Value) String() string {
 // mapStringUint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapStringUint32Var(p *mapStringUint32Value, name string, value mapStringUint32Value, usage string) {
-	f.Var(newmapStringUint32Value(value, p), name, usage)
+func (f *FlagSet) mapStringUint32Var(p *mapStringUint32Value, name string, value mapStringUint32Value, usage string, required, isset bool) {
+	f.Var(newmapStringUint32Value(value, p), name, usage, required, isset)
 }
 
 // mapStringUint32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapStringUint32Var(p *mapStringUint32Value, name string, value mapStringUint32Value, usage string) {
-	CommandLine.Var(newmapStringUint32Value(value, p), name, usage)
+func mapStringUint32Var(p *mapStringUint32Value, name string, value mapStringUint32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapStringUint32Value(value, p), name, usage, required, isset)
 }
 
 // mapStringUint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapStringUint32(name string, value mapStringUint32Value, usage string) *mapStringUint32Value {
+func (f *FlagSet) mapStringUint32(name string, value mapStringUint32Value, usage string, required, isset bool) *mapStringUint32Value {
 	p := new(mapStringUint32Value)
-	f.mapStringUint32Var(p, name, value, usage)
+	f.mapStringUint32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapStringUint32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapStringUint32(name string, value mapStringUint32Value, usage string) *mapStringUint32Value {
-	return CommandLine.mapStringUint32(name, value, usage)
+func mapStringUint32(name string, value mapStringUint32Value, usage string, required, isset bool) *mapStringUint32Value {
+	return CommandLine.mapStringUint32(name, value, usage, required, isset)
 }
 
 // mapStringUint64Value []mapStringUint64Value
@@ -12800,31 +12800,31 @@ func (slc *mapStringUint64Value) String() string {
 // mapStringUint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapStringUint64Var(p *mapStringUint64Value, name string, value mapStringUint64Value, usage string) {
-	f.Var(newmapStringUint64Value(value, p), name, usage)
+func (f *FlagSet) mapStringUint64Var(p *mapStringUint64Value, name string, value mapStringUint64Value, usage string, required, isset bool) {
+	f.Var(newmapStringUint64Value(value, p), name, usage, required, isset)
 }
 
 // mapStringUint64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapStringUint64Var(p *mapStringUint64Value, name string, value mapStringUint64Value, usage string) {
-	CommandLine.Var(newmapStringUint64Value(value, p), name, usage)
+func mapStringUint64Var(p *mapStringUint64Value, name string, value mapStringUint64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapStringUint64Value(value, p), name, usage, required, isset)
 }
 
 // mapStringUint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapStringUint64(name string, value mapStringUint64Value, usage string) *mapStringUint64Value {
+func (f *FlagSet) mapStringUint64(name string, value mapStringUint64Value, usage string, required, isset bool) *mapStringUint64Value {
 	p := new(mapStringUint64Value)
-	f.mapStringUint64Var(p, name, value, usage)
+	f.mapStringUint64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapStringUint64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapStringUint64(name string, value mapStringUint64Value, usage string) *mapStringUint64Value {
-	return CommandLine.mapStringUint64(name, value, usage)
+func mapStringUint64(name string, value mapStringUint64Value, usage string, required, isset bool) *mapStringUint64Value {
+	return CommandLine.mapStringUint64(name, value, usage, required, isset)
 }
 
 // mapStringFloat64Value []mapStringFloat64Value
@@ -12858,31 +12858,31 @@ func (slc *mapStringFloat64Value) String() string {
 // mapStringFloat64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapStringFloat64Var(p *mapStringFloat64Value, name string, value mapStringFloat64Value, usage string) {
-	f.Var(newmapStringFloat64Value(value, p), name, usage)
+func (f *FlagSet) mapStringFloat64Var(p *mapStringFloat64Value, name string, value mapStringFloat64Value, usage string, required, isset bool) {
+	f.Var(newmapStringFloat64Value(value, p), name, usage, required, isset)
 }
 
 // mapStringFloat64ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapStringFloat64Var(p *mapStringFloat64Value, name string, value mapStringFloat64Value, usage string) {
-	CommandLine.Var(newmapStringFloat64Value(value, p), name, usage)
+func mapStringFloat64Var(p *mapStringFloat64Value, name string, value mapStringFloat64Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapStringFloat64Value(value, p), name, usage, required, isset)
 }
 
 // mapStringFloat64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapStringFloat64(name string, value mapStringFloat64Value, usage string) *mapStringFloat64Value {
+func (f *FlagSet) mapStringFloat64(name string, value mapStringFloat64Value, usage string, required, isset bool) *mapStringFloat64Value {
 	p := new(mapStringFloat64Value)
-	f.mapStringFloat64Var(p, name, value, usage)
+	f.mapStringFloat64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapStringFloat64Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapStringFloat64(name string, value mapStringFloat64Value, usage string) *mapStringFloat64Value {
-	return CommandLine.mapStringFloat64(name, value, usage)
+func mapStringFloat64(name string, value mapStringFloat64Value, usage string, required, isset bool) *mapStringFloat64Value {
+	return CommandLine.mapStringFloat64(name, value, usage, required, isset)
 }
 
 // mapStringFloat32Value []mapStringFloat32Value
@@ -12916,31 +12916,31 @@ func (slc *mapStringFloat32Value) String() string {
 // mapStringFloat32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapStringFloat32Var(p *mapStringFloat32Value, name string, value mapStringFloat32Value, usage string) {
-	f.Var(newmapStringFloat32Value(value, p), name, usage)
+func (f *FlagSet) mapStringFloat32Var(p *mapStringFloat32Value, name string, value mapStringFloat32Value, usage string, required, isset bool) {
+	f.Var(newmapStringFloat32Value(value, p), name, usage, required, isset)
 }
 
 // mapStringFloat32ValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapStringFloat32Var(p *mapStringFloat32Value, name string, value mapStringFloat32Value, usage string) {
-	CommandLine.Var(newmapStringFloat32Value(value, p), name, usage)
+func mapStringFloat32Var(p *mapStringFloat32Value, name string, value mapStringFloat32Value, usage string, required, isset bool) {
+	CommandLine.Var(newmapStringFloat32Value(value, p), name, usage, required, isset)
 }
 
 // mapStringFloat32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapStringFloat32(name string, value mapStringFloat32Value, usage string) *mapStringFloat32Value {
+func (f *FlagSet) mapStringFloat32(name string, value mapStringFloat32Value, usage string, required, isset bool) *mapStringFloat32Value {
 	p := new(mapStringFloat32Value)
-	f.mapStringFloat32Var(p, name, value, usage)
+	f.mapStringFloat32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapStringFloat32Value defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapStringFloat32(name string, value mapStringFloat32Value, usage string) *mapStringFloat32Value {
-	return CommandLine.mapStringFloat32(name, value, usage)
+func mapStringFloat32(name string, value mapStringFloat32Value, usage string, required, isset bool) *mapStringFloat32Value {
+	return CommandLine.mapStringFloat32(name, value, usage, required, isset)
 }
 
 // mapStringBoolValue []mapStringBoolValue
@@ -12974,31 +12974,31 @@ func (slc *mapStringBoolValue) String() string {
 // mapStringBoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapStringBoolVar(p *mapStringBoolValue, name string, value mapStringBoolValue, usage string) {
-	f.Var(newmapStringBoolValue(value, p), name, usage)
+func (f *FlagSet) mapStringBoolVar(p *mapStringBoolValue, name string, value mapStringBoolValue, usage string, required, isset bool) {
+	f.Var(newmapStringBoolValue(value, p), name, usage, required, isset)
 }
 
 // mapStringBoolValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapStringBoolVar(p *mapStringBoolValue, name string, value mapStringBoolValue, usage string) {
-	CommandLine.Var(newmapStringBoolValue(value, p), name, usage)
+func mapStringBoolVar(p *mapStringBoolValue, name string, value mapStringBoolValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapStringBoolValue(value, p), name, usage, required, isset)
 }
 
 // mapStringBoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapStringBool(name string, value mapStringBoolValue, usage string) *mapStringBoolValue {
+func (f *FlagSet) mapStringBool(name string, value mapStringBoolValue, usage string, required, isset bool) *mapStringBoolValue {
 	p := new(mapStringBoolValue)
-	f.mapStringBoolVar(p, name, value, usage)
+	f.mapStringBoolVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapStringBoolValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapStringBool(name string, value mapStringBoolValue, usage string) *mapStringBoolValue {
-	return CommandLine.mapStringBool(name, value, usage)
+func mapStringBool(name string, value mapStringBoolValue, usage string, required, isset bool) *mapStringBoolValue {
+	return CommandLine.mapStringBool(name, value, usage, required, isset)
 }
 
 // mapStringStringValue []mapStringStringValue
@@ -13032,29 +13032,29 @@ func (slc *mapStringStringValue) String() string {
 // mapStringStringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func (f *FlagSet) mapStringStringVar(p *mapStringStringValue, name string, value mapStringStringValue, usage string) {
-	f.Var(newmapStringStringValue(value, p), name, usage)
+func (f *FlagSet) mapStringStringVar(p *mapStringStringValue, name string, value mapStringStringValue, usage string, required, isset bool) {
+	f.Var(newmapStringStringValue(value, p), name, usage, required, isset)
 }
 
 // mapStringStringValueVar defines an map flag with specified name,
 // default value, and usage string.  The argument p points to an map
 // variable in which to store the value of the flag.
-func mapStringStringVar(p *mapStringStringValue, name string, value mapStringStringValue, usage string) {
-	CommandLine.Var(newmapStringStringValue(value, p), name, usage)
+func mapStringStringVar(p *mapStringStringValue, name string, value mapStringStringValue, usage string, required, isset bool) {
+	CommandLine.Var(newmapStringStringValue(value, p), name, usage, required, isset)
 }
 
 // mapStringStringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func (f *FlagSet) mapStringString(name string, value mapStringStringValue, usage string) *mapStringStringValue {
+func (f *FlagSet) mapStringString(name string, value mapStringStringValue, usage string, required, isset bool) *mapStringStringValue {
 	p := new(mapStringStringValue)
-	f.mapStringStringVar(p, name, value, usage)
+	f.mapStringStringVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // mapStringStringValue defines an map flag with specified name,
 // default value, and usage string.  The return value is the address
 // of an map variable that stores the value of the flag.
-func mapStringString(name string, value mapStringStringValue, usage string) *mapStringStringValue {
-	return CommandLine.mapStringString(name, value, usage)
+func mapStringString(name string, value mapStringStringValue, usage string, required, isset bool) *mapStringStringValue {
+	return CommandLine.mapStringString(name, value, usage, required, isset)
 }

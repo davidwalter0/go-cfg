@@ -131,7 +131,7 @@ func (field *Field) SetName() {
 func (field *Field) SetRequired() {
 	text := field.Get("required")
 	if v, err := strconv.ParseBool(text); err == nil {
-		field.Omit = v
+		field.Required = v
 	}
 }
 

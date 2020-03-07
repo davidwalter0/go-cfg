@@ -17,8 +17,8 @@ func (field *Field) AddFlag() {
 		if len(field.Doc) > 0 {
 			usage = "usage: " + field.Doc
 		}
-		// log.Println("AddFlag", field.Name, field.Type)
-		flag.MakeVar(field.FieldPtr, field.FlagName, field.Default, usage+fmt.Sprintf(" Env %-32s : (%s) (%v)", field.KeyName, field.Name, field.Type), field.Value)
+		isset := len(field.Default) > 0 || len(field.EnvText) > 0
+		flag.MakeVar(field.FieldPtr, field.FlagName, field.Default, usage+fmt.Sprintf(" Env %-32s : (%s) (%v)", field.KeyName, field.Name, field.Type), field.Value, field.Required, isset)
 	} else {
 		if !announceDuplicates {
 			fmt.Printf("Duplicate flag(s)/env vars found\n")
@@ -28,4 +28,20 @@ func (field *Field) AddFlag() {
 		}
 		fmt.Printf("%-20s %-20s\n", field.FlagName, field.KeyName)
 	}
+}
+
+// IsSet returns if the flag has been set
+func IsSet(name string) bool {
+	return flag.IsSet(name)
+}
+
+// Ok returns if the flag has been set
+func Ok(name string) bool {
+	fmt.Println("cfg.OK", name, flag.Ok(name))
+	return flag.Ok(name)
+}
+
+// Required returns if the flag has been set
+func Required(name string) bool {
+	return flag.Required(name)
 }

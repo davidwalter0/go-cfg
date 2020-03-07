@@ -335,6 +335,8 @@ type Flag struct {
 	Usage    string // help message
 	Value    Value  // value as set
 	DefValue string // default value (as text); for usage message
+	Required bool   // must set the value
+	IsSet    bool   // has been altered
 }
 
 // sortFlags returns the flags as a slice in lexicographical sorted order.
@@ -600,8 +602,44 @@ var Usage = func() {
 // NFlag returns the number of flags that have been set.
 func (f *FlagSet) NFlag() int { return len(f.actual) }
 
+// IsSet returns whether the named flag was set
+func (f *FlagSet) IsSet(name string) bool {
+	_, ok := f.actual[name]
+	v, found := f.formal[name]
+	return ok || (found && v.IsSet)
+}
+
+// Required returns whether the named flag was set
+func (f *FlagSet) Required(name string) bool {
+	v, found := f.formal[name]
+	return found && v.Required
+}
+
+// Ok returns whether the named flag was set
+func (f *FlagSet) Ok(name string) bool {
+	return !f.Required(name) || f.IsSet(name)
+}
+
 // NFlag returns the number of command-line flags that have been set.
 func NFlag() int { return len(CommandLine.actual) }
+
+// IsSet returns whether the named flag was set
+func IsSet(name string) bool {
+	_, ok := CommandLine.actual[name]
+	v, found := CommandLine.formal[name]
+	return ok || (found && v.IsSet)
+}
+
+// Required returns whether the named flag was set
+func Required(name string) bool {
+	v, found := CommandLine.formal[name]
+	return found && v.Required
+}
+
+// Ok returns whether the named flag was set
+func Ok(name string) bool {
+	return !Required(name) || IsSet(name)
+}
 
 // Arg returns the i'th argument. Arg(0) is the first remaining argument
 // after flags have been processed. Arg returns an empty string if the
@@ -634,240 +672,240 @@ func Args() []string { return CommandLine.args }
 
 // BoolVar defines a bool flag with specified name, default value, and usage string.
 // The argument p points to a bool variable in which to store the value of the flag.
-func (f *FlagSet) BoolVar(p *bool, name string, value bool, usage string) {
-	f.Var(newBoolValue(value, p), name, usage)
+func (f *FlagSet) BoolVar(p *bool, name string, value bool, usage string, required, isset bool) {
+	f.Var(newBoolValue(value, p), name, usage, required, isset)
 }
 
 // BoolVar defines a bool flag with specified name, default value, and usage string.
 // The argument p points to a bool variable in which to store the value of the flag.
-func BoolVar(p *bool, name string, value bool, usage string) {
-	CommandLine.Var(newBoolValue(value, p), name, usage)
+func BoolVar(p *bool, name string, value bool, usage string, required, isset bool) {
+	CommandLine.Var(newBoolValue(value, p), name, usage, required, isset)
 }
 
 // Bool defines a bool flag with specified name, default value, and usage string.
 // The return value is the address of a bool variable that stores the value of the flag.
-func (f *FlagSet) Bool(name string, value bool, usage string) *bool {
+func (f *FlagSet) Bool(name string, value bool, usage string, required, isset bool) *bool {
 	p := new(bool)
-	f.BoolVar(p, name, value, usage)
+	f.BoolVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // Bool defines a bool flag with specified name, default value, and usage string.
 // The return value is the address of a bool variable that stores the value of the flag.
-func Bool(name string, value bool, usage string) *bool {
-	return CommandLine.Bool(name, value, usage)
+func Bool(name string, value bool, usage string, required, isset bool) *bool {
+	return CommandLine.Bool(name, value, usage, required, isset)
 }
 
 // IntVar defines an int flag with specified name, default value, and usage string.
 // The argument p points to an int variable in which to store the value of the flag.
-func (f *FlagSet) IntVar(p *int, name string, value int, usage string) {
-	f.Var(newIntValue(value, p), name, usage)
+func (f *FlagSet) IntVar(p *int, name string, value int, usage string, required, isset bool) {
+	f.Var(newIntValue(value, p), name, usage, required, isset)
 }
 
 // IntVar defines an int flag with specified name, default value, and usage string.
 // The argument p points to an int variable in which to store the value of the flag.
-func IntVar(p *int, name string, value int, usage string) {
-	CommandLine.Var(newIntValue(value, p), name, usage)
+func IntVar(p *int, name string, value int, usage string, required, isset bool) {
+	CommandLine.Var(newIntValue(value, p), name, usage, required, isset)
 }
 
 // Int defines an int flag with specified name, default value, and usage string.
 // The return value is the address of an int variable that stores the value of the flag.
-func (f *FlagSet) Int(name string, value int, usage string) *int {
+func (f *FlagSet) Int(name string, value int, usage string, required, isset bool) *int {
 	p := new(int)
-	f.IntVar(p, name, value, usage)
+	f.IntVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // Int defines an int flag with specified name, default value, and usage string.
 // The return value is the address of an int variable that stores the value of the flag.
-func Int(name string, value int, usage string) *int {
-	return CommandLine.Int(name, value, usage)
+func Int(name string, value int, usage string, required, isset bool) *int {
+	return CommandLine.Int(name, value, usage, required, isset)
 }
 
 // Int64Var defines an int64 flag with specified name, default value, and usage string.
 // The argument p points to an int64 variable in which to store the value of the flag.
-func (f *FlagSet) Int64Var(p *int64, name string, value int64, usage string) {
-	f.Var(newInt64Value(value, p), name, usage)
+func (f *FlagSet) Int64Var(p *int64, name string, value int64, usage string, required, isset bool) {
+	f.Var(newInt64Value(value, p), name, usage, required, isset)
 }
 
 // Int64Var defines an int64 flag with specified name, default value, and usage string.
 // The argument p points to an int64 variable in which to store the value of the flag.
-func Int64Var(p *int64, name string, value int64, usage string) {
-	CommandLine.Var(newInt64Value(value, p), name, usage)
+func Int64Var(p *int64, name string, value int64, usage string, required, isset bool) {
+	CommandLine.Var(newInt64Value(value, p), name, usage, required, isset)
 }
 
 // Int64 defines an int64 flag with specified name, default value, and usage string.
 // The return value is the address of an int64 variable that stores the value of the flag.
-func (f *FlagSet) Int64(name string, value int64, usage string) *int64 {
+func (f *FlagSet) Int64(name string, value int64, usage string, required, isset bool) *int64 {
 	p := new(int64)
-	f.Int64Var(p, name, value, usage)
+	f.Int64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // Int64 defines an int64 flag with specified name, default value, and usage string.
 // The return value is the address of an int64 variable that stores the value of the flag.
-func Int64(name string, value int64, usage string) *int64 {
-	return CommandLine.Int64(name, value, usage)
+func Int64(name string, value int64, usage string, required, isset bool) *int64 {
+	return CommandLine.Int64(name, value, usage, required, isset)
 }
 
 // UintVar defines a uint flag with specified name, default value, and usage string.
 // The argument p points to a uint variable in which to store the value of the flag.
-func (f *FlagSet) UintVar(p *uint, name string, value uint, usage string) {
-	f.Var(newUintValue(value, p), name, usage)
+func (f *FlagSet) UintVar(p *uint, name string, value uint, usage string, required, isset bool) {
+	f.Var(newUintValue(value, p), name, usage, required, isset)
 }
 
 // UintVar defines a uint flag with specified name, default value, and usage string.
 // The argument p points to a uint  variable in which to store the value of the flag.
-func UintVar(p *uint, name string, value uint, usage string) {
-	CommandLine.Var(newUintValue(value, p), name, usage)
+func UintVar(p *uint, name string, value uint, usage string, required, isset bool) {
+	CommandLine.Var(newUintValue(value, p), name, usage, required, isset)
 }
 
 // Uint defines a uint flag with specified name, default value, and usage string.
 // The return value is the address of a uint  variable that stores the value of the flag.
-func (f *FlagSet) Uint(name string, value uint, usage string) *uint {
+func (f *FlagSet) Uint(name string, value uint, usage string, required, isset bool) *uint {
 	p := new(uint)
-	f.UintVar(p, name, value, usage)
+	f.UintVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // Uint defines a uint flag with specified name, default value, and usage string.
 // The return value is the address of a uint  variable that stores the value of the flag.
-func Uint(name string, value uint, usage string) *uint {
-	return CommandLine.Uint(name, value, usage)
+func Uint(name string, value uint, usage string, required, isset bool) *uint {
+	return CommandLine.Uint(name, value, usage, required, isset)
 }
 
 // Uint64Var defines a uint64 flag with specified name, default value, and usage string.
 // The argument p points to a uint64 variable in which to store the value of the flag.
-func (f *FlagSet) Uint64Var(p *uint64, name string, value uint64, usage string) {
-	f.Var(newUint64Value(value, p), name, usage)
+func (f *FlagSet) Uint64Var(p *uint64, name string, value uint64, usage string, required, isset bool) {
+	f.Var(newUint64Value(value, p), name, usage, required, isset)
 }
 
 // Uint64Var defines a uint64 flag with specified name, default value, and usage string.
 // The argument p points to a uint64 variable in which to store the value of the flag.
-func Uint64Var(p *uint64, name string, value uint64, usage string) {
-	CommandLine.Var(newUint64Value(value, p), name, usage)
+func Uint64Var(p *uint64, name string, value uint64, usage string, required, isset bool) {
+	CommandLine.Var(newUint64Value(value, p), name, usage, required, isset)
 }
 
 // Uint64 defines a uint64 flag with specified name, default value, and usage string.
 // The return value is the address of a uint64 variable that stores the value of the flag.
-func (f *FlagSet) Uint64(name string, value uint64, usage string) *uint64 {
+func (f *FlagSet) Uint64(name string, value uint64, usage string, required, isset bool) *uint64 {
 	p := new(uint64)
-	f.Uint64Var(p, name, value, usage)
+	f.Uint64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // Uint64 defines a uint64 flag with specified name, default value, and usage string.
 // The return value is the address of a uint64 variable that stores the value of the flag.
-func Uint64(name string, value uint64, usage string) *uint64 {
-	return CommandLine.Uint64(name, value, usage)
+func Uint64(name string, value uint64, usage string, required, isset bool) *uint64 {
+	return CommandLine.Uint64(name, value, usage, required, isset)
 }
 
 // StringVar defines a string flag with specified name, default value, and usage string.
 // The argument p points to a string variable in which to store the value of the flag.
-func (f *FlagSet) StringVar(p *string, name string, value string, usage string) {
-	f.Var(newStringValue(value, p), name, usage)
+func (f *FlagSet) StringVar(p *string, name string, value string, usage string, required, isset bool) {
+	f.Var(newStringValue(value, p), name, usage, required, isset)
 }
 
 // StringVar defines a string flag with specified name, default value, and usage string.
 // The argument p points to a string variable in which to store the value of the flag.
-func StringVar(p *string, name string, value string, usage string) {
-	CommandLine.Var(newStringValue(value, p), name, usage)
+func StringVar(p *string, name string, value string, usage string, required, isset bool) {
+	CommandLine.Var(newStringValue(value, p), name, usage, required, isset)
 }
 
 // String defines a string flag with specified name, default value, and usage string.
 // The return value is the address of a string variable that stores the value of the flag.
-func (f *FlagSet) String(name string, value string, usage string) *string {
+func (f *FlagSet) String(name string, value string, usage string, required, isset bool) *string {
 	p := new(string)
-	f.StringVar(p, name, value, usage)
+	f.StringVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // String defines a string flag with specified name, default value, and usage string.
 // The return value is the address of a string variable that stores the value of the flag.
-func String(name string, value string, usage string) *string {
-	return CommandLine.String(name, value, usage)
+func String(name string, value string, usage string, required, isset bool) *string {
+	return CommandLine.String(name, value, usage, required, isset)
 }
 
 // Float32Var defines a float32 flag with specified name, default value, and usage string.
 // The argument p points to a float32 variable in which to store the value of the flag.
-func (f *FlagSet) Float32Var(p *float32, name string, value float32, usage string) {
-	f.Var(newFloat32Value(value, p), name, usage)
+func (f *FlagSet) Float32Var(p *float32, name string, value float32, usage string, required, isset bool) {
+	f.Var(newFloat32Value(value, p), name, usage, required, isset)
 }
 
 // Float32Var defines a float32 flag with specified name, default value, and usage string.
 // The argument p points to a float32 variable in which to store the value of the flag.
-func Float32Var(p *float32, name string, value float32, usage string) {
-	CommandLine.Var(newFloat32Value(value, p), name, usage)
+func Float32Var(p *float32, name string, value float32, usage string, required, isset bool) {
+	CommandLine.Var(newFloat32Value(value, p), name, usage, required, isset)
 }
 
 // Float32 defines a float32 flag with specified name, default value, and usage string.
 // The return value is the address of a float32 variable that stores the value of the flag.
-func (f *FlagSet) Float32(name string, value float32, usage string) *float32 {
+func (f *FlagSet) Float32(name string, value float32, usage string, required, isset bool) *float32 {
 	p := new(float32)
-	f.Float32Var(p, name, value, usage)
+	f.Float32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // Float32 defines a float32 flag with specified name, default value, and usage string.
 // The return value is the address of a float32 variable that stores the value of the flag.
-func Float32(name string, value float32, usage string) *float32 {
-	return CommandLine.Float32(name, value, usage)
+func Float32(name string, value float32, usage string, required, isset bool) *float32 {
+	return CommandLine.Float32(name, value, usage, required, isset)
 }
 
 // Float64Var defines a float64 flag with specified name, default value, and usage string.
 // The argument p points to a float64 variable in which to store the value of the flag.
-func (f *FlagSet) Float64Var(p *float64, name string, value float64, usage string) {
-	f.Var(newFloat64Value(value, p), name, usage)
+func (f *FlagSet) Float64Var(p *float64, name string, value float64, usage string, required, isset bool) {
+	f.Var(newFloat64Value(value, p), name, usage, required, isset)
 }
 
 // Float64Var defines a float64 flag with specified name, default value, and usage string.
 // The argument p points to a float64 variable in which to store the value of the flag.
-func Float64Var(p *float64, name string, value float64, usage string) {
-	CommandLine.Var(newFloat64Value(value, p), name, usage)
+func Float64Var(p *float64, name string, value float64, usage string, required, isset bool) {
+	CommandLine.Var(newFloat64Value(value, p), name, usage, required, isset)
 }
 
 // Float64 defines a float64 flag with specified name, default value, and usage string.
 // The return value is the address of a float64 variable that stores the value of the flag.
-func (f *FlagSet) Float64(name string, value float64, usage string) *float64 {
+func (f *FlagSet) Float64(name string, value float64, usage string, required, isset bool) *float64 {
 	p := new(float64)
-	f.Float64Var(p, name, value, usage)
+	f.Float64Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // Float64 defines a float64 flag with specified name, default value, and usage string.
 // The return value is the address of a float64 variable that stores the value of the flag.
-func Float64(name string, value float64, usage string) *float64 {
-	return CommandLine.Float64(name, value, usage)
+func Float64(name string, value float64, usage string, required, isset bool) *float64 {
+	return CommandLine.Float64(name, value, usage, required, isset)
 }
 
 // DurationVar defines a time.Duration flag with specified name, default value, and usage string.
 // The argument p points to a time.Duration variable in which to store the value of the flag.
 // The flag accepts a value acceptable to time.ParseDuration.
-func (f *FlagSet) DurationVar(p *time.Duration, name string, value time.Duration, usage string) {
-	f.Var(newDurationValue(value, p), name, usage)
+func (f *FlagSet) DurationVar(p *time.Duration, name string, value time.Duration, usage string, required, isset bool) {
+	f.Var(newDurationValue(value, p), name, usage, required, isset)
 }
 
 // DurationVar defines a time.Duration flag with specified name, default value, and usage string.
 // The argument p points to a time.Duration variable in which to store the value of the flag.
 // The flag accepts a value acceptable to time.ParseDuration.
-func DurationVar(p *time.Duration, name string, value time.Duration, usage string) {
-	CommandLine.Var(newDurationValue(value, p), name, usage)
+func DurationVar(p *time.Duration, name string, value time.Duration, usage string, required, isset bool) {
+	CommandLine.Var(newDurationValue(value, p), name, usage, required, isset)
 }
 
 // Duration defines a time.Duration flag with specified name, default value, and usage string.
 // The return value is the address of a time.Duration variable that stores the value of the flag.
 // The flag accepts a value acceptable to time.ParseDuration.
-func (f *FlagSet) Duration(name string, value time.Duration, usage string) *time.Duration {
+func (f *FlagSet) Duration(name string, value time.Duration, usage string, required, isset bool) *time.Duration {
 	p := new(time.Duration)
-	f.DurationVar(p, name, value, usage)
+	f.DurationVar(p, name, value, usage, required, isset)
 	return p
 }
 
 // Duration defines a time.Duration flag with specified name, default value, and usage string.
 // The return value is the address of a time.Duration variable that stores the value of the flag.
 // The flag accepts a value acceptable to time.ParseDuration.
-func Duration(name string, value time.Duration, usage string) *time.Duration {
-	return CommandLine.Duration(name, value, usage)
+func Duration(name string, value time.Duration, usage string, required, isset bool) *time.Duration {
+	return CommandLine.Duration(name, value, usage, required, isset)
 }
 
 // Var defines a flag with the specified name and usage string. The type and
@@ -876,9 +914,16 @@ func Duration(name string, value time.Duration, usage string) *time.Duration {
 // caller could create a flag that turns a comma-separated string into a slice
 // of strings by giving the slice the methods of Value; in particular, Set would
 // decompose the comma-separated string into the slice.
-func (f *FlagSet) Var(value Value, name string, usage string) {
+func (f *FlagSet) Var(value Value, name, usage string, required, isset bool) {
 	// Remember the default value as a string; it won't change.
-	flag := &Flag{name, usage, value, value.String()}
+	flag := &Flag{
+		Name:     name,
+		Usage:    usage,
+		Value:    value,
+		DefValue: value.String(),
+		Required: required,
+		IsSet:    isset,
+	}
 	_, alreadythere := f.formal[name]
 	if alreadythere {
 		var msg string
@@ -902,8 +947,8 @@ func (f *FlagSet) Var(value Value, name string, usage string) {
 // caller could create a flag that turns a comma-separated string into a slice
 // of strings by giving the slice the methods of Value; in particular, Set would
 // decompose the comma-separated string into the slice.
-func Var(value Value, name string, usage string) {
-	CommandLine.Var(value, name, usage)
+func Var(value Value, name string, usage string, required, isset bool) {
+	CommandLine.Var(value, name, usage, required, isset)
 }
 
 // failf prints to standard error a formatted error and usage message and
@@ -1047,7 +1092,7 @@ func Parsed() bool {
 // CommandLine is the default set of command-line flags, parsed from os.Args.
 // The top-level functions such as BoolVar, Arg, and so on are wrappers for the
 // methods of CommandLine.
-var CommandLine = NewFlagSet(os.Args[0], ExitOnError)
+var CommandLine *FlagSet = NewFlagSet(os.Args[0], ExitOnError)
 
 // SupressFlagUsageMsg suppress flag names in usage when the
 // environment variable SUPPRESS_FLAG_USAGE_MSG is set one of the
@@ -1125,28 +1170,28 @@ func (i *int8Value) String() string { return strconv.FormatInt(int64(*i), 10) }
 
 // Int8Var defines an int8 flag with specified name, default value, and usage string.
 // The argument p points to an int8 variable in which to store the value of the flag.
-func (f *FlagSet) Int8Var(p *int8, name string, value int8, usage string) {
-	f.Var(newInt8Value(value, p), name, usage)
+func (f *FlagSet) Int8Var(p *int8, name string, value int8, usage string, required, isset bool) {
+	f.Var(newInt8Value(value, p), name, usage, required, isset)
 }
 
 // Int8Var defines an int8 flag with specified name, default value, and usage string.
 // The argument p points to an int8 variable in which to store the value of the flag.
-func Int8Var(p *int8, name string, value int8, usage string) {
-	CommandLine.Var(newInt8Value(value, p), name, usage)
+func Int8Var(p *int8, name string, value int8, usage string, required, isset bool) {
+	CommandLine.Var(newInt8Value(value, p), name, usage, required, isset)
 }
 
 // Int8 defines an int8 flag with specified name, default value, and usage string.
 // The return value is the address of an int8 variable that stores the value of the flag.
-func (f *FlagSet) Int8(name string, value int8, usage string) *int8 {
+func (f *FlagSet) Int8(name string, value int8, usage string, required, isset bool) *int8 {
 	p := new(int8)
-	f.Int8Var(p, name, value, usage)
+	f.Int8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // Int8 defines an int8 flag with specified name, default value, and usage string.
 // The return value is the address of an int8 variable that stores the value of the flag.
-func Int8(name string, value int8, usage string) *int8 {
-	return CommandLine.Int8(name, value, usage)
+func Int8(name string, value int8, usage string, required, isset bool) *int8 {
+	return CommandLine.Int8(name, value, usage, required, isset)
 }
 
 // -- uint8 Value
@@ -1169,28 +1214,28 @@ func (i *uint8Value) String() string { return strconv.FormatUint(uint64(*i), 10)
 
 // Uint8Var defines a uint8 flag with specified name, default value, and usage string.
 // The argument p points to a uint8 variable in which to store the value of the flag.
-func (f *FlagSet) Uint8Var(p *uint8, name string, value uint8, usage string) {
-	f.Var(newUint8Value(value, p), name, usage)
+func (f *FlagSet) Uint8Var(p *uint8, name string, value uint8, usage string, required, isset bool) {
+	f.Var(newUint8Value(value, p), name, usage, required, isset)
 }
 
 // Uint8Var defines a uint8 flag with specified name, default value, and usage string.
 // The argument p points to a uint8 variable in which to store the value of the flag.
-func Uint8Var(p *uint8, name string, value uint8, usage string) {
-	CommandLine.Var(newUint8Value(value, p), name, usage)
+func Uint8Var(p *uint8, name string, value uint8, usage string, required, isset bool) {
+	CommandLine.Var(newUint8Value(value, p), name, usage, required, isset)
 }
 
 // Uint8 defines a uint8 flag with specified name, default value, and usage string.
 // The return value is the address of a uint8 variable that stores the value of the flag.
-func (f *FlagSet) Uint8(name string, value uint8, usage string) *uint8 {
+func (f *FlagSet) Uint8(name string, value uint8, usage string, required, isset bool) *uint8 {
 	p := new(uint8)
-	f.Uint8Var(p, name, value, usage)
+	f.Uint8Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // Uint8 defines a uint8 flag with specified name, default value, and usage string.
 // The return value is the address of a uint8 variable that stores the value of the flag.
-func Uint8(name string, value uint8, usage string) *uint8 {
-	return CommandLine.Uint8(name, value, usage)
+func Uint8(name string, value uint8, usage string, required, isset bool) *uint8 {
+	return CommandLine.Uint8(name, value, usage, required, isset)
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1217,28 +1262,28 @@ func (i *int16Value) String() string { return strconv.FormatInt(int64(*i), 10) }
 
 // Int16Var defines an int16 flag with specified name, default value, and usage string.
 // The argument p points to an int16 variable in which to store the value of the flag.
-func (f *FlagSet) Int16Var(p *int16, name string, value int16, usage string) {
-	f.Var(newInt16Value(value, p), name, usage)
+func (f *FlagSet) Int16Var(p *int16, name string, value int16, usage string, required, isset bool) {
+	f.Var(newInt16Value(value, p), name, usage, required, isset)
 }
 
 // Int16Var defines an int16 flag with specified name, default value, and usage string.
 // The argument p points to an int16 variable in which to store the value of the flag.
-func Int16Var(p *int16, name string, value int16, usage string) {
-	CommandLine.Var(newInt16Value(value, p), name, usage)
+func Int16Var(p *int16, name string, value int16, usage string, required, isset bool) {
+	CommandLine.Var(newInt16Value(value, p), name, usage, required, isset)
 }
 
 // Int16 defines an int16 flag with specified name, default value, and usage string.
 // The return value is the address of an int16 variable that stores the value of the flag.
-func (f *FlagSet) Int16(name string, value int16, usage string) *int16 {
+func (f *FlagSet) Int16(name string, value int16, usage string, required, isset bool) *int16 {
 	p := new(int16)
-	f.Int16Var(p, name, value, usage)
+	f.Int16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // Int16 defines an int16 flag with specified name, default value, and usage string.
 // The return value is the address of an int16 variable that stores the value of the flag.
-func Int16(name string, value int16, usage string) *int16 {
-	return CommandLine.Int16(name, value, usage)
+func Int16(name string, value int16, usage string, required, isset bool) *int16 {
+	return CommandLine.Int16(name, value, usage, required, isset)
 }
 
 // -- uint16 Value
@@ -1261,28 +1306,28 @@ func (i *uint16Value) String() string { return strconv.FormatUint(uint64(*i), 10
 
 // Uint16Var defines a uint16 flag with specified name, default value, and usage string.
 // The argument p points to a uint16 variable in which to store the value of the flag.
-func (f *FlagSet) Uint16Var(p *uint16, name string, value uint16, usage string) {
-	f.Var(newUint16Value(value, p), name, usage)
+func (f *FlagSet) Uint16Var(p *uint16, name string, value uint16, usage string, required, isset bool) {
+	f.Var(newUint16Value(value, p), name, usage, required, isset)
 }
 
 // Uint16Var defines a uint16 flag with specified name, default value, and usage string.
 // The argument p points to a uint16 variable in which to store the value of the flag.
-func Uint16Var(p *uint16, name string, value uint16, usage string) {
-	CommandLine.Var(newUint16Value(value, p), name, usage)
+func Uint16Var(p *uint16, name string, value uint16, usage string, required, isset bool) {
+	CommandLine.Var(newUint16Value(value, p), name, usage, required, isset)
 }
 
 // Uint16 defines a uint16 flag with specified name, default value, and usage string.
 // The return value is the address of a uint16 variable that stores the value of the flag.
-func (f *FlagSet) Uint16(name string, value uint16, usage string) *uint16 {
+func (f *FlagSet) Uint16(name string, value uint16, usage string, required, isset bool) *uint16 {
 	p := new(uint16)
-	f.Uint16Var(p, name, value, usage)
+	f.Uint16Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // Uint16 defines a uint16 flag with specified name, default value, and usage string.
 // The return value is the address of a uint16 variable that stores the value of the flag.
-func Uint16(name string, value uint16, usage string) *uint16 {
-	return CommandLine.Uint16(name, value, usage)
+func Uint16(name string, value uint16, usage string, required, isset bool) *uint16 {
+	return CommandLine.Uint16(name, value, usage, required, isset)
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1309,28 +1354,28 @@ func (i *int32Value) String() string { return strconv.FormatInt(int64(*i), 10) }
 
 // Int32Var defines an int32 flag with specified name, default value, and usage string.
 // The argument p points to an int32 variable in which to store the value of the flag.
-func (f *FlagSet) Int32Var(p *int32, name string, value int32, usage string) {
-	f.Var(newInt32Value(value, p), name, usage)
+func (f *FlagSet) Int32Var(p *int32, name string, value int32, usage string, required, isset bool) {
+	f.Var(newInt32Value(value, p), name, usage, required, isset)
 }
 
 // Int32Var defines an int32 flag with specified name, default value, and usage string.
 // The argument p points to an int32 variable in which to store the value of the flag.
-func Int32Var(p *int32, name string, value int32, usage string) {
-	CommandLine.Var(newInt32Value(value, p), name, usage)
+func Int32Var(p *int32, name string, value int32, usage string, required, isset bool) {
+	CommandLine.Var(newInt32Value(value, p), name, usage, required, isset)
 }
 
 // Int32 defines an int32 flag with specified name, default value, and usage string.
 // The return value is the address of an int32 variable that stores the value of the flag.
-func (f *FlagSet) Int32(name string, value int32, usage string) *int32 {
+func (f *FlagSet) Int32(name string, value int32, usage string, required, isset bool) *int32 {
 	p := new(int32)
-	f.Int32Var(p, name, value, usage)
+	f.Int32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // Int32 defines an int32 flag with specified name, default value, and usage string.
 // The return value is the address of an int32 variable that stores the value of the flag.
-func Int32(name string, value int32, usage string) *int32 {
-	return CommandLine.Int32(name, value, usage)
+func Int32(name string, value int32, usage string, required, isset bool) *int32 {
+	return CommandLine.Int32(name, value, usage, required, isset)
 }
 
 // -- uint32 Value
@@ -1353,26 +1398,26 @@ func (i *uint32Value) String() string { return strconv.FormatUint(uint64(*i), 10
 
 // Uint32Var defines a uint32 flag with specified name, default value, and usage string.
 // The argument p points to a uint32 variable in which to store the value of the flag.
-func (f *FlagSet) Uint32Var(p *uint32, name string, value uint32, usage string) {
-	f.Var(newUint32Value(value, p), name, usage)
+func (f *FlagSet) Uint32Var(p *uint32, name string, value uint32, usage string, required, isset bool) {
+	f.Var(newUint32Value(value, p), name, usage, required, isset)
 }
 
 // Uint32Var defines a uint32 flag with specified name, default value, and usage string.
 // The argument p points to a uint32 variable in which to store the value of the flag.
-func Uint32Var(p *uint32, name string, value uint32, usage string) {
-	CommandLine.Var(newUint32Value(value, p), name, usage)
+func Uint32Var(p *uint32, name string, value uint32, usage string, required, isset bool) {
+	CommandLine.Var(newUint32Value(value, p), name, usage, required, isset)
 }
 
 // Uint32 defines a uint32 flag with specified name, default value, and usage string.
 // The return value is the address of a uint32 variable that stores the value of the flag.
-func (f *FlagSet) Uint32(name string, value uint32, usage string) *uint32 {
+func (f *FlagSet) Uint32(name string, value uint32, usage string, required, isset bool) *uint32 {
 	p := new(uint32)
-	f.Uint32Var(p, name, value, usage)
+	f.Uint32Var(p, name, value, usage, required, isset)
 	return p
 }
 
 // Uint32 defines a uint32 flag with specified name, default value, and usage string.
 // The return value is the address of a uint32 variable that stores the value of the flag.
-func Uint32(name string, value uint32, usage string) *uint32 {
-	return CommandLine.Uint32(name, value, usage)
+func Uint32(name string, value uint32, usage string, required, isset bool) *uint32 {
+	return CommandLine.Uint32(name, value, usage, required, isset)
 }

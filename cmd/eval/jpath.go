@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"time"
 
-	yaml "gopkg.in/yaml.v1"
+	yaml "gopkg.in/yaml.v3"
 )
 
 var Debug bool = true

@@ -3,7 +3,7 @@ package cfg
 import (
 	"io/ioutil"
 
-	yaml "gopkg.in/yaml.v2"
+	yaml "gopkg.in/yaml.v3"
 )
 
 type Loader interface {

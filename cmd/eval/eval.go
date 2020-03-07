@@ -6,7 +6,7 @@ import (
 
 	// "github.com/davidwalter0/go-cfg"
 	cfg "github.com/davidwalter0/go-cfg"
-	yaml "gopkg.in/yaml.v2"
+	yaml "gopkg.in/yaml.v3"
 )
 
 // A ...

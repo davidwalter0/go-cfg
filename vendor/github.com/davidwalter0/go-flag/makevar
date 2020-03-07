@@ -44,7 +44,7 @@ import (
 // Special case time.Duration
 
 // MakeVar type cast to type with interface matching Set, Value
-func MakeVar(addr interface{}, name, defaultValue, usage, override string ) {
+func MakeVar(addr interface{}, name, defaultValue, usage, override string, required, isset bool) {
   defaultValue = strings.TrimSpace(defaultValue)
   override = strings.TrimSpace(override)
   switch ptr := addr.(type) {
@@ -65,7 +65,7 @@ template='  case *{{.CastTypeName}}:
          panic(fmt.Sprintf("Error setting {{.SetterTypeName}} %T %v\n", ptr, err))
       }
     }
-    CommandLine.Var(varType, name, usage)
+    CommandLine.Var(varType, name, usage, required, isset)
     if len(override) > 0 {
       if err := varType.Set(override); err != nil {
          panic(fmt.Sprintf("Error setting {{.SetterTypeName}} %T %v\n", ptr, err))
@@ -81,7 +81,7 @@ maptemplate='  case *{{.MapCastType}}:
          panic(fmt.Sprintf("Error setting {{.MapSetterTypeNameValue}} %T %v\n", ptr, err))
       }
     }
-    CommandLine.Var(varType, name, usage)
+    CommandLine.Var(varType, name, usage, required, isset)
     if len(override) > 0 {
       if err := varType.Set(override); err != nil {
          panic(fmt.Sprintf("Error setting {{.MapSetterTypeNameValue}} %T %v\n", ptr, err))
@@ -95,7 +95,7 @@ sliceTemplate='   case *{{.SliceType}}:
          panic(fmt.Sprintf("Error setting {{.SliceTypeValueName}} %T %v\n", ptr, err))
       }
     }
-    CommandLine.Var(varType, name, usage)
+    CommandLine.Var(varType, name, usage, required, isset)
     if len(override) > 0 {
       if err := varType.Set(override); err != nil {
          panic(fmt.Sprintf("Error setting {{.SliceTypeValueName}} %T %v\n", ptr, err))
