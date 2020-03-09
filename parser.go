@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"reflect"
+	"strings"
 	//	"strconv"
 )
 
@@ -51,6 +52,23 @@ var emptyStructField = reflect.StructField{}
 // Store persistable representation
 var Store = NewStor()
 
+type SFWrap struct {
+	reflect.StructField
+}
+
+// GetName from reflect struct field tag or struct name
+func (sfwrap *SFWrap) GetName() string {
+	name := sfwrap.Tag.Get("json")
+	i := strings.Index(name, ",")
+	if i > 0 {
+		name = name[0:i]
+	}
+	if len(name) > 0 {
+		return name
+	}
+	return sfwrap.Name
+}
+
 // Enter recursively processes object configurations
 func Enter(args *Args, ptr interface{}) error {
 	var err error
@@ -65,15 +83,6 @@ func Enter(args *Args, ptr interface{}) error {
 
 	Store[name] = ptr
 
-	// prefix, found := LookupEnv(cfgEnvKeyPrefix)
-	// log.Println("name", name)
-	// log.Println("cfgEnvKeyPrefix", cfgEnvKeyPrefix)
-	// log.Println("prefix", prefix)
-
-	// if !found && debug {
-	// 	log.Println("The configuration parser will run without a prefix override")
-	// }
-
 	if args.Prefixed {
 		name = args.Prefix + "_" + name
 	}
@@ -82,10 +91,6 @@ func Enter(args *Args, ptr interface{}) error {
 		name = ""
 	}
 
-	// log.Println("name", name)
-	// log.Println("cfgEnvKeyPrefix", cfgEnvKeyPrefix)
-	// log.Println("prefix", prefix)
-	// log.Println("decorate", decorate)
 	err = ParseStruct(args, ptr, name, emptyStructField)
 	if err != nil {
 		log.Printf("error parsing %s %+v\n", etype.Name(), err)
@@ -110,14 +115,13 @@ func ParseStruct(args *Args, ptr interface{}, prefix string, structField reflect
 		for i := 0; i < etype.NumField(); i++ {
 			var name string
 			ptr := elem.Field(i).Addr().Interface()
-			// log.Printf("%+v\n", prefix)
-			// log.Printf("%+v\n", args)
-			// log.Printf("%+v\n", Capitalize(indirect.Type().Field(i).Name))
-			// if args.Prefixed && len(args.Prefix) != 0 {
+			sfwrap := &SFWrap{indirect.Type().Field(i)}
 			if args.Prefixed && len(prefix) != 0 {
-				name = Capitalize(prefix) + "_" + Capitalize(indirect.Type().Field(i).Name)
+				name = Capitalize(prefix) + "_" + sfwrap.GetName()
+				// name = Capitalize(prefix) + "_" + Capitalize(indirect.Type().Field(i).Name)
 			} else {
-				name = Capitalize(indirect.Type().Field(i).Name)
+				name = Capitalize(sfwrap.GetName())
+				// name = Capitalize(indirect.Type().Field(i).Name)
 			}
 			args.Depth++
 			err = ParseStruct(args, ptr, name, etype.Field(i))
@@ -130,11 +134,14 @@ func ParseStruct(args *Args, ptr interface{}, prefix string, structField reflect
 	default:
 		elem := reflect.ValueOf(ptr).Elem()
 		etype := elem.Type()
+		sfwrap := &SFWrap{structField}
+		name := sfwrap.GetName()
 		var field = &Field{
 			StructField: structField,
 			FieldPtr:    ptr,
+			UseFlags:    args.UseFlags,
 			Depth:       depth,
-			Name:        structField.Name,
+			Name:        name,
 			Prefix:      prefix,
 			KeyName:     prefix,
 			FlagName:    prefix,
@@ -161,52 +168,3 @@ func ParseStruct(args *Args, ptr interface{}, prefix string, structField reflect
 	}
 	return err
 }
-
-/*
-// EnterName recursively processes object configurations with prefix
-func EnterName(depth int, prefix string, ptrs ...interface{}) error {
-	var err error
-	for _, ptr := range ptrs {
-		kind := reflect.TypeOf(ptr).Kind()
-		elem := reflect.ValueOf(ptr).Elem()
-		etype := elem.Type()
-		name := etype.Name()
-		if kind != reflect.Ptr {
-			log.Printf("%s %+v\n", name, ErrInvalidArgPointerRequired)
-			continue
-		}
-		Store[name] = ptr
-
-		prefix, found := LookupEnv(cfgEnvKeyPrefix)
-		log.Println("name", name)
-		log.Println("cfgEnvKeyPrefix", cfgEnvKeyPrefix)
-		log.Println("prefix", prefix)
-
-		// if !found && debug {
-		// 	log.Println("The configuration parser will run without a prefix override")
-		// }
-		if len(prefix) > 0 {
-			name = prefix + name
-		}
-
-		if found {
-			name = prefix + name
-		}
-
-		if !decorate {
-			name = ""
-		}
-
-		log.Println("name", name)
-		log.Println("cfgEnvKeyPrefix", cfgEnvKeyPrefix)
-		log.Println("prefix", prefix)
-		log.Println("decorate", decorate)
-
-		err = ParseStruct(0, ptr, name, emptyStructField)
-		if err != nil {
-			log.Printf("error parsing %s %+v\n", etype.Name(), err)
-		}
-	}
-	return err
-}
-*/

@@ -66,7 +66,7 @@ type APP struct {
 func main() {
 	p := &APP{}
 	// c := cfg.NewConfigurer(p)
-	cfg.Eval(p)
+	cfg.Nest(p)
 	cfg.Freeze()
 	byte, err := json.MarshalIndent(p, "", "  ")
 	if err != nil {

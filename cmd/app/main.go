@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	cfg "github.com/davidwalter0/go-cfg"
+	"github.com/davidwalter0/go-cfg"
 	"github.com/davidwalter0/go-flag"
 )
 
@@ -13,21 +13,21 @@ type Key string
 type Value float64
 
 // X flag
-var X = flag.String("FLAG", "STRING_VALUE", "FLAG USAGE...")
+var X = flag.String("FLAG", "STRING_VALUE", "FLAG USAGE...", false, false)
 
 func main() {
 
 	{
 		var myapp App
 
-		if err := cfg.Init(&myapp); err != nil {
+		if err := cfg.Nest(&myapp); err != nil {
 			log.Fatalf("%v\n", err)
 
 		}
-
 		log.Printf("%v %T\n", myapp, myapp)
 		jsonText, _ := json.MarshalIndent(&myapp, "", "  ")
 		log.Printf("\n%v\n", string(jsonText))
+		cfg.Usage()
 		/*
 			flag.Usage()
 			// Error can't call parse again

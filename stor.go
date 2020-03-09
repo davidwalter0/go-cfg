@@ -1,7 +1,10 @@
 package cfg
 
 import (
+	"encoding/json"
 	"io/ioutil"
+	"path"
+	"strings"
 
 	yaml "gopkg.in/yaml.v3"
 )
@@ -53,11 +56,30 @@ func (stor Stor) AddStor(name string, o interface{}) {
 
 // Load object from persistence
 func (stor Stor) Load(filename string) error {
-	data, err := ioutil.ReadFile(filename)
+	var err error
+	var data []byte
+
+	data, err = ioutil.ReadFile(filename)
 	if err != nil {
 		return err
 	}
-	err = yaml.Unmarshal(data, stor)
+	switch strings.ToLower(path.Ext(filename)) {
+	case ".json":
+		err = json.Unmarshal(data, stor)
+		if err != nil {
+			return err
+		}
+	case ".yaml":
+		err = yaml.Unmarshal(data, stor)
+		if err != nil {
+			return err
+		}
+	default:
+		err = yaml.Unmarshal(data, stor)
+		if err != nil {
+			return err
+		}
+	}
 	return err
 }
 
@@ -68,10 +90,24 @@ func (stor Stor) Stor(filename string) error {
 
 // Save object to persistence
 func (stor Stor) Save(filename string) error {
-	data, err := yaml.Marshal(stor)
-	if err != nil {
-		return err
+	var err error
+	var data []byte
+	switch strings.ToLower(path.Ext(filename)) {
+	case ".json":
+		data, err = json.Marshal(stor)
+		if err != nil {
+			return err
+		}
+	case ".yaml":
+		data, err = yaml.Marshal(stor)
+		if err != nil {
+			return err
+		}
+	default:
+		data, err = yaml.Marshal(stor)
+		if err != nil {
+			return err
+		}
 	}
-	err = ioutil.WriteFile(filename, data, 0644)
-	return err
+	return ioutil.WriteFile(filename, data, 0644)
 }

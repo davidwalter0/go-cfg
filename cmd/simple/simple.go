@@ -6,6 +6,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"os"
 
 	"github.com/davidwalter0/go-cfg"
 )
@@ -29,7 +30,9 @@ func main() {
 	fmt.Printf("type %T\n", myapp)
 	fmt.Printf("value %+v\n", myapp)
 	if !cfg.Ok("y") {
-		panic(fmt.Sprintf("! ok => export Y=v to get ok %v %v\n", cfg.Ok("y"), myapp.Nested.Y))
+		fmt.Sprintf("! ok => export Y=v to get ok %v %v\n", cfg.Ok("y"), myapp.Nested.Y)
+		defer fmt.Println()
+		os.Exit(1)
 	}
 	jsonText, _ := json.MarshalIndent(&myapp, "", "  ")
 	fmt.Printf("\n%v\n", string(jsonText))

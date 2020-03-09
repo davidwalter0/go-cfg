@@ -2,6 +2,8 @@ github.com/davidwalter0/go-flag v0.0.0-20200307021324-f88d57cd6005 h1:QcXU9p4g3R
 github.com/davidwalter0/go-flag v0.0.0-20200307021324-f88d57cd6005/go.mod h1:jv6qxNjGS102w3OcYqHF/zmI+YY2leG6KL3yYXarmmU=
 github.com/davidwalter0/go-flag v0.2.2-beta1 h1:MJ1eKMGHgdMNCG47Wp0S/2I7YA5aX9+24pYC92yU6vg=
 github.com/davidwalter0/go-flag v0.2.2-beta1/go.mod h1:jv6qxNjGS102w3OcYqHF/zmI+YY2leG6KL3yYXarmmU=
+github.com/davidwalter0/go-flag v0.2.2-beta2 h1:sNrDZsIShqZOQGgQt1Qh4DVHL9y5xwEqxzs12Qk1QEw=
+github.com/davidwalter0/go-flag v0.2.2-beta2/go.mod h1:jv6qxNjGS102w3OcYqHF/zmI+YY2leG6KL3yYXarmmU=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 h1:yhCVgyC4o1eVCa2tZl7eS0r+SDo693bJlVdllGtEeKM=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/yaml.v3 v3.0.0-20200121175148-a6ecf24a6d71 h1:Xe2gvTZUJpsvOWUnvmL/tmhVBZUmHSvLbMjRj6NUUKo=

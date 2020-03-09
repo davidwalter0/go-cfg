@@ -41,14 +41,15 @@ type App struct {
 	ColorCodes map[string]int     `short:"color"  default:"white:0xfff,black:000,red:f00,green:0f0,blue:00f"`
 	Map        map[string]float64 `short:"m"   default:"π:3.14159,ξ:1,ρ:.01,φ:1.2,β:3,α:.01,δ:3,ε:.001,φ:.1,ψ:.9,ω:2.1"`
 	Outer      struct {
-		I     int            `default:"42"`
+		I     int            `json:"oy" default:"42"`
 		F     float64        `default:"3.1415926"`
-		Msi   map[string]int `default:"white:0,black:1,red:,green:2,blue:3"`
+		Msi   map[string]int `json:"mm" default:"white:0,black:1,red:,green:2,blue:3"`
 		Inner struct {
-			I   int                `default:"42"`
-			F   float64            `default:"3.1415926"`
-			Msi map[string]int     `default:"white:0,black:1,red:,green:2,blue:3"`
-			Msf map[string]float64 `default:"e:2.71828,π:3.14159,ξ:1,ρ:.01,φ:1.2,β:3,α:.01"`
+			String string             `json:"stringer" default:"this is text"`
+			I      int                `json:"ii" default:"42"`
+			F      float64            `default:"3.1415926"`
+			Msi    map[string]int     `json:"imsi" default:"white:0,black:1,red:,green:2,blue:3"`
+			Msf    map[string]float64 `default:"e:2.71828,π:3.14159,ξ:1,ρ:.01,φ:1.2,β:3,α:.01"`
 		}
 	}
 

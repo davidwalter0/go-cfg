@@ -24,6 +24,7 @@ type FieldPtr interface{}
 type Field struct {
 	reflect.StructField
 	FieldPtr
+	UseFlags   bool
 	StructName string // The name of the current owning structure
 	Name       string // from var name if tag name is present replace tag name with tag
 	KeyName    string // ENV variable name prefix Prf + "_" + name CamelCase -> PRF_CAMEL_CASE
@@ -62,7 +63,7 @@ func (field *Field) SetField() {
 	field.SetName()
 	field.SetIgnore()
 	field.SetDoc()
-	field.SetShort()
+	//	field.SetShort()
 	field.SetOmit()
 	field.SetRequired()
 	field.SetKeyName()
@@ -70,7 +71,9 @@ func (field *Field) SetField() {
 	field.SetValueFromEnv()
 	field.SetType()
 	// Must run last if referencing any info from field settings
-	field.AddFlag()
+	if field.UseFlags {
+		field.AddFlag()
+	}
 }
 
 // SetOmit read tag omit option and set when enabled, via ,omit

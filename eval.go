@@ -29,6 +29,7 @@ type Args struct {
 	Depth    int
 	Prefix   string
 	Prefixed bool
+	UseFlags bool
 }
 
 func NewArgs(name string) *Args {
@@ -54,7 +55,7 @@ func NewArgs(name string) *Args {
 			prefix = prefix + name
 		}
 	}
-	return &Args{Depth: 0, Prefixed: prefixed, Prefix: prefix}
+	return &Args{Depth: 0, Prefixed: prefixed, Prefix: prefix, UseFlags: true}
 }
 
 // Undecorate structs with prefix
@@ -191,5 +192,21 @@ func Flags(ptrs ...interface{}) error {
 	args := NewArgs("")
 	err := Run(args, ptrs...)
 	Freeze()
+	return err
+}
+
+// Nest objects retaining object hierarchy
+func Nest(ptrs ...interface{}) error {
+	args := NewArgs("")
+	args.Prefixed = true
+	err := Run(args, ptrs...)
+	return err
+}
+
+// NestWrap objects retaining object hierarchy with prefix
+func NestWrap(prefix string, ptrs ...interface{}) error {
+	args := NewArgs(prefix)
+	args.Prefixed = true
+	err := Run(args, ptrs...)
 	return err
 }
