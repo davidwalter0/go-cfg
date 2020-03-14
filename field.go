@@ -9,7 +9,7 @@ import (
 var debug bool
 
 // Debug set the debug test var to true
-func Debug(args []bool) {
+func Debug(args ...bool) {
 	if len(args) == 0 {
 		debug = true
 		return
