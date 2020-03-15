@@ -1,9 +1,12 @@
 package cfg
 
 import (
+	"fmt"
 	"reflect"
 	"strconv"
 	"strings"
+
+	yaml "gopkg.in/yaml.v3"
 )
 
 var debug bool
@@ -74,6 +77,15 @@ func (field *Field) SetField() {
 	if field.UseFlags {
 		field.AddFlag()
 	}
+}
+
+// String formats args as yaml string
+func (field *Field) String() string {
+	text, err := yaml.Marshal(*field)
+	if err != nil {
+		fmt.Printf("%+v\n", err)
+	}
+	return string(text)
 }
 
 // SetOmit read tag omit option and set when enabled, via ,omit
