@@ -2,12 +2,18 @@ package cfg
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
+	"os"
 	"path"
 	"strings"
 
 	yaml "gopkg.in/yaml.v3"
 )
+
+// Stor configuration representation, restorable object from, saveable
+// to persistence.
+type Stor map[string]interface{}
 
 type Loader interface {
 	Load(filename string)
@@ -20,10 +26,6 @@ type Storer interface {
 type Adder interface {
 	AddStor(name string, o interface{})
 }
-
-// Stor configuration representation, restorable object from, saveable
-// to persistence.
-type Stor map[string]interface{}
 
 // NewStor object to from persistence
 func NewStor() Stor {
@@ -55,7 +57,7 @@ func (stor Stor) AddStor(name string, o interface{}) {
 }
 
 // Load object from persistence
-func (stor Stor) Load(filename string) error {
+func (stor *Stor) Load(filename string) error {
 	var err error
 	var data []byte
 
@@ -110,4 +112,19 @@ func (stor Stor) Save(filename string) error {
 		}
 	}
 	return ioutil.WriteFile(filename, data, 0644)
+}
+
+// String stor interfaceable
+func (stor Stor) Bytes() []byte {
+	text, err := json.Marshal(stor)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "stor to bytes: %s", err.Error())
+		return nil
+	}
+	return text
+}
+
+// String stor interfaceable
+func (stor Stor) String() string {
+	return string(stor.Bytes())
 }
