@@ -35,7 +35,7 @@ type ABC struct {
 }
 
 // ABC ...
-type Nest struct {
+type NestStruct struct {
 	Nested ABC
 	A
 	B
@@ -58,8 +58,8 @@ func O2S(o interface{}) string {
 	return string(text)
 }
 
-// init ...
-func init() {
+// test_setup ...
+func test_setup() {
 	os.Setenv("NEST_A", "Value: NEST_A")
 	os.Setenv("NEST_B", "Value: NEST_B")
 	os.Setenv("NEST_C", "Value: NEST_C")
@@ -119,7 +119,7 @@ func TestParseA(t *testing.T) {
 	// fmt.Println(O2S(abc))
 	// flag.Parse()
 	fmt.Println(O2S(abc))
-	nest := &Nest{}
+	nest := &NestStruct{}
 	Eval(nest)
 	fmt.Println(O2S(nest))
 	flag.Parse()
@@ -210,6 +210,7 @@ func (s *State) Ok() bool {
 }
 
 func TestEvalName(t *testing.T) {
+	test_setup()
 	if !states[0].Ok() {
 		t.Fatal()
 	}

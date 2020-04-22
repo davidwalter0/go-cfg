@@ -198,7 +198,7 @@ func Flags(ptrs ...interface{}) error {
 // Nest objects retaining object hierarchy
 func Nest(ptrs ...interface{}) error {
 	args := NewArgs("")
-	args.Prefixed = true
+	args.Prefixed = false
 	err := Run(args, ptrs...)
 	return err
 }

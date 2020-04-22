@@ -66,6 +66,7 @@ var Usage = func() {
 	// fmt.Fprintf(os.Stderr, PrefixOverrideText)
 }
 
-func init() {
+var setup = func() bool {
 	flag.Usage = Usage
-}
+	return true
+}()

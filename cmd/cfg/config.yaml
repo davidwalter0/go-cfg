@@ -1,0 +1,292 @@
+APP:
+    a:
+        b:
+            c:
+                d:
+                    e: 0
+        integervalueofx: 0
+    required: 0
+    userarray:
+      - x
+      - y
+      - z
+      - "0"
+      - "1"
+      - x
+      - y
+      - z
+      - "0"
+      - "1"
+    intarray:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+    debug: false
+    port: 8080
+    cac: abc123
+    cc: ""
+    user: ""
+    username: ""
+    users: []
+    rate: 2.71828
+    rateoftravel: 3.14
+    timeout: 720h1m3s
+    timeout2: 720h1m3s
+    int8: 127
+    nint8: -128
+    uint8: 255
+    int16: 32767
+    nint16: -32768
+    uint16: 65535
+    int32: 1048576
+    nint32: -1232
+    uint32: 0
+    colorcodes:
+        black: 0
+        blue: 0
+        green: 0
+        red: 0
+        white: 4095
+    map:
+        α: 0.01
+        β: 3
+        δ: 3
+        ε: 0.001
+        ξ: 1
+        π: 3.14159
+        ρ: 0.01
+        φ: 0.1
+        ψ: 0.9
+        ω: 2.1
+    outer:
+        i: 42
+        f: 3.1415926
+        msi:
+            black: 1
+            blue: 3
+            green: 2
+            red: 0
+            white: 0
+        inner:
+            i: 42
+            f: 3.1415926
+            msi:
+                black: 1
+                blue: 3
+                green: 2
+                red: 0
+                white: 0
+            msf:
+                e: 2.71828
+                α: 0.01
+                β: 3
+                ξ: 1
+                π: 3.14159
+                ρ: 0.01
+                φ: 1.2
+    unsetuserarray: []
+    unsetintarray: []
+APP1:
+    app:
+        a:
+            b:
+                c:
+                    d:
+                        e: 0
+            integervalueofx: 0
+        required: 0
+        userarray:
+          - x
+          - y
+          - z
+          - "0"
+          - "1"
+          - x
+          - y
+          - z
+          - "0"
+          - "1"
+        intarray:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+        debug: false
+        port: 8080
+        cac: abc123
+        cc: ""
+        user: ""
+        username: ""
+        users: []
+        rate: 2.71828
+        rateoftravel: 3.14
+        timeout: 720h1m3s
+        timeout2: 720h1m3s
+        int8: 127
+        nint8: -128
+        uint8: 255
+        int16: 32767
+        nint16: -32768
+        uint16: 65535
+        int32: 1048576
+        nint32: -1232
+        uint32: 0
+        colorcodes:
+            black: 0
+            blue: 0
+            green: 0
+            red: 0
+            white: 4095
+        map:
+            α: 0.01
+            β: 3
+            δ: 3
+            ε: 0.001
+            ξ: 1
+            π: 3.14159
+            ρ: 0.01
+            φ: 0.1
+            ψ: 0.9
+            ω: 2.1
+        outer:
+            i: 42
+            f: 3.1415926
+            msi:
+                black: 1
+                blue: 3
+                green: 2
+                red: 0
+                white: 0
+            inner:
+                i: 42
+                f: 3.1415926
+                msi:
+                    black: 1
+                    blue: 3
+                    green: 2
+                    red: 0
+                    white: 0
+                msf:
+                    e: 2.71828
+                    α: 0.01
+                    β: 3
+                    ξ: 1
+                    π: 3.14159
+                    ρ: 0.01
+                    φ: 1.2
+        unsetuserarray: []
+        unsetintarray: []
+APP2:
+    app:
+        a:
+            b:
+                c:
+                    d:
+                        e: 0
+            integervalueofx: 0
+        required: 0
+        userarray:
+          - x
+          - y
+          - z
+          - "0"
+          - "1"
+          - x
+          - y
+          - z
+          - "0"
+          - "1"
+        intarray:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+        debug: false
+        port: 8080
+        cac: abc123
+        cc: ""
+        user: ""
+        username: ""
+        users: []
+        rate: 2.71828
+        rateoftravel: 3.14
+        timeout: 720h1m3s
+        timeout2: 720h1m3s
+        int8: 127
+        nint8: -128
+        uint8: 255
+        int16: 32767
+        nint16: -32768
+        uint16: 65535
+        int32: 1048576
+        nint32: -1232
+        uint32: 0
+        colorcodes:
+            black: 0
+            blue: 0
+            green: 0
+            red: 0
+            white: 4095
+        map:
+            α: 0.01
+            β: 3
+            δ: 3
+            ε: 0.001
+            ξ: 1
+            π: 3.14159
+            ρ: 0.01
+            φ: 0.1
+            ψ: 0.9
+            ω: 2.1
+        outer:
+            i: 42
+            f: 3.1415926
+            msi:
+                black: 1
+                blue: 3
+                green: 2
+                red: 0
+                white: 0
+            inner:
+                i: 42
+                f: 3.1415926
+                msi:
+                    black: 1
+                    blue: 3
+                    green: 2
+                    red: 0
+                    white: 0
+                msf:
+                    e: 2.71828
+                    α: 0.01
+                    β: 3
+                    ξ: 1
+                    π: 3.14159
+                    ρ: 0.01
+                    φ: 1.2
+        unsetuserarray: []
+        unsetintarray: []
+Flags:
+    help: true
+    load: false
+    save: true
+    file: "config.new.yaml"

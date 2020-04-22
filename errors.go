@@ -4,7 +4,7 @@ import (
 	"errors"
 )
 
-var ErrInvalidSpecification = errors.New("Specification must be a struct pointer")
-var ErrInvalidArgPointerRequired = errors.New("Argument must be a pointer")
-var ErrInvalidArgMapParseSpec = errors.New("Map argument requires pairs")
-var ErrIgnoreTag = errors.New("This Tag isn't in use")
+var ErrInvalidSpecification = errors.New("specification must be a struct pointer")
+var ErrInvalidArgPointerRequired = errors.New("cfg requires struct pointers")
+var ErrInvalidArgMapParseSpec = errors.New("map argument requires pairs")
+var ErrIgnoreTag = errors.New("this Tag isn't in use")

@@ -72,14 +72,15 @@ func (sfwrap *SFWrap) GetName() string {
 // Enter recursively processes object configurations
 func Enter(args *Args, ptr interface{}) error {
 	var err error
+	kind := reflect.TypeOf(ptr).Kind()
+	if kind != reflect.Ptr {
+		name := reflect.TypeOf(ptr).Name()
+		log.Printf("arg type was [%s] %+v\n", name, ErrInvalidArgPointerRequired)
+		return ErrInvalidArgPointerRequired
+	}
 	elem := reflect.ValueOf(ptr).Elem()
 	etype := elem.Type()
 	name := etype.Name()
-	kind := reflect.TypeOf(ptr).Kind()
-	if kind != reflect.Ptr {
-		log.Printf("%s %+v\n", name, ErrInvalidArgPointerRequired)
-		return ErrInvalidArgPointerRequired
-	}
 
 	Store[name] = ptr
 

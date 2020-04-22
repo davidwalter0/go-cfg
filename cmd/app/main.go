@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"log"
 	"os"
 
@@ -12,22 +11,24 @@ import (
 type Key string
 type Value float64
 
-// X flag
-var X = flag.String("FLAG", "STRING_VALUE", "FLAG USAGE...", false, false)
+// // X flag
+// var X = flag.String("FLAG", "STRING_VALUE", "FLAG USAGE...", false, false)
 
 func main() {
 
 	{
 		var myapp App
 
-		if err := cfg.Nest(&myapp); err != nil {
+		flag.NonFlagOSArgs(0)
+		if err := cfg.Flags(&myapp); err != nil {
 			log.Fatalf("%v\n", err)
 
 		}
-		log.Printf("%v %T\n", myapp, myapp)
-		jsonText, _ := json.MarshalIndent(&myapp, "", "  ")
-		log.Printf("\n%v\n", string(jsonText))
-		cfg.Usage()
+		// log.Printf("%v %T\n", myapp, myapp)
+		// jsonText, _ := json.MarshalIndent(&myapp, "", "  ")
+		// log.Printf("\n%v\n", string(jsonText))
+		// cfg.Usage()
+
 		/*
 			flag.Usage()
 			// Error can't call parse again
