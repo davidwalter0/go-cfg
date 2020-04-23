@@ -16,14 +16,14 @@
 
 	Define flags using flag.String(), Bool(), Int(), etc.
 
+  Note: deprecate using of flags.Parse in init() methods
+
 	This declares an integer flag, -flagname, stored in the pointer ip, with type *int.
 		import "flag"
 		var ip = flag.Int("flagname", 1234, "help message for flagname")
 	If you like, you can bind the flag to a variable using the Var() functions.
 		var flagvar int
-		func init() {
-			flag.IntVar(&flagvar, "flagname", 1234, "help message for flagname")
-		}
+  	flag.IntVar(&flagvar, "flagname", 1234, "help message for flagname")
 	Or you can create custom flags that satisfy the Value interface (with
 	pointer receivers) and couple them to flag parsing by
 		flag.Var(&flagVal, "name", "help message for flagname")

@@ -16,8 +16,8 @@ import (
 func MakeVar(addr interface{}, name, defaultValue, usage, override string, required, isset bool) {
 	defaultValue = strings.TrimSpace(defaultValue)
 	override = strings.TrimSpace(override)
-
 	switch ptr := addr.(type) {
+
 	case *map[time.Duration]time.Duration:
 		var varType = (*mapDurationDurationValue)(ptr)
 		if len(defaultValue) > 0 {

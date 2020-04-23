@@ -171,11 +171,12 @@ import (
         "reflect"
 )
 
-func init(){
+var _ = func()bool{
    if false {
       fmt.Println("")
    }
-}
+   return true
+}()
 
 '
 mapTypeTemplate="$(cat tmpl/map.go.tmpl)"
@@ -221,11 +222,12 @@ import (
         "testing"
 )
 
-func init(){
+var _ = func()bool{
    if false {
       fmt.Println("")
    }
-}
+   return true
+}()
 
 '
 (

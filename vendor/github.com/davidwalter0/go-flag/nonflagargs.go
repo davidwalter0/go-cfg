@@ -19,12 +19,10 @@ func NonFlagOSArgs(skip int) []string {
 	for ; i < len(os.Args); i++ {
 		isFlag := len(os.Args[i]) > 1 && os.Args[i][1] == '-'
 		if isFlag {
+			flagArgs = os.Args[i:]
 			break
 		}
-		if !isFlag && skip > 0 && i <= skip {
-			if multicall == nil {
-				multicall = []string{}
-			}
+		if skip > 0 && i <= skip {
 			multicall = append(multicall, os.Args[i])
 		} else {
 			nonFlagArgs = append(nonFlagArgs, os.Args[i])
@@ -55,7 +53,8 @@ func WithMultiCallArgs(args int) {
 	}
 }
 
-func init() {
+// // func init() {
+var multicallSetup = func() bool {
 	var n int
 	v, found := LookupEnv("WITH_MULTICALL_ARGS")
 	if found {
@@ -67,4 +66,5 @@ func init() {
 		n = int(i)
 	}
 	MultiCallPrefixes = NonFlagOSArgs(n)
-}
+	return true
+}()
