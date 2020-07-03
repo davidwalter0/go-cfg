@@ -105,27 +105,28 @@ func TestParseA(t *testing.T) {
 	///////// fmt.Println(O2S(cfg))
 	// }
 
-	// // TestParseABC
-	// func TestParseABC(t *testing.T) {
-	// fmt.Printf("%+v\n", Eval(&ABC{}))
+// TestParseABC
+func TestParseABC(t *testing.T) {
+	fmt.Printf("%+v\n", Eval(&ABC{}))
 	ab := &AB{}
 	Eval(ab)
 	fmt.Println(O2S(ab))
 
-	abc := &ABC{}
-	Eval(abc)
-	fmt.Println(O2S(abc))
+	// abc := &ABC{}
+	// Eval(abc)
+	// fmt.Println(O2S(abc))
 	// Init(abc)
 	// fmt.Println(O2S(abc))
 	// flag.Parse()
-	fmt.Println(O2S(abc))
-	nest := &NestStruct{}
-	Eval(nest)
-	fmt.Println(O2S(nest))
-	flag.Parse()
-	fmt.Println(O2S(nest))
+	// fmt.Println(O2S(abc))
+	// nest := &NestStruct{}
+	// Eval(nest)
+	// fmt.Println(O2S(nest))
+	// flag.Parse()
+	// fmt.Println(O2S(nest))
 	// Usage()
 }
+
 */
 
 // Decl declaration
@@ -217,17 +218,32 @@ func TestEvalName(t *testing.T) {
 	if states[1].Ok() {
 		t.Fatal()
 	}
-	// for _, state := range states {
-	// 	t.Logf("Want: %+v Got: %+v\n", state.Want, state.Got)
-	// 	if !state.Ok() {
-	// 		t.Logf("Want: %+v Got: %+v\n", state.Want, state.Got)
-	// 		t.Fail()
-	// 	}
-	// 	text, err := json.Marshal(state.Want.Decl)
-	// 	if err != nil {
-	// 		t.Logf("Want: %+v Got: %+v\n   marshal %v\n", state.Want, state.Got, err)
-	// 		t.Fail()
-	// 	}
-	// 	t.Logf(">> Want: %+v Got: %+v\n   text%s\n", state.Want, state.Got, text)
-	// }
+	for i, state := range states {
+		// t.Logf("Want: %+v Got: %+v\n", state.Want, state.Got)
+		text, err := json.Marshal(state.Want.Decl)
+		if err != nil {
+			t.Log(Caller())
+			t.Logf("%d Want: %+v Got: %+v\n   marshal %v\n", i, state.Want, state.Got, err)
+			t.Fail()
+		}
+		if i == 0 && !state.Ok() {
+			t.Log(Caller())
+			t.Logf("%d Want: %+v Got: %+v\n", i, state.Want, state.Got)
+			t.Fail()
+		}
+		if i == 1 && state.Ok() {
+			t.Log(Caller())
+			t.Logf("%d Want: %+v Got: %+v\n", i, state.Want, state.Got)
+			t.Fail()
+		}
+		if err != nil {
+			t.Log(Caller())
+			t.Logf("%d Want: %+v Got: %+v\n   marshal %v\n", i, state.Want, state.Got, err)
+			t.Fail()
+		}
+
+		if false {
+			t.Logf(">> Want: %+v Got: %+v\n   text%s\n", state.Want, state.Got, text)
+		}
+	}
 }
