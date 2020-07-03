@@ -14,8 +14,8 @@ const (
 )
 
 /*
-// Args to parse
-type Args []string
+// Arg to parse
+type Arg []string
 
 // Key struct name
 type Key string
@@ -70,14 +70,8 @@ func (sfwrap *SFWrap) GetName() string {
 }
 
 // Enter recursively processes object configurations
-func Enter(args *Args, ptr interface{}) error {
+func Enter(args *Arg, ptr interface{}) error {
 	var err error
-	kind := reflect.TypeOf(ptr).Kind()
-	if kind != reflect.Ptr {
-		name := reflect.TypeOf(ptr).Name()
-		log.Printf("arg type was [%s] %+v\n", name, ErrInvalidArgPointerRequired)
-		return ErrInvalidArgPointerRequired
-	}
 	elem := reflect.ValueOf(ptr).Elem()
 	etype := elem.Type()
 	name := etype.Name()
@@ -101,7 +95,7 @@ func Enter(args *Args, ptr interface{}) error {
 }
 
 // ParseStruct recursively processes object configurations
-func ParseStruct(args *Args, ptr interface{}, prefix string, structField reflect.StructField) error {
+func ParseStruct(args *Arg, ptr interface{}, prefix string, structField reflect.StructField) error {
 	depth := args.Depth
 	var err error
 	if reflect.TypeOf(ptr).Kind() != reflect.Ptr {

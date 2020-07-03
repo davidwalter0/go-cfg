@@ -12,7 +12,8 @@ import (
 	yaml "gopkg.in/yaml.v3"
 )
 
-// DeepCopier ...
+// DeepCopier recurse and iterate over configuration structs internal
+// representation Stor
 type DeepCopier interface {
 	DeepCopyInto(DeepCopier)
 }
@@ -48,6 +49,7 @@ func (stor Stor) DeepCopyInto(dst interface{}, depthArgs ...int) {
 	}
 }
 
+// DeepCopyInto dst from source
 func DeepCopyInto(src Stor, dst map[string]interface{}, depthArgs ...int) {
 	const max = 3
 	var depth = 0
@@ -74,19 +76,22 @@ func DeepCopyInto(src Stor, dst map[string]interface{}, depthArgs ...int) {
 	}
 }
 
+// Loader reads input configuration from a store
 type Loader interface {
 	Load(filename string)
 }
 
+// Storer writes configurations to store
 type Storer interface {
 	Store(filename string)
 }
 
+// Adder appends to configuration objects
 type Adder interface {
 	AddStor(name string, o interface{})
 }
 
-// NewStor object to from persistence
+// NewStor returns a Stor object for persistence
 func NewStor() Stor {
 	return Stor{}
 }
@@ -110,7 +115,7 @@ func NewStor() Stor {
 // 	return w.Write(data)
 // }
 
-// AddStor object to from persistence
+// AddStor appends an object to a Stor persistence
 func (stor Stor) AddStor(name string, o interface{}) {
 	stor[name] = o
 }
@@ -156,7 +161,8 @@ func (stor *Stor) Load(filename string) error {
 	return err
 }
 
-// CopyOut ...
+// CopyOut serializes and deseiralizes an object to copy it out of an
+// object
 func CopyOut(in, out interface{}) error {
 	text, err := yaml.Marshal(in)
 	if err != nil {

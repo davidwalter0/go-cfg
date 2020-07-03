@@ -1,38 +1,62 @@
 /*
-go-cfg
-package cfg
+Package cfg provides facilities to ingest structs as configuration
+elements via reflection. Struct names must be exported. Beyond that
+recursive structs are supported with options prefixing with the
+outermost struct name. Name overrides via struct tags can be used
+to rename configuration options as well as (optionally) set
+defaults.
+
+
+ Configurations share these options
+
+  - A configuration is one or more struct pointers
+  - Each struct member's data type is used for type conversion during assignment
+  - Primitive types are evaluated directly
+  - Aggregate slice can be set with comma delibmited syntax
+  - Aggregate map can be set with comma delibmited syntax
+
+  map example
+	Map  map[string]float64 `short:"m" default:"π:3.14159,ξ:1,ρ:.01,φ:1.2,β:3,α:.01,δ:3,ε:.001,φ:.1,ψ:.9,ω:2.1"`
+
+
+  - Decorate
 
 Modes of configuration
 
-- Unwrap( ptr ... interface{} ) error
+
+  - Wrap(prefix, ptrs...) options with a prefix argument to each flag or environment variable
+  - Nest(ptrs...) each struct member with the name of the the parent struct(s)
+  - Unwrap( ptr ... interface{} ) error
   - Flags and Env Vars are unwrapped - no prefix or argument name added
   - Call with one or more structures with uniquely named members
   - One flag + env variable for each entry named
   - When called with duplicate members in one or more structs flags and
-  env vars will conflict and error
-
-
+    env vars will conflict and error
 */
 package cfg
 
 import (
+	"fmt"
 	"log"
 	"os"
+	"reflect"
+	"runtime"
 	"strconv"
 )
 
 // decorate var setting, disable prefixes when undecorated
 var decorate bool = true
 
-// Args unifies api for recursion
-type Args struct {
+// Arg is the settings passed for recursion
+type Arg struct {
 	Depth    int
 	Prefix   string
 	Prefixed bool
 	UseFlags bool
 }
 
-func NewArgs(name string) *Args {
+// NewArg sets values in Arg for cfg to process structs
+func NewArg(name string) *Arg {
 	var prefixed bool
 	var prefix string
 	var text string
@@ -55,7 +79,7 @@ func NewArgs(name string) *Args {
 			prefix = prefix + name
 		}
 	}
-	return &Args{Depth: 0, Prefixed: prefixed, Prefix: prefix, UseFlags: true}
+	return &Arg{Depth: 0, Prefixed: prefixed, Prefix: prefix, UseFlags: true}
 }
 
 // Undecorate structs with prefix
@@ -78,13 +102,13 @@ func Unprefix() {
 
 // Eval one or more configuration structures
 func Eval(ptrs ...interface{}) error {
-	args := NewArgs("")
+	args := NewArg("")
 	return Run(args, ptrs...)
 }
 
-// Init flags
+// Init from a list of struct pointers
 func Init(ptrs ...interface{}) error {
-	args := NewArgs("")
+	args := NewArg("")
 	err := Run(args, ptrs...)
 	Freeze()
 	return err
@@ -92,13 +116,14 @@ func Init(ptrs ...interface{}) error {
 
 // EvalName one or more configuration structures overriding the name
 func EvalName(name string, ptrs ...interface{}) error {
-	args := NewArgs(name)
+	args := NewArg(name)
 	err := Run(args, ptrs...)
 	Freeze()
 	return err
 }
 
-func Run(args *Args, ptrs ...interface{}) error {
+func Run(args *Arg, ptrs ...interface{}) error {
+	CheckArgs(ptrs...)
 	var err error
 	for _, ptr := range ptrs {
 		err = Enter(args, ptr)
@@ -109,7 +134,9 @@ func Run(args *Args, ptrs ...interface{}) error {
 	return err
 }
 
-// SimpleFlags don't prefix with base struct prefix, undecorated.
+// SimpleFlags don't prefix with base struct prefix, and they are
+// undecorated.
+//
 // type T struct {
 //    I int
 // }
@@ -135,11 +162,11 @@ func Run(args *Args, ptrs ...interface{}) error {
 // Eval(p) is decorated/prefixed with flag "--kp-d-i"
 // EvalName("D", p) is decorated/prefixed with env var "KP_D_I"
 
-// SimpleFlags create env vars prefices
+// Simple create env vars prefices
 func Simple(ptrs ...interface{}) error {
 	Unprefix()
 	Undecorate()
-	args := NewArgs("")
+	args := NewArg("")
 	return Run(args, ptrs...)
 }
 
@@ -154,7 +181,7 @@ func SimpleFlags(ptrs ...interface{}) error {
 func Unwrap(ptrs ...interface{}) error {
 	Unprefix()
 	Undecorate()
-	args := NewArgs("")
+	args := NewArg("")
 	err := Run(args, ptrs...)
 	return err
 }
@@ -169,44 +196,114 @@ func Final() {
 func Bare(ptrs ...interface{}) error {
 	Unprefix()
 	Undecorate()
-	args := NewArgs("")
+	args := NewArg("")
 	err := Run(args, ptrs...)
 	return err
 }
 
 // Wrap (optionally) with prefix and struct names create env vars without prefices
 func Wrap(name string, ptrs ...interface{}) error {
-	args := NewArgs(name)
+	args := NewArg(name)
 	err := Run(args, ptrs...)
 	return err
 }
 
 // Add alias of Eval
 func Add(ptrs ...interface{}) error {
-	args := NewArgs("")
+	args := NewArg("")
 	return Run(args, ptrs...)
 }
 
+var Package = func() string {
+	type Empty struct{}
+	return reflect.TypeOf(Empty{}).PkgPath()
+}()
+
 // Flags alias of Eval
 func Flags(ptrs ...interface{}) error {
-	args := NewArgs("")
+	args := NewArg("")
 	err := Run(args, ptrs...)
 	Freeze()
 	return err
 }
 
-// Nest objects retaining object hierarchy
+// Nest uses struct names recursively to prefix each flag or
+// environment variable name as it descends the configuration object
+// heirarchy. For exqmple, type B struct{ I int }; type A struct{ B }
+// will create a flag with prefixes a and b, i.e. --a-b-i
+// --a-b-i int
+//   	 Env _A_B_I                           : (I) (int)
+
 func Nest(ptrs ...interface{}) error {
-	args := NewArgs("")
-	args.Prefixed = false
+	args := NewArg("")
+	args.Prefixed = true
+	// // Decorate(true)
+	// Prefix(true)
 	err := Run(args, ptrs...)
 	return err
 }
 
 // NestWrap objects retaining object hierarchy with prefix
 func NestWrap(prefix string, ptrs ...interface{}) error {
-	args := NewArgs(prefix)
+	args := NewArg(prefix)
 	args.Prefixed = true
 	err := Run(args, ptrs...)
 	return err
+}
+
+// // https://graphemica.com/%E2%9C%93
+// // https://graphemica.com/%E2%9C%97
+// log.Println("\n\u2713 text\n\u2716 text\n")
+
+// CheckArgs validate that the pointers are pointers to struct
+func CheckArgs(ptrs ...interface{}) {
+	checkArgs := []string{}
+	ok := true
+	for i, ptr := range ptrs {
+		typeOf := reflect.Indirect(reflect.ValueOf(ptr)).Type()
+		kind := reflect.TypeOf(ptr).Kind()
+		switch kind {
+		case reflect.Ptr:
+			elem := reflect.TypeOf(ptr).Elem()
+			isPtr := reflect.Ptr == elem.Kind()
+			if isPtr {
+				ok = false
+				checkArgs = append(checkArgs, fmt.Sprintf("\u2716 !ok %2d [%v] is a pointer to %v.", i, reflect.TypeOf(ptr), typeOf))
+			} else {
+				checkArgs = append(checkArgs, fmt.Sprintf("\u2713  ok %2d [%v] is a pointer to %v. expected.", i, reflect.TypeOf(ptr), typeOf))
+			}
+		default:
+			ok = false
+			name := reflect.TypeOf(ptr).Name()
+			checkArgs = append(checkArgs, fmt.Sprintf("\u2716 !ok %2d [%v] is not a pointer.", i, name))
+		}
+	}
+	if !ok {
+		for _, text := range checkArgs {
+			fmt.Println(text)
+		}
+		fmt.Printf("\n%v\nThe argument list ptrs []interface{} is a slice of struct pointers (*struct) \n\n", ErrInvalidArgPointerRequired)
+		// fmt.Println(CallerAndArgs(ptrs))
+		fmt.Println(Caller())
+		os.Exit(1)
+	}
+}
+
+// Caller get the calling frame info
+func Caller() string {
+	var pcs [1]uintptr
+	n := runtime.Callers(2, pcs[:])
+	text := ""
+	{
+		var pcs [10]uintptr
+		n = runtime.Callers(2, pcs[:])
+		frames := runtime.CallersFrames(pcs[:n])
+		var frame runtime.Frame
+		var more bool = true
+		for i := 0; i < n-2 && more; i++ {
+			frame, more = frames.Next()
+			text += fmt.Sprintf("%s:%d:%s\n", frame.File, frame.Line, frame.Func.Name())
+		}
+	}
+	return text
 }

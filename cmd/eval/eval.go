@@ -113,32 +113,35 @@ func main() {
 func Run() {
 
 	a := &A{A: "a"}
-	cfg.Eval(a)
+	cfg.Nest(a)
 	fmt.Println(O2S(a))
 
 	b := &B{}
-	cfg.Eval(b)
+	cfg.Nest(b)
 	fmt.Println(O2S(b))
 
 	ab := &AB{}
-	cfg.Eval(ab)
+	cfg.Nest(ab)
 	fmt.Println(O2S(ab))
 
 	abc := &ABC{}
-	cfg.Eval(abc)
+	cfg.Nest(abc)
 	fmt.Println(O2S(abc))
 
 	nest := &Nest{}
-	cfg.Eval(nest)
+	cfg.Nest(nest)
 	fmt.Println(O2S(nest))
 
 	twicenested := &TwiceNested{}
-	cfg.Eval(twicenested)
+	// cfg.NestWrap("2", twicenested)
+	cfg.Nest(twicenested)
+	fmt.Println(O2S(twicenested))
+	cfg.Nest(twicenested)
 	fmt.Println(O2S(twicenested))
 
 	cfg.Freeze()
 	// flag.Parse()
-	fmt.Println(O2S(twicenested))
+	// fmt.Println(O2S(twicenested))
 	internalRep := cfg.Store
 	internalRep.Save("eval.yaml")
 	// cfg.Usage()
@@ -151,4 +154,5 @@ func Run() {
 		os.Exit(1)
 	}
 	fmt.Println(string(data))
+	cfg.Usage()
 }
