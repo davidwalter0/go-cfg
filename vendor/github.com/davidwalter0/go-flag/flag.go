@@ -1011,17 +1011,17 @@ func (f *FlagSet) parseOne() (bool, error) {
 			f.usage()
 			return false, ErrHelp
 		}
-		return false, f.failf("flag provided but not defined: -%s", name)
+		return false, f.failf("flag provided but not defined: -%s", Red(name))
 	}
 
 	if fv, ok := flag.Value.(boolFlag); ok && fv.IsBoolFlag() { // special case: doesn't need an arg
 		if hasValue {
 			if err := fv.Set(value); err != nil {
-				return false, f.failf("invalid boolean value %q for -%s: %v", value, name, err)
+				return false, f.failf("invalid boolean value %q for -%s: %v", value, name, Red(err))
 			}
 		} else {
 			if err := fv.Set("true"); err != nil {
-				return false, f.failf("invalid boolean flag %s: %v", name, err)
+				return false, f.failf("invalid boolean flag %s: %v", name, Red(err))
 			}
 		}
 	} else {
@@ -1032,10 +1032,10 @@ func (f *FlagSet) parseOne() (bool, error) {
 			value, f.args = f.args[0], f.args[1:]
 		}
 		if !hasValue {
-			return false, f.failf("flag needs an argument: -%s", name)
+			return false, f.failf("flag needs an argument: -%s", Red(name))
 		}
 		if err := flag.Value.Set(value); err != nil {
-			return false, f.failf("invalid value %q for flag -%s: %v", value, name, err)
+			return false, f.failf("invalid value %q for flag -%s: %v", value, name, Red(err))
 		}
 	}
 	if f.actual == nil {

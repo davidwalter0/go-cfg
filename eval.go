@@ -268,21 +268,21 @@ func CheckArgs(ptrs ...interface{}) {
 			isPtr := reflect.Ptr == elem.Kind()
 			if isPtr {
 				ok = false
-				checkArgs = append(checkArgs, fmt.Sprintf("\u2716 !ok %2d [%v] is a pointer to %v.", i, reflect.TypeOf(ptr), typeOf))
+				checkArgs = append(checkArgs, fmt.Sprintf("%s !ok %2d [%v] is a pointer to %v.", Red("\u2716"), i, reflect.TypeOf(ptr), typeOf))
 			} else {
-				checkArgs = append(checkArgs, fmt.Sprintf("\u2713  ok %2d [%v] is a pointer to %v. expected.", i, reflect.TypeOf(ptr), typeOf))
+				checkArgs = append(checkArgs, fmt.Sprintf("%s  ok %2d [%v] is a pointer to %v. expected.", Green("\u2713"), i, reflect.TypeOf(ptr), typeOf))
 			}
 		default:
 			ok = false
 			name := reflect.TypeOf(ptr).Name()
-			checkArgs = append(checkArgs, fmt.Sprintf("\u2716 !ok %2d [%v] is not a pointer.", i, name))
+			checkArgs = append(checkArgs, fmt.Sprintf("%s !ok %2d [%v] is not a pointer.", Red("\u2716"), i, name))
 		}
 	}
 	if !ok {
 		for _, text := range checkArgs {
 			fmt.Println(text)
 		}
-		fmt.Printf("\n%v\nThe argument list ptrs []interface{} is a slice of struct pointers (*struct) \n\n", ErrInvalidArgPointerRequired)
+		fmt.Printf("\n%s\n\nThe argument list ptrs []interface{} is a slice of struct pointers (*struct) \n\n", Red(ErrInvalidArgPointerRequired))
 		// fmt.Println(CallerAndArgs(ptrs))
 		fmt.Println(Caller())
 		os.Exit(1)
