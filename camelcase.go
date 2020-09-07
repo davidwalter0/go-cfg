@@ -12,12 +12,25 @@ var matchAllCap = regexp.MustCompile("([a-z0-9])([A-Z])")
 var matchMultipleHyphen = regexp.MustCompile("([-])([-]*)")
 var matchMultipleUnderscore = regexp.MustCompile("([_])([_]*)")
 
-// var matchFirstCap = regexp.MustCompile("(.)([A-Z][^A-Z]+)")
-// var matchAllCap = regexp.MustCompile("([^A-Z])([A-Z])")
+// ToCamelCase from either case test. Doesn't attempt to identify
+// acronyms for text replacement; e.g. json_map isn't converted to
+// JSONMap, instead this capitalizes the first letter of each snake or
+// kebob cast subexpression: json-map and json_map wil both convert to
+// JsonMap.
+func ToCamelCase(str string) string {
+	str = strings.ReplaceAll(str, "_", "-")
+	strs := strings.Split(str, "-")
+	for i, s := range strs {
+		strs[i] = Capitalize(s)
+	}
+	str = strings.Join(strs, "")
+	return str
+}
 
 // ToLowerSnakeCase lower case after snake casing string splitting
 // CamelCase separating with '_' underscores
 func ToLowerSnakeCase(str string) string {
+	str = strings.ReplaceAll(str, "-", "_")
 	snake := matchFirstCap.ReplaceAllString(str, "${1}_${2}")
 	snake = matchAllCap.ReplaceAllString(snake, "${1}_${2}")
 	snake = matchMultipleUnderscore.ReplaceAllString(snake, "${1}")
@@ -27,6 +40,7 @@ func ToLowerSnakeCase(str string) string {
 // ToUpperSnakeCase upper case after snake casing string splitting
 // CamelCase separating with '_' underscores
 func ToUpperSnakeCase(str string) string {
+	str = strings.ReplaceAll(str, "-", "_")
 	snake := matchFirstCap.ReplaceAllString(str, "${1}_${2}")
 	snake = matchAllCap.ReplaceAllString(snake, "${1}_${2}")
 	snake = matchMultipleUnderscore.ReplaceAllString(snake, "${1}")
@@ -36,6 +50,7 @@ func ToUpperSnakeCase(str string) string {
 // ToLowerKebabCase lower kebab (hyphen case) case splitting from
 // CamelCase hyphenating and lower casing camel-case
 func ToLowerKebabCase(str string) string {
+	str = strings.ReplaceAll(str, "_", "-")
 	kebab := matchFirstCap.ReplaceAllString(str, "${1}-${2}")
 	kebab = matchAllCap.ReplaceAllString(kebab, "${1}-${2}")
 	kebab = matchMultipleHyphen.ReplaceAllString(kebab, "${1}")
@@ -45,6 +60,7 @@ func ToLowerKebabCase(str string) string {
 // ToUpperKebabCase upper kebab (hyphen case) case splitting from
 // CamelCase hyphenating and upper casing CAMEL-CASE
 func ToUpperKebabCase(str string) string {
+	str = strings.ReplaceAll(str, "_", "-")
 	kebab := matchFirstCap.ReplaceAllString(str, "${1}-${2}")
 	kebab = matchAllCap.ReplaceAllString(kebab, "${1}-${2}")
 	kebab = matchMultipleHyphen.ReplaceAllString(kebab, "${1}")
@@ -62,6 +78,12 @@ func (field *Field) KeyNameFromCamelCase() {
 // FlagNameFromCamelCase for flags CamelCase to camel-case
 // hyphenated, split on camel case regular expression
 func (field *Field) FlagNameFromCamelCase() {
+	field.FlagName = ToLowerKebabCase(strings.Replace(field.FlagName, "_", "-", -1))
+}
+
+// ToLowerKebabCase for flags CamelCase to camel-case
+// hyphenated, split on camel case regular expression
+func (field *Field) ToLowerKebabCase() {
 	field.FlagName = ToLowerKebabCase(strings.Replace(field.FlagName, "_", "-", -1))
 }
 

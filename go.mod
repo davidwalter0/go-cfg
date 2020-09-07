@@ -9,4 +9,5 @@ require (
 	github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c
 	k8s.io/code-generator v0.18.5 // indirect
+	upspin.io v0.0.0-20200124224713-5ddde7b8e6ff
 )

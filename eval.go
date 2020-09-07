@@ -123,8 +123,12 @@ func EvalName(name string, ptrs ...interface{}) error {
 }
 
 func Run(args *Arg, ptrs ...interface{}) error {
-	CheckArgs(ptrs...)
 	var err error
+	err = CheckArgs(ptrs...)
+	if err != nil {
+
+		os.Exit(1)
+	}
 	for _, ptr := range ptrs {
 		err = Enter(args, ptr)
 		if err != nil {
@@ -237,14 +241,14 @@ func Flags(ptrs ...interface{}) error {
 func Nest(ptrs ...interface{}) error {
 	args := NewArg("")
 	args.Prefixed = true
-	// // Decorate(true)
-	// Prefix(true)
 	err := Run(args, ptrs...)
 	return err
 }
 
 // NestWrap objects retaining object hierarchy with prefix
 func NestWrap(prefix string, ptrs ...interface{}) error {
+	// fmt.Println("NestWrap", prefix)
+	// fmt.Println(ptrs...)
 	args := NewArg(prefix)
 	args.Prefixed = true
 	err := Run(args, ptrs...)
@@ -256,7 +260,7 @@ func NestWrap(prefix string, ptrs ...interface{}) error {
 // log.Println("\n\u2713 text\n\u2716 text\n")
 
 // CheckArgs validate that the pointers are pointers to struct
-func CheckArgs(ptrs ...interface{}) {
+func CheckArgs(ptrs ...interface{}) error {
 	checkArgs := []string{}
 	ok := true
 	for i, ptr := range ptrs {
@@ -278,15 +282,18 @@ func CheckArgs(ptrs ...interface{}) {
 			checkArgs = append(checkArgs, fmt.Sprintf("%s !ok %2d [%v] is not a pointer.", Red("\u2716"), i, name))
 		}
 	}
+	var err error
+	var str string
 	if !ok {
 		for _, text := range checkArgs {
-			fmt.Println(text)
+			str += fmt.Sprintf(text)
 		}
-		fmt.Printf("\n%s\n\nThe argument list ptrs []interface{} is a slice of struct pointers (*struct) \n\n", Red(ErrInvalidArgPointerRequired))
+		str += fmt.Sprintf("\n%s\n\nThe argument list ptrs []interface{} is a slice of struct pointers (*struct) \n\n", Red(ErrInvalidArgPointerRequired))
 		// fmt.Println(CallerAndArgs(ptrs))
-		fmt.Println(Caller())
-		os.Exit(1)
+		str += fmt.Sprintln(Caller())
+		err = fmt.Errorf(str)
 	}
+	return err
 }
 
 // Caller get the calling frame info

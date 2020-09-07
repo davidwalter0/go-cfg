@@ -78,7 +78,7 @@ func Enter(args *Arg, ptr interface{}) error {
 
 	Store[name] = ptr
 
-	if args.Prefixed {
+	if args.Prefixed && len(args.Prefix) > 0 {
 		name = args.Prefix + "_" + name
 	}
 
