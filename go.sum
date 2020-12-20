@@ -19,6 +19,8 @@ github.com/davidwalter0/go-flag v0.2.4 h1:o86cq9EDmoy3QzDSmbMGasWIhNPse+FXrYc7Hr
 github.com/davidwalter0/go-flag v0.2.4/go.mod h1:jv6qxNjGS102w3OcYqHF/zmI+YY2leG6KL3yYXarmmU=
 github.com/davidwalter0/go-flag v0.2.5-rc.0 h1:13huUeRXC6egwA4hF7pbDUiEFymc068kF9iifIrjk8U=
 github.com/davidwalter0/go-flag v0.2.5-rc.0/go.mod h1:jv6qxNjGS102w3OcYqHF/zmI+YY2leG6KL3yYXarmmU=
+github.com/davidwalter0/go-flag v0.2.5 h1:QfeSpmh60Vj/pZ4Ev9Q8Uoe1HM+g7PIugCovwQBPRLI=
+github.com/davidwalter0/go-flag v0.2.5/go.mod h1:xX3EXodaOhFTaqSo/5hEsNCY/6Mpkb47tXWIn+lXCxM=
 github.com/emicklei/go-restful v0.0.0-20170410110728-ff4f55a20633/go.mod h1:otzb+WCGbkyDHkqmQmT5YD2WR4BBwUdeQoFo8l/7tVs=
 github.com/emicklei/go-restful v2.9.5+incompatible/go.mod h1:otzb+WCGbkyDHkqmQmT5YD2WR4BBwUdeQoFo8l/7tVs=
 github.com/ghodss/yaml v0.0.0-20150909031657-73d445a93680/go.mod h1:4dBDuWmgqj2HViK6kFavaiC9ZROes6MMH2rRYeMEF04=

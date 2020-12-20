@@ -1,6 +1,10 @@
 package flag
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/mattn/color"
+)
 
 var (
 	Info  = Teal
@@ -21,10 +25,14 @@ var (
 	White   = Color("\033[1;37m%s\033[0m")
 )
 
+// Color returns a function that configures a scoped string colorizor
 func Color(colorString string) func(...interface{}) string {
-	sprint := func(args ...interface{}) string {
-		return fmt.Sprintf(colorString,
-			fmt.Sprint(args...))
+	if !color.NoColor {
+		return func(args ...interface{}) string {
+			return fmt.Sprintf(colorString, fmt.Sprint(args...))
+		}
 	}
-	return sprint
+	return func(args ...interface{}) string {
+		return fmt.Sprint(args...)
+	}
 }

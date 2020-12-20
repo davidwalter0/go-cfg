@@ -329,6 +329,16 @@ type FlagSet struct {
 	output        io.Writer // nil means stderr; use out() accessor
 }
 
+func (f *FlagSet) Reset() {
+	f.Usage = func() {}
+	f.parsed = false
+	f.actual = nil
+	f.formal = nil
+	f.args = nil
+	f.errorHandling = ContinueOnError
+	f.output = nil
+}
+
 // A Flag represents the state of a flag.
 type Flag struct {
 	Name     string // name as it appears on command line
@@ -1127,7 +1137,7 @@ func commandLineUsage() {
 	Usage()
 }
 
-// NewFlagSet returns a new, empty flag set with the specified name and
+// NewFlagset returns a new, empty flag set with the specified name and
 // error handling property.
 func NewFlagSet(name string, errorHandling ErrorHandling) *FlagSet {
 	f := &FlagSet{
