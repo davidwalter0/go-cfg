@@ -173,7 +173,10 @@ func (field *Field) SetKeyName() {
 // SetFlagName read tag keyword option and save the text
 func (field *Field) SetFlagName() {
 	if len(field.FlagName) == 0 {
-		panic("len(field.FlagName) == 0")
+		field.FlagName = field.Get("flag")
+		if len(field.FlagName) == 0 {
+			panic("len(field.FlagName) == 0")
+		}
 	}
 	field.FlagName = Capitalize(field.FlagName)
 	field.FlagNameFromCamelCase()
