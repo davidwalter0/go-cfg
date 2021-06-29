@@ -62,6 +62,7 @@ func (field *Field) SetField() {
 		}
 	}()
 
+	field.SetFlagName()
 	field.SetDefault()
 	field.SetName()
 	field.SetIgnore()
@@ -172,8 +173,9 @@ func (field *Field) SetKeyName() {
 
 // SetFlagName read tag keyword option and save the text
 func (field *Field) SetFlagName() {
+	field.FlagName = field.Get("flag")
+
 	if len(field.FlagName) == 0 {
-		field.FlagName = field.Get("flag")
 		if len(field.FlagName) == 0 {
 			panic("len(field.FlagName) == 0")
 		}
