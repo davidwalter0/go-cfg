@@ -53,18 +53,22 @@ func WithMultiCallArgs(args int) {
 	}
 }
 
+var Reordering = false
+
 // // func init() {
 var multicallSetup = func() bool {
-	var n int
-	v, found := LookupEnv("WITH_MULTICALL_ARGS")
-	if found {
-		i, err := strconv.ParseInt(v, 0, 64)
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+	if Reordering {
+		var n int
+		v, found := LookupEnv("WITH_MULTICALL_ARGS")
+		if found {
+			i, err := strconv.ParseInt(v, 0, 64)
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+			}
+			n = int(i)
 		}
-		n = int(i)
+		MultiCallPrefixes = NonFlagOSArgs(n)
 	}
-	MultiCallPrefixes = NonFlagOSArgs(n)
 	return true
 }()
