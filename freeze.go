@@ -18,3 +18,7 @@ func Freeze() {
 func FlagInit() {
 	Freeze()
 }
+
+func Reset() {
+	flag.CommandLine.Reset()
+}
