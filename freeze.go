@@ -20,5 +20,12 @@ func FlagInit() {
 }
 
 func Reset() {
+	Thaw()
+	Store = NewStor()
 	flag.CommandLine.Reset()
+}
+
+// Thaw flags
+func Thaw() {
+	frozen = false
 }
