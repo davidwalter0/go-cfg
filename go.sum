@@ -9,6 +9,8 @@ github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davidwalter0/go-flag v0.0.0-20200307021324-f88d57cd6005 h1:QcXU9p4g3Rw08sXLYj5o5yq37Z2IOH9S5fam7Ku8eWI=
 github.com/davidwalter0/go-flag v0.0.0-20200307021324-f88d57cd6005/go.mod h1:jv6qxNjGS102w3OcYqHF/zmI+YY2leG6KL3yYXarmmU=
+github.com/davidwalter0/go-flag v0.0.0-20210908002747-341a98d27053 h1:vwcx5IyfLEd50zvfE5CP0C7RXCv5Apdq/Wzv1U+YBP4=
+github.com/davidwalter0/go-flag v0.0.0-20210908002747-341a98d27053/go.mod h1:xX3EXodaOhFTaqSo/5hEsNCY/6Mpkb47tXWIn+lXCxM=
 github.com/davidwalter0/go-flag v0.2.2-beta1 h1:MJ1eKMGHgdMNCG47Wp0S/2I7YA5aX9+24pYC92yU6vg=
 github.com/davidwalter0/go-flag v0.2.2-beta1/go.mod h1:jv6qxNjGS102w3OcYqHF/zmI+YY2leG6KL3yYXarmmU=
 github.com/davidwalter0/go-flag v0.2.2-beta2 h1:sNrDZsIShqZOQGgQt1Qh4DVHL9y5xwEqxzs12Qk1QEw=

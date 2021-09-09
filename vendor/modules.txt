@@ -1,4 +1,4 @@
-# github.com/davidwalter0/go-flag v0.2.5
+# github.com/davidwalter0/go-flag v0.0.0-20210908002747-341a98d27053
 ## explicit
 github.com/davidwalter0/go-flag
 # github.com/mattn/color v0.0.0-20151026152412-8640971291e5
