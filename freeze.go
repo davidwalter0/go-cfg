@@ -1,8 +1,6 @@
 package cfg
 
 import (
-	"os"
-
 	"github.com/davidwalter0/go-flag"
 )
 
@@ -21,10 +19,10 @@ func FlagInit() {
 	Freeze()
 }
 
-func Reset() {
+func Reset(name string) {
 	Thaw()
 	Store = NewStor()
-	flag.CommandLine = flag.NewFlagSet(os.Args[0], flag.PanicOnError)
+	flag.CommandLine = flag.NewFlagSet(name, flag.PanicOnError)
 }
 
 // Thaw flags
