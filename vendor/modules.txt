@@ -1,21 +1,22 @@
-# github.com/davidwalter0/go-flag v0.0.0-20210908002747-341a98d27053
-## explicit
+# github.com/davidwalter0/go-flag v0.3.0-rc.0
+## explicit; go 1.13
 github.com/davidwalter0/go-flag
+# github.com/kr/pretty v0.1.0
+## explicit
 # github.com/mattn/color v0.0.0-20151026152412-8640971291e5
 ## explicit
 github.com/mattn/color
 # github.com/mattn/go-isatty v0.0.12
-## explicit
+## explicit; go 1.12
 github.com/mattn/go-isatty
 # github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644
 ## explicit
 github.com/shiena/ansicolor
 # golang.org/x/sys v0.0.0-20200116001909-b77594299b42
+## explicit; go 1.12
 golang.org/x/sys/unix
+# gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15
+## explicit
 # gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c
 ## explicit
 gopkg.in/yaml.v3
-# k8s.io/code-generator v0.18.5
-## explicit
-# upspin.io v0.0.0-20200124224713-5ddde7b8e6ff
-## explicit
