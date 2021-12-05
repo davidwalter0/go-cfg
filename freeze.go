@@ -30,12 +30,6 @@ func Reset(name string) {
 // flag handlers
 var ErrorHandlerModel = flag.ContinueOnError
 
-func Reset(name string) {
-	Thaw()
-	Store = NewStor()
-	flag.CommandLine = flag.NewFlagSet(name, flag.PanicOnError)
-}
-
 // Thaw flags
 func Thaw() {
 	frozen = false
