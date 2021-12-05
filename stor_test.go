@@ -15,6 +15,24 @@ type S1 struct {
 type S2 struct {
 	B string
 	Y int
+  Jobs
+}
+
+type Jobs []Job
+type Job struct {
+S string
+}
+
+func(v *Jobs) String() (s string){
+  return  fmt.Sprintf("%v",*v)
+}
+func(v *Jobs)Set(s string)error{
+  fmt.Printf( "%T called via setter", v)
+  *v = Jobs{Job{S:s}}
+  return nil
+}
+func(v *Jobs) Get() (interface{}){
+  return * v
 }
 
 func TestSave(t *testing.T) {
@@ -22,7 +40,7 @@ func TestSave(t *testing.T) {
 	var data []byte
 
 	s1 := &S1{A: "A", X: 1}
-	s2 := &S2{B: "A", Y: 1}
+  	s2 := &S2{B: "A", Y: 1, Jobs: Jobs{Job{S:"123"}}}
 	fmt.Println(Nest(s1, s2))
 	for k, v := range Store {
 		fmt.Printf("%-15.15s %p\n", k, v)

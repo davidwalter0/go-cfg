@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/davidwalter0/go-flag"
+	flag "github.com/davidwalter0/go-flag"
 )
 
 var allFlagNames = make(map[string]bool)

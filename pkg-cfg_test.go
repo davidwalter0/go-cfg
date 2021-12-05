@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/davidwalter0/go-flag"
+	flag "github.com/davidwalter0/go-flag"
 )
 
 func set(name, value string) {

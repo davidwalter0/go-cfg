@@ -1,6 +1,6 @@
 // +build appengine
 
-package flag
+package cfgflag
 
 import "os"
 

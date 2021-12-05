@@ -1,7 +1,7 @@
 package cfg
 
 import (
-	"github.com/davidwalter0/go-flag"
+	flag "github.com/davidwalter0/go-flag"
 )
 
 var frozen bool
@@ -29,12 +29,6 @@ func Reset(name string) {
 // ErrorHandlerModel enables reconfiguring flag.ErrorHandling for the
 // flag handlers
 var ErrorHandlerModel = flag.ContinueOnError
-
-func Reset(name string) {
-	Thaw()
-	Store = NewStor()
-	flag.CommandLine = flag.NewFlagSet(name, flag.PanicOnError)
-}
 
 // Thaw flags
 func Thaw() {

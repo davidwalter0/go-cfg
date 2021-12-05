@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/davidwalter0/go-flag"
+	flag "github.com/davidwalter0/go-flag"
 )
 
 var PrefixOverrideText = `
