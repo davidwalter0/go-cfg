@@ -1,8 +1,7 @@
-package cfgflag
+package eflag
 
 import (
 	"fmt"
-	"os"
 	"strings"
 	"time"
 )
@@ -19,23 +18,21 @@ func MakeVar(addr interface{}, name, defaultValue, usage, override string, requi
 	override = strings.TrimSpace(override)
 	var isGetter bool
 	var varType Getter
-	varType, isGetter = addr.(Getter)
-	fmt.Fprintf(os.Stderr, "varType %T %q isGetter %v addr %T\n", varType, varType, isGetter, addr)
+	_, isGetter = addr.(Getter)
 	if isGetter {
 		if len(defaultValue) > 0 {
 			if err := varType.Set(defaultValue); err != nil {
-				panic(fmt.Sprintf("Error setting getter %T %v\n", addr, err))
+				panic(fmt.Sprintf("Error setting type %T %v\n", addr, err))
 			}
 		}
 		CommandLine.Var(varType, name, usage, required, isset)
 		if len(override) > 0 {
 			if err := varType.Set(override); err != nil {
-				panic(fmt.Sprintf("Error setting getter %T %v\n", addr, err))
+				panic(fmt.Sprintf("Error setting type %T %v\n", addr, err))
 			}
 		}
 		return
 	}
-
 	switch ptr := addr.(type) {
 
 	case *map[time.Duration]time.Duration:

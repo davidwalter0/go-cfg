@@ -1,4 +1,4 @@
-package cfgflag
+package eflag
 
 import (
 	"fmt"

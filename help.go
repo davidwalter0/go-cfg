@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	flag "github.com/davidwalter0/go-flag"
+	eflag "github.com/davidwalter0/go-flag"
 )
 
 var PrefixOverrideText = `
@@ -62,11 +62,11 @@ var Usage = func() {
 		fmt.Fprintf(os.Stderr, "\n%s\n\n", helpText)
 	}
 
-	flag.PrintDefaults()
+	eflag.PrintDefaults()
 	// fmt.Fprintf(os.Stderr, PrefixOverrideText)
 }
 
 var setup = func() bool {
-	flag.Usage = Usage
+	eflag.Usage = Usage
 	return true
 }()

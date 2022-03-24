@@ -29,7 +29,7 @@ bool
 string
 )
 
-makeVarHead='package flag
+makeVarHead='package eflag
 
 import (
         "fmt"
@@ -47,10 +47,28 @@ import (
 func MakeVar(addr interface{}, name, defaultValue, usage, override string, required, isset bool) {
   defaultValue = strings.TrimSpace(defaultValue)
   override = strings.TrimSpace(override)
+  var isGetter bool
+  var varType Getter
+  _, isGetter = addr.(Getter)
+  if isGetter {
+  	if len(defaultValue) > 0 {
+  		if err := varType.Set(defaultValue); err != nil {
+  			panic(fmt.Sprintf("Error setting type %T %v\n", addr, err))
+  		}
+  	}
+  	CommandLine.Var(varType, name, usage, required, isset)
+  	if len(override) > 0 {
+  		if err := varType.Set(override); err != nil {
+  			panic(fmt.Sprintf("Error setting type %T %v\n", addr, err))
+  		}
+  	}
+  	return
+  }
   switch ptr := addr.(type) {
 '
 
-makeVarTail='  default:
+makeVarTail='
+  default:
     // panic("Unhandled Type %T\n", ptr)
     panic(fmt.Sprintf("Unhandled Type %v %T\n", ptr, ptr))
   }
@@ -135,7 +153,7 @@ sliceTemplate='   case *{{.SliceType}}:
 sliceTemplateBody="$(cat tmpl/flag-slice.go.body.tmpl)"
 sliceTestTemplate="$(cat tmpl/flag-slice_test.go.body.tmpl)"
 
-mapTemplateHeader='package flag
+mapTemplateHeader='package eflag
 
 ////////////////////////////////////////////////////////////////////////
 //
@@ -148,7 +166,7 @@ import (
 
 '
 
-sliceTemplateHeader='package flag
+sliceTemplateHeader='package eflag
 
 ////////////////////////////////////////////////////////////////////////
 //
@@ -163,7 +181,7 @@ import (
 
 '
 
-sliceTestTemplateHeader='package flag
+sliceTestTemplateHeader='package eflag
 
 import (
         "fmt"
@@ -215,7 +233,7 @@ declare -a stringArray=("one")
 declare -a durationArray=("1h2m3s")
 
 mapTestTypeTemplate="$(cat tmpl/map_test.go.tmpl)"
-mapTestTemplateHeader='package flag
+mapTestTemplateHeader='package eflag
 
 import (
         "fmt"

@@ -1,6 +1,7 @@
+//go:build !appengine
 // +build !appengine
 
-package cfgflag
+package eflag
 
 import "syscall"
 

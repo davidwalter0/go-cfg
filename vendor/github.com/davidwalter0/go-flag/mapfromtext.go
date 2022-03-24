@@ -1,4 +1,4 @@
-package cfgflag // import "github.com/davidwalter0/go-flag"
+package eflag // import "github.com/davidwalter0/go-flag"
 
 import (
 	"fmt"

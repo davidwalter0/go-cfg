@@ -1,7 +1,7 @@
 package cfg
 
 import (
-	flag "github.com/davidwalter0/go-flag"
+	eflag "github.com/davidwalter0/go-flag"
 )
 
 var frozen bool
@@ -9,7 +9,7 @@ var frozen bool
 // Freeze flags
 func Freeze() {
 	if !frozen {
-		flag.Parse()
+		eflag.Parse()
 		frozen = true
 	}
 }
@@ -23,12 +23,12 @@ func FlagInit() {
 func Reset(name string) {
 	Thaw()
 	Store = NewStor()
-	flag.CommandLine = flag.NewFlagSet(name, ErrorHandlerModel)
+	eflag.CommandLine = eflag.NewFlagSet(name, ErrorHandlerModel)
 }
 
-// ErrorHandlerModel enables reconfiguring flag.ErrorHandling for the
+// ErrorHandlerModel enables reconfiguring eflag.ErrorHandling for the
 // flag handlers
-var ErrorHandlerModel = flag.ContinueOnError
+var ErrorHandlerModel = eflag.ContinueOnError
 
 // Thaw flags
 func Thaw() {

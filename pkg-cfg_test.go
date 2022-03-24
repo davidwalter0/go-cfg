@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	flag "github.com/davidwalter0/go-flag"
+	eflag "github.com/davidwalter0/go-flag"
 )
 
 func set(name, value string) {
@@ -46,7 +46,7 @@ func (b *B) Value() string {
 }
 
 func resetFlags() {
-	flag.CommandLine = flag.NewFlagSet(os.Args[0], flag.ExitOnError)
+	eflag.CommandLine = eflag.NewFlagSet(os.Args[0], eflag.ExitOnError)
 }
 
 func isTestFlag(s string) (rc bool) {
