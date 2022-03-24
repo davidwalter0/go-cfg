@@ -3,7 +3,7 @@ module github.com/davidwalter0/go-cfg
 go 1.17
 
 require (
-	github.com/davidwalter0/go-flag v0.0.0-20220324053735-3b234f80c37c
+	github.com/davidwalter0/go-flag v0.0.0-20220324154208-26e5fe4fc3ec
 	github.com/mattn/color v0.0.0-20151026152412-8640971291e5
 	github.com/mattn/go-isatty v0.0.12 // indirect
 	github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644 // indirect
