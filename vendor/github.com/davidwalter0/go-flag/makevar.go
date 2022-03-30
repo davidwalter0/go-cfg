@@ -18,7 +18,7 @@ func MakeVar(addr interface{}, name, defaultValue, usage, override string, requi
 	override = strings.TrimSpace(override)
 	var isGetter bool
 	var varType Getter
-	_, isGetter = addr.(Getter)
+	varType, isGetter = addr.(Getter)
 	if isGetter {
 		if len(defaultValue) > 0 {
 			if err := varType.Set(defaultValue); err != nil {

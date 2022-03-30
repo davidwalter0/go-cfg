@@ -1,5 +1,5 @@
-github.com/davidwalter0/go-flag v0.0.0-20220324154208-26e5fe4fc3ec h1:DlsDVRi0NgPGxLIz+JkEtoo/IUF7SlJ+wf+klef9f48=
-github.com/davidwalter0/go-flag v0.0.0-20220324154208-26e5fe4fc3ec/go.mod h1:sXRGK984gF/cAc3AUMcLUZnYsSJ+hMfKnqXTW98iuDI=
+github.com/davidwalter0/go-flag v0.0.0-20220330163606-64a5099ed565 h1:TNHYcv3r83heJn/WMJEYteRXW0wT/eq2d4HJ7yb+Cwg=
+github.com/davidwalter0/go-flag v0.0.0-20220330163606-64a5099ed565/go.mod h1:sXRGK984gF/cAc3AUMcLUZnYsSJ+hMfKnqXTW98iuDI=
 github.com/kr/pretty v0.1.0 h1:L/CwN0zerZDmRFUapSPitk6f+Q3+0za1rQkzVuMiMFI=
 github.com/kr/pretty v0.1.0/go.mod h1:dAy3ld7l9f0ibDNOQOHHMYYIIbhfbHSm3C4ZsoJORNo=
 github.com/kr/pty v1.1.1/go.mod h1:pFQYn66WHrOpPYNljwOMqo10TkYh1fy3cYio2l3bCsQ=

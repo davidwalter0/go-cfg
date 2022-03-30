@@ -1,4 +1,4 @@
-# github.com/davidwalter0/go-flag v0.0.0-20220324154208-26e5fe4fc3ec
+# github.com/davidwalter0/go-flag v0.0.0-20220330163606-64a5099ed565
 ## explicit; go 1.17
 github.com/davidwalter0/go-flag
 # github.com/kr/pretty v0.1.0
