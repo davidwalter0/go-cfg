@@ -138,17 +138,17 @@ func (stor *Stor) Load(filename string) error {
 	}
 	switch strings.ToLower(path.Ext(filename)) {
 	case ".json":
-		err = json.Unmarshal(data, temp)
+		err = json.Unmarshal(data, &temp)
 		if err != nil {
 			return err
 		}
 	case ".yaml":
-		err = yaml.Unmarshal(data, temp)
+		err = yaml.Unmarshal(data, &temp)
 		if err != nil {
 			return err
 		}
 	default:
-		err = yaml.Unmarshal(data, temp)
+		err = yaml.Unmarshal(data, &temp)
 		if err != nil {
 			return err
 		}

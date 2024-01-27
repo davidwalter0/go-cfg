@@ -122,7 +122,6 @@ func ParseStruct(args *Arg, ptr interface{}, prefix string, structField reflect.
 			err = ParseStruct(args, ptr, name, etype.Field(i))
 			if err != nil {
 				panic(err)
-				break
 			}
 			args.Depth--
 		}
@@ -147,7 +146,6 @@ func ParseStruct(args *Arg, ptr interface{}, prefix string, structField reflect.
 		if field.Error != nil {
 			log.Println(field.Error)
 			panic(field.Error)
-			return nil
 		}
 
 		if debug {

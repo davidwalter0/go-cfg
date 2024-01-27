@@ -6,23 +6,21 @@ outermost struct name. Name overrides via struct tags can be used
 to rename configuration options as well as (optionally) set
 defaults.
 
+	 Configurations share these options
 
- Configurations share these options
+	  - A configuration is one or more struct pointers
+	  - Each struct member's data type is used for type conversion during assignment
+	  - Primitive types are evaluated directly
+	  - Aggregate slice can be set with comma delibmited syntax
+	  - Aggregate map can be set with comma delibmited syntax
 
-  - A configuration is one or more struct pointers
-  - Each struct member's data type is used for type conversion during assignment
-  - Primitive types are evaluated directly
-  - Aggregate slice can be set with comma delibmited syntax
-  - Aggregate map can be set with comma delibmited syntax
-
-  map example
-	Map  map[string]float64 `short:"m" default:"π:3.14159,ξ:1,ρ:.01,φ:1.2,β:3,α:.01,δ:3,ε:.001,φ:.1,ψ:.9,ω:2.1"`
+	  map example
+		Map  map[string]float64 `short:"m" default:"π:3.14159,ξ:1,ρ:.01,φ:1.2,β:3,α:.01,δ:3,ε:.001,φ:.1,ψ:.9,ω:2.1"`
 
 
-  - Decorate
+	  - Decorate
 
-Modes of configuration
-
+# Modes of configuration
 
   - Wrap(prefix, ptrs...) options with a prefix argument to each flag or environment variable
   - Nest(ptrs...) each struct member with the name of the the parent struct(s)

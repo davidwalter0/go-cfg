@@ -5,7 +5,6 @@ import (
 	"os"
 
 	"github.com/davidwalter0/go-cfg"
-	"github.com/davidwalter0/go-flag"
 )
 
 type Key string
@@ -19,7 +18,6 @@ func main() {
 	{
 		var myapp App
 
-		flag.NonFlagOSArgs(0)
 		if err := cfg.Flags(&myapp); err != nil {
 			log.Fatalf("%v\n", err)
 
@@ -30,17 +28,17 @@ func main() {
 		// cfg.Usage()
 
 		/*
-			flag.Usage()
-			// Error can't call parse again
-			defer func() {
-				if err := recover(); err != nil {
-					fmt.Printf("\n\n\n\n")
-					fmt.Printf("***Error*** %v\n", err)
-					fmt.Printf("\n\n\n\n")
-					// sti.Parse()
-				}
-			}()
-			sti.Parse()
+		   flag.Usage()
+		   // Error can't call parse again
+		   defer func() {
+		     if err := recover(); err != nil {
+		       fmt.Printf("\n\n\n\n")
+		       fmt.Printf("***Error*** %v\n", err)
+		       fmt.Printf("\n\n\n\n")
+		       // sti.Parse()
+		     }
+		   }()
+		   sti.Parse()
 		*/
 	}
 

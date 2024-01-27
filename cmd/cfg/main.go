@@ -10,7 +10,6 @@ import (
 	"time"
 
 	"github.com/davidwalter0/go-cfg"
-	"github.com/davidwalter0/go-flag"
 	yaml "gopkg.in/yaml.v3"
 )
 
@@ -134,9 +133,6 @@ type Flags struct {
 
 func main() {
 
-if false {
-	flag.NonFlagOSArgs(1)
-}
 	p := &APP{}
 	p1 := &APP1{}
 	p2 := &APP2{}
@@ -173,15 +169,6 @@ if false {
   fmt.Println("Dump p",Dump(p))
   fmt.Println("Dump p1",Dump(p1))
   fmt.Println("Dump Store",Dump(cfg.Store))
-	// for _, f := range os.Args {
-	// 	if strings.Index(f, "--help") == 0 {
-	// 		flag.Parse()
-	// 		flag.Usage()
-	// 		cfg.Usage()
-	// 		os.Exit(1)
-	// 	}
-	// }
-
 }
 func Dump(o interface{}) string {
 	byte, err := json.MarshalIndent(o, "", "  ")
