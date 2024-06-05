@@ -1,0 +1,19 @@
+name: commit
+
+on:
+  push:
+    branches: [ "action" ]
+  workflow_dispatch:
+  
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: commit hash
+      shell: bash
+      run: |
+        git log -n 3
+        
