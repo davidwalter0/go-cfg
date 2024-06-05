@@ -16,4 +16,6 @@ jobs:
       shell: bash
       run: |
         git log -n 3
+        echo SHA ${{ github.sha }}
+        
         
