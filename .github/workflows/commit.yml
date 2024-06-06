@@ -20,6 +20,3 @@ jobs:
         export SHA=${{github.sha}}
         export SHA=${SHA::8}
         echo SHA ${SHA}
-        
-        
-        
