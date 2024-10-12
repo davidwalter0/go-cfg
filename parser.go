@@ -5,7 +5,7 @@ import (
 	"log"
 	"reflect"
 	"strings"
-	//	"strconv"
+	//  "strconv"
 )
 
 const (
@@ -24,28 +24,31 @@ type Key string
 type KV map[Key]*Field
 
 // Parser recursively parses a struct
-type Parser struct {
-	ptr interface{}
-	kv  KV
-	mgr Mgr
-}
+
+	type Parser struct {
+	  ptr interface{}
+	  kv  KV
+	  mgr Mgr
+	}
 
 // KV returns a map of object definitions
-func (parser *Parser) KV() KV {
-	return parser.kv
-}
+
+	func (parser *Parser) KV() KV {
+	  return parser.kv
+	}
 
 // NewParser return an initialized parser using args
-func NewParser(ptr interface{}) (*Parser, error) {
-	if reflect.TypeOf(ptr).Kind() != reflect.Ptr {
-		return nil, ErrInvalidArgPointerRequired
+
+	func NewParser(ptr interface{}) (*Parser, error) {
+	  if reflect.TypeOf(ptr).Kind() != reflect.Ptr {
+	    return nil, ErrInvalidArgPointerRequired
+	  }
+	  return &Parser{
+	    ptr: ptr,
+	    kv:  make(KV),
+	    mgr: NewCache(),
+	  }, nil
 	}
-	return &Parser{
-		ptr: ptr,
-		kv:  make(KV),
-		mgr: NewCache(),
-	}, nil
-}
 */
 var emptyStructField = reflect.StructField{}
 
@@ -78,7 +81,13 @@ func Enter(args *Arg, ptr interface{}) error {
 
 	Store[name] = ptr
 
-	if args.Prefixed && len(args.Prefix) > 0 {
+	switch {
+	case args.Unprefixed:
+		args.Prefixed = true
+		name = ""
+	case args.Reprefix && len(args.Prefix) > 0:
+		name = args.Prefix
+	case !args.Unprefixed && args.Prefixed && len(args.Prefix) > 0:
 		name = args.Prefix + "_" + name
 	}
 

@@ -6,19 +6,19 @@ outermost struct name. Name overrides via struct tags can be used
 to rename configuration options as well as (optionally) set
 defaults.
 
-	 Configurations share these options
+	Configurations share these options
 
-	  - A configuration is one or more struct pointers
-	  - Each struct member's data type is used for type conversion during assignment
-	  - Primitive types are evaluated directly
-	  - Aggregate slice can be set with comma delibmited syntax
-	  - Aggregate map can be set with comma delibmited syntax
+	 - A configuration is one or more struct pointers
+	 - Each struct member's data type is used for type conversion during assignment
+	 - Primitive types are evaluated directly
+	 - Aggregate slice can be set with comma delibmited syntax
+	 - Aggregate map can be set with comma delibmited syntax
 
-	  map example
-		Map  map[string]float64 `short:"m" default:"π:3.14159,ξ:1,ρ:.01,φ:1.2,β:3,α:.01,δ:3,ε:.001,φ:.1,ψ:.9,ω:2.1"`
+	 map example
+	 Map  map[string]float64 `short:"m" default:"π:3.14159,ξ:1,ρ:.01,φ:1.2,β:3,α:.01,δ:3,ε:.001,φ:.1,ψ:.9,ω:2.1"`
 
 
-	  - Decorate
+	 - Decorate
 
 # Modes of configuration
 
@@ -47,10 +47,12 @@ var decorate bool = true
 
 // Arg is the settings passed for recursion
 type Arg struct {
-	Depth    int
-	Prefix   string
-	Prefixed bool
-	UseFlags bool
+	Depth      int
+	Prefix     string
+	Prefixed   bool
+	Unprefixed bool
+	Reprefix   bool
+	UseFlags   bool
 }
 
 // NewArg sets values in Arg for cfg to process structs
@@ -210,6 +212,25 @@ func Wrap(name string, ptrs ...interface{}) error {
 	return err
 }
 
+// Reprefix replacing object name as prefix with name
+func Reprefix(name string, ptrs ...interface{}) error {
+	args := NewArg(name)
+	Decorate()
+	args.Reprefix = true
+	// args.Prefixed = true
+	err := Run(args, ptrs...)
+	return err
+}
+
+// Unprefixed next struct names, without the object name as a prefix
+func Unprefixed(ptrs ...interface{}) error {
+	args := NewArg("")
+	Decorate()
+	args.Unprefixed = true
+	err := Run(args, ptrs...)
+	return err
+}
+
 // Add alias of Eval
 func Add(ptrs ...interface{}) error {
 	args := NewArg("")
@@ -234,7 +255,7 @@ func Flags(ptrs ...interface{}) error {
 // heirarchy. For exqmple, type B struct{ I int }; type A struct{ B }
 // will create a flag with prefixes a and b, i.e. --a-b-i
 // --a-b-i int
-//   	 Env _A_B_I                           : (I) (int)
+//     Env _A_B_I                           : (I) (int)
 
 func Nest(ptrs ...interface{}) error {
 	args := NewArg("")
