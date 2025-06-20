@@ -1,0 +1,530 @@
+#+TITLE: Migration Guide to go-cfg
+#+PROPERTY: TAGS migration guide go-cfg configuration
+#+AUTHOR: go-cfg Project
+#+OPTIONS: toc:3 num:t
+
+* Table of Contents :TOC:
+- [[#overview][Overview]]
+- [[#migrating-from-standard-flag-package][Migrating from Standard flag Package]]
+  - [[#before-standard-flag][Before (Standard flag)]]
+  - [[#after-go-cfg][After (go-cfg)]]
+  - [[#migration-steps][Migration Steps]]
+- [[#migrating-from-envconfig][Migrating from envconfig]]
+  - [[#before-envconfig][Before (envconfig)]]
+  - [[#after-go-cfg][After (go-cfg)]]
+  - [[#migration-benefits][Migration Benefits]]
+- [[#migrating-from-viper][Migrating from Viper]]
+  - [[#before-viper][Before (Viper)]]
+  - [[#after-go-cfg][After (go-cfg)]]
+  - [[#key-differences][Key Differences]]
+- [[#migrating-from-cobra--viper][Migrating from Cobra + Viper]]
+  - [[#before-cobra--viper][Before (Cobra + Viper)]]
+  - [[#after-go-cfg][After (go-cfg)]]
+- [[#migrating-from-custom-configuration][Migrating from Custom Configuration]]
+  - [[#common-patterns][Common Patterns]]
+  - [[#refactoring-approach][Refactoring Approach]]
+- [[#migration-checklist][Migration Checklist]]
+- [[#troubleshooting-common-issues][Troubleshooting Common Issues]]
+
+* Overview
+
+This guide helps you migrate from other Go configuration libraries to go-cfg. The migration process typically involves:
+
+1. Consolidating configuration into structs with tags
+2. Replacing manual flag/env variable handling with go-cfg calls
+3. Updating configuration loading logic
+4. Testing the new configuration system
+
+* Migrating from Standard flag Package
+
+** Before (Standard flag)
+
+#+BEGIN_SRC go
+package main
+
+import (
+    "flag"
+    "fmt"
+    "os"
+    "strconv"
+)
+
+var (
+    host     = flag.String("host", "localhost", "Server host")
+    port     = flag.Int("port", 8080, "Server port")
+    debug    = flag.Bool("debug", false, "Enable debug mode")
+    timeout  = flag.Duration("timeout", 30*time.Second, "Request timeout")
+)
+
+func main() {
+    flag.Parse()
+    
+    // Manual environment variable handling
+    if envHost := os.Getenv("HOST"); envHost != "" {
+        *host = envHost
+    }
+    if envPort := os.Getenv("PORT"); envPort != "" {
+        if p, err := strconv.Atoi(envPort); err == nil {
+            *port = p
+        }
+    }
+    
+    fmt.Printf("Host: %s, Port: %d, Debug: %v, Timeout: %v\n", 
+        *host, *port, *debug, *timeout)
+}
+#+END_SRC
+
+** After (go-cfg)
+
+#+BEGIN_SRC go
+package main
+
+import (
+    "fmt"
+    "log"
+    "time"
+    "github.com/davidwalter0/go-cfg"
+)
+
+type Config struct {
+    Host    string        `default:"localhost" json:"host"`
+    Port    int           `default:"8080" json:"port"`
+    Debug   bool          `default:"false" json:"debug"`
+    Timeout time.Duration `default:"30s" json:"timeout"`
+}
+
+func main() {
+    var config Config
+    
+    if err := cfg.Flags(&config); err != nil {
+        log.Fatal(err)
+    }
+    
+    fmt.Printf("Host: %s, Port: %d, Debug: %v, Timeout: %v\n", 
+        config.Host, config.Port, config.Debug, config.Timeout)
+}
+#+END_SRC
+
+** Migration Steps
+
+1. *Create configuration struct*: Define a struct with your configuration fields
+2. *Add struct tags*: Use =default= tags for default values, =json= for field names
+3. *Replace flag declarations*: Remove =flag.String()=, =flag.Int()=, etc.
+4. *Remove manual env handling*: go-cfg handles environment variables automatically
+5. *Replace flag.Parse()*: Use =cfg.Flags(&config)=
+6. *Update field access*: Change =*host= to =config.Host=
+
+* Migrating from envconfig
+
+** Before (envconfig)
+
+#+BEGIN_SRC go
+package main
+
+import (
+    "fmt"
+    "log"
+    "github.com/kelseyhightower/envconfig"
+)
+
+type Config struct {
+    Host     string `envconfig:"HOST" default:"localhost"`
+    Port     int    `envconfig:"PORT" default:"8080"`
+    Debug    bool   `envconfig:"DEBUG" default:"false"`
+    Database struct {
+        URL      string `envconfig:"DATABASE_URL" required:"true"`
+        MaxConns int    `envconfig:"DATABASE_MAX_CONNS" default:"10"`
+    }
+}
+
+func main() {
+    var config Config
+    
+    if err := envconfig.Process("", &config); err != nil {
+        log.Fatal(err)
+    }
+    
+    fmt.Printf("Config: %+v\n", config)
+}
+#+END_SRC
+
+** After (go-cfg)
+
+#+BEGIN_SRC go
+package main
+
+import (
+    "fmt"
+    "log"
+    "github.com/davidwalter0/go-cfg"
+)
+
+type Config struct {
+    Host     string `default:"localhost" json:"host"`
+    Port     int    `default:"8080" json:"port"`
+    Debug    bool   `default:"false" json:"debug"`
+    Database struct {
+        URL      string `required:"true" json:"url"`
+        MaxConns int    `default:"10" json:"max_conns"`
+    } `json:"database"`
+}
+
+func main() {
+    var config Config
+    
+    if err := cfg.Flags(&config); err != nil {
+        log.Fatal(err)
+    }
+    
+    fmt.Printf("Config: %+v\n", config)
+}
+#+END_SRC
+
+** Migration Benefits
+
+- *Automatic flag generation*: Get command-line flags in addition to environment variables
+- *Consistent naming*: Automatic conversion from CamelCase to environment variables
+- *Configuration files*: Add JSON/YAML configuration file support
+- *Better validation*: Built-in required field validation
+
+* Migrating from Viper
+
+** Before (Viper)
+
+#+BEGIN_SRC go
+package main
+
+import (
+    "fmt"
+    "log"
+    "github.com/spf13/viper"
+)
+
+func main() {
+    viper.SetDefault("host", "localhost")
+    viper.SetDefault("port", 8080)
+    viper.SetDefault("debug", false)
+    
+    viper.BindEnv("host", "HOST")
+    viper.BindEnv("port", "PORT")
+    viper.BindEnv("debug", "DEBUG")
+    
+    viper.SetConfigName("config")
+    viper.SetConfigType("yaml")
+    viper.AddConfigPath(".")
+    
+    if err := viper.ReadInConfig(); err != nil {
+        log.Printf("Could not read config file: %v", err)
+    }
+    
+    host := viper.GetString("host")
+    port := viper.GetInt("port")
+    debug := viper.GetBool("debug")
+    
+    fmt.Printf("Host: %s, Port: %d, Debug: %v\n", host, port, debug)
+}
+#+END_SRC
+
+** After (go-cfg)
+
+#+BEGIN_SRC go
+package main
+
+import (
+    "fmt"
+    "log"
+    "github.com/davidwalter0/go-cfg"
+)
+
+type Config struct {
+    Host  string `default:"localhost" json:"host"`
+    Port  int    `default:"8080" json:"port"`
+    Debug bool   `default:"false" json:"debug"`
+}
+
+func main() {
+    var config Config
+    
+    // Load configuration file if it exists
+    if err := cfg.Load("config.yaml", &config); err != nil {
+        log.Printf("Could not read config file: %v", err)
+    }
+    
+    // Parse flags and environment variables
+    if err := cfg.Flags(&config); err != nil {
+        log.Fatal(err)
+    }
+    
+    fmt.Printf("Host: %s, Port: %d, Debug: %v\n", 
+        config.Host, config.Port, config.Debug)
+}
+#+END_SRC
+
+** Key Differences
+
+| Feature | Viper | go-cfg |
+|---------|-------|--------|
+| Configuration definition | Manual setup | Struct tags |
+| Type safety | Runtime type assertions | Compile-time safety |
+| Environment binding | Manual =BindEnv()= | Automatic |
+| Flag generation | Manual with pflag | Automatic |
+| Configuration access | =viper.GetString()= | Direct struct access |
+
+* Migrating from Cobra + Viper
+
+** Before (Cobra + Viper)
+
+#+BEGIN_SRC go
+package main
+
+import (
+    "fmt"
+    "github.com/spf13/cobra"
+    "github.com/spf13/viper"
+)
+
+var rootCmd = &cobra.Command{
+    Use:   "myapp",
+    Short: "My application",
+    Run: func(cmd *cobra.Command, args []string) {
+        host := viper.GetString("host")
+        port := viper.GetInt("port")
+        fmt.Printf("Host: %s, Port: %d\n", host, port)
+    },
+}
+
+func init() {
+    rootCmd.PersistentFlags().String("host", "localhost", "Server host")
+    rootCmd.PersistentFlags().Int("port", 8080, "Server port")
+    
+    viper.BindPFlag("host", rootCmd.PersistentFlags().Lookup("host"))
+    viper.BindPFlag("port", rootCmd.PersistentFlags().Lookup("port"))
+    
+    viper.BindEnv("host", "HOST")
+    viper.BindEnv("port", "PORT")
+}
+
+func main() {
+    rootCmd.Execute()
+}
+#+END_SRC
+
+** After (go-cfg)
+
+#+BEGIN_SRC go
+package main
+
+import (
+    "fmt"
+    "log"
+    "github.com/davidwalter0/go-cfg"
+)
+
+type Config struct {
+    Host string `default:"localhost" json:"host"`
+    Port int    `default:"8080" json:"port"`
+}
+
+func main() {
+    var config Config
+    
+    cfg.HelpText("My application - demonstrates go-cfg usage")
+    
+    if err := cfg.Flags(&config); err != nil {
+        log.Fatal(err)
+    }
+    
+    fmt.Printf("Host: %s, Port: %d\n", config.Host, config.Port)
+}
+#+END_SRC
+
+* Migrating from Custom Configuration
+
+** Common Patterns
+
+Many applications implement custom configuration loading. Here are common patterns and their go-cfg equivalents:
+
+*** Environment Variable Reading
+
+#+BEGIN_SRC go
+// Before: Manual environment variable reading
+func loadConfig() Config {
+    config := Config{
+        Host: "localhost", // default
+        Port: 8080,       // default
+    }
+    
+    if host := os.Getenv("HOST"); host != "" {
+        config.Host = host
+    }
+    
+    if portStr := os.Getenv("PORT"); portStr != "" {
+        if port, err := strconv.Atoi(portStr); err == nil {
+            config.Port = port
+        }
+    }
+    
+    return config
+}
+
+// After: go-cfg automatic handling
+type Config struct {
+    Host string `default:"localhost"`
+    Port int    `default:"8080"`
+}
+var config Config
+cfg.Flags(&config)
+#+END_SRC
+
+*** JSON Configuration Files
+
+#+BEGIN_SRC go
+// Before: Manual JSON loading
+func loadFromFile(filename string) (Config, error) {
+    var config Config
+    data, err := ioutil.ReadFile(filename)
+    if err != nil {
+        return config, err
+    }
+    err = json.Unmarshal(data, &config)
+    return config, err
+}
+
+// After: go-cfg automatic handling
+var config Config
+cfg.Load("config.json", &config)
+cfg.Flags(&config)  // Can still override with flags
+#+END_SRC
+
+** Refactoring Approach
+
+1. *Identify configuration sources*: List all places configuration is read from
+2. *Create configuration struct*: Consolidate all configuration into a single struct
+3. *Add appropriate tags*: Use =default=, =required=, =json= tags
+4. *Replace manual loading*: Use =cfg.Load()= and =cfg.Flags()=
+5. *Update configuration usage*: Change from individual variables to struct fields
+6. *Test thoroughly*: Verify all configuration sources work correctly
+
+* Migration Checklist
+
+** Pre-Migration
+
+- [ ] Document current configuration sources
+- [ ] List all configuration options and their defaults
+- [ ] Identify required vs. optional configuration
+- [ ] Note any custom validation logic
+- [ ] Test current configuration behavior
+
+** During Migration
+
+- [ ] Create configuration struct with appropriate tags
+- [ ] Replace manual flag/env handling with go-cfg
+- [ ] Update configuration file loading
+- [ ] Update help text and documentation
+- [ ] Migrate any custom validation logic
+
+** Post-Migration
+
+- [ ] Test with default values
+- [ ] Test with environment variables
+- [ ] Test with command-line flags
+- [ ] Test with configuration files
+- [ ] Test configuration precedence
+- [ ] Verify help text is correct
+- [ ] Update deployment scripts if needed
+
+** Testing Scenarios
+
+#+BEGIN_SRC bash
+# Test defaults
+./myapp
+
+# Test environment variables
+export HOST=example.com PORT=9000
+./myapp
+
+# Test command-line flags
+./myapp --host=example.com --port=9000
+
+# Test configuration file
+./myapp --config-file=config.yaml
+
+# Test precedence (flags should override env vars)
+export HOST=from-env
+./myapp --host=from-flag
+
+# Test help
+./myapp --help
+#+END_SRC
+
+* Troubleshooting Common Issues
+
+** Issue: Environment Variables Not Working
+
+*Problem*: Environment variables are not being read.
+
+*Solution*: Check environment variable naming. go-cfg converts CamelCase to UPPER_SNAKE_CASE:
+- =Host= → =HOST=
+- =DatabaseURL= → =DATABASE_URL=
+- =MaxRetryCount= → =MAX_RETRY_COUNT=
+
+** Issue: Required Fields Not Validated
+
+*Problem*: Required fields are not being enforced.
+
+*Solution*: Use the =required:"true"= tag and check with =cfg.Ok()=:
+
+#+BEGIN_SRC go
+type Config struct {
+    APIKey string `required:"true"`
+}
+
+var config Config
+cfg.Flags(&config)
+if !cfg.Ok("api-key") {
+    log.Fatal("API key is required")
+}
+#+END_SRC
+
+** Issue: Configuration File Not Loading
+
+*Problem*: Configuration file is not being loaded.
+
+*Solution*: Ensure the file exists and use proper format (.json, .yaml):
+
+#+BEGIN_SRC go
+if err := cfg.Load("config.yaml", &config); err != nil {
+    log.Printf("Warning: Could not load config: %v", err)
+}
+#+END_SRC
+
+** Issue: Flag Names Don't Match
+
+*Problem*: Generated flag names don't match expectations.
+
+*Solution*: Use the =name= tag to override flag names:
+
+#+BEGIN_SRC go
+type Config struct {
+    Host string `name:"hostname" default:"localhost"`
+}
+#+END_SRC
+
+** Issue: Complex Types Not Parsing
+
+*Problem*: Maps or slices are not parsing correctly.
+
+*Solution*: Use comma-delimited format in defaults and ensure proper JSON field names:
+
+#+BEGIN_SRC go
+type Config struct {
+    Tags    []string          `default:"web,api,backend"`
+    Limits  map[string]int    `default:"cpu:100,memory:512"`
+}
+#+END_SRC
+
+** Issue: Migration Performance
+
+*Problem*: Migration seems to impact performance.
+
+*Solution*: go-cfg uses reflection but caches results. Performance impact is typically minimal and occurs only during initialization, not during runtime configuration access.

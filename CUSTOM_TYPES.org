@@ -1,0 +1,1122 @@
+#+TITLE: Custom Flag Types and Value Interface Support in go-cfg
+#+PROPERTY: TAGS custom-types value-interface flag-hooks go-cfg
+#+PROPERTY: KEY_CONCEPTS Custom Types, Value Interface, Flag Hooks, Type Extensions
+#+AUTHOR: go-cfg Project
+#+DATE: 2025-01-04
+#+OPTIONS: toc:4 num:t
+
+* Table of Contents :TOC:
+
+- [[#overview][Overview]]
+- [[#the-value-interface][The Value Interface]]
+  - [[#interface-definition][Interface Definition]]
+  - [[#comparison-to-jsonxmlyaml-marshalers][Comparison to JSON/XML/YAML Marshalers]]
+  - [[#terminology-type-specific-serialization-behaviors][Terminology: Type-Specific Serialization Behaviors]]
+- [[#implementing-custom-flag-types][Implementing Custom Flag Types]]
+  - [[#basic-custom-type-example][Basic Custom Type Example]]
+  - [[#advanced-enum-type][Advanced Enum Type]]
+  - [[#complex-json-configuration-type][Complex JSON Configuration Type]]
+- [[#complete-working-examples][Complete Working Examples]]
+  - [[#url-configuration-type][URL Configuration Type]]
+  - [[#database-configuration-type][Database Configuration Type]]
+  - [[#time-range-type][Time Range Type]]
+- [[#current-integration-with-go-cfg][Current Integration with go-cfg]]
+  - [[#how-go-cfg-handles-types][How go-cfg Handles Types]]
+  - [[#limitations-in-current-implementation][Limitations in Current Implementation]]
+- [[#usage-patterns][Usage Patterns]]
+  - [[#environment-variables][Environment Variables]]
+  - [[#command-line-flags][Command-line Flags]]
+  - [[#configuration-files][Configuration Files]]
+  - [[#help-text-generation][Help Text Generation]]
+- [[#best-practices][Best Practices]]
+  - [[#validation-in-set-method][Validation in Set Method]]
+  - [[#error-handling][Error Handling]]
+  - [[#default-values][Default Values]]
+  - [[#thread-safety][Thread Safety]]
+- [[#advantages-and-limitations][Advantages and Limitations]]
+  - [[#advantages][Advantages]]
+  - [[#current-limitations][Current Limitations]]
+- [[#workarounds-for-current-limitations][Workarounds for Current Limitations]]
+  - [[#direct-flag-package-usage][Direct Flag Package Usage]]
+  - [[#composition-with-standard-types][Composition with Standard Types]]
+  - [[#custom-parsing-wrapper][Custom Parsing Wrapper]]
+
+* Overview
+
+go-cfg provides support for custom flag types through the underlying
+`Value` interface from the flag package. This interface acts as a
+"hook" mechanism similar to JSON's `MarshalJSON`/`UnmarshalJSON` or
+YAML's marshaling interfaces, allowing developers to create
+sophisticated custom types with validation, complex parsing, and type
+safety.
+
+This document explains how to leverage this capability, current
+limitations, and best practices for implementing custom flag types.
+
+* The Value Interface
+
+** Interface Definition
+
+The flag package defines two key interfaces for custom types:
+
+#+BEGIN_SRC go
+// Value is the interface to the dynamic value stored in a flag.
+// (The default value is represented as a string.)
+//
+// If a Value has an IsBoolFlag() bool method returning true,
+// the command-line parser makes -name equivalent to -name=true
+// rather than using the next command-line argument.
+//
+// Set is called once, in command line order, for each flag present.
+// The flag package may call the String method with a zero-valued receiver,
+// such as a nil pointer.
+type Value interface {
+    String() string
+    Set(string) error
+}
+
+// Getter is an interface that allows the contents of a Value to be retrieved.
+// It wraps the Value interface, rather than being part of it, because it
+// appeared after Go 1 and its compatibility rules. All Value types provided
+// by this package satisfy the Getter interface.
+type Getter interface {
+    Value
+    Get() interface{}
+}
+
+// Optional: For boolean flags that can be used without values
+type boolFlag interface {
+    Value
+    IsBoolFlag() bool
+}
+#+END_SRC
+
+** Comparison to JSON/XML/YAML Marshalers
+
+| Aspect           | JSON/YAML Marshaler                                                     | Value Interface                 |
+|------------------+-------------------------------------------------------------------------+---------------------------------|
+| *Purpose*        | Serialize to/from JSON/YAML                                             | Parse from command-line strings |
+| *Methods*        | `MarshalJSON()`, `UnmarshalJSON()` / `MarshalYAML()`, `UnmarshalYAML()` | `String()`, `Set()`             |
+| *Input*          | `[]byte` JSON data / `*yaml.Node`                                       | `string` from flags/env vars    |
+| *Validation*     | In unmarshal method                                                     | In `Set()` method               |
+| *Error Handling* | Return error from unmarshal                                             | Return error from `Set()`       |
+| *Default Values* | Via struct tags or zero values                                          | Via `String()` method           |
+
+** Terminology: Type-Specific Serialization Behaviors
+
+These custom implementations are collectively called:
+
+1. *Custom Marshaling/Unmarshaling* - implementing serialization interfaces
+2. *Type-Specific Serialization Hooks* - intercepting default serialization
+3. *Custom Type Converters* - transforming between representations
+4. *Serialization Interface Pattern* - types implementing standard interfaces
+
+For JSON/YAML:
+- *Marshaler Interface* - types implementing `MarshalJSON()` or `MarshalYAML()`
+- *Unmarshaler Interface* - types implementing `UnmarshalJSON()` or `UnmarshalYAML()`
+
+For Flags:
+- *Value Interface* - types implementing `String()` and `Set()`
+- *Flag Value Pattern* - custom types for command-line parsing
+
+* JSON and YAML Custom Marshaling
+
+** JSON Marshaler/Unmarshaler Interfaces
+
+Go's `encoding/json` package provides interfaces for custom JSON serialization:
+
+#+BEGIN_SRC go
+// Marshaler is the interface implemented by types that
+// can marshal themselves into valid JSON.
+type Marshaler interface {
+    MarshalJSON() ([]byte, error)
+}
+
+// Unmarshaler is the interface implemented by types
+// that can unmarshal a JSON description of themselves.
+type Unmarshaler interface {
+    UnmarshalJSON([]byte) error
+}
+#+END_SRC
+
+** YAML Marshaler/Unmarshaler Interfaces
+
+The `gopkg.in/yaml.v3` package provides similar interfaces:
+
+#+BEGIN_SRC go
+// Marshaler is the interface implemented by types that can marshal themselves into valid YAML.
+type Marshaler interface {
+    MarshalYAML() (interface{}, error)
+}
+
+// Unmarshaler is the interface implemented by types that can unmarshal a YAML document.
+type Unmarshaler interface {
+    UnmarshalYAML(value *Node) error
+}
+#+END_SRC
+
+** Complete JSON/YAML Example
+
+Here's a comprehensive example showing custom JSON and YAML marshaling:
+
+#+BEGIN_SRC go
+package main
+
+import (
+    "encoding/json"
+    "fmt"
+    "strconv"
+    "strings"
+    "time"
+    
+    "gopkg.in/yaml.v3"
+)
+
+// Duration type with custom JSON/YAML formats
+type CustomDuration struct {
+    time.Duration
+}
+
+// JSON: Marshal as minutes (integer)
+func (cd CustomDuration) MarshalJSON() ([]byte, error) {
+    minutes := int(cd.Duration.Minutes())
+    return json.Marshal(minutes)
+}
+
+func (cd *CustomDuration) UnmarshalJSON(data []byte) error {
+    var minutes int
+    if err := json.Unmarshal(data, &minutes); err != nil {
+        return err
+    }
+    cd.Duration = time.Duration(minutes) * time.Minute
+    return nil
+}
+
+// YAML: Marshal as human-readable string
+func (cd CustomDuration) MarshalYAML() (interface{}, error) {
+    return cd.Duration.String(), nil
+}
+
+func (cd *CustomDuration) UnmarshalYAML(node *yaml.Node) error {
+    var s string
+    if err := node.Decode(&s); err != nil {
+        return err
+    }
+    d, err := time.ParseDuration(s)
+    if err != nil {
+        return err
+    }
+    cd.Duration = d
+    return nil
+}
+
+// ServerAddress with host:port format
+type ServerAddress struct {
+    Host string
+    Port int
+}
+
+// JSON: Marshal as object
+func (sa ServerAddress) MarshalJSON() ([]byte, error) {
+    return json.Marshal(struct {
+        Host string `json:"host"`
+        Port int    `json:"port"`
+    }{
+        Host: sa.Host,
+        Port: sa.Port,
+    })
+}
+
+func (sa *ServerAddress) UnmarshalJSON(data []byte) error {
+    var obj struct {
+        Host string `json:"host"`
+        Port int    `json:"port"`
+    }
+    if err := json.Unmarshal(data, &obj); err != nil {
+        return err
+    }
+    sa.Host = obj.Host
+    sa.Port = obj.Port
+    return nil
+}
+
+// YAML: Marshal as "host:port" string
+func (sa ServerAddress) MarshalYAML() (interface{}, error) {
+    return fmt.Sprintf("%s:%d", sa.Host, sa.Port), nil
+}
+
+func (sa *ServerAddress) UnmarshalYAML(node *yaml.Node) error {
+    var hostPort string
+    if err := node.Decode(&hostPort); err != nil {
+        return err
+    }
+    
+    parts := strings.SplitN(hostPort, ":", 2)
+    if len(parts) != 2 {
+        return fmt.Errorf("invalid host:port format: %s", hostPort)
+    }
+    
+    port, err := strconv.Atoi(parts[1])
+    if err != nil {
+        return fmt.Errorf("invalid port: %s", parts[1])
+    }
+    
+    sa.Host = parts[0]
+    sa.Port = port
+    return nil
+}
+
+// Example configuration using custom types
+type Config struct {
+    Name      string         `json:"name" yaml:"name"`
+    Timeout   CustomDuration `json:"timeout_minutes" yaml:"timeout"`
+    Server    ServerAddress  `json:"server" yaml:"server"`
+    CreatedAt time.Time      `json:"created_at" yaml:"created_at"`
+}
+
+func main() {
+    config := Config{
+        Name:      "example-service",
+        Timeout:   CustomDuration{30 * time.Minute},
+        Server:    ServerAddress{Host: "localhost", Port: 8080},
+        CreatedAt: time.Now(),
+    }
+    
+    // JSON output
+    jsonData, _ := json.MarshalIndent(config, "", "  ")
+    fmt.Println("JSON format:")
+    fmt.Println(string(jsonData))
+    fmt.Println()
+    
+    // YAML output  
+    yamlData, _ := yaml.Marshal(config)
+    fmt.Println("YAML format:")
+    fmt.Print(string(yamlData))
+    fmt.Println()
+    
+    // Demonstrate round-trip
+    var jsonConfig Config
+    json.Unmarshal(jsonData, &jsonConfig)
+    fmt.Printf("JSON round-trip: %+v\n", jsonConfig)
+    
+    var yamlConfig Config
+    yaml.Unmarshal(yamlData, &yamlConfig)
+    fmt.Printf("YAML round-trip: %+v\n", yamlConfig)
+}
+#+END_SRC
+
+* Implementing Custom Flag Types
+
+** Basic Custom Type Example
+
+#+BEGIN_SRC go
+package main
+
+import (
+    "fmt"
+    "net/url"
+    "strings"
+)
+
+// URLValue implements the Value interface for URL parsing
+type URLValue struct {
+    *url.URL
+}
+
+// String returns the string representation (required by Value interface)
+func (u *URLValue) String() string {
+    if u.URL == nil {
+        return ""
+    }
+    return u.URL.String()
+}
+
+// Set parses and sets the URL value (required by Value interface)
+func (u *URLValue) Set(s string) error {
+    parsed, err := url.Parse(s)
+    if err != nil {
+        return fmt.Errorf("invalid URL '%s': %v", s, err)
+    }
+    
+    // Validation: ensure scheme is provided
+    if parsed.Scheme == "" {
+        return fmt.Errorf("URL must include scheme (http/https): %s", s)
+    }
+    
+    u.URL = parsed
+    return nil
+}
+
+// Get returns the underlying value (optional, for Getter interface)
+func (u *URLValue) Get() interface{} {
+    return u.URL
+}
+#+END_SRC
+
+** Advanced Enum Type
+
+#+BEGIN_SRC go
+// LogLevel represents application logging levels
+type LogLevel int
+
+const (
+    DEBUG LogLevel = iota
+    INFO
+    WARN
+    ERROR
+    FATAL
+)
+
+var logLevelNames = map[string]LogLevel{
+    "debug": DEBUG,
+    "info":  INFO,
+    "warn":  WARN,
+    "error": ERROR,
+    "fatal": FATAL,
+}
+
+var logLevelValues = map[LogLevel]string{
+    DEBUG: "debug",
+    INFO:  "info",
+    WARN:  "warn",
+    ERROR: "error",
+    FATAL: "fatal",
+}
+
+// LogLevelValue implements Value interface for LogLevel enum
+type LogLevelValue LogLevel
+
+func (l *LogLevelValue) String() string {
+    if name, ok := logLevelValues[LogLevel(*l)]; ok {
+        return name
+    }
+    return "unknown"
+}
+
+func (l *LogLevelValue) Set(s string) error {
+    normalized := strings.ToLower(strings.TrimSpace(s))
+    if level, ok := logLevelNames[normalized]; ok {
+        *l = LogLevelValue(level)
+        return nil
+    }
+    
+    // Provide helpful error with valid options
+    var validLevels []string
+    for name := range logLevelNames {
+        validLevels = append(validLevels, name)
+    }
+    return fmt.Errorf("invalid log level '%s', valid options: %s", 
+        s, strings.Join(validLevels, ", "))
+}
+
+func (l *LogLevelValue) Get() interface{} {
+    return LogLevel(*l)
+}
+
+// Helper method for application logic
+func (l LogLevel) IsEnabled(checkLevel LogLevel) bool {
+    return l <= checkLevel
+}
+#+END_SRC
+
+** Complex JSON Configuration Type
+
+#+BEGIN_SRC go
+import (
+    "encoding/json"
+    "fmt"
+)
+
+// DatabaseConfig represents complex database configuration
+type DatabaseConfig struct {
+    Host         string            `json:"host"`
+    Port         int               `json:"port"`
+    Username     string            `json:"username"`
+    Password     string            `json:"password,omitempty"`
+    Database     string            `json:"database"`
+    SSLMode      string            `json:"ssl_mode,omitempty"`
+    MaxConns     int               `json:"max_connections,omitempty"`
+    Timeout      string            `json:"timeout,omitempty"`
+    Options      map[string]string `json:"options,omitempty"`
+}
+
+// DatabaseConfigValue implements Value interface for complex DB config
+type DatabaseConfigValue DatabaseConfig
+
+func (d *DatabaseConfigValue) String() string {
+    if d == nil {
+        return "{}"
+    }
+    
+    // Create a copy for marshaling to avoid exposing password
+    safe := *d
+    if safe.Password != "" {
+        safe.Password = "***"
+    }
+    
+    data, err := json.Marshal(safe)
+    if err != nil {
+        return "{}"
+    }
+    return string(data)
+}
+
+func (d *DatabaseConfigValue) Set(s string) error {
+    // Handle both JSON and connection string formats
+    s = strings.TrimSpace(s)
+    
+    if strings.HasPrefix(s, "{") {
+        // JSON format
+        return json.Unmarshal([]byte(s), d)
+    }
+    
+    // Connection string format: "user:pass@host:port/database"
+    return d.parseConnectionString(s)
+}
+
+func (d *DatabaseConfigValue) parseConnectionString(connStr string) error {
+    // Simple connection string parser
+    // Format: [username[:password]@]host[:port][/database][?options]
+    
+    // This is a simplified implementation
+    // Production code would use a proper URL parser
+    parts := strings.Split(connStr, "@")
+    if len(parts) != 2 {
+        return fmt.Errorf("invalid connection string format")
+    }
+    
+    userInfo := parts[0]
+    hostInfo := parts[1]
+    
+    // Parse user:password
+    userParts := strings.Split(userInfo, ":")
+    d.Username = userParts[0]
+    if len(userParts) > 1 {
+        d.Password = userParts[1]
+    }
+    
+    // Parse host:port/database
+    hostParts := strings.Split(hostInfo, "/")
+    hostPort := hostParts[0]
+    if len(hostParts) > 1 {
+        d.Database = hostParts[1]
+    }
+    
+    // Parse host:port
+    portParts := strings.Split(hostPort, ":")
+    d.Host = portParts[0]
+    if len(portParts) > 1 {
+        if port, err := strconv.Atoi(portParts[1]); err == nil {
+            d.Port = port
+        }
+    }
+    
+    // Set defaults
+    if d.Port == 0 {
+        d.Port = 5432
+    }
+    if d.SSLMode == "" {
+        d.SSLMode = "prefer"
+    }
+    
+    return nil
+}
+
+func (d *DatabaseConfigValue) Get() interface{} {
+    return DatabaseConfig(*d)
+}
+
+// Validation method
+func (d *DatabaseConfig) Validate() error {
+    if d.Host == "" {
+        return fmt.Errorf("database host is required")
+    }
+    if d.Username == "" {
+        return fmt.Errorf("database username is required")
+    }
+    if d.Database == "" {
+        return fmt.Errorf("database name is required")
+    }
+    if d.Port <= 0 || d.Port > 65535 {
+        return fmt.Errorf("invalid database port: %d", d.Port)
+    }
+    return nil
+}
+#+END_SRC
+
+* Complete Working Examples
+
+** URL Configuration Type
+
+#+BEGIN_SRC go
+package main
+
+import (
+    "fmt"
+    "log"
+    "net/url"
+    "github.com/davidwalter0/go-cfg"
+)
+
+type URLValue struct {
+    *url.URL
+}
+
+func (u *URLValue) String() string {
+    if u.URL == nil {
+        return ""
+    }
+    return u.URL.String()
+}
+
+func (u *URLValue) Set(s string) error {
+    parsed, err := url.Parse(s)
+    if err != nil {
+        return fmt.Errorf("invalid URL: %v", err)
+    }
+    
+    // Validation
+    if parsed.Scheme == "" {
+        return fmt.Errorf("URL must include scheme: %s", s)
+    }
+    
+    u.URL = parsed
+    return nil
+}
+
+func (u *URLValue) Get() interface{} {
+    return u.URL
+}
+
+type Config struct {
+    APIEndpoint URLValue `default:"https://api.example.com/v1" json:"api_endpoint"`
+    DatabaseURL URLValue `default:"postgres://localhost/mydb" json:"database_url"`
+    Host        string   `default:"localhost" json:"host"`
+    Port        int      `default:"8080" json:"port"`
+}
+
+func main() {
+    var config Config
+    
+    // Initialize custom types
+    config.APIEndpoint = URLValue{}
+    config.DatabaseURL = URLValue{}
+    
+    if err := cfg.Flags(&config); err != nil {
+        log.Fatal(err)
+    }
+    
+    fmt.Printf("API Endpoint: %s\n", config.APIEndpoint.String())
+    fmt.Printf("Database URL: %s\n", config.DatabaseURL.String())
+    fmt.Printf("Server: %s:%d\n", config.Host, config.Port)
+}
+#+END_SRC
+
+** Database Configuration Type
+
+#+BEGIN_SRC go
+type DatabaseConfig struct {
+    Host     string `json:"host"`
+    Port     int    `json:"port"`
+    Username string `json:"username"`
+    Password string `json:"password"`
+    Database string `json:"database"`
+    SSLMode  string `json:"ssl_mode"`
+}
+
+type DatabaseConfigValue DatabaseConfig
+
+func (d *DatabaseConfigValue) String() string {
+    if d == nil {
+        return "host=localhost port=5432"
+    }
+    
+    // Format as connection string, masking password
+    password := d.Password
+    if password != "" {
+        password = "***"
+    }
+    
+    return fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
+        d.Host, d.Port, d.Username, password, d.Database, d.SSLMode)
+}
+
+func (d *DatabaseConfigValue) Set(s string) error {
+    // Parse PostgreSQL connection string format
+    // "host=localhost port=5432 user=myuser password=mypass dbname=mydb sslmode=disable"
+    
+    parts := strings.Fields(s)
+    for _, part := range parts {
+        kv := strings.SplitN(part, "=", 2)
+        if len(kv) != 2 {
+            continue
+        }
+        
+        key, value := kv[0], kv[1]
+        switch key {
+        case "host":
+            d.Host = value
+        case "port":
+            if port, err := strconv.Atoi(value); err == nil {
+                d.Port = port
+            }
+        case "user":
+            d.Username = value
+        case "password":
+            d.Password = value
+        case "dbname":
+            d.Database = value
+        case "sslmode":
+            d.SSLMode = value
+        }
+    }
+    
+    // Set defaults
+    if d.Host == "" {
+        d.Host = "localhost"
+    }
+    if d.Port == 0 {
+        d.Port = 5432
+    }
+    if d.SSLMode == "" {
+        d.SSLMode = "prefer"
+    }
+    
+    return nil
+}
+
+func (d *DatabaseConfigValue) Get() interface{} {
+    return DatabaseConfig(*d)
+}
+#+END_SRC
+
+** Time Range Type
+
+#+BEGIN_SRC go
+import "time"
+
+type TimeRange struct {
+    Start time.Time
+    End   time.Time
+}
+
+type TimeRangeValue TimeRange
+
+func (tr *TimeRangeValue) String() string {
+    if tr.Start.IsZero() && tr.End.IsZero() {
+        return ""
+    }
+    return fmt.Sprintf("%s to %s", 
+        tr.Start.Format("2006-01-02T15:04:05"), 
+        tr.End.Format("2006-01-02T15:04:05"))
+}
+
+func (tr *TimeRangeValue) Set(s string) error {
+    // Parse formats: "start,end" or "start to end" or "start-end"
+    var startStr, endStr string
+    
+    if strings.Contains(s, " to ") {
+        parts := strings.Split(s, " to ")
+        if len(parts) != 2 {
+            return fmt.Errorf("invalid time range format: %s", s)
+        }
+        startStr, endStr = parts[0], parts[1]
+    } else if strings.Contains(s, ",") {
+        parts := strings.Split(s, ",")
+        if len(parts) != 2 {
+            return fmt.Errorf("invalid time range format: %s", s)
+        }
+        startStr, endStr = parts[0], parts[1]
+    } else if strings.Contains(s, "-") {
+        parts := strings.Split(s, "-")
+        if len(parts) != 2 {
+            return fmt.Errorf("invalid time range format: %s", s)
+        }
+        startStr, endStr = parts[0], parts[1]
+    } else {
+        return fmt.Errorf("time range must contain 'to', ',' or '-': %s", s)
+    }
+    
+    // Parse start time
+    start, err := time.Parse("2006-01-02T15:04:05", strings.TrimSpace(startStr))
+    if err != nil {
+        // Try alternative format
+        start, err = time.Parse("2006-01-02 15:04:05", strings.TrimSpace(startStr))
+        if err != nil {
+            return fmt.Errorf("invalid start time format: %s", startStr)
+        }
+    }
+    
+    // Parse end time
+    end, err := time.Parse("2006-01-02T15:04:05", strings.TrimSpace(endStr))
+    if err != nil {
+        // Try alternative format
+        end, err = time.Parse("2006-01-02 15:04:05", strings.TrimSpace(endStr))
+        if err != nil {
+            return fmt.Errorf("invalid end time format: %s", endStr)
+        }
+    }
+    
+    // Validation
+    if !end.After(start) {
+        return fmt.Errorf("end time must be after start time")
+    }
+    
+    tr.Start = start
+    tr.End = end
+    return nil
+}
+
+func (tr *TimeRangeValue) Get() interface{} {
+    return TimeRange(*tr)
+}
+
+func (tr *TimeRange) Duration() time.Duration {
+    return tr.End.Sub(tr.Start)
+}
+
+func (tr *TimeRange) Contains(t time.Time) bool {
+    return !t.Before(tr.Start) && !t.After(tr.End)
+}
+#+END_SRC
+
+* Current Integration with go-cfg
+
+** How go-cfg Handles Types
+
+Currently, go-cfg uses a hardcoded type switch in the `MakeVar` function located in `vendor/github.com/davidwalter0/go-flag/makevar.go`. This function handles specific type combinations but falls back to a panic for unhandled types:
+
+#+BEGIN_SRC go
+func MakeVar(addr interface{}, name, defaultValue, usage, override string, required, isset bool) {
+    defaultValue = strings.TrimSpace(defaultValue)
+    override = strings.TrimSpace(override)
+    switch ptr := addr.(type) {
+    case *string:
+        // Handle string type
+    case *int:
+        // Handle int type
+    // ... many more specific type cases ...
+    default:
+        panic(fmt.Sprintf("Unhandled Type %v %T\n", ptr, ptr))
+    }
+}
+#+END_SRC
+
+** Limitations in Current Implementation
+
+1. *Hardcoded Type Support*: Only predefined types are supported
+2. *No Value Interface Check*: The code doesn't check if a type implements the `Value` interface
+3. *Panic on Unknown Types*: Unknown types cause the application to crash
+4. *No Extension Mechanism*: No way to register custom types
+
+* Usage Patterns
+
+** Environment Variables
+
+Custom types work automatically with environment variables using the same CamelCase → UPPER_SNAKE_CASE conversion:
+
+#+BEGIN_SRC bash
+# For field APIEndpoint URLValue
+export API_ENDPOINT="https://prod-api.example.com/v2"
+
+# For field DatabaseURL URLValue  
+export DATABASE_URL="postgres://user:pass@db-server:5432/production"
+
+# For field LogLevel LogLevelValue
+export LOG_LEVEL="warn"
+#+END_SRC
+
+** Command-line Flags
+
+Custom types integrate seamlessly with command-line flags:
+
+#+BEGIN_SRC bash
+# URL type
+./myapp --api-endpoint="https://staging-api.example.com"
+
+# Enum type
+./myapp --log-level="debug"
+
+# Complex JSON type
+./myapp --database='{"host":"localhost","port":5432,"username":"dev"}'
+
+# Time range type
+./myapp --backup-window="2023-01-01T02:00:00 to 2023-01-01T04:00:00"
+#+END_SRC
+
+** Configuration Files
+
+Custom types work with JSON and YAML configuration files when properly tagged:
+
+#+BEGIN_SRC yaml
+# config.yaml
+api_endpoint: "https://api.example.com/v1"
+database_url: "postgres://user:pass@localhost/mydb"
+log_level: "info"
+backup_window: "2023-01-01T02:00:00 to 2023-01-01T04:00:00"
+#+END_SRC
+
+** Help Text Generation
+
+Custom types provide meaningful help text through their `String()` method:
+
+#+BEGIN_SRC bash
+$ ./myapp --help
+Usage of myapp:
+  --api-endpoint string
+        API endpoint URL (default "https://api.example.com/v1")
+  --log-level string  
+        Application log level (default "info")
+  --database-url string
+        Database connection URL (default "postgres://localhost/mydb")
+#+END_SRC
+
+* Best Practices
+
+** Validation in Set Method
+
+Always validate input in the `Set()` method and provide helpful error messages:
+
+#+BEGIN_SRC go
+func (l *LogLevelValue) Set(s string) error {
+    normalized := strings.ToLower(strings.TrimSpace(s))
+    if level, ok := logLevelNames[normalized]; ok {
+        *l = LogLevelValue(level)
+        return nil
+    }
+    
+    // Provide helpful error with valid options
+    var validLevels []string
+    for name := range logLevelNames {
+        validLevels = append(validLevels, name)
+    }
+    return fmt.Errorf("invalid log level '%s', valid options: %s", 
+        s, strings.Join(validLevels, ", "))
+}
+#+END_SRC
+
+** Error Handling
+
+Return descriptive errors that help users understand what went wrong:
+
+#+BEGIN_SRC go
+func (u *URLValue) Set(s string) error {
+    parsed, err := url.Parse(s)
+    if err != nil {
+        return fmt.Errorf("invalid URL '%s': %v", s, err)
+    }
+    
+    if parsed.Scheme == "" {
+        return fmt.Errorf("URL must include scheme (http/https): %s", s)
+    }
+    
+    if parsed.Host == "" {
+        return fmt.Errorf("URL must include host: %s", s)
+    }
+    
+    u.URL = parsed
+    return nil
+}
+#+END_SRC
+
+** Default Values
+
+Use the `String()` method to provide meaningful default representations:
+
+#+BEGIN_SRC go
+func (d *DatabaseConfigValue) String() string {
+    if d == nil || d.Host == "" {
+        return "postgres://localhost:5432/mydb"
+    }
+    
+    // Mask password in output
+    password := d.Password
+    if password != "" {
+        password = "***"
+    }
+    
+    return fmt.Sprintf("postgres://%s:%s@%s:%d/%s",
+        d.Username, password, d.Host, d.Port, d.Database)
+}
+#+END_SRC
+
+** Thread Safety
+
+Ensure your custom types are thread-safe if they might be accessed concurrently:
+
+#+BEGIN_SRC go
+import "sync"
+
+type SafeCounterValue struct {
+    mu    sync.RWMutex
+    value int
+}
+
+func (c *SafeCounterValue) Set(s string) error {
+    c.mu.Lock()
+    defer c.mu.Unlock()
+    
+    val, err := strconv.Atoi(s)
+    if err != nil {
+        return fmt.Errorf("invalid counter value: %v", err)
+    }
+    
+    c.value = val
+    return nil
+}
+
+func (c *SafeCounterValue) String() string {
+    c.mu.RLock()
+    defer c.mu.RUnlock()
+    return strconv.Itoa(c.value)
+}
+
+func (c *SafeCounterValue) Get() interface{} {
+    c.mu.RLock()
+    defer c.mu.RUnlock()
+    return c.value
+}
+#+END_SRC
+
+* Advantages and Limitations
+
+** Advantages
+
+1. *Type Safety*: Custom types provide compile-time type checking
+2. *Validation*: Implement complex validation logic in the `Set()` method
+3. *Complex Parsing*: Handle sophisticated string-to-type conversions
+4. *Consistent Interface*: Works seamlessly with go-cfg's existing functionality
+5. *Environment Variables*: Custom types work with env vars automatically
+6. *Help Generation*: Custom types integrate with `--help` output
+7. *Configuration Files*: Support for JSON/YAML serialization
+8. *Error Messages*: Provide detailed, helpful error messages
+9. *Default Handling*: Flexible default value representation
+10. *Extensibility*: Add new types without modifying go-cfg core
+
+** Current Limitations
+
+1. *MakeVar Hardcoding*: go-cfg's `MakeVar` function doesn't check for `Value` interface
+2. *Manual Integration*: Requires workarounds to integrate with go-cfg
+3. *No Type Registration*: No built-in mechanism to register custom types
+4. *Documentation Gap*: Limited documentation on custom type support
+5. *Example Shortage*: Few examples of complex custom types
+
+* Workarounds for Current Limitations
+
+** Direct Flag Package Usage
+
+You can bypass go-cfg's type limitations by using the flag package directly for custom types:
+
+#+BEGIN_SRC go
+import (
+    "flag"
+    "github.com/davidwalter0/go-cfg"
+)
+
+type Config struct {
+    Host string `default:"localhost" json:"host"`
+    Port int    `default:"8080" json:"port"`
+    // Note: Custom types handled separately
+}
+
+func main() {
+    var config Config
+    var apiEndpoint URLValue
+    var logLevel LogLevelValue
+    
+    // Handle custom types with flag package directly
+    flag.Var(&apiEndpoint, "api-endpoint", "API endpoint URL")
+    flag.Var(&logLevel, "log-level", "Application log level")
+    
+    // Handle standard types with go-cfg
+    if err := cfg.Flags(&config); err != nil {
+        log.Fatal(err)
+    }
+    
+    // Use both config and custom types
+    fmt.Printf("Server: %s:%d\n", config.Host, config.Port)
+    fmt.Printf("API: %s\n", apiEndpoint.String())
+    fmt.Printf("Log Level: %s\n", logLevel.String())
+}
+#+END_SRC
+
+** Composition with Standard Types
+
+Use composition to leverage go-cfg while providing custom behavior:
+
+#+BEGIN_SRC go
+type Config struct {
+    APIEndpointStr string `default:"https://api.example.com" json:"api_endpoint"`
+    LogLevelStr    string `default:"info" json:"log_level"`
+    Host           string `default:"localhost" json:"host"`
+    Port           int    `default:"8080" json:"port"`
+}
+
+func (c *Config) APIEndpoint() (*url.URL, error) {
+    return url.Parse(c.APIEndpointStr)
+}
+
+func (c *Config) LogLevel() (LogLevel, error) {
+    if level, ok := logLevelNames[strings.ToLower(c.LogLevelStr)]; ok {
+        return level, nil
+    }
+    return INFO, fmt.Errorf("invalid log level: %s", c.LogLevelStr)
+}
+
+func (c *Config) Validate() error {
+    if _, err := c.APIEndpoint(); err != nil {
+        return fmt.Errorf("invalid API endpoint: %v", err)
+    }
+    
+    if _, err := c.LogLevel(); err != nil {
+        return err
+    }
+    
+    return nil
+}
+#+END_SRC
+
+** Custom Parsing Wrapper
+
+Create a wrapper that handles custom parsing after go-cfg processing:
+
+#+BEGIN_SRC go
+type RawConfig struct {
+    APIEndpoint string `default:"https://api.example.com" json:"api_endpoint"`
+    LogLevel    string `default:"info" json:"log_level"`
+    Host        string `default:"localhost" json:"host"`
+    Port        int    `default:"8080" json:"port"`
+}
+
+type ParsedConfig struct {
+    APIEndpoint URLValue
+    LogLevel    LogLevelValue
+    Host        string
+    Port        int
+}
+
+func LoadConfig() (*ParsedConfig, error) {
+    var raw RawConfig
+    if err := cfg.Flags(&raw); err != nil {
+        return nil, err
+    }
+    
+    parsed := &ParsedConfig{
+        Host: raw.Host,
+        Port: raw.Port,
+    }
+    
+    // Parse custom types
+    if err := parsed.APIEndpoint.Set(raw.APIEndpoint); err != nil {
+        return nil, fmt.Errorf("invalid API endpoint: %v", err)
+    }
+    
+    if err := parsed.LogLevel.Set(raw.LogLevel); err != nil {
+        return nil, fmt.Errorf("invalid log level: %v", err)
+    }
+    
+    return parsed, nil
+}
+#+END_SRC
+
+This approach provides full custom type support while working within go-cfg's current limitations.

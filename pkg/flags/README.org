@@ -1,0 +1,34 @@
+#+TITLE: Advanced Flags Package
+#+AUTHOR: go-cfg Enhanced Flags
+#+DATE: 2025-06-20
+
+* Overview
+
+This package provides enhanced flag handling with:
+- Custom type support via Value interface
+- Automatic ENV variable defaults (UPPER_SNAKE_CASE)
+- JSON/YAML naming conventions (kebab-case)
+- Type-safe generation patterns
+- pflag integration
+
+* Directory Structure
+
+- =types/= - Custom flag type implementations
+- =generators/= - Code generation utilities  
+- =examples/= - Usage examples and tests
+
+* Key Features
+
+** Custom Type Support
+All types implement the pflag.Value interface:
+- =String() string= - for default display
+- =Set(string) error= - for parsing input
+- =Type() string= - for help text
+
+** Naming Conventions  
+- ENV variables: =UPPER_SNAKE_CASE= (e.g., =API_ENDPOINT=)
+- JSON/YAML: =kebab-case= (e.g., =api-endpoint=)
+- Go fields: =CamelCase= (e.g., =APIEndpoint=)
+
+** Environment Integration
+Each flag automatically checks =os.Getenv(UPPER_SNAKE_CASE)= for defaults.

@@ -1,0 +1,133 @@
+#+TITLE: Web Server Configuration Example
+#+PROPERTY: TAGS example webserver go-cfg
+#+AUTHOR: go-cfg Project
+#+OPTIONS: toc:2 num:t
+
+* Overview
+
+This example demonstrates configuring a basic HTTP web server using go-cfg. It showcases:
+
+- Network configuration (host, port)
+- TLS/HTTPS settings
+- Timeout configuration
+- Feature flags
+- Configuration file loading
+- Environment-specific settings
+
+* Configuration Options
+
+** Network Settings
+- =host= - Server bind address (default: localhost)
+- =port= - Server port (default: 8080)
+
+** TLS Configuration
+- =enable_tls= - Enable HTTPS (default: false)
+- =tls_cert_file= - Path to TLS certificate file
+- =tls_key_file= - Path to TLS private key file
+
+** Timeouts
+- =read_timeout= - HTTP read timeout (default: 30s)
+- =write_timeout= - HTTP write timeout (default: 30s)
+- =idle_timeout= - HTTP idle timeout (default: 120s)
+
+** Feature Flags
+- =enable_metrics= - Enable /metrics endpoint (default: true)
+- =enable_logging= - Enable request logging (default: true)
+- =enable_cors= - Enable CORS headers (default: false)
+
+** Operational
+- =environment= - Environment name (default: development)
+- =debug= - Debug mode (default: false)
+- =log_level= - Logging level (default: info)
+
+* Running the Example
+
+** Basic Usage
+
+#+BEGIN_SRC bash
+# Run with defaults
+go run main.go
+
+# View help and all options
+go run main.go --help
+
+# Custom host and port
+go run main.go --host=0.0.0.0 --port=9000
+#+END_SRC
+
+** Environment Variables
+
+#+BEGIN_SRC bash
+# Set configuration via environment variables
+export HOST=127.0.0.1
+export PORT=8080
+export ENVIRONMENT=production
+export DEBUG=false
+go run main.go
+#+END_SRC
+
+** Configuration File
+
+#+BEGIN_SRC bash
+# Use provided YAML configuration
+go run main.go --config-file=server.yaml
+
+# Create custom configuration
+go run main.go --config-file=my-config.json
+#+END_SRC
+
+** TLS/HTTPS Mode
+
+#+BEGIN_SRC bash
+# Enable TLS (requires certificate files)
+go run main.go --enable-tls --tls-cert-file=cert.pem --tls-key-file=key.pem
+#+END_SRC
+
+* Testing the Server
+
+Once running, test the server endpoints:
+
+#+BEGIN_SRC bash
+# Health check
+curl http://localhost:8080/health
+
+# Main page
+curl http://localhost:8080/
+
+# Metrics (if enabled)
+curl http://localhost:8080/metrics
+#+END_SRC
+
+* Configuration Priority
+
+Configuration sources are applied in this order (later overrides earlier):
+
+1. Default values (in struct tags)
+2. Configuration file (if --config-file specified)
+3. Environment variables (HOST, PORT, etc.)
+4. Command-line flags (--host, --port, etc.)
+
+* Example Configurations
+
+** Development
+#+BEGIN_SRC yaml
+host: "localhost"
+port: 8080
+environment: "development"
+debug: true
+enable_metrics: true
+enable_logging: true
+#+END_SRC
+
+** Production
+#+BEGIN_SRC yaml
+host: "0.0.0.0"
+port: 443
+environment: "production"
+debug: false
+enable_tls: true
+tls_cert_file: "/etc/ssl/certs/server.crt"
+tls_key_file: "/etc/ssl/private/server.key"
+read_timeout: "10s"
+write_timeout: "10s"
+#+END_SRC

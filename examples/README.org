@@ -1,0 +1,90 @@
+#+TITLE: go-cfg Examples
+#+PROPERTY: TAGS examples go configuration
+#+AUTHOR: go-cfg Project
+#+OPTIONS: toc:2 num:t
+
+* Table of Contents :TOC:
+- [[#overview][Overview]]
+- [[#running-examples][Running Examples]]
+- [[#example-descriptions][Example Descriptions]]
+  - [[#basic-web-server][Basic Web Server]]
+  - [[#microservice-configuration][Microservice Configuration]]
+  - [[#database-application][Database Application]]
+  - [[#configuration-persistence][Configuration Persistence]]
+  - [[#nested-configuration][Nested Configuration]]
+- [[#common-patterns][Common Patterns]]
+
+* Overview
+
+This directory contains real-world examples demonstrating various go-cfg usage patterns and features. Each example is self-contained and includes:
+
+- Complete, runnable Go code
+- Example configuration files
+- Documentation for running and testing
+- Demonstration of specific go-cfg features
+
+* Running Examples
+
+Each example can be run independently:
+
+#+BEGIN_SRC bash
+cd examples/webserver
+go run main.go --help
+go run main.go --host=0.0.0.0 --port=9000
+#+END_SRC
+
+Set environment variables to test different configuration sources:
+
+#+BEGIN_SRC bash
+export HOST=127.0.0.1
+export PORT=8080
+go run main.go
+#+END_SRC
+
+* Example Descriptions
+
+** Basic Web Server
+=webserver/= - Simple HTTP server configuration with common web server settings:
+- Host and port configuration
+- TLS certificate paths
+- Timeout settings
+- Enable/disable features
+
+** Microservice Configuration
+=microservice/= - Complex microservice configuration demonstrating:
+- Nested service configurations
+- External service endpoints
+- Feature flags
+- Observability settings
+- Environment-specific overrides
+
+** Database Application
+=database/= - Application with database connectivity:
+- Database connection parameters
+- Connection pooling settings
+- Migration settings
+- Multiple database support
+
+** Configuration Persistence
+=persistence/= - Demonstrates save/load functionality:
+- Loading configuration from files
+- Saving current configuration
+- JSON and YAML format support
+- Configuration file generation
+
+** Nested Configuration
+=nested/= - Complex nested structure example:
+- Deeply nested configuration
+- Array and map configurations
+- Complex type handling
+- Hierarchical environment variables
+
+* Common Patterns
+
+Examples demonstrate these common configuration patterns:
+
+1. *Environment-specific configuration*: Development vs. production settings
+2. *Secret management*: Separating sensitive configuration
+3. *Feature flags*: Runtime behavior modification
+4. *Service discovery*: Dynamic service endpoint configuration
+5. *Monitoring and observability*: Metrics, logging, and tracing configuration

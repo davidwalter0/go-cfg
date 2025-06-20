@@ -1,0 +1,560 @@
+#+TITLE: go-cfg: Powerful Configuration Management for Go
+#+PROPERTY: TAGS go configuration library reflection
+#+PROPERTY: KEY_CONCEPTS Configuration Management, Reflection, Struct Tags, Environment Variables, Command-line Flags
+#+AUTHOR: go-cfg Project
+#+OPTIONS: toc:3 num:t
+
+* Table of Contents :TOC:
+- [[#overview][Overview]]
+  - [[#features][Features]]
+  - [[#quick-start][Quick Start]]
+- [[#installation][Installation]]
+- [[#basic-usage][Basic Usage]]
+  - [[#simple-configuration-example][Simple Configuration Example]]
+  - [[#running-the-example][Running the Example]]
+- [[#configuration-sources-priority][Configuration Sources Priority]]
+- [[#parsing-modes][Parsing Modes]]
+  - [[#simple-mode][Simple Mode]]
+  - [[#flags-mode-recommended][Flags Mode (Recommended)]]
+  - [[#nested-mode][Nested Mode]]
+  - [[#wrapped-mode][Wrapped Mode]]
+- [[#struct-tags-reference][Struct Tags Reference]]
+- [[#advanced-features][Advanced Features]]
+  - [[#complex-type-support][Complex Type Support]]
+  - [[#configuration-persistence][Configuration Persistence]]
+  - [[#validation-and-status-checking][Validation and Status Checking]]
+  - [[#help-text-generation][Help Text Generation]]
+- [[#environment-variable-mapping][Environment Variable Mapping]]
+- [[#real-world-examples][Real-World Examples]]
+  - [[#web-server-configuration][Web Server Configuration]]
+  - [[#microservice-configuration][Microservice Configuration]]
+- [[#migration-from-other-libraries][Migration from Other Libraries]]
+  - [[#from-envconfig][From envconfig]]
+  - [[#from-flag-package][From flag package]]
+- [[#best-practices][Best Practices]]
+- [[#troubleshooting][Troubleshooting]]
+- [[#api-reference][API Reference]]
+- [[#contributing][Contributing]]
+- [[#license][License]]
+
+* Overview
+
+go-cfg is a mature, production-ready configuration management library for Go applications that uses reflection to automatically parse configuration from multiple sources including environment variables, command-line flags, and configuration files.
+
+** Features
+
+- 🚀 *Zero Boilerplate*: Define configuration with struct tags and go-cfg handles the rest
+- 🔄 *Multiple Sources*: Environment variables, command-line flags, configuration files
+- 🏗️ *Flexible Modes*: Simple, Nested, Wrapped, and Flags parsing modes
+- 📝 *Type Safety*: Full support for Go primitive and complex types (maps, slices, time.Duration)
+- 💾 *Persistence*: Save and load configurations in JSON/YAML format
+- 🎯 *Validation*: Required fields and default values with struct tags
+- 📚 *Auto-Generated Help*: Automatic usage text generation
+- 🌳 *Nested Structures*: Full support for nested and embedded structs
+
+** Quick Start
+
+#+BEGIN_SRC bash
+go get github.com/davidwalter0/go-cfg
+#+END_SRC
+
+* Installation
+
+#+BEGIN_SRC bash
+go get github.com/davidwalter0/go-cfg
+#+END_SRC
+
+* Basic Usage
+
+** Simple Configuration Example
+
+#+BEGIN_SRC go
+package main
+
+import (
+    "fmt"
+    "log"
+    "time"
+    "github.com/davidwalter0/go-cfg"
+)
+
+// Define your configuration structure
+type Config struct {
+    // Basic types with defaults
+    Host string `default:"localhost" json:"host"`
+    Port int    `default:"8080" json:"port"`
+    
+    // Required fields
+    APIKey string `required:"true" json:"api_key"`
+    
+    // Complex types
+    Tags []string `default:"web,api,production" json:"tags"`
+    
+    // Nested configuration
+    Database struct {
+        Host     string `default:"localhost" json:"host"`
+        Port     int    `default:"5432" json:"port"`
+        Name     string `required:"true" json:"name"`
+        Username string `required:"true" json:"username"`
+        Password string `required:"true" json:"password"`
+    } `json:"database"`
+    
+    // Advanced types
+    Timeouts map[string]time.Duration `default:"read:30s,write:10s" json:"timeouts"`
+}
+
+func main() {
+    var config Config
+    
+    // Parse configuration from environment variables and command-line flags
+    if err := cfg.Flags(&config); err != nil {
+        log.Fatal(err)
+    }
+    
+    fmt.Printf("Configuration loaded: %+v\n", config)
+}
+#+END_SRC
+
+** Running the Example
+
+#+BEGIN_SRC bash
+# Set environment variables
+export API_KEY="your-secret-key"
+export DATABASE_NAME="myapp"
+export DATABASE_USERNAME="user"
+export DATABASE_PASSWORD="pass"
+
+# Run with default values
+go run main.go
+
+# Override with command-line flags
+go run main.go --host=0.0.0.0 --port=9000 --tags=staging,debug
+#+END_SRC
+
+* Configuration Sources Priority
+
+go-cfg processes configuration sources in the following order (later sources override earlier ones):
+
+1. *Default values* (from struct tags)
+2. *Environment variables* (CamelCase → UPPER_SNAKE_CASE)
+3. *Configuration files* (if loaded)
+4. *Command-line flags* (CamelCase → kebab-case)
+
+* Parsing Modes
+
+** Simple Mode
+
+No prefixes, direct field mapping:
+
+#+BEGIN_SRC go
+type Config struct {
+    Host string `default:"localhost"`
+    Port int    `default:"8080"`
+}
+
+var config Config
+cfg.Simple(&config) // Creates --host and --port flags
+#+END_SRC
+
+** Flags Mode (Recommended)
+
+Standard flag parsing with auto-generation:
+
+#+BEGIN_SRC go
+var config Config
+cfg.Flags(&config) // Full feature set with validation
+#+END_SRC
+
+** Nested Mode
+
+Preserves hierarchical structure:
+
+#+BEGIN_SRC go
+type Config struct {
+    Server struct {
+        Host string `default:"localhost"`
+        Port int    `default:"8080"`
+    }
+}
+
+var config Config
+cfg.Nest(&config) // Creates --server-host and --server-port
+#+END_SRC
+
+** Wrapped Mode
+
+Adds prefix to all options:
+
+#+BEGIN_SRC go
+var config Config
+cfg.Wrap("myapp", &config) // Creates --myapp-host and --myapp-port
+#+END_SRC
+
+* Struct Tags Reference
+
+| Tag       | Purpose                | Example                |
+|-----------+------------------------+------------------------|
+| default   | Set default value      | default:"localhost"    |
+| required  | Mark field as required | required:"true"        |
+| short     | Short flag name        | short:"h"              |
+| json      | JSON field name        | json:"host_name"       |
+| name      | Override flag name     | name:"hostname"        |
+
+* Advanced Features
+
+** Complex Type Support
+
+#+BEGIN_SRC go
+type AdvancedConfig struct {
+    // String slices (comma-delimited)
+    Tags []string `default:"web,api,backend"`
+    
+    // Integer slices
+    Ports []int `default:"8080,8081,8082"`
+    
+    // Maps with typed values
+    Limits map[string]int `default:"cpu:100,memory:512,disk:1024"`
+    
+    // Duration types
+    Timeout time.Duration `default:"30s"`
+    ReadTimeout time.Duration `default:"5m"`
+    
+    // Nested maps
+    Features map[string]bool `default:"auth:true,logging:false,metrics:true"`
+}
+#+END_SRC
+
+** Configuration Persistence
+
+#+BEGIN_SRC go
+// Save configuration to file
+if err := cfg.Save("config.yaml", &config); err != nil {
+    log.Fatal(err)
+}
+
+// Load configuration from file
+if err := cfg.Load("config.yaml", &config); err != nil {
+    log.Fatal(err)
+}
+
+// Load then parse flags (file values can be overridden by flags)
+cfg.Load("config.yaml", &config)
+cfg.Flags(&config)
+#+END_SRC
+
+** Validation and Status Checking
+
+#+BEGIN_SRC go
+// Check if a field was set (vs using default)
+if cfg.IsSet("api-key") {
+    fmt.Println("API key was explicitly provided")
+}
+
+// Check if required fields are satisfied
+if !cfg.Ok("database-password") {
+    log.Fatal("Required database password not provided")
+}
+
+// Check if a field is required
+if cfg.Required("api-key") {
+    fmt.Println("API key is a required field")
+}
+#+END_SRC
+
+** Help Text Generation
+
+go-cfg automatically generates help text based on your struct definitions:
+
+#+BEGIN_SRC go
+var config Config
+cfg.Flags(&config)
+// Run with --help to see auto-generated usage information
+#+END_SRC
+
+* Environment Variable Mapping
+
+go-cfg automatically maps struct fields to environment variables using UPPER_SNAKE_CASE conversion:
+
+| Struct Field    | Environment Variable | Command Flag         |
+|-----------------+----------------------+----------------------|
+| Host            | HOST                 | --host               |
+| APIKey          | API_KEY              | --api-key            |
+| DatabaseHost    | DATABASE_HOST        | --database-host      |
+| MaxRetryCount   | MAX_RETRY_COUNT      | --max-retry-count    |
+
+* Real-World Examples
+
+** Web Server Configuration
+
+#+BEGIN_SRC go
+type ServerConfig struct {
+    // Server settings
+    Host string `default:"0.0.0.0" json:"host"`
+    Port int    `default:"8080" json:"port"`
+    
+    // TLS configuration
+    TLSCertFile string `json:"tls_cert_file"`
+    TLSKeyFile  string `json:"tls_key_file"`
+    
+    // Timeouts
+    ReadTimeout  time.Duration `default:"30s" json:"read_timeout"`
+    WriteTimeout time.Duration `default:"30s" json:"write_timeout"`
+    IdleTimeout  time.Duration `default:"120s" json:"idle_timeout"`
+    
+    // Features
+    EnableMetrics bool `default:"true" json:"enable_metrics"`
+    EnableLogging bool `default:"true" json:"enable_logging"`
+    LogLevel     string `default:"info" json:"log_level"`
+    
+    // Database
+    DatabaseURL string `required:"true" json:"database_url"`
+    MaxDBConns  int    `default:"10" json:"max_db_connections"`
+}
+#+END_SRC
+
+** Microservice Configuration
+
+#+BEGIN_SRC go
+type MicroserviceConfig struct {
+    // Service identification
+    ServiceName string `required:"true" json:"service_name"`
+    Version     string `default:"unknown" json:"version"`
+    Environment string `default:"development" json:"environment"`
+    
+    // API configuration
+    API struct {
+        Host      string        `default:"0.0.0.0" json:"host"`
+        Port      int           `default:"8080" json:"port"`
+        Timeout   time.Duration `default:"30s" json:"timeout"`
+        RateLimit int           `default:"1000" json:"rate_limit"`
+    } `json:"api"`
+    
+    // External services
+    Services map[string]string `json:"services"`
+    
+    // Feature flags
+    Features map[string]bool `default:"auth:true,metrics:true,tracing:false" json:"features"`
+    
+    // Observability
+    Metrics struct {
+        Enabled  bool   `default:"true" json:"enabled"`
+        Endpoint string `default:"/metrics" json:"endpoint"`
+        Port     int    `default:"9090" json:"port"`
+    } `json:"metrics"`
+}
+#+END_SRC
+
+* Migration from Other Libraries
+
+** From envconfig
+
+#+BEGIN_SRC go
+// Before (envconfig)
+type Config struct {
+    Host string `envconfig:"HOST" default:"localhost"`
+    Port int    `envconfig:"PORT" default:"8080"`
+}
+
+// After (go-cfg)
+type Config struct {
+    Host string `default:"localhost"` // AUTO: HOST env var
+    Port int    `default:"8080"`      // AUTO: PORT env var
+}
+#+END_SRC
+
+** From flag package
+
+#+BEGIN_SRC go
+// Before (standard flag package)
+var host = flag.String("host", "localhost", "Server host")
+var port = flag.Int("port", 8080, "Server port")
+
+// After (go-cfg)
+type Config struct {
+    Host string `default:"localhost"` // AUTO: --host flag
+    Port int    `default:"8080"`      // AUTO: --port flag
+}
+var config Config
+cfg.Flags(&config)
+#+END_SRC
+
+* Best Practices
+
+** 1. Use Clear Field Names
+#+BEGIN_SRC go
+// Good
+type Config struct {
+    DatabaseHost string `default:"localhost"`
+    APIKey       string `required:"true"`
+}
+
+// Avoid
+type Config struct {
+    Host string // Ambiguous: which host?
+    Key  string // Unclear purpose
+}
+#+END_SRC
+
+** 2. Group Related Configuration
+#+BEGIN_SRC go
+type Config struct {
+    Database struct {
+        Host     string `default:"localhost"`
+        Port     int    `default:"5432"`
+        Username string `required:"true"`
+        Password string `required:"true"`
+    }
+    
+    Redis struct {
+        Host     string `default:"localhost"`
+        Port     int    `default:"6379"`
+        Password string
+    }
+}
+#+END_SRC
+
+** 3. Use Appropriate Defaults
+#+BEGIN_SRC go
+type Config struct {
+    // Production-safe defaults
+    Host        string        `default:"127.0.0.1"` // Not 0.0.0.0
+    Timeout     time.Duration `default:"30s"`       // Reasonable timeout
+    MaxRetries  int           `default:"3"`         // Reasonable retry count
+    EnableDebug bool          `default:"false"`     // Safe for production
+}
+#+END_SRC
+
+** 4. Document Complex Configurations
+#+BEGIN_SRC go
+type Config struct {
+    // Service discovery endpoints (comma-separated)
+    // Example: "consul:8500,etcd:2379"
+    DiscoveryEndpoints []string `json:"discovery_endpoints"`
+    
+    // Feature flags with service:enabled format
+    // Example: "auth:true,metrics:false,tracing:true"
+    Features map[string]bool `default:"auth:true" json:"features"`
+}
+#+END_SRC
+
+* Troubleshooting
+
+** Common Issues
+
+*** Required field not recognized
+#+BEGIN_EXAMPLE
+Error: required field 'api-key' not set
+#+END_EXAMPLE
+
+*Solution*: Check environment variable naming (API_KEY) or use explicit flag (--api-key)
+
+*** Type conversion error
+#+BEGIN_EXAMPLE
+Error: parsing "invalid" as int: invalid syntax
+#+END_EXAMPLE
+
+*Solution*: Ensure values match the expected type or provide valid defaults
+
+*** Duplicate flag names
+#+BEGIN_EXAMPLE
+Error: flag redefined: host
+#+END_EXAMPLE
+
+*Solution*: Use different struct field names or name tags to avoid conflicts
+
+** Debug Mode
+
+Enable debug output to see how values are being processed:
+
+#+BEGIN_SRC go
+// Enable debug mode before parsing
+cfg.SetDebug(true)
+cfg.Flags(&config)
+#+END_SRC
+
+* API Reference
+
+** Core Functions
+
+*** cfg.Flags(ptrs ...interface{}) error
+Standard flag parsing with full feature set (recommended for most use cases).
+
+*** cfg.Simple(ptrs ...interface{}) error
+Simple parsing without prefixes or nesting.
+
+*** cfg.Nest(ptrs ...interface{}) error
+Nested parsing that preserves struct hierarchy in flag names.
+
+*** cfg.Wrap(prefix string, ptrs ...interface{}) error
+Wrapped parsing that adds a prefix to all flags.
+
+*** cfg.Eval(ptrs ...interface{}) error
+Runtime evaluation without flag parsing.
+
+** Utility Functions
+
+*** cfg.IsSet(flagName string) bool
+Returns true if the flag was explicitly set (not using default value).
+
+*** cfg.Ok(flagName string) bool
+Returns true if required field validation passes.
+
+*** cfg.Required(flagName string) bool
+Returns true if the field is marked as required.
+
+*** cfg.Save(filename string, config interface{}) error
+Save configuration to JSON/YAML file.
+
+*** cfg.Load(filename string, config interface{}) error
+Load configuration from JSON/YAML file.
+
+** Status Functions
+
+*** cfg.SetDebug(enable bool)
+Enable or disable debug output during parsing.
+
+*** cfg.Reset()
+Reset internal state for multiple parsing operations.
+
+* Contributing
+
+We welcome contributions! Please ensure:
+
+1. All code follows Go formatting standards (gofmt)
+2. Add tests for new functionality
+3. Update documentation for API changes
+4. Follow existing patterns and conventions
+
+** Development Setup
+
+#+BEGIN_SRC bash
+git clone https://github.com/davidwalter0/go-cfg
+cd go-cfg
+go mod tidy
+go test ./...
+#+END_SRC
+
+** Running Tests
+
+#+BEGIN_SRC bash
+# Run all tests
+go test ./...
+
+# Run tests with coverage
+go test -cover ./...
+
+# Run specific test
+go test -run TestFlags ./...
+#+END_SRC
+
+* License
+
+This project is licensed under the MIT License - see the [[file:LICENSE][LICENSE]] file for details.
+
+** Copyright Notice
+
+Copyright (c) 2020 David Walter
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
