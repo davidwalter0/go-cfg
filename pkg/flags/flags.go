@@ -67,9 +67,9 @@ func (fc *FlagConfig) RegisterCustomTypes(structPtr interface{}) error {
 		defaultValue := fieldType.Tag.Get("default")
 		required := fieldType.Tag.Get("required") == "true"
 		
-		// Check for environment variable
+		// Check for environment variable (env vars take precedence over defaults)
 		envValue := os.Getenv(envName)
-		if envValue != "" && defaultValue == "" {
+		if envValue != "" {
 			defaultValue = envValue
 		}
 		
@@ -88,64 +88,107 @@ func (fc *FlagConfig) RegisterCustomTypes(structPtr interface{}) error {
 
 // registerFieldType registers a specific field type with pflag
 func (fc *FlagConfig) registerFieldType(field reflect.Value, fieldName, flagName, usage, defaultValue string, required bool) error {
-	fieldType := field.Type()
+	originalFieldType := field.Type()
+	
+	// Get the actual type string for debugging (use original type before pointer handling)
+	typeStr := originalFieldType.String()
 	
 	// Handle pointer types
-	if fieldType.Kind() == reflect.Ptr {
-		fieldType = fieldType.Elem()
-		
+	if originalFieldType.Kind() == reflect.Ptr {
 		// Initialize the pointer if it's nil
 		if field.IsNil() {
-			field.Set(reflect.New(fieldType))
+			// Create instances based on type
+			switch typeStr {
+			case "*types.URLValue":
+				field.Set(reflect.ValueOf(types.NewURLValue(defaultValue)))
+			case "*types.DurationValue":
+				var defaultDuration time.Duration
+				if defaultValue != "" {
+					if d, err := time.ParseDuration(defaultValue); err == nil {
+						defaultDuration = d
+					}
+				}
+				field.Set(reflect.ValueOf(types.NewDurationValue(defaultDuration)))
+			case "*types.HumanDurationValue":
+				var defaultDuration time.Duration
+				if defaultValue != "" {
+					if d, err := time.ParseDuration(defaultValue); err == nil {
+						defaultDuration = d
+					}
+				}
+				field.Set(reflect.ValueOf(types.NewHumanDurationValue(defaultDuration)))
+			case "*types.LogLevelValue":
+				defaultLevel := "info"
+				if defaultValue != "" {
+					defaultLevel = defaultValue
+				}
+				field.Set(reflect.ValueOf(types.NewLogLevelValue(defaultLevel)))
+			case "*types.EnvironmentValue":
+				defaultEnv := "development"
+				if defaultValue != "" {
+					defaultEnv = defaultValue
+				}
+				field.Set(reflect.ValueOf(types.NewEnvironmentValue(defaultEnv)))
+			case "*types.KeyValueValue":
+				kv := types.NewKeyValueValue()
+				if defaultValue != "" {
+					kv.Set(defaultValue)
+				}
+				field.Set(reflect.ValueOf(kv))
+			case "*types.LabelsValue":
+				lv := types.NewLabelsValue()
+				if defaultValue != "" {
+					lv.Set(defaultValue)
+				}
+				field.Set(reflect.ValueOf(lv))
+			case "*types.HostPortValue":
+				hp := types.NewHostPortValue("localhost", 0)
+				if defaultValue != "" {
+					hp.Set(defaultValue)
+				}
+				field.Set(reflect.ValueOf(hp))
+			case "*types.IPValue":
+				field.Set(reflect.ValueOf(types.NewIPValue(defaultValue)))
+			case "*types.CIDRValue":
+				field.Set(reflect.ValueOf(types.NewCIDRValue(defaultValue)))
+			case "*types.PortRangeValue":
+				pr := types.NewPortRangeValue(0, 0)
+				if defaultValue != "" {
+					pr.Set(defaultValue)
+				}
+				field.Set(reflect.ValueOf(pr))
+			case "*types.URLSliceValue":
+				us := types.NewURLSliceValue()
+				if defaultValue != "" {
+					us.Set(defaultValue)
+				}
+				field.Set(reflect.ValueOf(us))
+			default:
+				// For other pointer types, create a new instance
+				elemType := originalFieldType.Elem()
+				field.Set(reflect.New(elemType))
+			}
 		}
+		
+		// Check if the pointer type implements pflag.Value
+		if originalFieldType.Implements(reflect.TypeOf((*pflag.Value)(nil)).Elem()) {
+			// Apply default value if provided (including from environment variables)
+			if defaultValue != "" {
+				if setValue, ok := field.Interface().(interface{ Set(string) error }); ok {
+					setValue.Set(defaultValue)
+				}
+			}
+			fc.FlagSet.Var(field.Interface().(pflag.Value), flagName, usage)
+			return nil
+		}
+		
+		// Dereference for further processing
 		field = field.Elem()
 	}
 	
+	// Handle non-pointer types or types that don't implement pflag.Value
+	fieldType := field.Type()
 	switch {
-	// Custom types implementing pflag.Value interface
-	case field.Type().String() == "*types.URLValue":
-		if field.IsNil() {
-			field.Set(reflect.ValueOf(types.NewURLValue(defaultValue)))
-		}
-		fc.FlagSet.Var(field.Interface().(pflag.Value), flagName, usage)
-		
-	case field.Type().String() == "*types.DurationValue":
-		var defaultDuration time.Duration
-		if defaultValue != "" {
-			if d, err := time.ParseDuration(defaultValue); err == nil {
-				defaultDuration = d
-			}
-		}
-		if field.IsNil() {
-			field.Set(reflect.ValueOf(types.NewDurationValue(defaultDuration)))
-		}
-		fc.FlagSet.Var(field.Interface().(pflag.Value), flagName, usage)
-		
-	case field.Type().String() == "*types.EnumValue":
-		// For EnumValue, we need the valid values from tags
-		// This would need to be initialized with valid values before registration
-		if !field.IsNil() {
-			fc.FlagSet.Var(field.Interface().(pflag.Value), flagName, usage)
-		}
-		
-	case field.Type().String() == "*types.KeyValueValue":
-		if field.IsNil() {
-			field.Set(reflect.ValueOf(types.NewKeyValueValue()))
-		}
-		fc.FlagSet.Var(field.Interface().(pflag.Value), flagName, usage)
-		
-	case field.Type().String() == "*types.HostPortValue":
-		if field.IsNil() {
-			field.Set(reflect.ValueOf(types.NewHostPortValue("localhost", 0)))
-		}
-		fc.FlagSet.Var(field.Interface().(pflag.Value), flagName, usage)
-		
-	case field.Type().String() == "*types.IPValue":
-		if field.IsNil() {
-			field.Set(reflect.ValueOf(types.NewIPValue(defaultValue)))
-		}
-		fc.FlagSet.Var(field.Interface().(pflag.Value), flagName, usage)
-		
 	// Standard types with environment defaults
 	case fieldType.Kind() == reflect.String:
 		if defaultValue == "" {
