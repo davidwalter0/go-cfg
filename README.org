@@ -5,6 +5,7 @@
 #+OPTIONS: toc:3 num:t
 
 * Table of Contents :TOC:
+
 - [[#overview][Overview]]
   - [[#features][Features]]
   - [[#quick-start][Quick Start]]
@@ -15,7 +16,8 @@
 - [[#configuration-sources-priority][Configuration Sources Priority]]
 - [[#parsing-modes][Parsing Modes]]
   - [[#simple-mode][Simple Mode]]
-  - [[#flags-mode-recommended][Flags Mode (Recommended)]]
+  - [[#flatnest-mode-recommended][FlatNest Mode (Recommended)]]
+  - [[#flags-mode][Flags Mode]]
   - [[#nested-mode][Nested Mode]]
   - [[#wrapped-mode][Wrapped Mode]]
 - [[#struct-tags-reference][Struct Tags Reference]]
@@ -32,10 +34,22 @@
   - [[#from-envconfig][From envconfig]]
   - [[#from-flag-package][From flag package]]
 - [[#best-practices][Best Practices]]
+  - [[#1-use-clear-field-names][1. Use Clear Field Names]]
+  - [[#2-group-related-configuration][2. Group Related Configuration]]
+  - [[#3-use-appropriate-defaults][3. Use Appropriate Defaults]]
+  - [[#4-document-complex-configurations][4. Document Complex Configurations]]
 - [[#troubleshooting][Troubleshooting]]
+  - [[#common-issues][Common Issues]]
+  - [[#debug-mode][Debug Mode]]
 - [[#api-reference][API Reference]]
+  - [[#core-functions][Core Functions]]
+  - [[#utility-functions][Utility Functions]]
+  - [[#status-functions][Status Functions]]
 - [[#contributing][Contributing]]
+  - [[#development-setup][Development Setup]]
+  - [[#running-tests][Running Tests]]
 - [[#license][License]]
+  - [[#copyright-notice][Copyright Notice]]
 
 * Overview
 
@@ -68,7 +82,7 @@ go get github.com/davidwalter0/go-cfg
 
 ** Simple Configuration Example
 
-#+BEGIN_SRC go
+#+BEGIN_SRC go :tangle  /tmp/go-cfg/main.go :mkdirp true :tangle-mode o0644 :package 'discard :main no
 package main
 
 import (
@@ -115,9 +129,12 @@ func main() {
 }
 #+END_SRC
 
+#+RESULTS:
+: Configuration loaded: {Host:localhost Port:8080 APIKey: Tags:[web api production web api production] Database:{Host:localhost Port:5432 Name: Username: Password:} Timeouts:map[read:30s write:10s]}
+
 ** Running the Example
 
-#+BEGIN_SRC bash
+#+BEGIN_SRC bash :results org
 # Set environment variables
 export API_KEY="your-secret-key"
 export DATABASE_NAME="myapp"
@@ -125,11 +142,18 @@ export DATABASE_USERNAME="user"
 export DATABASE_PASSWORD="pass"
 
 # Run with default values
-go run main.go
+go run /tmp/go-cfg/main.go
 
 # Override with command-line flags
-go run main.go --host=0.0.0.0 --port=9000 --tags=staging,debug
+go run /tmp/go-cfg/main.go --host=0.0.0.0 --port=9000 --tags=staging,debug
 #+END_SRC
+
+#+RESULTS:
+#+begin_src org
+Configuration loaded: {Host:localhost Port:8080 APIKey: Tags:[web api production web api production] Database:{Host:localhost Port:5432 Name: Username: Password:} Timeouts:map[read:30s write:10s]}
+Configuration loaded: {Host:localhost Port:8080 APIKey:your-secret-key Tags:[web api production web api production] Database:{Host:localhost Port:5432 Name:myapp Username:user Password:pass} Timeouts:map[read:30s write:10s]}
+Configuration loaded: {Host:0.0.0.0 Port:9000 APIKey:your-secret-key Tags:[web api production web api production staging debug] Database:{Host:localhost Port:5432 Name:myapp Username:user Password:pass} Timeouts:map[read:30s write:10s]}
+#+end_src
 
 * Configuration Sources Priority
 
@@ -390,6 +414,7 @@ cfg.Flags(&config)
 * Best Practices
 
 ** 1. Use Clear Field Names
+
 #+BEGIN_SRC go
 // Good
 type Config struct {
@@ -405,6 +430,7 @@ type Config struct {
 #+END_SRC
 
 ** 2. Group Related Configuration
+
 #+BEGIN_SRC go
 type Config struct {
     Database struct {
@@ -423,6 +449,7 @@ type Config struct {
 #+END_SRC
 
 ** 3. Use Appropriate Defaults
+
 #+BEGIN_SRC go
 type Config struct {
     // Production-safe defaults
@@ -434,6 +461,7 @@ type Config struct {
 #+END_SRC
 
 ** 4. Document Complex Configurations
+
 #+BEGIN_SRC go
 type Config struct {
     // Service discovery endpoints (comma-separated)
@@ -451,6 +479,7 @@ type Config struct {
 ** Common Issues
 
 *** Required field not recognized
+
 #+BEGIN_EXAMPLE
 Error: required field 'api-key' not set
 #+END_EXAMPLE
@@ -458,6 +487,7 @@ Error: required field 'api-key' not set
 *Solution*: Check environment variable naming (API_KEY) or use explicit flag (--api-key)
 
 *** Type conversion error
+
 #+BEGIN_EXAMPLE
 Error: parsing "invalid" as int: invalid syntax
 #+END_EXAMPLE
@@ -465,6 +495,7 @@ Error: parsing "invalid" as int: invalid syntax
 *Solution*: Ensure values match the expected type or provide valid defaults
 
 *** Duplicate flag names
+
 #+BEGIN_EXAMPLE
 Error: flag redefined: host
 #+END_EXAMPLE
@@ -486,46 +517,59 @@ cfg.Flags(&config)
 ** Core Functions
 
 *** cfg.FlatNest(ptrs ...interface{}) error
+
 Clean nested flag parsing (recommended for most use cases with nested structures).
 
 *** cfg.Flags(ptrs ...interface{}) error
+
 Standard flag parsing (use only with flat structures or unique field names).
 
 *** cfg.Simple(ptrs ...interface{}) error
+
 Simple parsing without prefixes or nesting.
 
 *** cfg.Nest(ptrs ...interface{}) error
+
 Nested parsing that preserves struct hierarchy in flag names.
 
 *** cfg.Wrap(prefix string, ptrs ...interface{}) error
+
 Wrapped parsing that adds a prefix to all flags.
 
 *** cfg.Eval(ptrs ...interface{}) error
+
 Runtime evaluation without flag parsing.
 
 ** Utility Functions
 
 *** cfg.IsSet(flagName string) bool
+
 Returns true if the flag was explicitly set (not using default value).
 
 *** cfg.Ok(flagName string) bool
+
 Returns true if required field validation passes.
 
 *** cfg.Required(flagName string) bool
+
 Returns true if the field is marked as required.
 
 *** cfg.Save(filename string, config interface{}) error
+
 Save configuration to JSON/YAML file.
 
 *** cfg.Load(filename string, config interface{}) error
+
 Load configuration from JSON/YAML file.
 
 ** Status Functions
 
 *** cfg.SetDebug(enable bool)
+
 Enable or disable debug output during parsing.
 
 *** cfg.Reset()
+
 Reset internal state for multiple parsing operations.
 
 * Contributing

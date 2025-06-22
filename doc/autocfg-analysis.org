@@ -1,0 +1,277 @@
+#+title: AutoCfg System Analysis
+#+author: Claude Code Analysis
+#+date: 2025-06-22
+
+* Overview
+
+The autocfg system located in ~/org/go-configurator/apps/x/autocfg~ provides a sophisticated configuration management framework with multiple configuration loading strategies and automatic discovery mechanisms. This analysis examines its architecture, design patterns, and potential integration points with go-cfg.
+
+* Architecture and Design Patterns
+
+** Core Components
+
+*** AutoCfg Package Structure
+
+- ~pkg/autocfg/autocfg.go~ - Main implementation
+- ~pkg/autocfg/doc.go~ - Package documentation and usage patterns
+- ~pkg/autocfg/autocfg_test.go~ - Test suite with configuration scenarios
+
+*** Command Examples
+
+- ~cmd/auto/main.go~ - Simple autocfg usage example
+- ~cmd/autocfg-ex/main.go~ - Advanced example with multiple modes
+- ~cmd/pre-design-example/main.go~ - Pre-autocfg design showing manual config handling
+
+** Key Design Patterns
+
+*** 1. Configuration Search Strategy Pattern
+
+The system implements multiple search modes using bitwise flags:
+
+#+begin_src go
+type SearchMode int
+
+const (
+    Union SearchMode = 1 << iota  // Merge all found configs
+    First                        // Stop on first found
+    Direct                       // Load direct config files
+    Indirect                     // Load via autocfg pointer files
+)
+#+end_src
+
+*** 2. Hierarchical Configuration Loading
+
+Implements a precedence-based loading system:
+1. File-based configuration (lowest precedence)
+2. Environment variables (medium precedence)  
+3. Command-line flags (highest precedence)
+
+*** 3. Auto-Discovery Pattern
+
+Searches multiple standardized locations:
+- ~/etc/{program-name}/config.json~
+- ~~/.config/{program-name}/config.json~
+- ~.{program-name}.json~ (current directory)
+- ~AUTOCFG_FILENAME~ environment variable override
+
+* Configuration Management Architecture
+
+** Direct vs Indirect Configuration
+
+*** Direct Configuration
+
+Direct files contain the actual configuration:
+#+begin_src json
+{
+    "vault-addr": "https://vault.example.com",
+    "role": "app-role-id",
+    "secret": "secret-id",
+    "debug": true
+}
+#+end_src
+
+*** Indirect Configuration (AutoCfg Files)
+
+Indirect files point to the actual configuration:
+#+begin_src json
+{
+    "path": "/path/to/actual/config.json",
+    "env": {
+        "VAR1": "value1",
+        "VAR2": "value2"
+    }
+}
+#+end_src
+
+** Search Mode Behavior
+
+*** Union Mode (Default: ~Union | Direct~)
+
+- Loads ALL found configuration files
+- Later files override earlier ones ("union dominance")
+- Search order: ~/etc~ → ~~/.config~ → ~local~ → ~$AUTOCFG_FILENAME~
+
+*** First Mode
+
+- Stops at first found configuration
+- Reverse search order: ~$AUTOCFG_FILENAME~ → ~local~ → ~~/.config~ → ~/etc~
+- Useful for environments where only one config should apply
+
+** Key Interfaces and Abstractions
+
+*** Core Functions
+
+#+begin_src go
+// Main entry point - configures object from files, env, flags
+func Configure(obj any) error
+
+// Direct configuration loading
+func LoadDirect(path string, obj any) error
+
+// Indirect configuration loading via autocfg files
+func LoadIndirect(path string, obj any) error
+
+// Generate sample configuration files
+func Generator(obj any)
+
+// Find configuration using current search strategy
+func FindConfiguration() (path string, err error)
+#+end_src
+
+*** Configuration Object Requirements
+
+- Must be a pointer to struct
+- Uses JSON tags for field mapping
+- Supports ~omitempty~ and custom JSON marshaling
+- Compatible with go-cfg flag generation
+
+* Code Generation and Build Processes
+
+** Generator Functionality
+
+The ~Generator~ function creates sample configuration files:
+- Creates ~/tmp/dot.autocfg.json~ (indirect config example)
+- Creates ~/tmp/dot.config.json~ (direct config example)
+- Uses JSON marshaling to generate examples from struct definitions
+
+** Build Integration
+
+- Simple Makefile: ~CGO_ENABLED=0 go build -o bin/ ./autocfg/cmd/... ./rotation/cmd/...~
+- No complex code generation - relies on runtime reflection
+- Compatible with standard Go build toolchain
+
+** Integration with go-cfg
+
+Current integration shows clean separation:
+#+begin_src go
+// In Configure function:
+if err = configure(obj); err != nil {
+    panic(err)
+    return
+}
+if err = cfg.Flags(obj); err != nil {
+    log.Print(err)
+    panic(err)
+}
+#+end_src
+
+* Key Design Strengths
+
+** 1. Flexible Search Strategies
+
+- Multiple modes (Union/First, Direct/Indirect) handle different deployment scenarios
+- Environment variable override (~AUTOCFG_FILENAME~) for dynamic configuration
+
+** 2. Hierarchical Precedence
+
+- Clear precedence: files < env < flags
+- Predictable configuration resolution
+
+** 3. Environment Agnostic
+
+- Works across development, staging, production
+- Standard XDG-compliant paths (~/.config~)
+- System-wide configs (~/etc~)
+
+** 4. Runtime Configuration Discovery
+
+- No build-time dependencies
+- Self-documenting via ~Generator~ function
+- Dynamic path resolution with ~os.ExpandEnv~ and ~homedir.Expand~
+
+* Integration Opportunities with go-cfg
+
+** Complementary Strengths
+
+*** AutoCfg Provides:
+
+- Sophisticated file discovery and loading
+- Multiple configuration merge strategies
+- Indirect configuration via pointer files
+- Environment-aware path resolution
+
+*** go-cfg Provides:
+
+- Advanced flag parsing with pflags
+- Struct tag processing
+- Type-safe configuration binding
+- Help generation and validation
+
+** Potential Integration Patterns
+
+*** 1. Layered Integration
+
+#+begin_src go
+// Use autocfg for file discovery and loading
+err := autocfg.Configure(config)
+if err != nil {
+    return err
+}
+
+// Use go-cfg for flag processing and validation  
+err = cfg.Configure(config)
+if err != nil {
+    return err
+}
+#+end_src
+
+*** 2. Plugin Architecture
+
+- AutoCfg could implement go-cfg's configuration source interface
+- Pluggable configuration backends (file, consul, vault, etc.)
+
+*** 3. Generator Enhancement
+
+- Extend autocfg's ~Generator~ to create go-cfg compatible examples
+- Generate configuration templates with documentation from struct tags
+
+** Migration Considerations
+
+*** For go-cfg Enhancement:
+
+- Adopt autocfg's search mode patterns for flexible configuration discovery
+- Integrate indirect configuration concept for environment-specific configs
+- Implement union dominance for configuration merging
+
+*** For AutoCfg Enhancement:
+
+- Adopt go-cfg's pflag integration for better command-line handling
+- Use go-cfg's struct tag processing for richer metadata
+- Leverage go-cfg's validation and help generation
+
+* Technical Specifications
+
+** Dependencies
+
+- ~github.com/davidwalter0/go-cfg v1.4.1~ - Flag processing integration
+- ~github.com/mitchellh/go-homedir v1.1.0~ - Cross-platform home directory
+- Standard library: ~encoding/json~, ~os~, ~path/filepath~, ~reflect~
+
+** File Format Support
+
+- Primary: JSON configuration files
+- Environment variable expansion in file contents
+- Tilde expansion for home directory paths
+
+** Error Handling
+
+- Graceful degradation with ~Strict~ mode flag
+- Detailed error messages with file paths
+- Panic-based error handling in main ~Configure~ function
+
+* Conclusion
+
+The autocfg system demonstrates sophisticated configuration management
+patterns that could significantly enhance go-cfg's capabilities. Its
+flexible search strategies, hierarchical loading, and
+environment-aware discovery complement go-cfg's flag processing
+strengths.
+
+Key integration opportunities include adopting autocfg's search mode
+patterns, indirect configuration concepts, and multi-source
+configuration merging while leveraging go-cfg's superior flag handling
+and validation capabilities.
+
+The systems are architecturally compatible and could be integrated
+through either layered composition or by extracting core patterns from
+autocfg into go-cfg's configuration discovery mechanisms.
