@@ -12,6 +12,39 @@ import (
 	"github.com/davidwalter0/go-cfg/pkg/flags/types"
 )
 
+// StringSliceValue implements pflag.Value for string slices that preserve empty strings
+type StringSliceValue struct {
+	value []string
+}
+
+func NewStringSliceValue(defaultValue []string) *StringSliceValue {
+	return &StringSliceValue{value: defaultValue}
+}
+
+func (ssv *StringSliceValue) String() string {
+	return strings.Join(ssv.value, ",")
+}
+
+func (ssv *StringSliceValue) Set(s string) error {
+	// If the string is empty, create a slice with one empty string
+	if s == "" {
+		ssv.value = []string{""}
+		return nil
+	}
+	
+	// Split by comma and preserve empty strings
+	ssv.value = strings.Split(s, ",")
+	return nil
+}
+
+func (ssv *StringSliceValue) Type() string {
+	return "stringSlice"
+}
+
+func (ssv *StringSliceValue) GetSlice() []string {
+	return ssv.value
+}
+
 // FlagConfig holds configuration for flag registration
 type FlagConfig struct {
 	FlagSet     *pflag.FlagSet
@@ -19,6 +52,7 @@ type FlagConfig struct {
 	Required    map[string]bool
 	HelpTexts   map[string]string
 	Validators  map[string]func(interface{}) error
+	sliceUpdaters map[string]func() // Functions to update slice fields after parsing
 }
 
 // NewFlagConfig creates a new flag configuration
@@ -28,6 +62,7 @@ func NewFlagConfig() *FlagConfig {
 		Required:   make(map[string]bool),
 		HelpTexts:  make(map[string]string),
 		Validators: make(map[string]func(interface{}) error),
+		sliceUpdaters: make(map[string]func()),
 	}
 }
 
@@ -238,7 +273,12 @@ func (fc *FlagConfig) registerFieldType(field reflect.Value, fieldName, flagName
 			if defaultValue != "" {
 				defaultSlice = strings.Split(defaultValue, ",")
 			}
-			fc.FlagSet.StringSliceVar(field.Addr().Interface().(*[]string), flagName, defaultSlice, usage)
+			// Use custom StringSliceValue to preserve empty strings
+			stringSliceValue := NewStringSliceValue(defaultSlice)
+			fc.FlagSet.Var(stringSliceValue, flagName, usage)
+			
+			// Store reference to update the original field after parsing
+			fc.storeSliceUpdater(flagName, field, stringSliceValue)
 			
 		case reflect.Int:
 			var defaultSlice []int
@@ -253,11 +293,81 @@ func (fc *FlagConfig) registerFieldType(field reflect.Value, fieldName, flagName
 			fc.FlagSet.IntSliceVar(field.Addr().Interface().(*[]int), flagName, defaultSlice, usage)
 			
 		default:
-			return fmt.Errorf("unsupported slice type: %v", fieldType)
+			// Check if it's a time.Duration slice
+			if fieldType.Elem() == reflect.TypeOf(time.Duration(0)) {
+				var defaultSlice []time.Duration
+				if defaultValue != "" {
+					parts := strings.Split(defaultValue, ",")
+					for _, part := range parts {
+						if d, err := time.ParseDuration(strings.TrimSpace(part)); err == nil {
+							defaultSlice = append(defaultSlice, d)
+						}
+					}
+				}
+				fc.FlagSet.DurationSliceVar(field.Addr().Interface().(*[]time.Duration), flagName, defaultSlice, usage)
+			} else {
+				return fmt.Errorf("unsupported slice type: %v", fieldType)
+			}
 		}
+		
+	// Handle nested structs
+	case fieldType.Kind() == reflect.Struct:
+		// Recursively register nested struct fields
+		return fc.registerNestedStruct(field, fieldName, flagName, usage)
 		
 	default:
 		return fmt.Errorf("unsupported field type: %v", fieldType)
+	}
+	
+	return nil
+}
+
+// registerNestedStruct recursively registers fields from nested structs
+func (fc *FlagConfig) registerNestedStruct(structValue reflect.Value, parentName, parentFlagName, parentUsage string) error {
+	structType := structValue.Type()
+	nc := &types.NamingConventions{}
+	
+	for i := 0; i < structValue.NumField(); i++ {
+		field := structValue.Field(i)
+		fieldType := structType.Field(i)
+		
+		// Skip unexported fields
+		if !field.CanSet() {
+			continue
+		}
+		
+		fieldName := fieldType.Name
+		// Create nested flag name: parent-field becomes parent-field-subfield
+		nestedFlagName := parentFlagName + "-" + nc.ToKebabCase(fieldName)
+		// Create nested env name: PARENT_FIELD_SUBFIELD
+		nestedEnvName := nc.ToUpperSnakeCase(parentName + "_" + fieldName)
+		
+		// Get tag information
+		usage := fieldType.Tag.Get("usage")
+		if usage == "" {
+			usage = fieldType.Tag.Get("help")
+		}
+		if usage == "" {
+			usage = fmt.Sprintf("%s %s configuration", parentName, fieldName)
+		}
+		
+		defaultValue := fieldType.Tag.Get("default")
+		required := fieldType.Tag.Get("required") == "true"
+		
+		// Check for environment variable (env vars take precedence over defaults)
+		envValue := os.Getenv(nestedEnvName)
+		if envValue != "" {
+			defaultValue = envValue
+		}
+		
+		// Register the nested field using the same logic as top-level fields
+		if err := fc.registerFieldType(field, parentName+"_"+fieldName, nestedFlagName, usage, defaultValue, required); err != nil {
+			return fmt.Errorf("failed to register nested field %s.%s: %w", parentName, fieldName, err)
+		}
+		
+		if required {
+			fc.Required[nestedFlagName] = true
+		}
 	}
 	
 	return nil
@@ -267,6 +377,11 @@ func (fc *FlagConfig) registerFieldType(field reflect.Value, fieldName, flagName
 func (fc *FlagConfig) Parse(args []string) error {
 	if err := fc.FlagSet.Parse(args); err != nil {
 		return err
+	}
+	
+	// Update slice fields with parsed values
+	for _, updater := range fc.sliceUpdaters {
+		updater()
 	}
 	
 	// Validate required fields
@@ -316,6 +431,14 @@ func (fc *FlagConfig) SetRequired(fieldName string) {
 // Usage returns the usage string for all registered flags
 func (fc *FlagConfig) Usage() string {
 	return fc.FlagSet.FlagUsages()
+}
+
+// storeSliceUpdater stores a function to update a slice field after parsing
+func (fc *FlagConfig) storeSliceUpdater(flagName string, field reflect.Value, stringSliceValue *StringSliceValue) {
+	fc.sliceUpdaters[flagName] = func() {
+		// Update the original slice field with the parsed values
+		field.Set(reflect.ValueOf(stringSliceValue.GetSlice()))
+	}
 }
 
 // Helper functions for common flag registration patterns

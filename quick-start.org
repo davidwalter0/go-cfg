@@ -1,0 +1,535 @@
+#+TITLE: go-cfg Quick Start Guide
+#+SUBTITLE: Structural Representations and Common Usage Patterns
+#+AUTHOR: go-cfg Project
+#+DATE: [2025-06-21 Fri]
+#+STARTUP: overview
+#+OPTIONS: toc:3
+
+* Overview
+
+This guide demonstrates various structural representations and usage patterns for the go-cfg configuration system, focusing on practical examples using the enhanced pkg/flags package.
+
+* Basic Configuration Structures
+
+** Simple Configuration
+
+#+begin_src go :tangle examples/simple-config.go :results org :main no :package discard :mkdirp yes :tangle-mode o0644
+package main
+
+import (
+	"fmt"
+	"os"
+	"time"
+	
+	"github.com/davidwalter0/go-cfg/pkg/flags"
+	"github.com/davidwalter0/go-cfg/pkg/flags/types"
+)
+
+type SimpleConfig struct {
+	Name    string `usage:"Application name" default:"myapp"`
+	Port    int    `usage:"Server port" default:"8080"`
+	Debug   bool   `usage:"Enable debug mode"`
+	Timeout time.Duration `usage:"Request timeout" default:"30s"`
+}
+
+func main() {
+	config := &SimpleConfig{}
+	
+	fc := flags.NewFlagConfig()
+	if err := fc.RegisterCustomTypes(config); err != nil {
+		fmt.Printf("Error: %v\n", err)
+		os.Exit(1)
+	}
+	
+	if err := fc.Parse(os.Args[1:]); err != nil {
+		fmt.Printf("Parse error: %v\n", err)
+		os.Exit(1)
+	}
+	
+	fmt.Printf("Config: %+v\n", config)
+}
+#+end_src
+
+** Usage Examples:
+#+begin_example
+# Command line
+./simple-config --name "My API" --port 9090 --debug --timeout 1m
+
+# Environment variables
+export NAME="My API"
+export PORT=9090
+export DEBUG=true
+export TIMEOUT=60s
+./simple-config
+#+end_example
+
+** Enhanced Types Configuration
+
+#+begin_src go :tangle examples/enhanced-config.go :results org :main no :package discard :mkdirp yes :tangle-mode o0644
+type EnhancedConfig struct {
+	// URLs with validation
+	APIEndpoint  *types.URLValue      `usage:"API endpoint URL" default:"https://api.example.com"`
+	DatabaseURL  *types.URLValue      `usage:"Database connection URL"`
+	
+	// Durations with flexible parsing
+	Timeout      *types.DurationValue `usage:"Request timeout" default:"30s"`
+	KeepAlive    *types.DurationValue `usage:"Keep alive duration" default:"10m"`
+	
+	// Enums with validation
+	LogLevel     *types.LogLevelValue      `usage:"Log level" default:"info"`
+	Environment  *types.EnvironmentValue   `usage:"Environment" default:"development"`
+	
+	// Network types
+	ListenAddr   *types.HostPortValue      `usage:"Listen address" default:"localhost:8080"`
+	
+	// Key-value pairs
+	Labels       *types.KeyValueValue      `usage:"Key-value labels"`
+}
+
+func NewEnhancedConfig() *EnhancedConfig {
+	return &EnhancedConfig{
+		APIEndpoint: types.NewURLValue("https://api.example.com"),
+		DatabaseURL: types.NewURLValue(""),
+		Timeout:     types.NewDurationValue(30 * time.Second),
+		KeepAlive:   types.NewDurationValue(10 * time.Minute),
+		LogLevel:    types.NewLogLevelValue("info"),
+		Environment: types.NewEnvironmentValue("development"),
+		ListenAddr:  types.NewHostPortValue("localhost:8080"),
+		Labels:      types.NewKeyValueValue(map[string]string{}),
+	}
+}
+#+end_src
+
+** Usage Examples:
+#+begin_example
+# Complex configuration
+./enhanced-config \
+  --api-endpoint "https://prod-api.company.com/v1" \
+  --database-url "postgres://user:pass@db:5432/myapp" \
+  --timeout "2m30s" \
+  --log-level "warn" \
+  --environment "production" \
+  --listen-addr "0.0.0.0:8080" \
+  --labels "service=api,version=v2.1.0,tier=production"
+#+end_example
+
+* Slice and Array Configurations
+
+** String Slices with Edge Case Handling
+
+#+begin_src go :tangle examples/slice-config.go :results org :main no :package discard :mkdirp yes :tangle-mode o0644
+type SliceConfig struct {
+	// String slices that preserve empty strings
+	Tags         []string        `usage:"Application tags" default:"api,service"`
+	AllowedHosts []string        `usage:"Allowed hostnames"`
+	
+	// Integer slices  
+	Ports        []int           `usage:"Service ports" default:"8080,9090"`
+	
+	// Duration slices
+	Timeouts     []time.Duration `usage:"Timeout intervals" default:"1s,5s,30s"`
+	RetryDelays  []time.Duration `usage:"Retry delay intervals"`
+}
+#+end_src
+
+** Slice Usage Examples:
+#+begin_example
+# Empty string preservation
+./slice-config --tags "prod,api," --allowed-hosts ",localhost,127.0.0.1,"
+# Result: Tags=["prod","api",""], AllowedHosts=["","localhost","127.0.0.1",""]
+
+# Multiple ports
+./slice-config --ports "8080,8443,9000"
+
+# Duration arrays
+./slice-config --timeouts "100ms,1s,10s,1m" --retry-delays "1s,2s,4s,8s"
+
+# Environment variable slices (comma-separated)
+export TAGS="frontend,backend,api"
+export PORTS="3000,8080,8443"
+export TIMEOUTS="500ms,2s,30s"
+#+end_example
+
+* Nested Structure Configurations
+
+** Hierarchical Configuration
+
+#+begin_src go :tangle examples/nested-config.go :results org :main no :package discard :mkdirp yes :tangle-mode o0644
+type DatabaseConfig struct {
+	Host        string        `usage:"Database host" default:"localhost"`
+	Port        int           `usage:"Database port" default:"5432"`
+	Name        string        `usage:"Database name" default:"myapp"`
+	Timeout     time.Duration `usage:"Connection timeout" default:"10s"`
+	MaxConns    int           `usage:"Max connections" default:"25"`
+	ReadOnly    bool          `usage:"Read-only mode"`
+}
+
+type ServerConfig struct {
+	Host         string        `usage:"Server host" default:"0.0.0.0"`
+	Port         int           `usage:"Server port" default:"8080"`
+	ReadTimeout  time.Duration `usage:"Read timeout" default:"30s"`
+	WriteTimeout time.Duration `usage:"Write timeout" default:"30s"`
+}
+
+type NestedConfig struct {
+	AppName  string          `usage:"Application name" default:"myapp"`
+	Debug    bool            `usage:"Debug mode"`
+	Database DatabaseConfig  `usage:"Database configuration"`
+	Server   ServerConfig    `usage:"Server configuration"`
+}
+#+end_src
+
+** Nested Structure Usage:
+#+begin_example
+# Nested flags use dot notation converted to kebab-case
+./nested-config \
+  --app-name "My API Service" \
+  --debug \
+  --database-host "prod-db.company.com" \
+  --database-port 5432 \
+  --database-timeout "30s" \
+  --database-max-conns 50 \
+  --server-host "0.0.0.0" \
+  --server-port 8080 \
+  --server-read-timeout "60s"
+
+# Environment variables for nested structures
+export APP_NAME="My API Service"
+export DEBUG=true
+export DATABASE_HOST="prod-db.company.com"
+export DATABASE_PORT=5432
+export DATABASE_TIMEOUT=30s
+export SERVER_PORT=8080
+#+end_example
+
+* Complex Mixed Configurations
+
+** Production-Ready Configuration
+
+#+begin_src go :tangle examples/production-config.go :results org :main no :package discard :mkdirp yes :tangle-mode o0644
+type SecurityConfig struct {
+	TLSCertFile string   `usage:"TLS certificate file"`
+	TLSKeyFile  string   `usage:"TLS private key file"`
+	AllowedIPs  []string `usage:"Allowed IP addresses"`
+	APIKeys     []string `usage:"Valid API keys"`
+}
+
+type MonitoringConfig struct {
+	MetricsAddr    *types.HostPortValue `usage:"Metrics server address" default:"localhost:9090"`
+	HealthAddr     *types.HostPortValue `usage:"Health check address" default:"localhost:8081"`
+	LogLevel       *types.LogLevelValue `usage:"Log level" default:"info"`
+	TraceEndpoint  *types.URLValue      `usage:"Tracing endpoint"`
+}
+
+type ProductionConfig struct {
+	// Basic settings
+	ServiceName string               `usage:"Service name" default:"api-service"`
+	Environment *types.EnvironmentValue `usage:"Environment" default:"production"`
+	Version     string               `usage:"Service version" default:"1.0.0"`
+	
+	// Network configuration
+	ListenAddr  *types.HostPortValue `usage:"Listen address" default:"0.0.0.0:8080"`
+	ExternalURL *types.URLValue      `usage:"External service URL"`
+	
+	// Timing configuration
+	Timeouts    []time.Duration      `usage:"Operation timeouts" default:"1s,10s,60s"`
+	
+	// Resource limits
+	MaxConnections int              `usage:"Maximum concurrent connections" default:"1000"`
+	WorkerCount    int              `usage:"Worker goroutine count" default:"10"`
+	
+	// Feature flags
+	EnableMetrics bool             `usage:"Enable metrics collection" default:"true"`
+	EnableTracing bool             `usage:"Enable distributed tracing"`
+	EnableCaching bool             `usage:"Enable response caching" default:"true"`
+	
+	// Nested configurations
+	Security   SecurityConfig       `usage:"Security settings"`
+	Monitoring MonitoringConfig     `usage:"Monitoring settings"`
+	
+	// Labels and metadata
+	Labels     *types.KeyValueValue `usage:"Service labels"`
+}
+
+func NewProductionConfig() *ProductionConfig {
+	return &ProductionConfig{
+		Environment: types.NewEnvironmentValue("production"),
+		ListenAddr:  types.NewHostPortValue("0.0.0.0:8080"),
+		ExternalURL: types.NewURLValue(""),
+		Labels:      types.NewKeyValueValue(map[string]string{}),
+		Monitoring: MonitoringConfig{
+			MetricsAddr:   types.NewHostPortValue("localhost:9090"),
+			HealthAddr:    types.NewHostPortValue("localhost:8081"),
+			LogLevel:      types.NewLogLevelValue("info"),
+			TraceEndpoint: types.NewURLValue(""),
+		},
+	}
+}
+#+end_src
+
+** Complex Configuration Usage:
+#+begin_example
+# Full production configuration
+./production-service \
+  --service-name "user-api" \
+  --environment "production" \
+  --version "v2.1.0" \
+  --listen-addr "0.0.0.0:8080" \
+  --external-url "https://api.company.com/users" \
+  --timeouts "500ms,5s,30s,2m" \
+  --max-connections 2000 \
+  --worker-count 20 \
+  --enable-metrics \
+  --enable-tracing \
+  --security-tls-cert-file "/etc/ssl/cert.pem" \
+  --security-tls-key-file "/etc/ssl/key.pem" \
+  --security-allowed-ips "10.0.0.0/8,172.16.0.0/12" \
+  --monitoring-metrics-addr "0.0.0.0:9090" \
+  --monitoring-log-level "warn" \
+  --monitoring-trace-endpoint "http://jaeger:14268/api/traces" \
+  --labels "service=user-api,version=v2.1.0,env=prod,tier=api"
+#+end_example
+
+* Environment Variable Patterns
+
+** Development Environment File (.env)
+#+begin_src bash :tangle examples/.env.development :results org :shebang #!/usr/bin/env bash :mkdirp yes :comments org :padline yes :tangle-mode o0644
+# Basic configuration
+SERVICE_NAME=user-api-dev
+ENVIRONMENT=development
+VERSION=dev
+DEBUG=true
+
+# Network
+LISTEN_ADDR=localhost:8080
+EXTERNAL_URL=http://localhost:8080
+
+# Database
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_NAME=userapi_dev
+DATABASE_TIMEOUT=5s
+DATABASE_MAX_CONNS=10
+
+# Timeouts (comma-separated for slices)
+TIMEOUTS=1s,10s,60s
+
+# Security
+SECURITY_ALLOWED_IPS=127.0.0.1,::1
+
+# Monitoring  
+MONITORING_METRICS_ADDR=localhost:9090
+MONITORING_HEALTH_ADDR=localhost:8081
+MONITORING_LOG_LEVEL=debug
+
+# Labels (comma-separated key=value pairs)
+LABELS=service=user-api,env=dev,version=dev
+#+end_src
+
+** Production Environment File (.env.production)
+#+begin_src bash :tangle examples/.env.production :results org :shebang #!/usr/bin/env bash :mkdirp yes :comments org :padline yes :tangle-mode o0644
+# Basic configuration
+SERVICE_NAME=user-api
+ENVIRONMENT=production
+VERSION=v2.1.0
+DEBUG=false
+
+# Network
+LISTEN_ADDR=0.0.0.0:8080
+EXTERNAL_URL=https://api.company.com/users
+
+# Database
+DATABASE_HOST=prod-db.company.com
+DATABASE_PORT=5432
+DATABASE_NAME=userapi_prod
+DATABASE_TIMEOUT=30s
+DATABASE_MAX_CONNS=100
+
+# Performance
+MAX_CONNECTIONS=2000
+WORKER_COUNT=50
+TIMEOUTS=500ms,5s,30s,2m
+
+# Security
+SECURITY_TLS_CERT_FILE=/etc/ssl/certs/api.crt
+SECURITY_TLS_KEY_FILE=/etc/ssl/private/api.key
+SECURITY_ALLOWED_IPS=10.0.0.0/8,172.16.0.0/12
+
+# Monitoring
+ENABLE_METRICS=true
+ENABLE_TRACING=true
+MONITORING_METRICS_ADDR=0.0.0.0:9090
+MONITORING_LOG_LEVEL=warn
+MONITORING_TRACE_ENDPOINT=http://jaeger.monitoring:14268/api/traces
+
+# Labels
+LABELS=service=user-api,version=v2.1.0,env=prod,tier=api,team=platform
+#+end_src
+
+* Configuration Loading Patterns
+
+** Complete Example with Error Handling
+
+#+begin_src go :tangle examples/complete-example.go :results org :main no :package discard :mkdirp yes :tangle-mode o0644
+package main
+
+import (
+	"fmt"
+	"log"
+	"os"
+	
+	"github.com/davidwalter0/go-cfg/pkg/flags"
+	"github.com/davidwalter0/go-cfg/pkg/flags/types"
+)
+
+type AppConfig struct {
+	ServiceName string                   `usage:"Service name" default:"myservice"`
+	Environment *types.EnvironmentValue  `usage:"Environment" default:"development"`
+	ListenAddr  *types.HostPortValue     `usage:"Listen address" default:"localhost:8080"`
+	LogLevel    *types.LogLevelValue     `usage:"Log level" default:"info"`
+	
+	// Slice configurations
+	Tags        []string                 `usage:"Service tags"`
+	Timeouts    []time.Duration          `usage:"Timeout values" default:"1s,5s,30s"`
+	
+	// Nested configuration
+	Database    DatabaseConfig           `usage:"Database configuration"`
+}
+
+type DatabaseConfig struct {
+	Host     string `usage:"Database host" default:"localhost"`
+	Port     int    `usage:"Database port" default:"5432"`
+	Username string `usage:"Database username" default:"user"`
+	Password string `usage:"Database password"`
+	Database string `usage:"Database name" default:"myapp"`
+}
+
+func NewAppConfig() *AppConfig {
+	return &AppConfig{
+		Environment: types.NewEnvironmentValue("development"),
+		ListenAddr:  types.NewHostPortValue("localhost:8080"),
+		LogLevel:    types.NewLogLevelValue("info"),
+	}
+}
+
+func (c *AppConfig) Validate() error {
+	if c.ServiceName == "" {
+		return fmt.Errorf("service name is required")
+	}
+	
+	if c.Database.Password == "" && c.Environment.GetEnvironment() == "production" {
+		return fmt.Errorf("database password required in production")
+	}
+	
+	return nil
+}
+
+func main() {
+	// Initialize configuration with defaults
+	config := NewAppConfig()
+	
+	// Create flag configuration
+	fc := flags.NewFlagConfig()
+	
+	// Add custom validation
+	fc.AddValidator("ServiceName", func(value interface{}) error {
+		if s, ok := value.(string); ok && len(s) < 3 {
+			return fmt.Errorf("service name must be at least 3 characters")
+		}
+		return nil
+	})
+	
+	// Mark required fields
+	fc.SetRequired("ServiceName")
+	
+	// Register all configuration fields
+	if err := fc.RegisterCustomTypes(config); err != nil {
+		log.Fatalf("Failed to register configuration: %v", err)
+	}
+	
+	// Parse command line arguments and environment variables
+	if err := fc.Parse(os.Args[1:]); err != nil {
+		log.Fatalf("Failed to parse configuration: %v", err)
+	}
+	
+	// Validate the complete configuration
+	if err := config.Validate(); err != nil {
+		log.Fatalf("Invalid configuration: %v", err)
+	}
+	
+	// Display final configuration
+	fmt.Printf("=== Final Configuration ===\n")
+	fmt.Printf("Service: %s\n", config.ServiceName)
+	fmt.Printf("Environment: %s\n", config.Environment.GetEnvironment())
+	fmt.Printf("Listen Address: %s\n", config.ListenAddr.String())
+	fmt.Printf("Log Level: %s\n", config.LogLevel.GetLevel())
+	fmt.Printf("Tags: %v\n", config.Tags)
+	fmt.Printf("Timeouts: %v\n", config.Timeouts)
+	fmt.Printf("Database: %s@%s:%d/%s\n", 
+		config.Database.Username, 
+		config.Database.Host, 
+		config.Database.Port,
+		config.Database.Database)
+}
+#+end_src
+
+* Common Usage Patterns
+
+** Pattern 1: Microservice Configuration
+- Basic service identification (name, version, environment)
+- Network configuration (listen address, external URL)
+- Resource limits (timeouts, connections, workers)
+- Feature flags (metrics, tracing, caching)
+- Labels/metadata for service discovery
+
+** Pattern 2: Database-Connected Service
+- Database connection parameters (host, port, credentials)
+- Connection pooling settings (max connections, timeouts)
+- Migration and backup configurations
+- Read/write splitting configuration
+
+** Pattern 3: Multi-Environment Deployment
+- Environment-specific defaults
+- Conditional validation (stricter in production)
+- Feature toggles per environment
+- Security settings (TLS, allowed IPs, API keys)
+
+** Pattern 4: Monitoring and Observability
+- Metrics collection endpoints
+- Log level configuration
+- Tracing configuration
+- Health check endpoints
+- Alert thresholds and configurations
+
+* Best Practices
+
+** Configuration Structure
+1. Group related settings into nested structs
+2. Use meaningful default values
+3. Provide clear usage descriptions
+4. Implement validation for critical settings
+5. Use appropriate types (time.Duration vs int, URL vs string)
+
+** Environment Variables
+1. Use UPPER_SNAKE_CASE consistently
+2. Prefix with application name for isolation
+3. Document all environment variables
+4. Provide example .env files for each environment
+
+** Validation
+1. Validate early (at startup)
+2. Provide helpful error messages
+3. Use type-specific validation where possible
+4. Implement cross-field validation when needed
+
+** Security
+1. Never log sensitive configuration values
+2. Use separate credential management for secrets
+3. Validate all network inputs (URLs, IP addresses)
+4. Implement proper access controls for configuration
+
+#+BEGIN_COMMENT
+This quick-start guide covers the major structural patterns for go-cfg
+configurations, from simple to complex real-world scenarios.
+All examples are production-ready and follow best practices.
+#+END_COMMENT

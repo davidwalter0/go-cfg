@@ -112,11 +112,16 @@ func ParseStruct(args *Arg, ptr interface{}, prefix string, structField reflect.
 			ptr := elem.Field(i).Addr().Interface()
 			sfwrap := &SFWrap{indirect.Type().Field(i)}
 			if args.Prefixed && len(prefix) != 0 {
-				name = Capitalize(prefix) + "_" + sfwrap.GetName()
-				// name = Capitalize(prefix) + "_" + Capitalize(indirect.Type().Field(i).Name)
+				// Check if we should skip root prefix (FlatNest mode)
+				if args.SkipRootPrefix && depth == 0 {
+					// At root level with SkipRootPrefix, just use field name
+					name = Capitalize(sfwrap.GetName())
+				} else {
+					// Normal nested prefixing
+					name = Capitalize(prefix) + "_" + sfwrap.GetName()
+				}
 			} else {
 				name = Capitalize(sfwrap.GetName())
-				// name = Capitalize(indirect.Type().Field(i).Name)
 			}
 			args.Depth++
 			err = ParseStruct(args, ptr, name, etype.Field(i))

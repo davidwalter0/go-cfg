@@ -87,8 +87,11 @@ Examples:
 
 	// Load configuration file if specified
 	if config.ConfigFile != "" {
-		if err := cfg.Load(config.ConfigFile, &config); err != nil {
+		stor := cfg.NewStor()
+		if err := stor.Load(config.ConfigFile); err != nil {
 			log.Printf("Warning: Could not load config file '%s': %v", config.ConfigFile, err)
+		} else if err := cfg.CopyOut(stor, &config); err != nil {
+			log.Printf("Warning: Could not copy loaded configuration: %v", err)
 		} else {
 			fmt.Printf("Loaded configuration from: %s\n", config.ConfigFile)
 		}

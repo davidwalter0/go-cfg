@@ -1,0 +1,109 @@
+#+TITLE: go-cfg Documentation Index
+#+AUTHOR: go-cfg Development Team
+#+DATE: 2025-06-22
+
+* Documentation Overview
+
+This directory contains comprehensive documentation for the go-cfg configuration library.
+
+* Quick Start
+
+For immediate usage, see the [[file:go-cfg-reference.org][Reference Documentation]] which covers:
+- FlatNest() for clean flag naming
+- Configuration modes and best practices
+- Complete working examples
+
+* Documentation Files
+
+** Primary Documentation
+- [[file:go-cfg-reference.org][go-cfg Reference]] - Complete API reference and usage guide
+- [[file:checkpoint-migrate-legacy-to-pflag.org][Migration Guide]] - Legacy to pflag transition documentation
+
+** Examples
+- [[file:example-complete.go][Complete Example]] - Full application configuration example
+- [[file:../examples/microservice/main.go][Microservice Example]] - Complex nested configuration
+- [[file:../examples/webserver/main.go][Web Server Example]] - Basic server configuration
+
+** Implementation Details
+- [[file:../pkg/flags/][Flags Package]] - Core flag handling implementation
+- [[file:../cmd/struct-tag-parser-example/][Struct Tag Parser]] - Comment extraction and tag generation
+
+* Key Features Summary
+
+| Feature | Description | Status |
+|---------|-------------|--------|
+| FlatNest() | Clean nested flags without verbose prefixes | ✅ Complete |
+| Environment Variables | Automatic SCREAMING_SNAKE_CASE mapping | ✅ Complete |
+| Help Enhancement | Environment variable display in help text | ✅ Complete |
+| Slice Support | Comma-separated value parsing with edge cases | ✅ Complete |
+| Duration Support | time.Duration parsing and validation | ✅ Complete |
+| Map Support | Key-value pair configuration | ✅ Complete |
+| Config Files | YAML/JSON file loading and saving | ✅ Complete |
+| Type Safety | Automatic type conversion and validation | ✅ Complete |
+
+* Configuration Modes Comparison
+
+| Mode | Flag Example | Use Case | Collision Risk |
+|------|--------------|----------|----------------|
+| FlatNest() | =--api-host= | **Recommended** - Clean flags with structure | Low |
+| Nest() | =--config-api-host= | Full hierarchy needed | None |
+| Flags() | =--host= | Simple flat structures only | High |
+
+* Development Status
+
+** Completed Features
+- ✅ Modern pflag-based flag handling
+- ✅ FlatNest() implementation for clean flag names  
+- ✅ Slice edge case handling (empty string preservation)
+- ✅ Enhanced help text with environment variable display
+- ✅ Duration slice support
+- ✅ Configuration file save/load functionality
+- ✅ Comprehensive example applications
+
+** Current Focus
+- Load/store process simplification
+- Additional convenience functions
+- Extended test coverage
+
+* Getting Started
+
+1. **Choose Configuration Mode**: Use FlatNest() for most applications
+2. **Define Struct**: Create configuration struct with appropriate tags
+3. **Parse Configuration**: Call cfg.FlatNest(&config)
+4. **Add Help Text**: Provide usage examples and required fields
+5. **Handle Config Files**: Load YAML/JSON as needed
+
+* Example Usage
+
+#+begin_src go
+type Config struct {
+    ServiceName string `required:"true" json:"service_name"`
+    API struct {
+        Host string `default:"localhost" json:"host"`
+        Port int    `default:"8080" json:"port"`
+    } `json:"api"`
+}
+
+func main() {
+    var config Config
+    cfg.HelpText("My Application - Configure with --service-name and --api-port")
+    if err := cfg.FlatNest(&config); err != nil {
+        log.Fatal(err)
+    }
+    // Use config...
+}
+#+end_src
+
+This generates clean flags: =--service-name=, =--api-host=, =--api-port=
+
+* Contributing
+
+When adding new features or fixing issues:
+1. Update relevant documentation in this directory
+2. Add examples demonstrating the feature
+3. Update the reference documentation
+4. Test with the example applications
+
+* Support
+
+For issues and feature requests, see the project repository and existing examples for guidance.

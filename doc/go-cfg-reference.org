@@ -1,0 +1,319 @@
+#+TITLE: go-cfg Reference Documentation
+#+AUTHOR: go-cfg Development Team
+#+DATE: 2025-06-22
+
+* Overview
+
+go-cfg is a modern Go configuration library that provides flexible struct-based configuration with support for command-line flags, environment variables, and configuration files. Built on pflag, it offers clean flag naming, nested structure support, and multiple configuration modes.
+
+* Key Features
+
+- **Multiple Configuration Sources**: Command-line flags, environment variables, YAML/JSON files
+- **Struct-based Configuration**: Use Go structs to define your configuration schema
+- **Clean Flag Naming**: FlatNest() provides intuitive flag names without verbose prefixes
+- **Nested Structure Support**: Handle complex configuration hierarchies
+- **Type Safety**: Automatic type conversion and validation
+- **Environment Variable Mapping**: Automatic SCREAMING_SNAKE_CASE conversion
+- **Help Text Enhancement**: Built-in help with environment variable mappings
+
+* Configuration Modes
+
+** FlatNest() - Recommended for Most Use Cases
+
+Clean nested flags without top-level struct name prefixes:
+
+#+begin_src go :tangle no
+type Config struct {
+    ServiceName string
+    API struct {
+        Host string
+        Port int
+    }
+    Database struct {
+        Host string
+        Port int
+        Name string
+    }
+}
+
+var config Config
+err := cfg.FlatNest(&config)
+#+end_src
+
+Generates flags:
+- =--service-name= (not =--config-service-name=)
+- =--api-host=, =--api-port=
+- =--database-host=, =--database-port=, =--database-name=
+
+** Nest() - Full Hierarchical Prefixing
+
+Include top-level struct name in all flags:
+
+#+begin_src go :tangle no
+err := cfg.Nest(&config)
+#+end_src
+
+Generates flags:
+- =--config-service-name=
+- =--config-api-host=, =--config-api-port=
+- =--config-database-host=, =--config-database-port=
+
+** Flags() - Flat Structure (No Prefixes)
+
+Use only when struct fields have unique names:
+
+#+begin_src go :tangle no
+err := cfg.Flags(&config)
+#+end_src
+
+Generates flags:
+- =--service-name=
+- =--host= (collision risk with multiple host fields)
+- =--port= (collision risk with multiple port fields)
+
+* Environment Variables
+
+All configuration fields are automatically mapped to environment variables:
+
+| Flag | Environment Variable |
+|------|---------------------|
+| =--service-name= | =SERVICE_NAME= |
+| =--api-host= | =API_HOST= |
+| =--database-port= | =DATABASE_PORT= |
+
+* Struct Tags
+
+Control field behavior with struct tags:
+
+#+begin_src go :tangle no
+type Config struct {
+    ServiceName string `required:"true" json:"service_name"`
+    Port        int    `default:"8080" json:"port"`
+    Debug       bool   `default:"false" json:"debug"`
+    Features    map[string]bool `default:"auth:true,metrics:true" json:"features"`
+    Endpoints   []string `default:"consul:8500,etcd:2379" json:"endpoints"`
+}
+#+end_src
+
+** Available Tags
+
+- =required:"true"= - Field must be provided
+- =default:"value"= - Default value if not specified
+- =json:"name"= - Override field name for flags/env vars
+- =short:"x"= - Single-letter flag shortcut
+
+* Configuration File Support
+
+Load configuration from YAML or JSON files:
+
+#+begin_src go :tangle no
+// After parsing flags
+if config.ConfigFile != "" {
+    stor := cfg.NewStor()
+    if err := stor.Load(config.ConfigFile); err != nil {
+        log.Printf("Could not load config file: %v", err)
+    } else if err := cfg.CopyOut(stor, &config); err != nil {
+        log.Printf("Could not copy configuration: %v", err)
+    }
+}
+#+end_src
+
+* Saving Configuration
+
+Save current configuration state:
+
+#+begin_src go :tangle no
+stor := cfg.NewStor()
+if err := cfg.CopyOut(config, &stor); err != nil {
+    log.Printf("Could not copy configuration: %v", err)
+} else if err := stor.Save("config.yaml"); err != nil {
+    log.Printf("Could not save configuration: %v", err)
+}
+#+end_src
+
+* Help Text Enhancement
+
+Add custom help text with usage examples:
+
+#+begin_src go :tangle no
+cfg.HelpText(`
+MyApp Configuration
+
+Required Configuration:
+  --service-name, --database-name
+
+Examples:
+  # Minimal setup
+  ./myapp --service-name=api --database-name=mydb
+
+  # Full configuration
+  ./myapp --config-file=production.yaml
+`)
+#+end_src
+
+* Complete Example
+
+#+begin_src go :tangle /home/david/org/go-cfg/doc/example-complete.go :results org :main no :package 'discard :mkdirp yes :tangle-mode o0644
+package main
+
+import (
+    "fmt"
+    "log"
+    "time"
+    "github.com/davidwalter0/go-cfg"
+)
+
+type AppConfig struct {
+    // Service identification
+    ServiceName string `required:"true" json:"service_name"`
+    Version     string `default:"1.0.0" json:"version"`
+    Environment string `default:"development" json:"environment"`
+
+    // Server configuration
+    Server struct {
+        Host      string        `default:"localhost" json:"host"`
+        Port      int           `default:"8080" json:"port"`
+        Timeout   time.Duration `default:"30s" json:"timeout"`
+        EnableTLS bool          `default:"false" json:"enable_tls"`
+    } `json:"server"`
+
+    // Database configuration
+    Database struct {
+        Host     string `default:"localhost" json:"host"`
+        Port     int    `default:"5432" json:"port"`
+        Name     string `required:"true" json:"name"`
+        Username string `required:"true" json:"username"`
+        Password string `required:"true" json:"password"`
+    } `json:"database"`
+
+    // Feature flags
+    Features map[string]bool `default:"auth:true,metrics:true" json:"features"`
+}
+
+func main() {
+    var config AppConfig
+
+    // Add help text
+    cfg.HelpText(`
+Application Configuration
+
+Required fields:
+  --service-name, --database-name, --database-username, --database-password
+
+Examples:
+  ./app --service-name=myapp --database-name=mydb --database-username=user --database-password=secret
+  ./app --config-file=config.yaml
+`)
+
+    // Parse configuration using FlatNest for clean flag names
+    if err := cfg.FlatNest(&config); err != nil {
+        log.Fatalf("Configuration error: %v", err)
+    }
+
+    // Display configuration
+    fmt.Printf("Service: %s v%s (%s)\n", 
+        config.ServiceName, config.Version, config.Environment)
+    fmt.Printf("Server: %s:%d (TLS: %v)\n", 
+        config.Server.Host, config.Server.Port, config.Server.EnableTLS)
+    fmt.Printf("Database: %s@%s:%d/%s\n", 
+        config.Database.Username, config.Database.Host, 
+        config.Database.Port, config.Database.Name)
+
+    // Save current configuration
+    stor := cfg.NewStor()
+    if err := cfg.CopyOut(config, &stor); err == nil {
+        stor.Save("current-config.yaml")
+        fmt.Println("Configuration saved to current-config.yaml")
+    }
+}
+#+end_src
+
+* Migration Guide
+
+** From Nest() to FlatNest()
+
+Replace verbose flag names:
+
+#+begin_src diff
+- err := cfg.Nest(&config)        // --myapp-server-host
++ err := cfg.FlatNest(&config)    // --server-host
+#+end_src
+
+** From Flags() to FlatNest()
+
+Resolve flag collisions:
+
+#+begin_src diff
+- err := cfg.Flags(&config)       // --host (collision risk)
++ err := cfg.FlatNest(&config)    // --server-host, --database-host
+#+end_src
+
+* Best Practices
+
+1. **Use FlatNest()** for most applications - provides clean flags without collisions
+2. **Use struct tags** to control field names and set sensible defaults
+3. **Group related fields** in nested structs for logical organization
+4. **Add help text** to guide users on required configuration
+5. **Validate required fields** after parsing configuration
+6. **Use environment variables** for deployment-specific overrides
+7. **Load config files** for complex production configurations
+
+* Advanced Features
+
+** Slice Support
+
+Handle comma-separated values:
+
+#+begin_src go :tangle no
+type Config struct {
+    Endpoints []string `default:"server1:8080,server2:8080" json:"endpoints"`
+    Tags      []string `json:"tags"`
+}
+#+end_src
+
+Usage: =--endpoints=server1:8080,server2:8080,server3:8080=
+
+** Map Support
+
+Handle key-value pairs:
+
+#+begin_src go :tangle no
+type Config struct {
+    Features map[string]bool `default:"auth:true,metrics:false" json:"features"`
+    Limits   map[string]int  `json:"limits"`
+}
+#+end_src
+
+Usage: =--features=auth:true,metrics:true,debug:false=
+
+** Duration Support
+
+Handle time durations:
+
+#+begin_src go :tangle no
+type Config struct {
+    Timeout     time.Duration `default:"30s" json:"timeout"`
+    Interval    time.Duration `default:"5m" json:"interval"`
+    MaxAge      time.Duration `default:"24h" json:"max_age"`
+}
+#+end_src
+
+Usage: =--timeout=45s --interval=10m --max-age=48h=
+
+* Troubleshooting
+
+** Flag Redefinition Errors
+
+Use FlatNest() instead of Flags() when multiple structs have fields with the same name.
+
+** Missing Environment Variables in Help
+
+Ensure you're calling the enhanced help function that shows environment variable mappings.
+
+** Configuration Not Loading
+
+Check file path and permissions. Verify the file format matches the expected YAML/JSON structure.
+
+** Type Conversion Errors
+
+Ensure default values in struct tags match the field type (e.g., string values for string fields, numeric values for int fields).

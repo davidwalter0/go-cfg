@@ -43,13 +43,13 @@ go-cfg is a mature, production-ready configuration management library for Go app
 
 ** Features
 
-- 🚀 *Zero Boilerplate*: Define configuration with struct tags and go-cfg handles the rest
+- 🚀 *Clean Flag Names*: FlatNest() generates intuitive flags like --api-host instead of --config-api-host
 - 🔄 *Multiple Sources*: Environment variables, command-line flags, configuration files
-- 🏗️ *Flexible Modes*: Simple, Nested, Wrapped, and Flags parsing modes
+- 🏗️ *Flexible Modes*: FlatNest, Simple, Nested, Wrapped, and Flags parsing modes
 - 📝 *Type Safety*: Full support for Go primitive and complex types (maps, slices, time.Duration)
 - 💾 *Persistence*: Save and load configurations in JSON/YAML format
 - 🎯 *Validation*: Required fields and default values with struct tags
-- 📚 *Auto-Generated Help*: Automatic usage text generation
+- 📚 *Enhanced Help*: Environment variable display in help text
 - 🌳 *Nested Structures*: Full support for nested and embedded structs
 
 ** Quick Start
@@ -106,8 +106,8 @@ type Config struct {
 func main() {
     var config Config
     
-    // Parse configuration from environment variables and command-line flags
-    if err := cfg.Flags(&config); err != nil {
+    // Parse configuration using FlatNest for clean flag names
+    if err := cfg.FlatNest(&config); err != nil {
         log.Fatal(err)
     }
     
@@ -156,13 +156,22 @@ var config Config
 cfg.Simple(&config) // Creates --host and --port flags
 #+END_SRC
 
-** Flags Mode (Recommended)
+** FlatNest Mode (Recommended)
 
-Standard flag parsing with auto-generation:
+Clean nested flags without verbose prefixes:
 
 #+BEGIN_SRC go
 var config Config
-cfg.Flags(&config) // Full feature set with validation
+cfg.FlatNest(&config) // Clean flags: --api-host, --database-port
+#+END_SRC
+
+** Flags Mode 
+
+Standard flag parsing (use only with unique field names):
+
+#+BEGIN_SRC go
+var config Config
+cfg.Flags(&config) // Risk of collisions with nested structs
 #+END_SRC
 
 ** Nested Mode
@@ -476,8 +485,11 @@ cfg.Flags(&config)
 
 ** Core Functions
 
+*** cfg.FlatNest(ptrs ...interface{}) error
+Clean nested flag parsing (recommended for most use cases with nested structures).
+
 *** cfg.Flags(ptrs ...interface{}) error
-Standard flag parsing with full feature set (recommended for most use cases).
+Standard flag parsing (use only with flat structures or unique field names).
 
 *** cfg.Simple(ptrs ...interface{}) error
 Simple parsing without prefixes or nesting.

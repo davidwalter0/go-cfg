@@ -6,23 +6,21 @@ outermost struct name. Name overrides via struct tags can be used
 to rename configuration options as well as (optionally) set
 defaults.
 
+	 Configurations share these options
 
- Configurations share these options
+	  - A configuration is one or more struct pointers
+	  - Each struct member's data type is used for type conversion during assignment
+	  - Primitive types are evaluated directly
+	  - Aggregate slice can be set with comma delibmited syntax
+	  - Aggregate map can be set with comma delibmited syntax
 
-  - A configuration is one or more struct pointers
-  - Each struct member's data type is used for type conversion during assignment
-  - Primitive types are evaluated directly
-  - Aggregate slice can be set with comma delibmited syntax
-  - Aggregate map can be set with comma delibmited syntax
-
-  map example
-	Map  map[string]float64 `short:"m" default:"π:3.14159,ξ:1,ρ:.01,φ:1.2,β:3,α:.01,δ:3,ε:.001,φ:.1,ψ:.9,ω:2.1"`
+	  map example
+		Map  map[string]float64 `short:"m" default:"π:3.14159,ξ:1,ρ:.01,φ:1.2,β:3,α:.01,δ:3,ε:.001,φ:.1,ψ:.9,ω:2.1"`
 
 
-  - Decorate
+	  - Decorate
 
-Modes of configuration
-
+# Modes of configuration
 
   - Wrap(prefix, ptrs...) options with a prefix argument to each flag or environment variable
   - Nest(ptrs...) each struct member with the name of the the parent struct(s)
@@ -49,10 +47,11 @@ var decorate bool = true
 
 // Arg is the settings passed for recursion
 type Arg struct {
-	Depth    int
-	Prefix   string
-	Prefixed bool
-	UseFlags bool
+	Depth          int
+	Prefix         string
+	Prefixed       bool
+	UseFlags       bool
+	SkipRootPrefix bool // Skip top-level struct name in prefixing
 }
 
 // NewArg sets values in Arg for cfg to process structs
@@ -252,6 +251,18 @@ func NestWrap(prefix string, ptrs ...interface{}) error {
 	args := NewArg(prefix)
 	args.Prefixed = true
 	err := Run(args, ptrs...)
+	return err
+}
+
+// FlatNest provides clean nested flags without the top-level struct name prefix.
+// Top-level fields get no prefix, nested fields get prefixed with their struct field name.
+// Example: ServiceName -> --service-name, API.Host -> --api-host, Database.Port -> --database-port
+func FlatNest(ptrs ...interface{}) error {
+	args := NewArg("")
+	args.Prefixed = true
+	args.SkipRootPrefix = true // Skip the top-level struct name in prefixing
+	err := Run(args, ptrs...)
+	Freeze()
 	return err
 }
 
