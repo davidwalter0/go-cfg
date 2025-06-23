@@ -1,0 +1,5 @@
+servicename: integration-test
+version: test-version
+debug: false
+port: 8080
+timeout: 30s

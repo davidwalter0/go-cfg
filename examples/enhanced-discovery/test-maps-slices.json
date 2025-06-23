@@ -1,0 +1,33 @@
+{
+  "service_name": "map-slice-test",
+  "version": "1.2.0",
+  "environment": "staging",
+  "api": {
+    "host": "api.example.com",
+    "port": 9090
+  },
+  "database": {
+    "host": "db.example.com",
+    "port": 5432,
+    "name": "test_db",
+    "username": "test_user",
+    "password": "test_pass"
+  },
+  "features": {
+    "auth": true,
+    "metrics": false,
+    "debug": true,
+    "custom_feature": true,
+    "experimental": false
+  },
+  "services": {
+    "auth_service": "https://auth.example.com:8080",
+    "user_service": "https://users.example.com:8080",
+    "billing_service": "https://billing.example.com:8080"
+  },
+  "logging": {
+    "level": "debug",
+    "format": "text",
+    "output": "file"
+  }
+}

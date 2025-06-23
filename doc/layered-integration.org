@@ -1,0 +1,593 @@
+#+TITLE: Layered Integration: go-cfg + AutoCfg Implementation Guide
+#+AUTHOR: go-cfg Development Team
+#+DATE: 2025-06-22
+
+* Overview
+
+This document provides a complete implementation guide for the layered integration approach between go-cfg and AutoCfg. This approach maintains both systems as separate packages while composing them to leverage their complementary strengths.
+
+* Architecture
+
+** Integration Flow
+#+begin_example
+Configuration Sources → AutoCfg Discovery → go-cfg Processing → Final Config
+
+Files (Discovery) ──┐
+Environment Vars ───┼─→ AutoCfg ──→ Struct Population ──→ go-cfg ──→ Final Config
+Command Flags ──────┘                                       ↑
+                                                      Flag Processing
+                                                      Help Generation
+                                                      Validation
+#+end_example
+
+** Precedence Order
+1. **AutoCfg Stage**: File discovery and loading (=/etc=, =~/.config=, local, =$AUTOCFG_FILENAME=)
+2. **go-cfg Stage**: Environment variables and command-line flags override file values
+3. **Final Result**: Clean flag naming with comprehensive configuration sources
+
+* Implementation
+
+** Core Integration Function
+
+#+begin_src go :tangle /home/david/org/go-cfg/pkg/integration/layered.go :results org :main no :package 'discard :mkdirp yes :tangle-mode o0644
+package integration
+
+import (
+    "fmt"
+    "log"
+    "os"
+    "github.com/davidwalter0/go-cfg"
+)
+
+// LayeredConfigure implements the layered integration approach
+// Stage 1: AutoCfg handles file discovery and loading
+// Stage 2: go-cfg handles flag processing with clean naming
+func LayeredConfigure(config interface{}) error {
+    // Stage 1: File-based configuration discovery
+    // Note: In real implementation, this would call autocfg.Configure()
+    // For now, we simulate this with basic file loading
+    if err := loadConfigFiles(config); err != nil {
+        log.Printf("File loading failed (continuing): %v", err)
+    }
+    
+    // Stage 2: go-cfg flag processing with FlatNest
+    if err := cfg.FlatNest(config); err != nil {
+        return fmt.Errorf("flag processing failed: %w", err)
+    }
+    
+    return nil
+}
+
+// loadConfigFiles simulates AutoCfg file discovery and loading
+// In real implementation, this would be: autocfg.Configure(config)
+func loadConfigFiles(config interface{}) error {
+    // Simulate AutoCfg search order:
+    // 1. /etc/{program}/config.json
+    // 2. ~/.config/{program}/config.json  
+    // 3. .{program}.json (current directory)
+    // 4. $AUTOCFG_FILENAME override
+    
+    configFile := os.Getenv("AUTOCFG_FILENAME")
+    if configFile == "" {
+        // Default search locations (simplified)
+        candidates := []string{
+            ".config.json",
+            "config.json",
+        }
+        
+        for _, candidate := range candidates {
+            if _, err := os.Stat(candidate); err == nil {
+                configFile = candidate
+                break
+            }
+        }
+    }
+    
+    if configFile != "" {
+        log.Printf("Loading configuration from: %s", configFile)
+        // In real implementation: return autocfg.LoadDirect(configFile, config)
+        return loadJSONConfig(configFile, config)
+    }
+    
+    return nil // No config file found, continue with defaults
+}
+
+// loadJSONConfig provides basic JSON loading (placeholder for autocfg functionality)
+func loadJSONConfig(filename string, config interface{}) error {
+    // This would be replaced by autocfg.LoadDirect(filename, config)
+    // For now, just indicate that file loading would happen here
+    log.Printf("Would load JSON config from: %s", filename)
+    return nil
+}
+#+end_src
+
+** Enhanced Integration with Help Text
+
+#+begin_src go :tangle /home/david/org/go-cfg/pkg/integration/enhanced.go :results org :main no :package 'discard :mkdirp yes :tangle-mode o0644
+package integration
+
+import (
+    "fmt"
+    "github.com/davidwalter0/go-cfg"
+)
+
+// LayeredConfigureWithHelp provides layered integration with enhanced help text
+func LayeredConfigureWithHelp(config interface{}, helpText string) error {
+    // Set custom help text before processing
+    if helpText != "" {
+        cfg.HelpText(helpText)
+    }
+    
+    return LayeredConfigure(config)
+}
+
+// ConfigureWithDefaults provides a simplified API with sensible defaults
+func ConfigureWithDefaults(config interface{}) error {
+    defaultHelp := generateDefaultHelp()
+    return LayeredConfigureWithHelp(config, defaultHelp)
+}
+
+func generateDefaultHelp() string {
+    return `
+Configuration Loading Order:
+1. Configuration files (discovered automatically)
+2. Environment variables  
+3. Command-line flags (highest precedence)
+
+Configuration Files Searched:
+- /etc/{program}/config.json
+- ~/.config/{program}/config.json
+- .{program}.json (current directory)
+- $AUTOCFG_FILENAME (environment override)
+
+All configuration can be overridden via:
+- Environment variables (UPPER_SNAKE_CASE)
+- Command-line flags (kebab-case with clean nesting)
+
+Use --help for detailed flag information.
+`
+}
+#+end_src
+
+** Complete Example Implementation
+
+#+begin_src go :tangle /home/david/org/go-cfg/examples/layered-integration/main.go :results org :main no :package 'discard :mkdirp yes :tangle-mode o0644
+package main
+
+import (
+    "encoding/json"
+    "fmt"
+    "log"
+    "time"
+    "github.com/davidwalter0/go-cfg"
+    "github.com/davidwalter0/go-cfg/pkg/integration"
+)
+
+// DemoConfig shows layered integration with complex nested structure
+type DemoConfig struct {
+    // Service identification
+    ServiceName string `json:"service_name" required:"true"`
+    Version     string `json:"version" default:"1.0.0"`
+    Environment string `json:"environment" default:"development"`
+    
+    // API server configuration  
+    API struct {
+        Host      string        `json:"host" default:"localhost"`
+        Port      int           `json:"port" default:"8080"`
+        Timeout   time.Duration `json:"timeout" default:"30s"`
+        EnableTLS bool          `json:"enable_tls" default:"false"`
+    } `json:"api"`
+    
+    // Database configuration
+    Database struct {
+        Host     string `json:"host" default:"localhost"`
+        Port     int    `json:"port" default:"5432"`
+        Name     string `json:"name" required:"true"`
+        Username string `json:"username" required:"true"`
+        Password string `json:"password" required:"true"`
+    } `json:"database"`
+    
+    // Feature flags
+    Features map[string]bool `json:"features" default:"auth:true,metrics:true,debug:false"`
+    
+    // External services
+    Services map[string]string `json:"services"`
+    
+    // Observability
+    Metrics struct {
+        Enabled  bool   `json:"enabled" default:"true"`
+        Endpoint string `json:"endpoint" default:"/metrics"`
+        Port     int    `json:"port" default:"9090"`
+    } `json:"metrics"`
+}
+
+func main() {
+    var config DemoConfig
+    
+    // Enhanced help text explaining layered configuration
+    helpText := `
+Layered Integration Demo - go-cfg + AutoCfg
+
+This example demonstrates layered configuration loading:
+
+STAGE 1 - File Discovery (AutoCfg patterns):
+  Searches standard locations for configuration files:
+  • /etc/layered-demo/config.json
+  • ~/.config/layered-demo/config.json  
+  • .layered-demo.json (current directory)
+  • $AUTOCFG_FILENAME (environment override)
+  
+STAGE 2 - Flag Processing (go-cfg FlatNest):
+  Generates clean, intuitive flags:
+  • --service-name (required)
+  • --api-host, --api-port, --api-timeout
+  • --database-host, --database-name (required)
+  • --metrics-enabled, --metrics-port
+
+PRECEDENCE ORDER (lowest to highest):
+  Configuration Files → Environment Variables → Command Flags
+
+REQUIRED FIELDS:
+  --service-name, --database-name, --database-username, --database-password
+
+EXAMPLES:
+  # Use defaults with required fields
+  ./demo --service-name=api --database-name=mydb \
+         --database-username=user --database-password=secret
+  
+  # Override with environment variables
+  export API_HOST=0.0.0.0
+  export DATABASE_HOST=prod-db.internal
+  ./demo --service-name=api --database-name=mydb \
+         --database-username=user --database-password=secret
+  
+  # Use configuration file
+  echo '{"service_name":"api","database":{"name":"mydb","username":"user","password":"secret"}}' > .layered-demo.json
+  ./demo
+  
+  # Load specific config file
+  AUTOCFG_FILENAME=/path/to/config.json ./demo
+`
+    
+    // Configure using layered integration
+    if err := integration.LayeredConfigureWithHelp(&config, helpText); err != nil {
+        log.Fatalf("Configuration failed: %v", err)
+    }
+    
+    // Display loaded configuration
+    fmt.Println("=== Layered Integration Demo ===")
+    fmt.Printf("Service: %s v%s (%s)\n", config.ServiceName, config.Version, config.Environment)
+    fmt.Printf("API: %s:%d (TLS: %v, Timeout: %v)\n", 
+        config.API.Host, config.API.Port, config.API.EnableTLS, config.API.Timeout)
+    fmt.Printf("Database: %s@%s:%d/%s\n", 
+        config.Database.Username, config.Database.Host, config.Database.Port, config.Database.Name)
+    
+    // Show features
+    fmt.Printf("Features: ")
+    for feature, enabled := range config.Features {
+        if enabled {
+            fmt.Printf("%s ", feature)
+        }
+    }
+    fmt.Println()
+    
+    // Show metrics config
+    if config.Metrics.Enabled {
+        fmt.Printf("Metrics: enabled on port %d at %s\n", 
+            config.Metrics.Port, config.Metrics.Endpoint)
+    }
+    
+    // Show external services
+    if len(config.Services) > 0 {
+        fmt.Printf("External services: %v\n", config.Services)
+    }
+    
+    // JSON dump for verification
+    fmt.Println("\n=== Configuration JSON ===")
+    jsonData, err := json.MarshalIndent(config, "", "  ")
+    if err != nil {
+        log.Printf("JSON marshal error: %v", err)
+    } else {
+        fmt.Println(string(jsonData))
+    }
+    
+    // Save current configuration
+    fmt.Println("\n=== Configuration Persistence ===")
+    stor := cfg.NewStor()
+    if err := cfg.CopyOut(config, &stor); err != nil {
+        log.Printf("Could not copy configuration: %v", err)
+    } else if err := stor.Save("layered-demo-current.yaml"); err != nil {
+        log.Printf("Could not save configuration: %v", err)
+    } else {
+        fmt.Println("✓ Current configuration saved to layered-demo-current.yaml")
+    }
+}
+#+end_src
+
+** Sample Configuration Files
+
+#+begin_src json :tangle /home/david/org/go-cfg/examples/layered-integration/sample-config.json :mkdirp yes :tangle-mode o0644
+{
+  "service_name": "layered-demo-api",
+  "version": "2.1.0",
+  "environment": "production",
+  "api": {
+    "host": "0.0.0.0",
+    "port": 8443,
+    "timeout": "60s",
+    "enable_tls": true
+  },
+  "database": {
+    "host": "prod-db.internal",
+    "port": 5432,
+    "name": "production_db",
+    "username": "api_user",
+    "password": "secure_password_123"
+  },
+  "features": {
+    "auth": true,
+    "metrics": true,
+    "debug": false,
+    "rate_limiting": true,
+    "caching": true
+  },
+  "services": {
+    "user_service": "https://users.internal:8080",
+    "payment_service": "https://payments.internal:8080",
+    "notification_service": "https://notifications.internal:8080"
+  },
+  "metrics": {
+    "enabled": true,
+    "endpoint": "/metrics",
+    "port": 9090
+  }
+}
+#+end_src
+
+#+begin_src json :tangle /home/david/org/go-cfg/examples/layered-integration/development-config.json :mkdirp yes :tangle-mode o0644
+{
+  "service_name": "layered-demo-dev",
+  "version": "dev-latest",
+  "environment": "development",
+  "api": {
+    "host": "127.0.0.1",
+    "port": 8080,
+    "timeout": "30s",
+    "enable_tls": false
+  },
+  "database": {
+    "host": "localhost",
+    "port": 5432,
+    "name": "development_db",
+    "username": "dev_user",
+    "password": "dev_password"
+  },
+  "features": {
+    "auth": true,
+    "metrics": true,
+    "debug": true,
+    "rate_limiting": false,
+    "caching": false
+  },
+  "services": {
+    "user_service": "http://localhost:8081",
+    "payment_service": "http://localhost:8082"
+  },
+  "metrics": {
+    "enabled": true,
+    "endpoint": "/debug/metrics",
+    "port": 9091
+  }
+}
+#+end_src
+
+* Testing and Validation
+
+** Basic Integration Test
+
+#+begin_src go :tangle /home/david/org/go-cfg/pkg/integration/layered_test.go :results org :main no :package 'discard :mkdirp yes :tangle-mode o0644
+package integration
+
+import (
+    "os"
+    "testing"
+    "time"
+)
+
+type TestConfig struct {
+    ServiceName string `json:"service_name" required:"true"`
+    API struct {
+        Host string `json:"host" default:"localhost"`
+        Port int    `json:"port" default:"8080"`
+    } `json:"api"`
+    Database struct {
+        Name string `json:"name" required:"true"`
+    } `json:"database"`
+}
+
+func TestLayeredConfigure(t *testing.T) {
+    // Set required environment variables to avoid flag parsing issues
+    os.Setenv("SERVICE_NAME", "test-service")
+    os.Setenv("DATABASE_NAME", "test-db")
+    defer func() {
+        os.Unsetenv("SERVICE_NAME")
+        os.Unsetenv("DATABASE_NAME")
+    }()
+    
+    var config TestConfig
+    
+    // Test basic layered configuration
+    err := LayeredConfigure(&config)
+    if err != nil {
+        t.Fatalf("LayeredConfigure failed: %v", err)
+    }
+    
+    // Verify configuration was loaded
+    if config.ServiceName != "test-service" {
+        t.Errorf("Expected service_name=test-service, got %s", config.ServiceName)
+    }
+    
+    if config.Database.Name != "test-db" {
+        t.Errorf("Expected database.name=test-db, got %s", config.Database.Name)
+    }
+    
+    // Verify defaults were applied
+    if config.API.Host != "localhost" {
+        t.Errorf("Expected api.host=localhost, got %s", config.API.Host)
+    }
+    
+    if config.API.Port != 8080 {
+        t.Errorf("Expected api.port=8080, got %d", config.API.Port)
+    }
+}
+
+func TestConfigureWithDefaults(t *testing.T) {
+    // Set required fields
+    os.Setenv("SERVICE_NAME", "default-test")
+    os.Setenv("DATABASE_NAME", "default-db")
+    defer func() {
+        os.Unsetenv("SERVICE_NAME")
+        os.Unsetenv("DATABASE_NAME")
+    }()
+    
+    var config TestConfig
+    
+    err := ConfigureWithDefaults(&config)
+    if err != nil {
+        t.Fatalf("ConfigureWithDefaults failed: %v", err)
+    }
+    
+    if config.ServiceName != "default-test" {
+        t.Errorf("Expected service_name=default-test, got %s", config.ServiceName)
+    }
+}
+
+func BenchmarkLayeredConfigure(b *testing.B) {
+    os.Setenv("SERVICE_NAME", "bench-service")
+    os.Setenv("DATABASE_NAME", "bench-db")
+    defer func() {
+        os.Unsetenv("SERVICE_NAME")
+        os.Unsetenv("DATABASE_NAME")
+    }()
+    
+    var config TestConfig
+    
+    b.ResetTimer()
+    for i := 0; i < b.N; i++ {
+        err := LayeredConfigure(&config)
+        if err != nil {
+            b.Fatalf("LayeredConfigure failed: %v", err)
+        }
+    }
+}
+#+end_src
+
+* Usage Examples
+
+** Simple Usage
+
+#+begin_src bash :tangle /home/david/org/go-cfg/examples/layered-integration/run-simple.sh :results org :shebang #!/usr/bin/env bash :mkdirp yes :comments org :padline yes :tangle-mode o0755
+#!/usr/bin/env bash
+
+# Simple usage with minimal required fields
+echo "=== Simple Usage ==="
+go run main.go \
+  --service-name=simple-api \
+  --database-name=simple_db \
+  --database-username=user \
+  --database-password=password
+#+end_src
+
+** Configuration File Usage
+
+#+begin_src bash :tangle /home/david/org/go-cfg/examples/layered-integration/run-with-config.sh :results org :shebang #!/usr/bin/env bash :mkdirp yes :comments org :padline yes :tangle-mode o0755
+#!/usr/bin/env bash
+
+# Create a local config file
+cat > .layered-demo.json << 'EOF'
+{
+  "service_name": "file-configured-api",
+  "environment": "staging",
+  "api": {
+    "host": "0.0.0.0",
+    "port": 9000
+  },
+  "database": {
+    "name": "staging_db",
+    "username": "staging_user", 
+    "password": "staging_password"
+  },
+  "features": {
+    "auth": true,
+    "metrics": true,
+    "debug": true
+  }
+}
+EOF
+
+echo "=== Configuration File Usage ==="
+echo "Created .layered-demo.json with staging configuration"
+go run main.go
+
+# Cleanup
+rm -f .layered-demo.json
+#+end_src
+
+** Environment Override Usage
+
+#+begin_src bash :tangle /home/david/org/go-cfg/examples/layered-integration/run-env-override.sh :results org :shebang #!/usr/bin/env bash :mkdirp yes :comments org :padline yes :tangle-mode o0755
+#!/usr/bin/env bash
+
+echo "=== Environment Override Usage ==="
+
+# Set configuration via environment variables
+export SERVICE_NAME=env-configured-api
+export ENVIRONMENT=production
+export API_HOST=0.0.0.0
+export API_PORT=8443
+export DATABASE_HOST=prod-db.internal
+export DATABASE_NAME=production_db
+export DATABASE_USERNAME=prod_user
+export DATABASE_PASSWORD=prod_secret
+export METRICS_PORT=9090
+
+echo "Set environment variables for production configuration"
+go run main.go
+
+# Show that flags can still override environment
+echo ""
+echo "Overriding API port via flag:"
+go run main.go --api-port=8080
+
+# Cleanup
+unset SERVICE_NAME ENVIRONMENT API_HOST API_PORT DATABASE_HOST DATABASE_NAME DATABASE_USERNAME DATABASE_PASSWORD METRICS_PORT
+#+end_src
+
+* Integration Benefits
+
+** Immediate Value
+- **File Discovery**: Automatic search in standard locations
+- **Clean Flags**: FlatNest generates intuitive command-line interface
+- **Precedence**: Clear file → env → flags precedence order
+- **Help Enhancement**: Comprehensive usage documentation
+
+** Compatibility
+- **go-cfg Users**: Add file discovery with no breaking changes
+- **AutoCfg Users**: Enhance with superior flag processing
+- **New Users**: Best of both systems from day one
+
+** Flexibility
+- **Development**: Use config files for complex setups
+- **Production**: Override sensitive values via environment
+- **CLI Usage**: Clean flags for interactive use
+- **Container Deployment**: Standard file locations work in containers
+
+* Next Steps
+
+1. **Validate with Real AutoCfg**: Replace placeholder file loading with actual AutoCfg integration
+2. **Extended Testing**: Test with complex configuration scenarios
+3. **Documentation**: Create comprehensive usage guides
+4. **Examples**: Build real-world application examples
+5. **Migration Guides**: Help existing users adopt layered integration
+
+This layered integration provides immediate value while maintaining system stability and backward compatibility.

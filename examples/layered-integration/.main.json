@@ -1,0 +1,35 @@
+{
+  "service_name": "layered-demo-api",
+  "version": "2.1.0",
+  "environment": "production",
+  "api": {
+    "host": "0.0.0.0",
+    "port": 8443,
+    "timeout": "60s",
+    "enable_tls": true
+  },
+  "database": {
+    "host": "prod-db.internal",
+    "port": 5432,
+    "name": "production_db",
+    "username": "api_user",
+    "password": "secure_password_123"
+  },
+  "features": {
+    "auth": true,
+    "metrics": true,
+    "debug": false,
+    "rate_limiting": true,
+    "caching": true
+  },
+  "services": {
+    "user_service": "https://users.internal:8080",
+    "payment_service": "https://payments.internal:8080",
+    "notification_service": "https://notifications.internal:8080"
+  },
+  "metrics": {
+    "enabled": true,
+    "endpoint": "/metrics",
+    "port": 9090
+  }
+}

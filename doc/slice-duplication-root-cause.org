@@ -1,0 +1,107 @@
+#+TITLE: Slice Duplication Root Cause Analysis  
+#+AUTHOR: go-cfg Development Team
+#+DATE: 2025-06-22
+
+* Root Cause Identified
+
+The slice duplication issue is in **pflag's stringSliceValue.Set()** method combined with **multiple flag setting** in go-cfg.
+
+** pflag's Append Behavior
+
+In `/vendor/github.com/spf13/pflag/string_slice.go`:
+
+#+begin_src go
+func (s *stringSliceValue) Set(val string) error {
+    v, err := readAsCSV(val)
+    if err != nil {
+        return err
+    }
+    if !s.changed {
+        *s.value = v           // ✅ First call: REPLACE
+    } else {
+        *s.value = append(*s.value, v...)  // ❌ Subsequent calls: APPEND
+    }
+    s.changed = true
+    return nil
+}
+#+end_src
+
+** The Problem
+
+1. **First Set()**: Default `"consul:8500,etcd:2379"` → `["consul:8500", "etcd:2379"]` ✅
+2. **Second Set()**: Same default called again → `["consul:8500", "etcd:2379", "consul:8500", "etcd:2379"]` ❌
+3. **Third Set()**: User `"server1,server2"` → `["consul:8500", "etcd:2379", "consul:8500", "etcd:2379", "server1", "server2"]` ❌
+
+* Why Multiple Set() Calls?
+
+The legacy go-cfg system appears to be:
+1. Setting defaults during initialization  
+2. Setting defaults again during processing
+3. Setting user values on top of duplicated defaults
+
+* Evidence from Test Results
+
+** Without User Input
+Result: `["consul:8500", "etcd:2379", "consul:8500", "etcd:2379"]`
+- Shows defaults being set twice
+
+** With User Input  
+Command: `--discovery-endpoints=server1,server2,server3`
+Result: `["consul:8500", "etcd:2379", "consul:8500", "etcd:2379", "server1", "server2", "server3"]`
+- Shows defaults set twice + user values appended
+
+* Solution Options
+
+** Option 1: Fix pflag Integration (Recommended)
+
+Prevent multiple Set() calls in go-cfg processing:
+
+#+begin_src go
+// In go-cfg flag processing, ensure Set() is only called once per flag
+// Track which flags have been set to avoid duplicates
+var flagsAlreadySet = make(map[string]bool)
+
+func setFlagOnce(flagName, value string) {
+    if !flagsAlreadySet[flagName] {
+        flag.Set(flagName, value)
+        flagsAlreadySet[flagName] = true
+    }
+}
+#+end_src
+
+** Option 2: Override pflag Behavior
+
+Create a custom stringSliceValue that always replaces:
+
+#+begin_src go
+type replacingStringSliceValue struct {
+    value *[]string
+}
+
+func (s *replacingStringSliceValue) Set(val string) error {
+    v, err := readAsCSV(val)
+    if err != nil {
+        return err
+    }
+    // Always replace, never append
+    *s.value = v
+    return nil
+}
+#+end_src
+
+** Option 3: Fix go-cfg Processing Pipeline
+
+Modify the go-cfg system to avoid setting defaults multiple times during processing.
+
+* Current Status
+
+- ✅ **Maps work correctly** - no duplication issues
+- ❌ **Slices have duplication** - pflag append behavior + multiple Set() calls  
+- ✅ **StringSliceValue.Set() is correct** - but microservice uses legacy system
+- ❌ **Legacy go-cfg calls Set() multiple times** - triggers pflag append behavior
+
+* Immediate Fix
+
+The fastest fix is **Option 1**: modify go-cfg to track and prevent duplicate flag setting to avoid triggering pflag's append behavior.
+
+This preserves all existing behavior while fixing the duplication bug.

@@ -26,13 +26,17 @@ func (ssv *StringSliceValue) String() string {
 }
 
 func (ssv *StringSliceValue) Set(s string) error {
+	// Clear existing values (including defaults) when user provides input
+	// This ensures user values replace defaults, not append to them
+	ssv.value = nil
+	
 	// If the string is empty, create a slice with one empty string
 	if s == "" {
 		ssv.value = []string{""}
 		return nil
 	}
 	
-	// Split by comma and preserve empty strings
+	// Split by comma and preserve empty strings - populate with only user values
 	ssv.value = strings.Split(s, ",")
 	return nil
 }

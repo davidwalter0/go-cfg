@@ -1,0 +1,251 @@
+#+TITLE: Slice and Map Behavior Clarification
+#+AUTHOR: go-cfg Development Team
+#+DATE: 2025-06-22
+
+* Issue Identification
+
+The current slice handling behavior in go-cfg has **duplication issues** where default values are processed multiple times, leading to confusing results.
+
+** Current Problematic Behavior
+
+*** Slices - BROKEN (Duplication)
+From README.org output:
+#+begin_example
+# With defaults: Tags:[web api production]  
+# User specifies: --tags=staging,debug
+# ACTUAL Result: Tags:[web api production web api production staging debug]
+# EXPECTED Result: Tags:[staging debug]
+#+end_example
+
+From microservice example:
+#+begin_example  
+# Default: discovery.endpoints: "consul:8500,etcd:2379"
+# ACTUAL Result: ["consul:8500", "etcd:2379", "consul:8500", "etcd:2379"]
+# EXPECTED Result: ["consul:8500", "etcd:2379"]
+#+end_example
+
+*** Maps - WORKING CORRECTLY
+From microservice testing:
+#+begin_example
+# Default: features: "auth:true,metrics:true,tracing:false,caching:true"
+# User specifies: --features=debug:true,custom:false
+# ACTUAL Result: {"custom": false, "debug": true} ✅
+# EXPECTED Result: {"custom": false, "debug": true} ✅
+#+end_example
+
+** Root Cause Analysis
+
+The issue is specifically with **slice processing**:
+1. Default slice values are being set multiple times during processing
+2. This creates duplication: `[default, default, user_values]`
+3. Maps appear to work correctly with replacement behavior
+4. The problem is in the slice value initialization/processing pipeline
+
+* Expected Behavior
+
+** Slice Replacement (Correct)
+#+begin_src go
+type Config struct {
+    Tags []string `default:"web,api,production"`
+}
+
+// User specifies: --tags=staging,debug
+// Expected result: config.Tags = []string{"staging", "debug"}
+#+end_src
+
+** Map Replacement (Already Working Correctly)  
+#+begin_src go
+type Config struct {
+    Features map[string]bool `default:"auth:true,metrics:true"`
+}
+
+// User specifies: --features=debug:true,auth:false
+// Current result: config.Features = map[string]bool{"debug": true, "auth": false} ✅
+// This behavior is already correct - maps replace defaults properly
+#+end_src
+
+** Environment Variable Replacement (Correct)
+#+begin_src bash
+export TAGS=staging,debug
+# Expected result: config.Tags = []string{"staging", "debug"}
+#+end_src
+
+* Proposed Fix
+
+** 1. Root Cause - Slice Default Duplication
+
+The issue is that slice defaults are being processed multiple times in the configuration pipeline, not that Set() is appending. The StringSliceValue.Set() method already replaces correctly:
+
+#+begin_src go
+func (ssv *StringSliceValue) Set(s string) error {
+    // This already replaces, not appends
+    ssv.value = strings.Split(s, ",")  // ✅ Replacement behavior
+    return nil
+}
+#+end_src
+
+** 2. Fix Default Processing Pipeline
+
+The real issue is in how defaults are processed multiple times. We need to prevent duplicate default processing:
+
+#+begin_src go
+// In registerField, ensure defaults are only set once
+func (fc *FlagConfig) registerField(...) error {
+    // ...existing code...
+    
+    case fieldType.Kind() == reflect.Slice:
+        elemType := fieldType.Elem()
+        switch elemType.Kind() {
+        case reflect.String:
+            var defaultSlice []string
+            if defaultValue != "" {
+                // Only process defaults once
+                defaultSlice = strings.Split(defaultValue, ",")
+            }
+            
+            // Create slice value with defaults
+            stringSliceValue := NewStringSliceValue(defaultSlice)
+            fc.FlagSet.Var(stringSliceValue, flagName, usage)
+            
+            // Store updater to copy final values back
+            fc.storeSliceUpdater(flagName, field, stringSliceValue)
+}
+#+end_src
+
+** 3. Prevent Double Processing in Configuration Load
+
+Ensure configuration loading doesn't duplicate slice processing:
+
+#+begin_src go
+// In layered integration, prevent duplicate processing
+func LayeredConfigure(config interface{}) error {
+    // Stage 1: Load file configuration (sets initial values)
+    if err := loadConfigFiles(config); err != nil {
+        log.Printf("File loading failed (continuing): %v", err)
+    }
+
+    // Stage 2: Flag processing - should replace file values, not append
+    if err := cfg.FlatNest(config); err != nil {
+        return fmt.Errorf("flag processing failed: %w", err)
+    }
+    
+    return nil
+}
+#+end_src
+
+** 3. Clear Documentation
+
+Add explicit documentation about replacement behavior:
+
+#+begin_src go
+// Tags represents a list of service tags
+// When specified via flags or environment variables,
+// user values REPLACE the defaults completely
+Tags []string `default:"web,api,production" help:"Service tags (replaces defaults when specified)"`
+#+end_src
+
+* Implementation Priority
+
+** High Priority Issues
+1. **Fix duplicate default processing** - Root cause of the duplication
+2. **Ensure flag values replace defaults** - Core expected behavior
+3. **Update documentation** - Clear expectations for users
+
+** Medium Priority Enhancements  
+1. **Add append mode option** - For users who want additive behavior
+2. **Validation for slice/map formats** - Better error messages
+3. **Enhanced help text** - Show current defaults clearly
+
+* Test Cases Required
+
+** Slice Behavior Tests
+#+begin_src go
+func TestSliceReplacement(t *testing.T) {
+    type Config struct {
+        Tags []string `default:"web,api,production"`
+    }
+    
+    var config Config
+    
+    // Test 1: Default behavior
+    cfg.FlatNest(&config)
+    expected := []string{"web", "api", "production"}
+    assert.Equal(t, expected, config.Tags)
+    
+    // Test 2: Flag replacement
+    os.Args = []string{"test", "--tags=staging,debug"}
+    cfg.FlatNest(&config)
+    expected = []string{"staging", "debug"}
+    assert.Equal(t, expected, config.Tags)
+    
+    // Test 3: Environment replacement  
+    os.Setenv("TAGS", "prod,monitoring")
+    cfg.FlatNest(&config)
+    expected = []string{"prod", "monitoring"}
+    assert.Equal(t, expected, config.Tags)
+}
+#+end_src
+
+** Map Behavior Tests
+#+begin_src go
+func TestMapReplacement(t *testing.T) {
+    type Config struct {
+        Features map[string]bool `default:"auth:true,metrics:true"`
+    }
+    
+    var config Config
+    
+    // Test flag replacement
+    os.Args = []string{"test", "--features=debug:true,auth:false"}
+    cfg.FlatNest(&config)
+    expected := map[string]bool{"debug": true, "auth": false}
+    assert.Equal(t, expected, config.Features)
+}
+#+end_src
+
+* User Communication
+
+** Breaking Change Notice
+This fix represents a **breaking change** for users who might be relying on the current (buggy) append behavior. However, the current behavior is:
+
+1. **Unintuitive** - Users expect replacement, not appending
+2. **Buggy** - Default values are being duplicated  
+3. **Inconsistent** - Other types (string, int, bool) replace defaults correctly
+
+** Migration Guide
+For users who need additive behavior, provide explicit guidance:
+
+#+begin_src go
+// OLD (broken): --tags=staging,debug results in [web,api,production,staging,debug]
+// NEW (correct): --tags=staging,debug results in [staging,debug]
+
+// If you need additive behavior, handle it explicitly:
+type Config struct {
+    DefaultTags []string `default:"web,api,production"`
+    ExtraTags   []string `json:"extra_tags"`
+}
+
+// Combine in your application logic:
+allTags := append(config.DefaultTags, config.ExtraTags...)
+#+end_src
+
+* Action Items
+
+** Immediate Fixes Required
+1. **Fix slice default duplication** - Prevent multiple processing of defaults
+2. **Add comprehensive test suite** - Verify slice replacement behavior
+3. **Update documentation** - Clarify that maps work correctly, slices need fixing
+
+** Medium-term Improvements  
+4. **Add slice replacement validation** - Ensure user values replace defaults
+5. **Create regression tests** - Prevent duplication issues in future
+6. **Consider layered integration impact** - Ensure file→env→flags precedence works correctly
+
+** Investigation Summary
+
+- ✅ **Maps are working correctly** - No changes needed
+- ❌ **Slices have duplication bug** - Urgent fix required
+- ✅ **StringSliceValue.Set() is correct** - Issue is in processing pipeline
+- ❌ **Default values processed multiple times** - Root cause identified
+
+This investigation shows go-cfg maps work as expected, but slice handling needs urgent attention to fix the duplication bug and ensure intuitive user experience.

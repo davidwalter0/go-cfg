@@ -1,0 +1,34 @@
+{
+  "service_name": "secure-production-service",
+  "version": "2.0.0",
+  "environment": "production",
+  "api": {
+    "host": "${API_HOST:-0.0.0.0}",
+    "port": 443,
+    "timeout": "45s",
+    "enable_tls": true
+  },
+  "database": {
+    "host": "${DATABASE_HOST}",
+    "port": 5432,
+    "name": "production_db",
+    "username": "prod_user",
+    "password": "${DB_PASSWORD:-fallback_password}"
+  },
+  "features": {
+    "auth": true,
+    "metrics": true,
+    "debug": false,
+    "audit_logging": true,
+    "rate_limiting": true
+  },
+  "services": {
+    "auth_service": "https://auth.production.internal:8080",
+    "user_service": "https://users.production.internal:8080"
+  },
+  "logging": {
+    "level": "${LOG_LEVEL}",
+    "format": "json",
+    "output": "file"
+  }
+}

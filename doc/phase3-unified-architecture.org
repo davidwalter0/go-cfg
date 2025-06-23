@@ -1,0 +1,305 @@
+#+TITLE: Phase 3: Unified Module Architecture Design
+#+AUTHOR: go-cfg Development Team  
+#+DATE: 2025-06-23
+
+* Executive Summary
+
+Phase 3 creates a unified, purpose-built architecture that combines the best of AutoCfg discovery patterns with go-cfg's clean flag processing. This design eliminates dual dependencies and provides a single, powerful configuration management solution.
+
+* Architecture Overview
+
+** Current State Analysis
+- ✅ **Phase 1**: Layered integration working
+- ✅ **Phase 2**: Enhanced discovery with FlatNestWithDiscovery() complete
+- ❌ **Legacy dependency**: Vendored go-flag still used by original FlatNest()
+- ❌ **Dual systems**: Two flag processing systems coexist
+
+** Phase 3 Goals
+- **Single Package**: Unified configuration management
+- **Purpose-Built Modules**: Clean separation of concerns
+- **Modern Foundation**: Built entirely on pflag
+- **Backward Compatibility**: Smooth migration path
+- **Enhanced Features**: Best of both worlds combined
+
+* Module Architecture Design
+
+** Package Structure
+#+begin_example
+github.com/davidwalter0/go-cfg/v3/
+├── pkg/
+│   ├── discovery/         # Configuration file discovery
+│   │   ├── search.go      # Path generation and file finding
+│   │   ├── loader.go      # JSON loading and environment expansion
+│   │   ├── indirect.go    # AutoCfg pointer file support
+│   │   └── merger.go      # Multi-source configuration merging
+│   ├── flags/             # Modern flag processing
+│   │   ├── generator.go   # Struct to flag conversion
+│   │   ├── naming.go      # FlatNest and clean naming strategies
+│   │   ├── types.go       # Custom type support (Duration, etc.)
+│   │   └── help.go        # Enhanced help generation
+│   ├── config/            # Unified configuration management
+│   │   ├── manager.go     # Main configuration coordinator
+│   │   ├── options.go     # Configuration options and modes
+│   │   ├── validator.go   # Validation and required field checking
+│   │   └── persistence.go # Save current config to files
+│   └── generate/          # Enhanced template generation
+│       ├── samples.go     # Configuration file generation
+│       ├── docs.go        # Documentation from struct tags
+│       └── templates.go   # Template management
+├── cmd/
+│   └── cfggen/            # CLI tool for configuration generation
+├── examples/              # Comprehensive examples
+│   ├── basic/             # Simple configuration
+│   ├── microservice/      # Production microservice example
+│   ├── migration/         # Migration from v2 to v3
+│   └── advanced/          # Complex configuration scenarios
+└── doc/                   # Architecture and API documentation
+#+end_example
+
+** Core Interfaces Design
+
+#+begin_src go :tangle /home/david/org/go-cfg/doc/phase3-interfaces.go :results org :main no :package 'discard :mkdirp yes :tangle-mode o0644
+package config
+
+import (
+	"github.com/spf13/pflag"
+)
+
+// ConfigManager provides unified configuration management
+type ConfigManager interface {
+	// Core configuration loading
+	Load(config interface{}) error
+	
+	// Builder pattern configuration
+	WithDiscovery(mode DiscoveryMode) ConfigManager
+	WithFlagStyle(style FlagStyle) ConfigManager
+	WithValidation(enabled bool) ConfigManager
+	WithEnvironmentPrefix(prefix string) ConfigManager
+	
+	// Advanced features
+	GenerateSample(format string) ([]byte, error)
+	GenerateHelp() string
+	SaveCurrent(config interface{}, filename string) error
+}
+
+// DiscoveryEngine handles configuration file discovery and loading
+type DiscoveryEngine interface {
+	FindConfigFiles(opts DiscoveryOptions) ([]string, error)
+	LoadConfigFile(filename string, config interface{}) error
+	MergeConfigs(files []string, config interface{}) error
+}
+
+// FlagProcessor handles command line flag processing
+type FlagProcessor interface {
+	ProcessStruct(config interface{}, flagSet *pflag.FlagSet) error
+	GenerateFlags(config interface{}) (*pflag.FlagSet, error)
+	ApplyFlagValues(config interface{}, flagSet *pflag.FlagSet) error
+}
+
+// NamingStrategy defines how struct fields map to flag names
+type NamingStrategy interface {
+	FlagName(fieldPath []string) string
+	EnvVarName(fieldPath []string) string
+	HelpText(field FieldInfo) string
+}
+#+end_src
+
+** Configuration Options
+
+#+begin_src go :tangle /home/david/org/go-cfg/doc/phase3-options.go :results org :main no :package 'discard :mkdirp yes :tangle-mode o0644
+package config
+
+// DiscoveryMode defines how configuration files are discovered and merged
+type DiscoveryMode int
+
+const (
+	Union DiscoveryMode = 1 << iota  // Merge all found configs
+	First                            // Stop on first found
+	Direct                           // Load config files directly
+	Indirect                         // Support AutoCfg pointer files
+)
+
+// FlagStyle defines how flags are generated and named
+type FlagStyle int
+
+const (
+	FlatNest FlagStyle = iota  // Clean flat naming: --api-host
+	Nested                     // Hierarchical naming: --api.host
+	Prefixed                   // Prefixed naming: --config-api-host
+)
+
+// ConfigOptions provides comprehensive configuration control
+type ConfigOptions struct {
+	// Discovery settings
+	DiscoveryMode    DiscoveryMode
+	SearchPaths      []string
+	EnvOverride      string
+	ProgramName      string
+	
+	// Flag processing settings
+	FlagStyle        FlagStyle
+	EnvironmentPrefix string
+	RequiredFields   bool
+	
+	// Output and generation settings
+	HelpTemplate     string
+	SampleFormat     string
+	ValidateOnLoad   bool
+}
+
+// DefaultOptions provides sensible defaults for most use cases
+func DefaultOptions() ConfigOptions {
+	return ConfigOptions{
+		DiscoveryMode:    Union | Direct,
+		FlagStyle:        FlatNest,
+		EnvOverride:      "AUTOCFG_FILENAME",
+		RequiredFields:   true,
+		ValidateOnLoad:   true,
+		SampleFormat:     "json",
+	}
+}
+#+end_src
+
+* Implementation Strategy
+
+** Phase 3.1: Core Module Creation
+1. **Create pkg/discovery package**: Extract and enhance discovery logic from current implementation
+2. **Create pkg/flags package**: Build modern pflag-based flag processing
+3. **Create pkg/config package**: Unified manager with builder pattern API
+
+** Phase 3.2: Advanced Features
+1. **Enhanced naming strategies**: Multiple flag naming approaches
+2. **Validation framework**: Comprehensive struct validation
+3. **Template generation**: Sample configs and documentation
+4. **CLI tooling**: Configuration file generation and management
+
+** Phase 3.3: Migration Support
+1. **Compatibility layer**: Smooth migration from v2 API
+2. **Migration tools**: Automated conversion assistance
+3. **Documentation**: Migration guides and examples
+
+* Unified API Design
+
+#+begin_src go :tangle /home/david/org/go-cfg/doc/phase3-unified-api.go :results org :main no :package 'discard :mkdirp yes :tangle-mode o0644
+package main
+
+import (
+	"log"
+	cfg "github.com/davidwalter0/go-cfg/v3/pkg/config"
+)
+
+type ServiceConfig struct {
+	ServiceName string `json:"service_name" required:"true" help:"Service identifier"`
+	Version     string `json:"version" default:"1.0.0" help:"Service version"`
+	
+	API struct {
+		Host      string `json:"host" default:"localhost" help:"API server host"`
+		Port      int    `json:"port" default:"8080" help:"API server port"`
+		EnableTLS bool   `json:"enable_tls" default:"false" help:"Enable TLS encryption"`
+	} `json:"api" help:"API server configuration"`
+	
+	Database struct {
+		Host     string `json:"host" default:"localhost" help:"Database host"`
+		Port     int    `json:"port" default:"5432" help:"Database port"`
+		Name     string `json:"name" required:"true" help:"Database name"`
+		Username string `json:"username" required:"true" help:"Database username"`
+		Password string `json:"password" required:"true" help:"Database password"`
+	} `json:"database" help:"Database configuration"`
+	
+	Features map[string]bool   `json:"features" help:"Feature flags"`
+	Services map[string]string `json:"services" help:"External service URLs"`
+}
+
+func main() {
+	var config ServiceConfig
+	
+	// Simple API (uses defaults)
+	if err := cfg.Load(&config); err != nil {
+		log.Fatalf("Configuration failed: %v", err)
+	}
+	
+	// Advanced API with full control
+	manager := cfg.NewManager().
+		WithDiscovery(cfg.Union | cfg.Direct).
+		WithFlagStyle(cfg.FlatNest).
+		WithValidation(true).
+		WithEnvironmentPrefix("MYAPP")
+	
+	if err := manager.Load(&config); err != nil {
+		log.Fatalf("Advanced configuration failed: %v", err)
+	}
+	
+	// Generate sample configuration
+	sample, err := manager.GenerateSample("json")
+	if err != nil {
+		log.Printf("Sample generation failed: %v", err)
+	} else {
+		log.Printf("Sample config:\n%s", sample)
+	}
+	
+	// Save current configuration
+	if err := manager.SaveCurrent(&config, "current-config.yaml"); err != nil {
+		log.Printf("Save failed: %v", err)
+	}
+	
+	log.Printf("Service %s v%s configured successfully", config.ServiceName, config.Version)
+}
+#+end_src
+
+* Benefits of Unified Architecture
+
+** Technical Benefits
+- **Single Dependency**: No more dual flag systems
+- **Modern Foundation**: Built entirely on pflag
+- **Clean Separation**: Purpose-built modules with clear responsibilities
+- **Enhanced Features**: Best capabilities from both systems combined
+- **Comprehensive Testing**: Full test coverage for all components
+
+** Developer Experience
+- **Simple API**: Easy for basic use cases
+- **Powerful API**: Full control for complex scenarios
+- **Migration Path**: Clear upgrade path from v2
+- **Rich Documentation**: Examples and guides for all use cases
+- **CLI Tooling**: Configuration generation and management tools
+
+** Maintenance Benefits
+- **Reduced Complexity**: Single, well-designed codebase
+- **Better Testing**: Isolated modules easier to test
+- **Clear Ownership**: Each module has defined responsibilities
+- **Future Extensibility**: Clean interfaces for new features
+
+* Implementation Phases
+
+** Phase 3.1: Foundation (Week 1)
+- Create core module structure
+- Implement discovery engine
+- Build modern flag processor
+- Basic configuration manager
+
+** Phase 3.2: Enhancement (Week 2)  
+- Advanced naming strategies
+- Validation framework
+- Template generation
+- CLI tooling
+
+** Phase 3.3: Migration (Week 3)
+- Compatibility layer
+- Migration tools
+- Documentation
+- Examples and guides
+
+** Phase 3.4: Optimization (Week 4)
+- Performance optimization
+- Additional test coverage
+- Documentation refinement
+- Release preparation
+
+* Success Metrics
+
+- ✅ **Single Package**: All functionality in unified architecture
+- ✅ **Zero Legacy Dependencies**: No vendored go-flag
+- ✅ **Backward Compatibility**: v2 migration path works
+- ✅ **Enhanced Features**: All Phase 2 capabilities preserved and improved
+- ✅ **Comprehensive Testing**: >90% test coverage
+- ✅ **Rich Documentation**: Complete API docs and examples
+- ✅ **Developer Adoption**: Clear upgrade path and migration tools

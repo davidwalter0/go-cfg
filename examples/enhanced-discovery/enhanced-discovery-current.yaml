@@ -1,0 +1,26 @@
+api:
+    enabletls: false
+    host: localhost
+    port: 8080
+    timeout: 0
+database:
+    host: localhost
+    name: test_db
+    password: test_pass
+    port: 5432
+    username: test_user
+environment: development
+features:
+    auth: true
+    debug: false
+    metrics: true
+logging:
+    format: json
+    level: info
+    output: stdout
+servicename: first-mode-test
+services:
+    auth_service: https://auth.example.com:8080
+    billing_service: https://billing.example.com:8080
+    user_service: https://users.example.com:8080
+version: 1.0.0

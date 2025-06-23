@@ -1,0 +1,23 @@
+api:
+    enabletls: false
+    host: localhost
+    port: 8080
+    timeout: 30s
+database:
+    host: localhost
+    name: ""
+    password: ""
+    port: 5432
+    username: ""
+environment: development
+features:
+    auth: true
+    debug: false
+    metrics: true
+metrics:
+    enabled: true
+    endpoint: /metrics
+    port: 9090
+servicename: ""
+services: {}
+version: 1.0.0

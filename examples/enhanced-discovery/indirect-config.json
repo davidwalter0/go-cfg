@@ -1,0 +1,8 @@
+{
+  "path": "secure-config.json",
+  "env": {
+    "DATABASE_HOST": "secure-db.internal",
+    "API_SECRET": "production-secret",
+    "LOG_LEVEL": "info"
+  }
+}

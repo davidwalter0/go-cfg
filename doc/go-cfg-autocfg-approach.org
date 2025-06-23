@@ -1,0 +1,416 @@
+#+TITLE: go-cfg + AutoCfg Integration Approach
+#+AUTHOR: go-cfg Development Team  
+#+DATE: 2025-06-22
+
+* Executive Summary
+
+This document outlines the integration strategy between go-cfg and AutoCfg systems to create a unified, powerful configuration management solution. The integration leverages the complementary strengths of both systems: AutoCfg's sophisticated file discovery and loading mechanisms with go-cfg's advanced flag processing and clean naming conventions.
+
+* System Analysis Summary
+
+** AutoCfg Strengths
+- **Flexible Search Strategies**: Union (merge all) vs First (stop on first found) modes
+- **Hierarchical Discovery**: Standard locations (=/etc=, =~/.config=, local, environment override)
+- **Indirect Configuration**: Pointer files that reference actual config locations
+- **Environment Integration**: Variable expansion and tilde resolution
+- **Multi-source Merging**: Union dominance with clear precedence rules
+
+** go-cfg Strengths  
+- **Clean Flag Naming**: FlatNest() generates intuitive flags (=--api-host= vs =--config-api-host=)
+- **Advanced pflag Integration**: Superior command-line argument processing
+- **Type Safety**: Robust struct tag processing and automatic type conversion
+- **Enhanced Help**: Environment variable display and comprehensive usage text
+- **Validation**: Required field checking and default value handling
+
+* Integration Approaches
+
+** Approach 1: Layered Integration (Immediate Implementation)
+
+*** Overview
+Maintain both systems as separate packages but compose them in a layered architecture where AutoCfg handles file discovery/loading and go-cfg handles flag processing.
+
+*** Implementation
+#+begin_src go :tangle /home/david/org/go-cfg/doc/layered-integration-example.go :results org :main no :package 'discard :mkdirp yes :tangle-mode o0644
+package main
+
+import (
+    "log"
+    "github.com/davidwalter0/go-cfg"
+    "github.com/davidwalter0/go-configurator/pkg/autocfg"
+)
+
+type Config struct {
+    ServiceName string `json:"service_name" required:"true"`
+    API struct {
+        Host string `json:"host" default:"localhost"`
+        Port int    `json:"port" default:"8080"`
+    } `json:"api"`
+    Database struct {
+        Host string `json:"host" default:"localhost"`
+        Port int    `json:"port" default:"5432"`
+        Name string `json:"name" required:"true"`
+    } `json:"database"`
+}
+
+func main() {
+    var config Config
+    
+    // Stage 1: AutoCfg handles file discovery and loading
+    // Searches /etc, ~/.config, local directory, $AUTOCFG_FILENAME
+    if err := autocfg.Configure(&config); err != nil {
+        log.Printf("AutoCfg loading failed: %v", err)
+    }
+    
+    // Stage 2: go-cfg handles flag processing with clean naming
+    // Generates: --service-name, --api-host, --database-port, etc.
+    if err := cfg.FlatNest(&config); err != nil {
+        log.Fatalf("Flag processing failed: %v", err)
+    }
+    
+    // Configuration is now fully loaded with proper precedence:
+    // Files (lowest) → Environment → Flags (highest)
+}
+#+end_src
+
+*** Advantages
+- **Immediate Implementation**: No major refactoring required
+- **Clear Separation**: Each system handles its strengths
+- **Backward Compatibility**: Existing code continues to work
+- **Low Risk**: Minimal architectural changes
+
+*** Disadvantages
+- **Dual Dependencies**: Applications must import both packages
+- **Potential Conflicts**: Different struct tag interpretations
+- **Configuration Duplication**: Some settings may need to be specified in both systems
+
+** Approach 2: Enhanced Discovery (✅ COMPLETED - Phase 2)
+
+*** Overview
+AutoCfg search patterns have been successfully integrated directly into go-cfg core, creating a unified system that combines sophisticated file discovery with clean flag processing.
+
+*** Implementation Status: COMPLETED
+- ✅ **SearchMode Bitwise Flags**: =Union= (merge all configs), =First= (stop on first found), =Direct= (load files directly), =Indirect= (AutoCfg pointer files)
+- ✅ **Standard Path Discovery**: =/etc/{program}/config.json=, =~/.config/{program}/config.json=, =.{program}.json=, =config.json=
+- ✅ **Environment Integration**: =AUTOCFG_FILENAME= override, =DISCOVERY_MODE= selection
+- ✅ **Enhanced API**: =FlatNestWithDiscovery()= combines discovery with go-cfg's clean flag naming
+- ✅ **Comprehensive Testing**: 9 unit tests covering all discovery modes and integration scenarios
+- ✅ **Maps and Slices**: JSON unmarshaling works seamlessly for complex data types
+
+*** Implemented API
+#+begin_src go :tangle /home/david/org/go-cfg/doc/enhanced-discovery-api.go :results org :main no :package 'discard :mkdirp yes :tangle-mode o0644
+// Enhanced go-cfg with integrated AutoCfg-style discovery
+package cfg
+
+type ConfigOptions struct {
+    SearchMode   SearchMode
+    SearchPaths  []string
+    EnvOverride  string
+    ProgramName  string
+}
+
+type SearchMode int
+const (
+    Union SearchMode = 1 << iota  // Merge all found configs
+    First                        // Stop on first found  
+    Direct                       // Load direct config files
+    Indirect                     // Load via pointer files
+)
+
+// Enhanced FlatNest with discovery options (IMPLEMENTED)
+func FlatNestWithDiscovery(opts ConfigOptions, ptrs ...interface{}) error
+
+// Simple API maintaining backward compatibility (IMPLEMENTED)
+func FlatNest(ptrs ...interface{}) error {
+    return FlatNestWithDiscovery(DefaultConfigOptions(), ptrs...)
+}
+
+// Default configuration for most use cases (IMPLEMENTED)
+func DefaultConfigOptions() ConfigOptions {
+    return ConfigOptions{
+        SearchMode:  Union | Direct,
+        EnvOverride: "AUTOCFG_FILENAME",
+    }
+}
+#+end_src
+
+*** Discovery Modes in Detail
+**** Union Mode (Default)
+Merges all found configuration files in search order:
+1. System configuration (=/etc/{program}/config.json=)
+2. User configuration (=~/.config/{program}/config.json=)
+3. Local configuration (=.{program}.json=)
+4. Current directory (=config.json=)
+5. Environment variables
+6. Command line flags
+
+**** First Mode
+Stops at the first found configuration file, providing traditional AutoCfg behavior.
+
+**** Indirect Mode
+Supports AutoCfg pointer files with format:
+#+begin_src json
+{
+  "path": "/secure/config.json",
+  "env": {
+    "DATABASE_HOST": "prod-db.internal",
+    "API_SECRET": "production-secret"
+  }
+}
+#+end_src
+
+*** Test Coverage (✅ VERIFIED)
+Nine comprehensive unit tests validate all functionality:
+- =TestConfigDiscovery_NewConfigDiscovery=: Constructor validation
+- =TestConfigDiscovery_GetSearchPaths=: Path generation verification
+- =TestConfigDiscovery_LoadConfigFile_Direct=: JSON loading with maps/slices
+- =TestConfigDiscovery_LoadConfigFile_Indirect=: Pointer file processing
+- =TestConfigDiscovery_FindConfigFiles_Union=: Multi-file discovery
+- =TestConfigDiscovery_FindConfigFiles_First=: Single-file discovery
+- =TestConfigDiscovery_EnvironmentOverride=: Environment variable integration
+- =TestConfigDiscovery_DiscoverAndLoad_Integration=: End-to-end validation
+- =TestDefaultConfigOptions=: Default configuration verification
+
+*** Benefits Achieved
+- **Clean Flag Names**: =--api-host= instead of =--config-api-host=
+- **AutoCfg Compatibility**: Standard search paths and modes
+- **Complex Types**: Maps and slices work seamlessly via JSON
+- **Environment Integration**: =DISCOVERY_MODE= and =AUTOCFG_FILENAME= support
+- **Backward Compatibility**: Existing =FlatNest()= calls continue to work
+- **Comprehensive Testing**: Full test coverage for all discovery scenarios
+
+*** Implementation Example
+#+begin_src go :tangle /home/david/org/go-cfg/doc/pattern-adoption-example.go :results org :main no :package 'discard :mkdirp yes :tangle-mode o0644
+package main
+
+import (
+    "log"
+    "github.com/davidwalter0/go-cfg"
+)
+
+type Config struct {
+    ServiceName string `json:"service_name" required:"true"`
+    API struct {
+        Host string `json:"host" default:"localhost"`
+        Port int    `json:"port" default:"8080"`
+    } `json:"api"`
+}
+
+func main() {
+    var config Config
+    
+    // Enhanced go-cfg with AutoCfg patterns integrated
+    opts := cfg.ConfigOptions{
+        SearchMode: cfg.Union | cfg.Direct,  // Merge all found configs
+        SearchPaths: []string{
+            "/etc/myapp/config.json",
+            "~/.config/myapp/config.json", 
+            ".myapp.json",
+        },
+        EnvOverride: "MYAPP_CONFIG_FILE",
+    }
+    
+    if err := cfg.FlatNestWithDiscovery(opts, &config); err != nil {
+        log.Fatalf("Configuration failed: %v", err)
+    }
+    
+    // Single API call handles:
+    // - File discovery and loading (AutoCfg patterns)
+    // - Environment variable processing  
+    // - Clean flag generation (go-cfg strengths)
+    // - Validation and help text
+}
+#+end_src
+
+*** Advantages
+- **Unified API**: Single package import and configuration call
+- **Enhanced Functionality**: Best of both systems in one interface
+- **Maintained Compatibility**: Existing go-cfg code continues to work
+- **Cleaner Architecture**: No dual-system coordination required
+
+*** Disadvantages
+- **Development Complexity**: Significant integration work required
+- **Testing Burden**: Must validate all AutoCfg patterns work correctly
+- **Migration Effort**: Existing AutoCfg users need to migrate
+
+** Approach 3: Unified Module Architecture (Long-term Vision)
+
+*** Overview
+Create a completely new unified module with distinct packages for different concerns, combining the best architectural patterns from both systems.
+
+*** Proposed Module Structure
+#+begin_example
+go-cfg/
+├── pkg/
+│   ├── discovery/     # AutoCfg-style file discovery and loading
+│   │   ├── search.go  # Search modes and strategies
+│   │   ├── paths.go   # Standard path resolution  
+│   │   └── loader.go  # Direct/indirect configuration loading
+│   ├── flags/         # Enhanced go-cfg flag processing
+│   │   ├── pflag.go   # pflag integration
+│   │   ├── naming.go  # FlatNest and clean naming
+│   │   └── help.go    # Enhanced help generation
+│   ├── config/        # Unified configuration management
+│   │   ├── manager.go # Main configuration coordinator
+│   │   ├── merger.go  # Multi-source configuration merging
+│   │   └── validate.go# Validation and required field checking
+│   └── generate/      # Enhanced template generation
+│       ├── samples.go # Configuration file generation
+│       └── docs.go    # Documentation from struct tags
+├── cmd/
+│   └── cfggen/        # CLI tool for configuration generation
+├── examples/          # Updated examples using unified API
+└── doc/              # Comprehensive documentation
+#+end_example
+
+*** Unified API Design
+#+begin_src go :tangle /home/david/org/go-cfg/doc/unified-api-example.go :results org :main no :package 'discard :mkdirp yes :tangle-mode o0644
+package main
+
+import (
+    "log"
+    "github.com/davidwalter0/go-cfg/v2"
+)
+
+type Config struct {
+    ServiceName string `json:"service_name" required:"true" help:"Service identifier"`
+    API struct {
+        Host string `json:"host" default:"localhost" help:"API server host"`
+        Port int    `json:"port" default:"8080" help:"API server port"`
+    } `json:"api" help:"API server configuration"`
+}
+
+func main() {
+    var config Config
+    
+    // Unified configuration with all features
+    mgr := cfg.NewManager().
+        WithDiscovery(cfg.Union | cfg.Direct).
+        WithFlagStyle(cfg.FlatNest).
+        WithValidation(true).
+        WithHelpEnhancement(true)
+    
+    if err := mgr.Configure(&config); err != nil {
+        log.Fatalf("Configuration failed: %v", err)
+    }
+    
+    // Or simple API for common cases
+    if err := cfg.Configure(&config); err != nil {
+        log.Fatalf("Configuration failed: %v", err)
+    }
+}
+#+end_src
+
+*** Advantages  
+- **Clean Architecture**: Purpose-built unified design
+- **Maximum Flexibility**: All configuration patterns available
+- **Extensibility**: Easy to add new sources (Consul, Vault, etc.)
+- **Optimal Performance**: No coordination overhead between systems
+
+*** Disadvantages
+- **Major Breaking Changes**: Significant migration required
+- **Development Time**: Substantial implementation effort
+- **Ecosystem Impact**: Affects all existing users of both systems
+
+* Implementation Roadmap
+
+** Phase 1: Layered Integration (Weeks 1-2)
+1. Create compatibility layer between AutoCfg and go-cfg
+2. Develop examples showing layered usage
+3. Document integration patterns and best practices
+4. Test with existing applications
+
+** Phase 2: Pattern Adoption (Weeks 3-8)  
+1. Extract core AutoCfg discovery patterns
+2. Integrate search modes into go-cfg
+3. Implement indirect configuration support
+4. Add union dominance merging logic
+5. Enhance help generation with discovery information
+6. Create migration tools and documentation
+
+** Phase 3: Unified Architecture (Weeks 9-16)
+1. Design unified module architecture
+2. Implement discovery package with AutoCfg patterns
+3. Enhance flags package with improved pflag integration  
+4. Create configuration manager with multi-source coordination
+5. Develop enhanced generator with documentation features
+6. Build comprehensive test suite and examples
+
+* Migration Strategy
+
+** For Current go-cfg Users
+#+begin_src go
+// Before
+cfg.FlatNest(&config)
+
+// After (Layered Integration)
+autocfg.Configure(&config)  // Add file discovery
+cfg.FlatNest(&config)       // Keep existing flag processing
+
+// After (Pattern Adoption)  
+cfg.FlatNestWithDiscovery(cfg.DefaultDiscovery(), &config)
+
+// After (Unified)
+cfg.Configure(&config)      // Single call, all features
+#+end_src
+
+** For Current AutoCfg Users
+#+begin_src go
+// Before
+autocfg.Configure(&config)
+
+// After (Layered Integration)
+autocfg.Configure(&config)  // Keep existing file handling
+cfg.FlatNest(&config)       // Add superior flag processing
+
+// After (Pattern Adoption)
+cfg.FlatNestWithDiscovery(cfg.AutoCfgCompatible(), &config)
+
+// After (Unified)
+cfg.Configure(&config)      // Enhanced version of autocfg.Configure
+#+end_src
+
+* Technical Considerations
+
+** Compatibility Requirements
+- Maintain existing struct tag formats (=json=, =default=, =required=)
+- Preserve AutoCfg search behavior and file formats
+- Keep go-cfg flag naming and help generation
+- Support both JSON and YAML configuration files
+
+** Performance Implications
+- **Layered Integration**: Minimal overhead, two separate processing passes
+- **Pattern Adoption**: Slight overhead from unified processing
+- **Unified Architecture**: Optimal performance, single integrated pass
+
+** Testing Strategy
+- Comprehensive integration tests covering all AutoCfg search patterns
+- Flag generation tests ensuring clean naming is preserved
+- Performance benchmarks comparing approaches
+- Migration compatibility tests for both user bases
+
+* Risk Assessment
+
+** Low Risk (Layered Integration)
+- **Technical Risk**: Low - minimal code changes
+- **User Impact**: Low - additive functionality
+- **Maintenance**: Medium - two systems to maintain
+
+** Medium Risk (Pattern Adoption)  
+- **Technical Risk**: Medium - significant integration complexity
+- **User Impact**: Low-Medium - new API options, backward compatible
+- **Maintenance**: Low-Medium - unified codebase
+
+** High Risk (Unified Architecture)
+- **Technical Risk**: High - complete rewrite and redesign
+- **User Impact**: High - breaking changes, migration required  
+- **Maintenance**: Low - single, well-designed system
+
+* Recommendation
+
+**Immediate Action**: Implement **Layered Integration** approach to provide immediate value to users while maintaining system stability.
+
+**Medium-term Goal**: Proceed with **Pattern Adoption** approach to create a unified, powerful configuration system that maintains backward compatibility while adding AutoCfg's sophisticated discovery capabilities.
+
+**Long-term Vision**: Consider **Unified Architecture** as a major version release (v2.0) that provides the optimal user experience and architectural foundation for future enhancements.
+
+This phased approach allows for incremental value delivery while managing risk and ensuring user adoption at each stage.

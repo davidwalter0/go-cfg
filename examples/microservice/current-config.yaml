@@ -8,19 +8,18 @@ database:
     conntimeout: 5s
     host: localhost
     maxconns: 10
-    name: ""
-    password: ""
+    name: test
+    password: test
     port: 5432
     querytimeout: 30s
     sslmode: prefer
-    username: ""
+    username: test
 discovery:
     enabled: false
     endpoints:
-      - consul:8500
-      - etcd:2379
-      - consul:8500
-      - etcd:2379
+      - server1
+      - server2
+      - server3
     namespace: default
 environment: development
 features:
@@ -47,7 +46,6 @@ resources:
 security:
     corsorigins:
       - '*'
-      - '*'
     enablecors: true
     jwtexpiration: 24h0m0s
     jwtsecret: ""
@@ -55,11 +53,11 @@ security:
         burst: 200
         enabled: true
         rps: 100
-servicename: david
+servicename: test
 services: {}
 tracing:
     enabled: false
     endpoint: ""
     samplerate: 0.1
-    servicename: david
+    servicename: test
 version: unknown

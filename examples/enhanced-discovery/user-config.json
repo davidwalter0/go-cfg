@@ -1,0 +1,32 @@
+{
+  "service_name": "user-service",
+  "version": "1.1.0",
+  "environment": "staging",
+  "api": {
+    "host": "localhost",
+    "port": 8080,
+    "timeout": "30s",
+    "enable_tls": false
+  },
+  "database": {
+    "host": "user-db.local",
+    "port": 5432,
+    "name": "user_db",
+    "username": "user_dev",
+    "password": "user_password"
+  },
+  "features": {
+    "auth": true,
+    "metrics": true,
+    "debug": true,
+    "rate_limiting": false
+  },
+  "services": {
+    "user_service": "http://localhost:8081"
+  },
+  "logging": {
+    "level": "debug",
+    "format": "text",
+    "output": "stdout"
+  }
+}

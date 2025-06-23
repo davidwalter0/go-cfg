@@ -1,0 +1,33 @@
+{
+  "service_name": "system-service",
+  "version": "1.0.0",
+  "environment": "production",
+  "api": {
+    "host": "0.0.0.0",
+    "port": 80,
+    "timeout": "60s",
+    "enable_tls": true
+  },
+  "database": {
+    "host": "system-db.internal",
+    "port": 5432,
+    "name": "system_db",
+    "username": "system_user",
+    "password": "system_password"
+  },
+  "features": {
+    "auth": true,
+    "metrics": true,
+    "debug": false,
+    "rate_limiting": true
+  },
+  "services": {
+    "monitoring": "https://monitoring.internal:8080",
+    "logging": "https://logs.internal:8080"
+  },
+  "logging": {
+    "level": "warn",
+    "format": "json",
+    "output": "syslog"
+  }
+}

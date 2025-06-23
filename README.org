@@ -97,6 +97,7 @@ type Config struct {
     // Basic types with defaults
     Host string `default:"localhost" json:"host"`
     Port int    `default:"8080" json:"port"`
+    DiscoveryEndpoints map[string]int    `default:"consul:8080,etcd:2379,server:1234"`
     
     // Required fields
     APIKey string `required:"true" json:"api_key"`
@@ -130,7 +131,7 @@ func main() {
 #+END_SRC
 
 #+RESULTS:
-: Configuration loaded: {Host:localhost Port:8080 APIKey: Tags:[web api production web api production] Database:{Host:localhost Port:5432 Name: Username: Password:} Timeouts:map[read:30s write:10s]}
+: Configuration loaded: {Host:localhost Port:8080 DiscoveryEndpoints:map[consul:8080 etcd:2379 server:1234] APIKey: Tags:[web api production web api production] Database:{Host:localhost Port:5432 Name: Username: Password:} Timeouts:map[read:30s write:10s]}
 
 ** Running the Example
 
@@ -146,13 +147,38 @@ go run /tmp/go-cfg/main.go
 
 # Override with command-line flags
 go run /tmp/go-cfg/main.go --host=0.0.0.0 --port=9000 --tags=staging,debug
+go run /tmp/go-cfg/main.go --host=0.0.0.0 --port=9000 --tags=staging,debug --help 2>&1 || true 
 #+END_SRC
 
 #+RESULTS:
 #+begin_src org
-Configuration loaded: {Host:localhost Port:8080 APIKey: Tags:[web api production web api production] Database:{Host:localhost Port:5432 Name: Username: Password:} Timeouts:map[read:30s write:10s]}
-Configuration loaded: {Host:localhost Port:8080 APIKey:your-secret-key Tags:[web api production web api production] Database:{Host:localhost Port:5432 Name:myapp Username:user Password:pass} Timeouts:map[read:30s write:10s]}
-Configuration loaded: {Host:0.0.0.0 Port:9000 APIKey:your-secret-key Tags:[web api production web api production staging debug] Database:{Host:localhost Port:5432 Name:myapp Username:user Password:pass} Timeouts:map[read:30s write:10s]}
+Configuration loaded: {Host:localhost Port:8080 DiscoveryEndpoints:map[consul:8080 etcd:2379 server:1234] APIKey:your-secret-key Tags:[web api production] Database:{Host:localhost Port:5432 Name:myapp Username:user Password:pass} Timeouts:map[read:30s write:10s]}
+Configuration loaded: {Host:0.0.0.0 Port:9000 DiscoveryEndpoints:map[consul:8080 etcd:2379 server:1234] APIKey:your-secret-key Tags:[staging debug] Database:{Host:localhost Port:5432 Name:myapp Username:user Password:pass} Timeouts:map[read:30s write:10s]}
+
+Usage of main:
+  -api-key string
+    	 Env API_KEY                          : (api_key) (string)
+  -database-host string
+    	 Env DATABASE_HOST                    : (host) (string) (default "localhost")
+  -database-name string
+    	 Env DATABASE_NAME                    : (name) (string)
+  -database-password string
+    	 Env DATABASE_PASSWORD                : (password) (string)
+  -database-port int
+    	 Env DATABASE_PORT                    : (port) (int) (default 5432)
+  -database-username string
+    	 Env DATABASE_USERNAME                : (username) (string)
+  -discovery-endpoints value
+    	 Env DISCOVERY_ENDPOINTS              : (DiscoveryEndpoints) () (default consul:8080,etcd:2379,server:1234)
+  -host string
+    	 Env HOST                             : (host) (string) (default "localhost")
+  -port int
+    	 Env PORT                             : (port) (int) (default 8080)
+  -tags value
+    	 Env TAGS                             : (tags) () (default web,api,production)
+  -timeouts value
+    	 Env TIMEOUTS                         : (timeouts) () (default read:30s,write:10s)
+exit status 2
 #+end_src
 
 * Configuration Sources Priority
