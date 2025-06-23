@@ -13,7 +13,7 @@ type URLValue struct {
 func NewURLValue(defaultURL string) *URLValue {
 	uv := &URLValue{}
 	if defaultURL != "" {
-		uv.Set(defaultURL)
+		_ = uv.Set(defaultURL)
 	}
 	return uv
 }
@@ -30,22 +30,22 @@ func (uv *URLValue) Set(s string) error {
 		uv.URL = nil
 		return nil
 	}
-	
+
 	parsed, err := url.Parse(s)
 	if err != nil {
 		return fmt.Errorf("invalid URL '%s': %w", s, err)
 	}
-	
+
 	// Validation: ensure scheme is provided for absolute URLs
 	if parsed.Scheme == "" && parsed.Host != "" {
 		return fmt.Errorf("URL must include scheme (http/https): %s", s)
 	}
-	
+
 	// Validation: ensure host for absolute URLs
 	if parsed.Scheme != "" && parsed.Host == "" {
 		return fmt.Errorf("URL with scheme must include host: %s", s)
 	}
-	
+
 	uv.URL = parsed
 	return nil
 }
@@ -82,7 +82,7 @@ func NewURLSliceValue(defaultURLs ...string) *URLSliceValue {
 	usv := &URLSliceValue{}
 	for _, u := range defaultURLs {
 		if u != "" {
-			usv.Set(u)
+			_ = usv.Set(u)
 		}
 	}
 	return usv
@@ -92,7 +92,7 @@ func (usv *URLSliceValue) String() string {
 	if len(usv.URLs) == 0 {
 		return ""
 	}
-	
+
 	var urls []string
 	for _, u := range usv.URLs {
 		if u != nil {
@@ -107,7 +107,7 @@ func (usv *URLSliceValue) Set(s string) error {
 	if err := uv.Set(s); err != nil {
 		return err
 	}
-	
+
 	if uv.URL != nil {
 		usv.URLs = append(usv.URLs, uv.URL)
 	}

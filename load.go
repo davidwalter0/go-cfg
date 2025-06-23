@@ -31,7 +31,7 @@ func Type(config interface{}) string {
 	if reflect.TypeOf(config).Kind() == reflect.Ptr {
 		return fmt.Sprintf("(%s) %s", reflect.TypeOf(config).Kind(), reflect.ValueOf(config).Elem().Kind())
 	}
-	return fmt.Sprintf("%s", reflect.ValueOf(config).Elem().Kind())
+	return reflect.ValueOf(config).Elem().Kind().String()
 }
 
 // Copy from the internal store to the config object interface{}
@@ -43,11 +43,11 @@ func Copy(config interface{}) {
 	var TypeOf = reflect.TypeOf(config).String()
 	lookup := RemovePkg(TypeOf)
 	if target, found := Store[lookup]; found {
-		switch target.(type) {
+		switch typedTarget := target.(type) {
 		case Stor: // NoOp
 		case map[string]interface{}:
 			to := Stor{}
-			for k, v := range target.(map[string]interface{}) {
+			for k, v := range typedTarget {
 				to[k] = v
 			}
 			target = to

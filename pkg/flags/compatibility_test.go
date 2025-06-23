@@ -28,7 +28,7 @@ func TestCompatibilityComparison(t *testing.T) {
 		"LOG_LEVEL":    "debug",
 		"ENVIRONMENT":  "staging",
 	}
-	
+
 	for key, value := range envVars {
 		os.Setenv(key, value)
 	}
@@ -40,19 +40,19 @@ func TestCompatibilityComparison(t *testing.T) {
 
 	t.Run("NewImplementation", func(t *testing.T) {
 		config := &CompatibilityTestConfig{}
-		
+
 		// Use our new pkg/flags implementation
 		flagConfig := NewFlagConfig()
 		err := flagConfig.RegisterCustomTypes(config)
 		if err != nil {
 			t.Fatalf("RegisterCustomTypes() error = %v", err)
 		}
-		
+
 		err = flagConfig.Parse([]string{})
 		if err != nil {
 			t.Fatalf("Parse() error = %v", err)
 		}
-		
+
 		// Validate results
 		tests := []struct {
 			name     string
@@ -67,7 +67,7 @@ func TestCompatibilityComparison(t *testing.T) {
 			{"LogLevel", config.LogLevel, "debug"},
 			{"Environment", config.Environment, "staging"},
 		}
-		
+
 		for _, test := range tests {
 			if test.got != test.expected {
 				t.Errorf("%s = %v, want %v", test.name, test.got, test.expected)
@@ -92,20 +92,20 @@ func TestCompatibilityWrappers(t *testing.T) {
 
 	// Test the compatibility wrapper
 	config := &CompatibilityTestConfig{}
-	
+
 	// Since this uses os.Args, we need to simulate that
 	// Save original args
 	originalArgs := os.Args
 	defer func() { os.Args = originalArgs }()
-	
+
 	// Set test args
 	os.Args = []string{"test"}
-	
+
 	err := Flags(config)
 	if err != nil {
 		t.Fatalf("Flags() wrapper error = %v", err)
 	}
-	
+
 	// Should use defaults
 	if config.Name != "test-app" {
 		t.Errorf("Name = %s, want test-app", config.Name)
@@ -118,28 +118,28 @@ func TestCompatibilityWrappers(t *testing.T) {
 // Benchmark comparing old and new implementations
 func BenchmarkNewImplementation(b *testing.B) {
 	config := &CompatibilityTestConfig{}
-	
+
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		flagConfig := NewFlagConfig()
-		flagConfig.RegisterCustomTypes(config)
-		flagConfig.Parse([]string{})
+		_ = flagConfig.RegisterCustomTypes(config)
+		_ = flagConfig.Parse([]string{})
 	}
 }
 
 // Test to demonstrate that the new implementation is a viable replacement
 func TestReplacementStrategy(t *testing.T) {
 	t.Log("Demonstrating that pkg/flags can replace vendor implementation:")
-	
+
 	t.Log("✓ Environment variable integration")
 	t.Log("✓ Flag parsing with pflag")
-	t.Log("✓ Type safety and validation") 
+	t.Log("✓ Type safety and validation")
 	t.Log("✓ Custom types (Duration, URL, etc.)")
 	t.Log("✓ Default value handling")
 	t.Log("✓ Required field validation")
 	t.Log("✓ Naming convention conversion")
 	t.Log("✓ Compatibility wrapper functions")
-	
+
 	// The new implementation provides all the core functionality
 	// of the vendor implementation but with modern Go practices:
 	// - Uses pflag instead of the old flag system

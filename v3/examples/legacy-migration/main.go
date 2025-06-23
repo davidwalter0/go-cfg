@@ -6,7 +6,7 @@ import (
 
 	// Legacy API (compatible)
 	legacy "github.com/davidwalter0/go-cfg/v3/legacy"
-	
+
 	// Modern v3 API
 	"github.com/davidwalter0/go-cfg/v3/pkg/config"
 )
@@ -88,20 +88,20 @@ func MigrationGuide() {
 	var _ AppConfig // Placeholder for documentation
 
 	// Old: legacy.Init(&cfg)
-	// New: config.Load(&cfg) 
+	// New: config.Load(&cfg)
 	// Or:  legacy.Init(&cfg) (still works!)
 
-	// Old: legacy.Simple(&cfg) 
+	// Old: legacy.Simple(&cfg)
 	// New: config.NewManager().WithFlagStyle(config.FlatNest).Load(&cfg)
 	// Or:  legacy.Simple(&cfg) (still works!)
 
 	// Old: legacy.Nest(&cfg)
-	// New: config.NewManager().WithFlagStyle(config.Nested).Load(&cfg) 
+	// New: config.NewManager().WithFlagStyle(config.Nested).Load(&cfg)
 	// Or:  legacy.Nest(&cfg) (still works!)
 
 	// New capabilities in v3:
 	// - AutoCfg-style discovery
-	// - Multiple naming strategies  
+	// - Multiple naming strategies
 	// - Configuration validation
 	// - Sample generation
 	// - Help generation

@@ -2,7 +2,7 @@ package cfg
 
 import (
 	"os"
-	
+
 	"github.com/spf13/pflag"
 )
 
@@ -11,7 +11,9 @@ var frozen bool
 // Freeze flags
 func Freeze() {
 	if !frozen {
-		globalFlagSet.Parse(os.Args[1:])
+		// Parse errors are typically handled by pflag's error handling mode
+		// In most cases, pflag will exit or panic on parse errors based on the ErrorHandling setting
+		_ = globalFlagSet.Parse(os.Args[1:])
 		frozen = true
 	}
 }

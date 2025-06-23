@@ -19,7 +19,7 @@ type TestConfig struct {
 
 func TestLegacyInit(t *testing.T) {
 	var cfg TestConfig
-	
+
 	err := Init(&cfg)
 	if err != nil {
 		t.Fatalf("Init failed: %v", err)
@@ -36,7 +36,7 @@ func TestLegacyInit(t *testing.T) {
 
 func TestLegacyEval(t *testing.T) {
 	var cfg TestConfig
-	
+
 	err := Eval(&cfg)
 	if err != nil {
 		t.Fatalf("Eval failed: %v", err)
@@ -49,7 +49,7 @@ func TestLegacyEval(t *testing.T) {
 
 func TestLegacySimple(t *testing.T) {
 	var cfg TestConfig
-	
+
 	err := Simple(&cfg)
 	if err != nil {
 		t.Fatalf("Simple failed: %v", err)
@@ -62,7 +62,7 @@ func TestLegacySimple(t *testing.T) {
 
 func TestLegacySimpleFlags(t *testing.T) {
 	var cfg TestConfig
-	
+
 	err := SimpleFlags(&cfg)
 	if err != nil {
 		t.Fatalf("SimpleFlags failed: %v", err)
@@ -79,7 +79,7 @@ func TestLegacySimpleFlags(t *testing.T) {
 
 func TestLegacyNest(t *testing.T) {
 	var cfg TestConfig
-	
+
 	err := Nest(&cfg)
 	if err != nil {
 		t.Fatalf("Nest failed: %v", err)
@@ -92,7 +92,7 @@ func TestLegacyNest(t *testing.T) {
 
 func TestLegacyWrap(t *testing.T) {
 	var cfg TestConfig
-	
+
 	err := Wrap("PREFIX", &cfg)
 	if err != nil {
 		t.Fatalf("Wrap failed: %v", err)
@@ -105,7 +105,7 @@ func TestLegacyWrap(t *testing.T) {
 
 func TestLegacyUnwrap(t *testing.T) {
 	var cfg TestConfig
-	
+
 	err := Unwrap(&cfg)
 	if err != nil {
 		t.Fatalf("Unwrap failed: %v", err)
@@ -118,7 +118,7 @@ func TestLegacyUnwrap(t *testing.T) {
 
 func TestLegacyBare(t *testing.T) {
 	var cfg TestConfig
-	
+
 	err := Bare(&cfg)
 	if err != nil {
 		t.Fatalf("Bare failed: %v", err)
@@ -131,7 +131,7 @@ func TestLegacyBare(t *testing.T) {
 
 func TestLegacyAdd(t *testing.T) {
 	var cfg TestConfig
-	
+
 	err := Add(&cfg)
 	if err != nil {
 		t.Fatalf("Add failed: %v", err)
@@ -144,7 +144,7 @@ func TestLegacyAdd(t *testing.T) {
 
 func TestLegacyFlags(t *testing.T) {
 	var cfg TestConfig
-	
+
 	err := Flags(&cfg)
 	if err != nil {
 		t.Fatalf("Flags failed: %v", err)

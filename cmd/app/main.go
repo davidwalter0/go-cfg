@@ -18,7 +18,6 @@ func main() {
 	{
 		var myapp App
 
-		flag.NonFlagOSArgs(0)
 		if err := cfg.Flags(&myapp); err != nil {
 			log.Fatalf("%v\n", err)
 

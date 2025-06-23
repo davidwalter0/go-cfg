@@ -1,3 +1,4 @@
+//go:build appengine
 // +build appengine
 
 package cfg // import "github.com/davidwalter0/go-cfg"

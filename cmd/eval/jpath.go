@@ -21,7 +21,7 @@ func (to RWStrBuff) Write(byte []byte) (n int, err error) {
 }
 
 func (from RWStrBuff) Read(out []byte) (n int, err error) {
-	out = []byte(from)
+	copy(out, []byte(from))
 	return len(from), err
 }
 
@@ -34,21 +34,29 @@ func String(k interface{}) (s string, e error) {
 		fmt.Printf("in %v TypeOf( %v ) %v\n", in, typeinfo, kind)
 	}
 
-	switch k.(type) {
+	switch typedK := k.(type) {
 	case string:
-		s = k.(string)
-	case int32, int64, int:
-		s = strconv.FormatInt(k.(int64), 10)
-	case uint32, uint64, uint:
-		s = strconv.FormatUint(k.(uint64), 10)
+		s = typedK
+	case int32:
+		s = strconv.FormatInt(int64(typedK), 10)
+	case int64:
+		s = strconv.FormatInt(typedK, 10)
+	case int:
+		s = strconv.FormatInt(int64(typedK), 10)
+	case uint32:
+		s = strconv.FormatUint(uint64(typedK), 10)
+	case uint64:
+		s = strconv.FormatUint(typedK, 10)
+	case uint:
+		s = strconv.FormatUint(uint64(typedK), 10)
 	case bool:
-		s = strconv.FormatBool(k.(bool))
+		s = strconv.FormatBool(typedK)
 	case float32:
-		s = strconv.FormatFloat(k.(float64), 'f', -1, 32)
+		s = strconv.FormatFloat(float64(typedK), 'f', -1, 32)
 	case float64:
-		s = strconv.FormatFloat(k.(float64), 'f', -1, 32)
+		s = strconv.FormatFloat(typedK, 'f', -1, 32)
 	case interface{}:
-		s = fmt.Sprintf("%v", k)
+		s = fmt.Sprintf("%v", typedK)
 	default:
 		text := fmt.Sprintf("Expected one of [string, {u,}int{,32,64} float{32,64}] but got: %T", k)
 		e = errors.New(text)
@@ -161,22 +169,25 @@ func _Mapify(in interface{}) (interface{}, error) {
 		return slc, err
 	default:
 
-		switch in.(type) {
+		switch typedIn := in.(type) {
 		case string, bool, uint32, uint64, uint, int, int32, int64, float64, float32, time.Time:
-			return in, nil
+			return typedIn, nil
 		case []struct{}:
 			var T []map[string]interface{}
-			for _, s := range in.([]struct{}) {
+			for _, s := range typedIn {
 				var m map[string]interface{}
 				m, err = Struct2Map(s)
+				if err != nil {
+					return nil, err
+				}
 				T = append(T, m)
 			}
 			return T, nil
 		case struct{}:
-			return Struct2Map(in)
+			return Struct2Map(typedIn)
 		case map[interface{}]interface{}:
 			o := make(map[string]interface{})
-			for k, v := range in.(map[interface{}]interface{}) {
+			for k, v := range typedIn {
 				sk := ""
 				switch t := k.(type) {
 				case *interface{}:
@@ -191,6 +202,9 @@ func _Mapify(in interface{}) (interface{}, error) {
 					}
 				default:
 					sk, err = String(k)
+					if err != nil {
+						return nil, err
+					}
 				}
 				v, err = Mapify(v)
 				if err != nil {
@@ -224,11 +238,6 @@ func _Mapify(in interface{}) (interface{}, error) {
 			return in, nil
 		}
 	}
-	if Debug {
-		text := fmt.Sprintf("Expected map got %T", in)
-		fmt.Printf("\n%s\n", text)
-	}
-	return in, nil
 }
 
 // func Mapify(in interface{}) (map[string]interface{}, error) {
@@ -258,16 +267,16 @@ func Mapify(in interface{}) (interface{}, error) {
 		}
 		return slc, err
 	default:
-		switch in.(type) {
+		switch typedIn := in.(type) {
 		case map[string]interface{}:
 			o := make(map[string]interface{})
-			for k, v := range in.(map[string]interface{}) {
+			for k, v := range typedIn {
 				o[k], _ = _Mapify(v)
 			}
 			return o, nil
 		case map[interface{}]interface{}:
 			o := make(map[string]interface{})
-			for k, v := range in.(map[interface{}]interface{}) {
+			for k, v := range typedIn {
 				if sk, err := String(k); err == nil {
 					v, err = _Mapify(v)
 					if err != nil {
@@ -347,18 +356,18 @@ func Json2Yaml(input []byte) string {
 	return string(output)
 }
 func TransformData(in interface{}) (out interface{}, err error) {
-	switch in.(type) {
+	switch typedIn := in.(type) {
 	case *interface{}:
 		sk := ""
-		if in != nil {
-			sk = fmt.Sprintf("%v", in)
+		if typedIn != nil {
+			sk = fmt.Sprintf("%v", typedIn)
 		}
 		return sk, nil
 	case map[string]string:
-		return in.(interface{}), nil
+		return interface{}(typedIn), nil
 	case map[interface{}]interface{}:
 		o := make(map[string]interface{})
-		for k, v := range in.(map[interface{}]interface{}) {
+		for k, v := range typedIn {
 			sk, err := String(k)
 			if err != nil {
 				return nil, err
@@ -384,5 +393,4 @@ func TransformData(in interface{}) (out interface{}, err error) {
 	default:
 		return in, nil
 	}
-	return in, nil
 }

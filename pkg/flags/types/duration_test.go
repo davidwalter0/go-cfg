@@ -69,17 +69,17 @@ func TestDurationValue_Set(t *testing.T) {
 			wantError: true,
 		},
 	}
-	
+
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			dv := NewDurationValue(0)
 			err := dv.Set(test.input)
-			
+
 			if (err != nil) != test.wantError {
 				t.Errorf("DurationValue.Set(%s) error = %v, wantError = %v", test.input, err, test.wantError)
 				return
 			}
-			
+
 			if !test.wantError {
 				result := dv.GetDuration()
 				if result != test.wantResult {
@@ -117,7 +117,7 @@ func TestDurationValue_String(t *testing.T) {
 			expected: "1h30m0s",
 		},
 	}
-	
+
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			dv := NewDurationValue(test.duration)
@@ -151,22 +151,22 @@ func TestDurationValue_JSONMarshaling(t *testing.T) {
 			expected: "3600",
 		},
 	}
-	
+
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			dv := NewDurationValue(test.duration)
-			
+
 			// Test marshaling
 			data, err := json.Marshal(dv)
 			if err != nil {
 				t.Errorf("DurationValue.MarshalJSON() error = %v", err)
 				return
 			}
-			
+
 			if string(data) != test.expected {
 				t.Errorf("DurationValue.MarshalJSON() = %s, want %s", string(data), test.expected)
 			}
-			
+
 			// Test unmarshaling
 			var newDv DurationValue
 			err = json.Unmarshal(data, &newDv)
@@ -174,7 +174,7 @@ func TestDurationValue_JSONMarshaling(t *testing.T) {
 				t.Errorf("DurationValue.UnmarshalJSON() error = %v", err)
 				return
 			}
-			
+
 			if newDv.GetDuration() != test.duration {
 				t.Errorf("DurationValue round-trip: got %v, want %v", newDv.GetDuration(), test.duration)
 			}
@@ -204,22 +204,22 @@ func TestDurationValue_YAMLMarshaling(t *testing.T) {
 			expected: "1h0m0s\n",
 		},
 	}
-	
+
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			dv := NewDurationValue(test.duration)
-			
+
 			// Test marshaling
 			data, err := yaml.Marshal(dv)
 			if err != nil {
 				t.Errorf("DurationValue.MarshalYAML() error = %v", err)
 				return
 			}
-			
+
 			if string(data) != test.expected {
 				t.Errorf("DurationValue.MarshalYAML() = %s, want %s", string(data), test.expected)
 			}
-			
+
 			// Test unmarshaling
 			var newDv DurationValue
 			err = yaml.Unmarshal(data, &newDv)
@@ -227,7 +227,7 @@ func TestDurationValue_YAMLMarshaling(t *testing.T) {
 				t.Errorf("DurationValue.UnmarshalYAML() error = %v", err)
 				return
 			}
-			
+
 			if newDv.GetDuration() != test.duration {
 				t.Errorf("DurationValue YAML round-trip: got %v, want %v", newDv.GetDuration(), test.duration)
 			}
@@ -296,17 +296,17 @@ func TestHumanDurationValue_Set(t *testing.T) {
 			wantError: true,
 		},
 	}
-	
+
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			hdv := NewHumanDurationValue(0)
 			err := hdv.Set(test.input)
-			
+
 			if (err != nil) != test.wantError {
 				t.Errorf("HumanDurationValue.Set(%s) error = %v, wantError = %v", test.input, err, test.wantError)
 				return
 			}
-			
+
 			if !test.wantError {
 				result := hdv.GetDuration()
 				if result != test.wantResult {
@@ -359,7 +359,7 @@ func TestHumanDurationValue_String(t *testing.T) {
 			expected: "2d3h30m45s",
 		},
 	}
-	
+
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			hdv := NewHumanDurationValue(test.duration)
@@ -389,11 +389,11 @@ func TestHumanDurationValue_Type(t *testing.T) {
 func BenchmarkDurationValue_Set(b *testing.B) {
 	dv := NewDurationValue(0)
 	testInputs := []string{"1h30m", "90s", "45", "2h30m45s"}
-	
+
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		for _, input := range testInputs {
-			dv.Set(input)
+			_ = dv.Set(input)
 		}
 	}
 }
@@ -401,20 +401,20 @@ func BenchmarkDurationValue_Set(b *testing.B) {
 func BenchmarkHumanDurationValue_Set(b *testing.B) {
 	hdv := NewHumanDurationValue(0)
 	testInputs := []string{"1 hour", "30 minutes", "1 day", "1 week"}
-	
+
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		for _, input := range testInputs {
-			hdv.Set(input)
+			_ = hdv.Set(input)
 		}
 	}
 }
 
 func BenchmarkHumanDurationValue_String(b *testing.B) {
 	hdv := NewHumanDurationValue(2*24*time.Hour + 3*time.Hour + 30*time.Minute + 45*time.Second)
-	
+
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		hdv.String()
+		_ = hdv.String()
 	}
 }

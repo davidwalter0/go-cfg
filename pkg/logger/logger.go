@@ -76,18 +76,18 @@ type Logger interface {
 
 // DefaultLogger is a simple logger implementation
 type DefaultLogger struct {
-	level   Level
-	logger  *log.Logger
-	fields  map[string]interface{}
+	level      Level
+	logger     *log.Logger
+	fields     map[string]interface{}
 	timeFormat string
 }
 
 // New creates a new logger instance
 func New() *DefaultLogger {
 	return &DefaultLogger{
-		level:   InfoLevel,
-		logger:  log.New(os.Stdout, "", 0),
-		fields:  make(map[string]interface{}),
+		level:      InfoLevel,
+		logger:     log.New(os.Stdout, "", 0),
+		fields:     make(map[string]interface{}),
 		timeFormat: time.RFC3339,
 	}
 }
@@ -121,11 +121,11 @@ func (l *DefaultLogger) WithField(key string, value interface{}) Logger {
 		newFields[k] = v
 	}
 	newFields[key] = value
-	
+
 	return &DefaultLogger{
-		level:   l.level,
-		logger:  l.logger,
-		fields:  newFields,
+		level:      l.level,
+		logger:     l.logger,
+		fields:     newFields,
 		timeFormat: l.timeFormat,
 	}
 }
@@ -139,11 +139,11 @@ func (l *DefaultLogger) WithFields(fields map[string]interface{}) Logger {
 	for k, v := range fields {
 		newFields[k] = v
 	}
-	
+
 	return &DefaultLogger{
-		level:   l.level,
-		logger:  l.logger,
-		fields:  newFields,
+		level:      l.level,
+		logger:     l.logger,
+		fields:     newFields,
 		timeFormat: l.timeFormat,
 	}
 }
@@ -152,11 +152,11 @@ func (l *DefaultLogger) WithFields(fields map[string]interface{}) Logger {
 func (l *DefaultLogger) formatMessage(level Level, msg string, args ...interface{}) string {
 	timestamp := time.Now().Format(l.timeFormat)
 	message := fmt.Sprintf(msg, args...)
-	
+
 	var parts []string
 	parts = append(parts, fmt.Sprintf("[%s]", level.String()))
 	parts = append(parts, timestamp)
-	
+
 	// Add fields if any
 	if len(l.fields) > 0 {
 		var fieldParts []string
@@ -165,7 +165,7 @@ func (l *DefaultLogger) formatMessage(level Level, msg string, args ...interface
 		}
 		parts = append(parts, fmt.Sprintf("{%s}", strings.Join(fieldParts, " ")))
 	}
-	
+
 	parts = append(parts, message)
 	return strings.Join(parts, " ")
 }

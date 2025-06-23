@@ -23,11 +23,11 @@ func (nc *NamingConventions) ToUpperSnakeCase(s string) string {
 	// Insert underscores before capital letters (except first)
 	re := regexp.MustCompile(`([a-z])([A-Z])`)
 	snake := re.ReplaceAllString(s, `${1}_${2}`)
-	
+
 	// Handle sequences of capitals (e.g., HTTPSProxy -> HTTPS_Proxy)
 	re2 := regexp.MustCompile(`([A-Z])([A-Z][a-z])`)
 	snake = re2.ReplaceAllString(snake, `${1}_${2}`)
-	
+
 	return strings.ToUpper(snake)
 }
 
@@ -36,11 +36,11 @@ func (nc *NamingConventions) ToKebabCase(s string) string {
 	// Insert hyphens before capital letters (except first)
 	re := regexp.MustCompile(`([a-z])([A-Z])`)
 	kebab := re.ReplaceAllString(s, `${1}-${2}`)
-	
+
 	// Handle sequences of capitals
 	re2 := regexp.MustCompile(`([A-Z])([A-Z][a-z])`)
 	kebab = re2.ReplaceAllString(kebab, `${1}-${2}`)
-	
+
 	return strings.ToLower(kebab)
 }
 
@@ -55,16 +55,16 @@ func GetEnvDefault(fieldName string) string {
 func RegisterValue(flagSet *pflag.FlagSet, value Value, fieldName, usage string) {
 	nc := &NamingConventions{}
 	flagName := nc.ToKebabCase(fieldName)
-	
+
 	// Try to get default from environment
 	if envDefault := GetEnvDefault(fieldName); envDefault != "" {
 		if err := value.Set(envDefault); err != nil {
 			// Log error but don't fail - use type's default instead
-			fmt.Printf("Warning: failed to set %s from env var %s: %v\n", 
+			fmt.Printf("Warning: failed to set %s from env var %s: %v\n",
 				flagName, nc.ToUpperSnakeCase(fieldName), err)
 		}
 	}
-	
+
 	flagSet.Var(value, flagName, usage)
 }
 
@@ -76,11 +76,11 @@ func (tv *TypeValidator) ValidateRequired(value interface{}, fieldName string) e
 	if value == nil {
 		return fmt.Errorf("required field %s is not set", fieldName)
 	}
-	
+
 	// Handle common zero values
-	switch v := value.(type) {
+	switch typedValue := value.(type) {
 	case string:
-		if v == "" {
+		if typedValue == "" {
 			return fmt.Errorf("required field %s cannot be empty", fieldName)
 		}
 	case int, int8, int16, int32, int64:
@@ -90,7 +90,7 @@ func (tv *TypeValidator) ValidateRequired(value interface{}, fieldName string) e
 	case bool:
 		// false is valid for booleans
 	}
-	
+
 	return nil
 }
 

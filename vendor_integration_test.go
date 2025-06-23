@@ -29,7 +29,7 @@ func TestVendorImplementation_Parse(t *testing.T) {
 	// Save and restore original args to isolate test from go test flags
 	originalArgs := os.Args
 	defer func() { os.Args = originalArgs }()
-	
+
 	// Set clean args without test flags
 	os.Args = []string{"test-program"}
 
@@ -87,7 +87,7 @@ func TestVendorImplementation_EnvVars(t *testing.T) {
 	originalArgs := os.Args
 	defer func() { os.Args = originalArgs }()
 	os.Args = []string{"test-program"}
-	
+
 	resetFlags()
 
 	// Set environment variables
@@ -193,7 +193,7 @@ func TestVendorImplementation_TypeConversions(t *testing.T) {
 	originalArgs := os.Args
 	defer func() { os.Args = originalArgs }()
 	os.Args = []string{"test-program"}
-	
+
 	resetFlags()
 
 	os.Unsetenv("REQUIRED")
@@ -289,7 +289,7 @@ func TestVendorImplementation_FlagFunctions(t *testing.T) {
 	originalArgs := os.Args
 	defer func() { os.Args = originalArgs }()
 	os.Args = []string{"test-program"}
-	
+
 	resetFlags()
 
 	os.Setenv("REQUIRED", "test-value")
@@ -317,7 +317,7 @@ func BenchmarkVendorImplementation_Parse(b *testing.B) {
 	originalArgs := os.Args
 	defer func() { os.Args = originalArgs }()
 	os.Args = []string{"test-program"}
-	
+
 	resetFlags()
 
 	os.Setenv("REQUIRED", "benchmark-value")
@@ -325,6 +325,6 @@ func BenchmarkVendorImplementation_Parse(b *testing.B) {
 
 	for i := 0; i < b.N; i++ {
 		config := &VendorTestConfig{}
-		Flags(config)
+		_ = Flags(config) // Test doesn't care about return value
 	}
 }

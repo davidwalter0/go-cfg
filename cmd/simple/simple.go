@@ -22,7 +22,7 @@ func main() {
 	var myapp App
 
 	if err := cfg.Flags(&myapp); err != nil { // parse tags, environment, flags
-		fmt.Errorf("%v", err)
+		_ = fmt.Errorf("%v", err)
 	}
 	fmt.Printf("export Y=v to get ok %v %v\n", cfg.Ok("y"), myapp.Nested.Y)
 	fmt.Printf("IsSet %v required %v ok %v app %+v\n", cfg.IsSet("i"), cfg.Required("i"), cfg.Ok("i"), myapp)
@@ -30,8 +30,8 @@ func main() {
 	fmt.Printf("type %T\n", myapp)
 	fmt.Printf("value %+v\n", myapp)
 	if !cfg.Ok("y") {
-		fmt.Sprintf("! ok => export Y=v to get ok %v %v\n", cfg.Ok("y"), myapp.Nested.Y)
-		defer fmt.Println()
+		text := fmt.Sprintf("! ok => export Y=v to get ok %v %v\n", cfg.Ok("y"), myapp.Nested.Y)
+		defer fmt.Println(text)
 		os.Exit(1)
 	}
 	jsonText, _ := json.MarshalIndent(&myapp, "", "  ")

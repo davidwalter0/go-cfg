@@ -36,14 +36,14 @@ func (hpv *HostPortValue) Set(s string) error {
 		hpv.Port = 0
 		return nil
 	}
-	
+
 	// Handle IPv6 addresses in brackets
 	if strings.HasPrefix(s, "[") {
 		closeBracket := strings.Index(s, "]")
 		if closeBracket == -1 {
 			return fmt.Errorf("invalid IPv6 address format: %s", s)
 		}
-		
+
 		hpv.Host = s[1:closeBracket]
 		if closeBracket+1 < len(s) {
 			if s[closeBracket+1] != ':' {
@@ -63,10 +63,10 @@ func (hpv *HostPortValue) Set(s string) error {
 		}
 		return nil
 	}
-	
+
 	// Handle regular host:port format
 	parts := strings.SplitN(s, ":", 2)
-	
+
 	if len(parts) == 1 {
 		// Only host provided
 		hpv.Host = parts[0]
@@ -85,7 +85,7 @@ func (hpv *HostPortValue) Set(s string) error {
 			hpv.Port = port
 		}
 	}
-	
+
 	// Validate host if provided
 	if hpv.Host != "" {
 		if net.ParseIP(hpv.Host) == nil {
@@ -95,7 +95,7 @@ func (hpv *HostPortValue) Set(s string) error {
 			}
 		}
 	}
-	
+
 	return nil
 }
 
@@ -129,15 +129,15 @@ func isValidHostname(hostname string) bool {
 	if len(hostname) == 0 || len(hostname) > 253 {
 		return false
 	}
-	
+
 	// Simple hostname validation
 	for _, r := range hostname {
-		if !((r >= 'a' && r <= 'z') || (r >= 'A' && r <= 'Z') || 
+		if !((r >= 'a' && r <= 'z') || (r >= 'A' && r <= 'Z') ||
 			(r >= '0' && r <= '9') || r == '-' || r == '.') {
 			return false
 		}
 	}
-	
+
 	return true
 }
 
@@ -149,7 +149,7 @@ type IPValue struct {
 func NewIPValue(defaultIP string) *IPValue {
 	ipv := &IPValue{}
 	if defaultIP != "" {
-		ipv.Set(defaultIP)
+		_ = ipv.Set(defaultIP)
 	}
 	return ipv
 }
@@ -166,12 +166,12 @@ func (ipv *IPValue) Set(s string) error {
 		ipv.IP = nil
 		return nil
 	}
-	
+
 	ip := net.ParseIP(s)
 	if ip == nil {
 		return fmt.Errorf("invalid IP address: %s", s)
 	}
-	
+
 	ipv.IP = ip
 	return nil
 }
@@ -196,6 +196,11 @@ func (ipv *IPValue) IsIPv6() bool {
 	return ipv.IP != nil && ipv.IP.To4() == nil
 }
 
+// IsSet returns true if IP address has been set
+func (ipv *IPValue) IsSet() bool {
+	return ipv.IP != nil
+}
+
 // CIDRValue implements pflag.Value for CIDR notation
 type CIDRValue struct {
 	IPNet *net.IPNet
@@ -204,7 +209,7 @@ type CIDRValue struct {
 func NewCIDRValue(defaultCIDR string) *CIDRValue {
 	cv := &CIDRValue{}
 	if defaultCIDR != "" {
-		cv.Set(defaultCIDR)
+		_ = cv.Set(defaultCIDR)
 	}
 	return cv
 }
@@ -221,12 +226,12 @@ func (cv *CIDRValue) Set(s string) error {
 		cv.IPNet = nil
 		return nil
 	}
-	
+
 	_, ipnet, err := net.ParseCIDR(s)
 	if err != nil {
 		return fmt.Errorf("invalid CIDR notation: %s", s)
 	}
-	
+
 	cv.IPNet = ipnet
 	return nil
 }
@@ -279,51 +284,51 @@ func (prv *PortRangeValue) Set(s string) error {
 		prv.End = 0
 		return nil
 	}
-	
+
 	if !strings.Contains(s, "-") {
 		// Single port
 		port, err := strconv.Atoi(s)
 		if err != nil {
 			return fmt.Errorf("invalid port number: %s", s)
 		}
-		
+
 		if port < 1 || port > 65535 {
 			return fmt.Errorf("port number out of range (1-65535): %d", port)
 		}
-		
+
 		prv.Start = port
 		prv.End = port
 		return nil
 	}
-	
+
 	// Port range
 	parts := strings.SplitN(s, "-", 2)
 	if len(parts) != 2 {
 		return fmt.Errorf("invalid port range format: %s (expected start-end)", s)
 	}
-	
+
 	start, err := strconv.Atoi(parts[0])
 	if err != nil {
 		return fmt.Errorf("invalid start port: %s", parts[0])
 	}
-	
+
 	end, err := strconv.Atoi(parts[1])
 	if err != nil {
 		return fmt.Errorf("invalid end port: %s", parts[1])
 	}
-	
+
 	if start < 1 || start > 65535 {
 		return fmt.Errorf("start port out of range (1-65535): %d", start)
 	}
-	
+
 	if end < 1 || end > 65535 {
 		return fmt.Errorf("end port out of range (1-65535): %d", end)
 	}
-	
+
 	if start > end {
 		return fmt.Errorf("start port must be less than or equal to end port")
 	}
-	
+
 	prv.Start = start
 	prv.End = end
 	return nil

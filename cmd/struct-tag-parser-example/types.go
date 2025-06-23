@@ -3,15 +3,15 @@ package main
 // DatabaseConfig represents database connection configuration
 // These usage tags would be generated from the inline comments above
 type DatabaseConfig struct {
-	Host        string `usage:"Database server hostname" default:"localhost"`
-	Port        int    `usage:"Database server port" default:"5432"`
-	Username    string `usage:"Database username" default:"postgres"`
-	Password    string `usage:"Database password (required in production)"`
-	Database    string `usage:"Database name" default:"myapp"`
-	MaxConns    int    `usage:"Maximum database connections" default:"25"`
-	Timeout     string `usage:"Connection timeout duration" default:"30s"`
-	SSLMode     string `usage:"SSL connection mode" default:"prefer"`
-	ReadOnly    bool   `usage:"Enable read-only database mode"`
+	Host     string `usage:"Database server hostname" default:"localhost"`
+	Port     int    `usage:"Database server port" default:"5432"`
+	Username string `usage:"Database username" default:"postgres"`
+	Password string `usage:"Database password (required in production)"`
+	Database string `usage:"Database name" default:"myapp"`
+	MaxConns int    `usage:"Maximum database connections" default:"25"`
+	Timeout  string `usage:"Connection timeout duration" default:"30s"`
+	SSLMode  string `usage:"SSL connection mode" default:"prefer"`
+	ReadOnly bool   `usage:"Enable read-only database mode"`
 }
 
 // ServerConfig represents HTTP server configuration

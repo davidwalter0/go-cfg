@@ -118,7 +118,7 @@ Examples:
 	fmt.Printf("  Idle Timeout: %v\n", config.IdleTimeout)
 	fmt.Printf("  Environment: %s\n", config.Environment)
 	fmt.Printf("  Debug Mode: %v\n", config.Debug)
-	fmt.Printf("  Features: metrics=%v, logging=%v, cors=%v\n", 
+	fmt.Printf("  Features: metrics=%v, logging=%v, cors=%v\n",
 		config.EnableMetrics, config.EnableLogging, config.EnableCORS)
 
 	// Create HTTP server with configured timeouts

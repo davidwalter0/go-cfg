@@ -68,10 +68,10 @@
 // For more control, register flags manually:
 //
 //	flagSet := pflag.NewFlagSet("myapp", pflag.ExitOnError)
-//	
+//
 //	var serverURL *types.URLValue
 //	flags.RegisterURLFlag(flagSet, "ServerURL", &serverURL, "Server endpoint")
-//	
+//
 //	var logLevel *types.LogLevelValue
 //	validLevels := []string{"debug", "info", "warn", "error"}
 //	flags.RegisterEnumFlag(flagSet, "LogLevel", &logLevel, validLevels, "info", "Log level")
@@ -82,8 +82,8 @@
 //
 //	tg := generators.NewTypeGenerator("types")
 //	tg.RegisterDefaultTemplates()
-//	
-//	code, err := tg.GenerateEnumType("Priority", 
+//
+//	code, err := tg.GenerateEnumType("Priority",
 //		[]string{"low", "medium", "high"}, "medium")
 //
 // # Validation

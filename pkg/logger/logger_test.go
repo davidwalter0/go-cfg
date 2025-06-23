@@ -111,7 +111,7 @@ func TestLogLevels(t *testing.T) {
 	// Test that debug and info messages are not logged when level is WARN
 	logger.Debug("debug message")
 	logger.Info("info message")
-	
+
 	if buf.Len() > 0 {
 		t.Errorf("Expected no output for DEBUG/INFO when level is WARN, got: %s", buf.String())
 	}
@@ -239,7 +239,7 @@ func TestLoggerImmutability(t *testing.T) {
 
 	// Create a new logger with fields
 	newLogger := logger.WithField("test", "value")
-	
+
 	// Original logger should not be modified
 	if len(logger.fields) != originalFields {
 		t.Errorf("Original logger was modified, expected %d fields, got %d", originalFields, len(logger.fields))

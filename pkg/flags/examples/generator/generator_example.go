@@ -14,12 +14,12 @@ func main() {
 		fmt.Println("Types: loglevel, environment, string-slice")
 		os.Exit(1)
 	}
-	
+
 	typeToGenerate := os.Args[1]
-	
+
 	var generated string
 	var err error
-	
+
 	switch typeToGenerate {
 	case "loglevel":
 		generated, err = generators.GenerateLogLevelType()
@@ -30,11 +30,11 @@ func main() {
 	default:
 		log.Fatalf("Unknown type: %s", typeToGenerate)
 	}
-	
+
 	if err != nil {
 		log.Fatalf("Generation failed: %v", err)
 	}
-	
+
 	fmt.Println(generated)
 }
 

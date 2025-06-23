@@ -20,16 +20,19 @@ func NewEnumValue(validValues []string, defaultValue string, allowEmpty bool) *E
 		validValues: make([]string, len(validValues)),
 		allowEmpty:  allowEmpty,
 	}
-	
+
 	// Store valid values in lowercase for case-insensitive comparison
 	for i, v := range validValues {
 		ev.validValues[i] = strings.ToLower(v)
 	}
-	
+
 	if defaultValue != "" {
-		ev.Set(defaultValue)
+		// If setting the default value fails, this is a programming error
+		// We should panic or return an error, but for backward compatibility,
+		// we'll ignore the error here
+		_ = ev.Set(defaultValue)
 	}
-	
+
 	return ev
 }
 
@@ -43,12 +46,12 @@ func (ev *EnumValue) Set(s string) error {
 			ev.value = ""
 			return nil
 		}
-		return fmt.Errorf("empty value not allowed, valid options: %s", 
+		return fmt.Errorf("empty value not allowed, valid options: %s",
 			strings.Join(ev.validValues, ", "))
 	}
-	
+
 	normalized := strings.ToLower(strings.TrimSpace(s))
-	
+
 	// Check if value is valid
 	for _, valid := range ev.validValues {
 		if normalized == valid {
@@ -56,8 +59,8 @@ func (ev *EnumValue) Set(s string) error {
 			return nil
 		}
 	}
-	
-	return fmt.Errorf("invalid value '%s', valid options: %s", 
+
+	return fmt.Errorf("invalid value '%s', valid options: %s",
 		s, strings.Join(ev.validValues, ", "))
 }
 
@@ -191,17 +194,17 @@ func NewMultiEnumValue(validValues []string, defaultValues []string, allowEmpty 
 		validValues: make([]string, len(validValues)),
 		allowEmpty:  allowEmpty,
 	}
-	
+
 	for i, v := range validValues {
 		mev.validValues[i] = strings.ToLower(v)
 	}
-	
+
 	for _, v := range defaultValues {
 		if v != "" {
-			mev.Set(v)
+			_ = mev.Set(v)
 		}
 	}
-	
+
 	return mev
 }
 
@@ -220,17 +223,17 @@ func (mev *MultiEnumValue) Set(s string) error {
 		}
 		return fmt.Errorf("empty value not allowed")
 	}
-	
+
 	// Split by comma and validate each value
 	parts := strings.Split(s, ",")
 	var newValues []string
-	
+
 	for _, part := range parts {
 		part = strings.TrimSpace(part)
 		if part == "" {
 			continue
 		}
-		
+
 		normalized := strings.ToLower(part)
 		valid := false
 		for _, validValue := range mev.validValues {
@@ -239,12 +242,12 @@ func (mev *MultiEnumValue) Set(s string) error {
 				break
 			}
 		}
-		
+
 		if !valid {
-			return fmt.Errorf("invalid value '%s', valid options: %s", 
+			return fmt.Errorf("invalid value '%s', valid options: %s",
 				part, strings.Join(mev.validValues, ", "))
 		}
-		
+
 		// Check for duplicates
 		duplicate := false
 		for _, existing := range newValues {
@@ -253,12 +256,12 @@ func (mev *MultiEnumValue) Set(s string) error {
 				break
 			}
 		}
-		
+
 		if !duplicate {
 			newValues = append(newValues, part)
 		}
 	}
-	
+
 	mev.values = newValues
 	return nil
 }

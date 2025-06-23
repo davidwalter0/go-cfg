@@ -113,40 +113,40 @@ func main() {
 func Run() {
 
 	a := &A{A: "a"}
-	cfg.Nest(a)
+	_ = cfg.Nest(a)
 	fmt.Println(O2S(a))
 
 	b := &B{}
-	cfg.Nest(b)
+	_ = cfg.Nest(b)
 	fmt.Println(O2S(b))
 
 	ab := &AB{}
-	cfg.Nest(ab)
+	_ = cfg.Nest(ab)
 	fmt.Println(O2S(ab))
 
 	abc := &ABC{}
-	cfg.Nest(abc)
+	_ = cfg.Nest(abc)
 	fmt.Println(O2S(abc))
 
 	nest := &Nest{}
-	cfg.Nest(nest)
+	_ = cfg.Nest(nest)
 	fmt.Println(O2S(nest))
 
 	twicenested := &TwiceNested{}
 	// cfg.NestWrap("2", twicenested)
-	cfg.Nest(twicenested)
+	_ = cfg.Nest(twicenested)
 	fmt.Println(O2S(twicenested))
-	cfg.Nest(twicenested)
+	_ = cfg.Nest(twicenested)
 	fmt.Println(O2S(twicenested))
 
 	cfg.Freeze()
 	// flag.Parse()
 	// fmt.Println(O2S(twicenested))
 	internalRep := cfg.Store
-	internalRep.Save("eval.yaml")
+	_ = internalRep.Save("eval.yaml")
 	// cfg.Usage()
 	mgr := cfg.NewStor()
-	mgr.Load("eval.yaml")
+	_ = mgr.Load("eval.yaml")
 	// fmt.Printf(">>%+v\n", mgr)
 	data, err := yaml.Marshal(mgr)
 	if err != nil {

@@ -33,7 +33,7 @@ func TestSave(t *testing.T) {
 	}
 	fmt.Println("before store load")
 	fmt.Println(string(data))
-	Store.Save("config.yaml")
+	_ = Store.Save("config.yaml")
 	for k, v := range Store {
 		fmt.Printf("%-15.15s %p\n", k, v)
 	}
@@ -43,7 +43,7 @@ func TestSave(t *testing.T) {
 	}
 	fmt.Println("before load")
 	fmt.Println(string(data))
-	Store.Load("config.yaml")
+	_ = Store.Load("config.yaml")
 	for k, v := range Store {
 		fmt.Printf("%-15.15s %p\n", k, v)
 	}

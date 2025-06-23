@@ -68,7 +68,7 @@ type App struct {
 func main() {
 	var app App
 
-	cfg.Init(&app)
+	_ = cfg.Init(&app)
 
 	var appCfssl CFSSL = CFSSL{
 		CN:    app.CN,

@@ -23,27 +23,32 @@ func Debug(args ...bool) {
 // FieldPtr for the struct field field
 type FieldPtr interface{}
 
-// Field holds the parsed struct tag information
+// Field holds comprehensive metadata for a single struct field during configuration processing.
+// This struct contains all the information needed to create command-line flags, environment
+// variables, and handle type conversion for a single configuration field.
+//
+// The Field is created during reflection processing of configuration structs and contains
+// both the original struct field information and the processed configuration metadata.
 type Field struct {
-	reflect.StructField
-	FieldPtr
-	UseFlags   bool
-	StructName string // The name of the current owning structure
-	Name       string // from var name if tag name is present replace tag name with tag
-	KeyName    string // ENV variable name prefix Prf + "_" + name CamelCase -> PRF_CAMEL_CASE
-	Default    string // default from tag, empty string for default
-	EnvText    string // environment text, empty string for default
-	Short      string // short flag name
-	Doc        string // description
-	FlagName   string // Hyphenated flag name CamelCase -> camel-case
-	Value      string // if env use, else if default tag use, else use type's default
-	Omit       bool   // obey json:"...,omitempty" or json:"...,omit" or json:"-"
-	Required   bool   // set to force field to have a value
-	Depth      int    // struct nesting depth
-	Ignore     bool   // don't store or load the corresponding Attribute
-	Error      error
-	Type       string
-	Prefix     string
+	reflect.StructField        // Embedded struct field information from reflection
+	FieldPtr                   // Pointer to the actual field value for modification
+	UseFlags            bool   // Whether this field should generate command-line flags
+	StructName          string // Name of the owning struct (used for prefixing)
+	Name                string // Field name (from struct field or json tag override)
+	KeyName             string // Environment variable name (UPPER_SNAKE_CASE format)
+	Default             string // Default value from struct tag (empty if none specified)
+	EnvText             string // Current environment variable value (empty if not set)
+	Short               string // Short flag name (single character, rarely used)
+	Doc                 string // Documentation/help text from struct tag
+	FlagName            string // Command-line flag name (kebab-case format)
+	Value               string // Final resolved value (env var > default > type default)
+	Omit                bool   // Whether to omit empty values (from json:",omitempty")
+	Required            bool   // Whether this field must have a non-empty value
+	Depth               int    // Nesting depth in struct hierarchy (0 = top level)
+	Ignore              bool   // Whether to skip this field entirely during processing
+	Error               error  // Any error encountered during field processing
+	Type                string // Go type name as string (for debugging/logging)
+	Prefix              string // Prefix applied to flag/env names (includes hierarchy)
 }
 
 // Get a tag from the struct tags
@@ -59,6 +64,8 @@ func (field *Field) Get(name string) string {
 func (field *Field) SetField() {
 	defer func() {
 		if err := recover(); err != nil {
+			// Log and store the error instead of panicking
+			field.Error = fmt.Errorf("field processing panic: %v", err)
 		}
 	}()
 
@@ -92,7 +99,7 @@ func (field *Field) String() string {
 // ,omitempty or '-' the hyphen option
 func (field *Field) SetOmit() {
 	json := field.Get("json")
-	field.Omit = json == "-" || strings.Index(json, ",omitempty") >= 0 || strings.Index(json, ",omit") >= 0
+	field.Omit = json == "-" || strings.Contains(json, ",omitempty") || strings.Contains(json, ",omit")
 }
 
 // SetDefault read tag default option and save the text

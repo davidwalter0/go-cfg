@@ -9,7 +9,7 @@ import (
 
 func TestEnumValue_Set(t *testing.T) {
 	validValues := []string{"debug", "info", "warn", "error", "fatal"}
-	
+
 	tests := []struct {
 		name      string
 		input     string
@@ -51,17 +51,17 @@ func TestEnumValue_Set(t *testing.T) {
 			wantError: true,
 		},
 	}
-	
+
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			ev := NewEnumValue(validValues, "", false)
 			err := ev.Set(test.input)
-			
+
 			if (err != nil) != test.wantError {
 				t.Errorf("EnumValue.Set(%s) error = %v, wantError = %v", test.input, err, test.wantError)
 				return
 			}
-			
+
 			if !test.wantError {
 				result := ev.GetValue()
 				if result != test.expected {
@@ -75,13 +75,13 @@ func TestEnumValue_Set(t *testing.T) {
 func TestEnumValue_SetWithEmptyAllowed(t *testing.T) {
 	validValues := []string{"option1", "option2", "option3"}
 	ev := NewEnumValue(validValues, "", true)
-	
+
 	// Test empty string allowed
 	err := ev.Set("")
 	if err != nil {
 		t.Errorf("EnumValue.Set(\"\") should not error when empty is allowed, got: %v", err)
 	}
-	
+
 	if ev.GetValue() != "" {
 		t.Errorf("EnumValue.GetValue() after setting empty should be empty, got: %s", ev.GetValue())
 	}
@@ -90,7 +90,7 @@ func TestEnumValue_SetWithEmptyAllowed(t *testing.T) {
 func TestEnumValue_IsValid(t *testing.T) {
 	validValues := []string{"debug", "info", "warn", "error", "fatal"}
 	ev := NewEnumValue(validValues, "info", false)
-	
+
 	tests := []struct {
 		input    string
 		expected bool
@@ -102,7 +102,7 @@ func TestEnumValue_IsValid(t *testing.T) {
 		{"invalid", false},
 		{"", false},
 	}
-	
+
 	for _, test := range tests {
 		t.Run(test.input, func(t *testing.T) {
 			result := ev.IsValid(test.input)
@@ -116,12 +116,12 @@ func TestEnumValue_IsValid(t *testing.T) {
 func TestEnumValue_GetValidValues(t *testing.T) {
 	validValues := []string{"debug", "info", "warn", "error", "fatal"}
 	ev := NewEnumValue(validValues, "info", false)
-	
+
 	result := ev.GetValidValues()
 	if len(result) != len(validValues) {
 		t.Errorf("EnumValue.GetValidValues() length = %d, want %d", len(result), len(validValues))
 	}
-	
+
 	// Verify it's a copy (modifying returned slice shouldn't affect original)
 	result[0] = "modified"
 	if ev.GetValidValues()[0] == "modified" {
@@ -132,30 +132,30 @@ func TestEnumValue_GetValidValues(t *testing.T) {
 func TestEnumValue_JSONMarshaling(t *testing.T) {
 	validValues := []string{"debug", "info", "warn", "error", "fatal"}
 	ev := NewEnumValue(validValues, "info", false)
-	
+
 	// Test marshaling
 	data, err := json.Marshal(ev)
 	if err != nil {
 		t.Errorf("EnumValue.MarshalJSON() error = %v", err)
 		return
 	}
-	
+
 	expected := `"info"`
 	if string(data) != expected {
 		t.Errorf("EnumValue.MarshalJSON() = %s, want %s", string(data), expected)
 	}
-	
+
 	// Test unmarshaling
 	var newEv EnumValue
 	newEv.validValues = make([]string, len(validValues))
 	copy(newEv.validValues, validValues)
-	
+
 	err = json.Unmarshal(data, &newEv)
 	if err != nil {
 		t.Errorf("EnumValue.UnmarshalJSON() error = %v", err)
 		return
 	}
-	
+
 	if newEv.GetValue() != "info" {
 		t.Errorf("EnumValue JSON round-trip: got %s, want info", newEv.GetValue())
 	}
@@ -164,30 +164,30 @@ func TestEnumValue_JSONMarshaling(t *testing.T) {
 func TestEnumValue_YAMLMarshaling(t *testing.T) {
 	validValues := []string{"debug", "info", "warn", "error", "fatal"}
 	ev := NewEnumValue(validValues, "warn", false)
-	
+
 	// Test marshaling
 	data, err := yaml.Marshal(ev)
 	if err != nil {
 		t.Errorf("EnumValue.MarshalYAML() error = %v", err)
 		return
 	}
-	
+
 	expected := "warn\n"
 	if string(data) != expected {
 		t.Errorf("EnumValue.MarshalYAML() = %s, want %s", string(data), expected)
 	}
-	
+
 	// Test unmarshaling
 	var newEv EnumValue
 	newEv.validValues = make([]string, len(validValues))
 	copy(newEv.validValues, validValues)
-	
+
 	err = yaml.Unmarshal(data, &newEv)
 	if err != nil {
 		t.Errorf("EnumValue.UnmarshalYAML() error = %v", err)
 		return
 	}
-	
+
 	if newEv.GetValue() != "warn" {
 		t.Errorf("EnumValue YAML round-trip: got %s, want warn", newEv.GetValue())
 	}
@@ -195,8 +195,8 @@ func TestEnumValue_YAMLMarshaling(t *testing.T) {
 
 func TestLogLevelValue_Methods(t *testing.T) {
 	tests := []struct {
-		name        string
-		level       string
+		name         string
+		level        string
 		debugEnabled bool
 		infoEnabled  bool
 		warnEnabled  bool
@@ -230,28 +230,28 @@ func TestLogLevelValue_Methods(t *testing.T) {
 			warnEnabled:  false,
 		},
 	}
-	
+
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			llv := NewLogLevelValue(test.level)
-			
+
 			if llv.IsDebugEnabled() != test.debugEnabled {
-				t.Errorf("LogLevelValue(%s).IsDebugEnabled() = %v, want %v", 
+				t.Errorf("LogLevelValue(%s).IsDebugEnabled() = %v, want %v",
 					test.level, llv.IsDebugEnabled(), test.debugEnabled)
 			}
-			
+
 			if llv.IsInfoEnabled() != test.infoEnabled {
-				t.Errorf("LogLevelValue(%s).IsInfoEnabled() = %v, want %v", 
+				t.Errorf("LogLevelValue(%s).IsInfoEnabled() = %v, want %v",
 					test.level, llv.IsInfoEnabled(), test.infoEnabled)
 			}
-			
+
 			if llv.IsWarnEnabled() != test.warnEnabled {
-				t.Errorf("LogLevelValue(%s).IsWarnEnabled() = %v, want %v", 
+				t.Errorf("LogLevelValue(%s).IsWarnEnabled() = %v, want %v",
 					test.level, llv.IsWarnEnabled(), test.warnEnabled)
 			}
-			
+
 			if llv.GetLevel() != test.level {
-				t.Errorf("LogLevelValue(%s).GetLevel() = %s, want %s", 
+				t.Errorf("LogLevelValue(%s).GetLevel() = %s, want %s",
 					test.level, llv.GetLevel(), test.level)
 			}
 		})
@@ -316,33 +316,33 @@ func TestEnvironmentValue_Methods(t *testing.T) {
 			isTesting:     true,
 		},
 	}
-	
+
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			env := NewEnvironmentValue(test.env)
-			
+
 			if env.IsProduction() != test.isProduction {
-				t.Errorf("EnvironmentValue(%s).IsProduction() = %v, want %v", 
+				t.Errorf("EnvironmentValue(%s).IsProduction() = %v, want %v",
 					test.env, env.IsProduction(), test.isProduction)
 			}
-			
+
 			if env.IsDevelopment() != test.isDevelopment {
-				t.Errorf("EnvironmentValue(%s).IsDevelopment() = %v, want %v", 
+				t.Errorf("EnvironmentValue(%s).IsDevelopment() = %v, want %v",
 					test.env, env.IsDevelopment(), test.isDevelopment)
 			}
-			
+
 			if env.IsStaging() != test.isStaging {
-				t.Errorf("EnvironmentValue(%s).IsStaging() = %v, want %v", 
+				t.Errorf("EnvironmentValue(%s).IsStaging() = %v, want %v",
 					test.env, env.IsStaging(), test.isStaging)
 			}
-			
+
 			if env.IsTesting() != test.isTesting {
-				t.Errorf("EnvironmentValue(%s).IsTesting() = %v, want %v", 
+				t.Errorf("EnvironmentValue(%s).IsTesting() = %v, want %v",
 					test.env, env.IsTesting(), test.isTesting)
 			}
-			
+
 			if env.GetEnvironment() != test.env {
-				t.Errorf("EnvironmentValue(%s).GetEnvironment() = %s, want %s", 
+				t.Errorf("EnvironmentValue(%s).GetEnvironment() = %s, want %s",
 					test.env, env.GetEnvironment(), test.env)
 			}
 		})
@@ -351,7 +351,7 @@ func TestEnvironmentValue_Methods(t *testing.T) {
 
 func TestMultiEnumValue_Set(t *testing.T) {
 	validValues := []string{"read", "write", "execute", "delete"}
-	
+
 	tests := []struct {
 		name      string
 		input     string
@@ -394,28 +394,28 @@ func TestMultiEnumValue_Set(t *testing.T) {
 			expected:  []string{}, // Should clear the values
 		},
 	}
-	
+
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			mev := NewMultiEnumValue(validValues, nil, true)
 			err := mev.Set(test.input)
-			
+
 			if (err != nil) != test.wantError {
 				t.Errorf("MultiEnumValue.Set(%s) error = %v, wantError = %v", test.input, err, test.wantError)
 				return
 			}
-			
+
 			if !test.wantError {
 				result := mev.GetValues()
 				if len(result) != len(test.expected) {
-					t.Errorf("MultiEnumValue.Set(%s) length = %d, want %d", 
+					t.Errorf("MultiEnumValue.Set(%s) length = %d, want %d",
 						test.input, len(result), len(test.expected))
 					return
 				}
-				
+
 				for i, expected := range test.expected {
 					if result[i] != expected {
-						t.Errorf("MultiEnumValue.Set(%s) result[%d] = %s, want %s", 
+						t.Errorf("MultiEnumValue.Set(%s) result[%d] = %s, want %s",
 							test.input, i, result[i], expected)
 					}
 				}
@@ -428,8 +428,8 @@ func TestMultiEnumValue_Contains(t *testing.T) {
 	validValues := []string{"read", "write", "execute"}
 	mev := NewMultiEnumValue(validValues, nil, false)
 	// Set the values we want to test
-	mev.Set("read,write")
-	
+	_ = mev.Set("read,write")
+
 	tests := []struct {
 		value    string
 		expected bool
@@ -440,7 +440,7 @@ func TestMultiEnumValue_Contains(t *testing.T) {
 		{"READ", true}, // Case insensitive
 		{"invalid", false},
 	}
-	
+
 	for _, test := range tests {
 		t.Run(test.value, func(t *testing.T) {
 			result := mev.Contains(test.value)
@@ -456,18 +456,18 @@ func BenchmarkEnumValue_Set(b *testing.B) {
 	validValues := []string{"debug", "info", "warn", "error", "fatal"}
 	ev := NewEnumValue(validValues, "info", false)
 	testValues := []string{"debug", "info", "warn", "error", "fatal"}
-	
+
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		for _, value := range testValues {
-			ev.Set(value)
+			_ = ev.Set(value)
 		}
 	}
 }
 
 func BenchmarkLogLevelValue_IsDebugEnabled(b *testing.B) {
 	llv := NewLogLevelValue("debug")
-	
+
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		llv.IsDebugEnabled()

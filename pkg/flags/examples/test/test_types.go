@@ -8,8 +8,8 @@ import (
 )
 
 func main() {
-	fmt.Println("=== Testing Custom Flag Types ===\n")
-	
+	fmt.Println("=== Testing Custom Flag Types ===")
+
 	// Test URL Value
 	fmt.Println("1. Testing URLValue:")
 	urlVal := types.NewURLValue("")
@@ -25,13 +25,13 @@ func main() {
 			fmt.Printf("  Host: %s, Path: %s\n", u.Host, u.Path)
 		}
 	}
-	
+
 	// Test invalid URL
 	fmt.Println("\n  Testing invalid URL:")
 	if err := urlVal.Set("not-a-valid-url"); err != nil {
 		fmt.Printf("  Expected error: %v\n", err)
 	}
-	
+
 	// Test Duration Value
 	fmt.Println("\n2. Testing DurationValue:")
 	durVal := types.NewDurationValue(0)
@@ -43,7 +43,7 @@ func main() {
 			fmt.Printf("  %s -> %v\n", dur, durVal.GetDuration())
 		}
 	}
-	
+
 	// Test Human Duration Value
 	fmt.Println("\n3. Testing HumanDurationValue:")
 	humanDur := types.NewHumanDurationValue(0)
@@ -52,11 +52,11 @@ func main() {
 		if err := humanDur.Set(dur); err != nil {
 			fmt.Printf("  %s -> Error: %v\n", dur, err)
 		} else {
-			fmt.Printf("  %s -> %v (displayed as: %s)\n", 
+			fmt.Printf("  %s -> %v (displayed as: %s)\n",
 				dur, humanDur.GetDuration(), humanDur.String())
 		}
 	}
-	
+
 	// Test Enum Value
 	fmt.Println("\n4. Testing EnumValue (LogLevel):")
 	logLevel := types.NewLogLevelValue("info")
@@ -65,11 +65,11 @@ func main() {
 		if err := logLevel.Set(level); err != nil {
 			fmt.Printf("  %s -> Error: %v\n", level, err)
 		} else {
-			fmt.Printf("  %s -> %s (debug enabled: %t)\n", 
+			fmt.Printf("  %s -> %s (debug enabled: %t)\n",
 				level, logLevel.GetLevel(), logLevel.IsDebugEnabled())
 		}
 	}
-	
+
 	// Test Environment Value
 	fmt.Println("\n5. Testing EnvironmentValue:")
 	env := types.NewEnvironmentValue("development")
@@ -78,11 +78,11 @@ func main() {
 		if err := env.Set(e); err != nil {
 			fmt.Printf("  %s -> Error: %v\n", e, err)
 		} else {
-			fmt.Printf("  %s -> %s (production: %t, development: %t)\n", 
+			fmt.Printf("  %s -> %s (production: %t, development: %t)\n",
 				e, env.GetEnvironment(), env.IsProduction(), env.IsDevelopment())
 		}
 	}
-	
+
 	// Test KeyValue
 	fmt.Println("\n6. Testing KeyValueValue:")
 	kv := types.NewKeyValueValue()
@@ -99,7 +99,7 @@ func main() {
 			}
 		}
 	}
-	
+
 	// Test HostPort Value
 	fmt.Println("\n7. Testing HostPortValue:")
 	hostPort := types.NewHostPortValue("", 0)
@@ -108,11 +108,11 @@ func main() {
 		if err := hostPort.Set(hp); err != nil {
 			fmt.Printf("  %s -> Error: %v\n", hp, err)
 		} else {
-			fmt.Printf("  %s -> Host: %s, Port: %d, Address: %s\n", 
+			fmt.Printf("  %s -> Host: %s, Port: %d, Address: %s\n",
 				hp, hostPort.GetHost(), hostPort.GetPort(), hostPort.GetAddress())
 		}
 	}
-	
+
 	// Test IP Value
 	fmt.Println("\n8. Testing IPValue:")
 	ipVal := types.NewIPValue("")
@@ -121,11 +121,11 @@ func main() {
 		if err := ipVal.Set(ip); err != nil {
 			fmt.Printf("  %s -> Error: %v\n", ip, err)
 		} else {
-			fmt.Printf("  %s -> IPv4: %t, IPv6: %t\n", 
+			fmt.Printf("  %s -> IPv4: %t, IPv6: %t\n",
 				ip, ipVal.IsIPv4(), ipVal.IsIPv6())
 		}
 	}
-	
+
 	// Test CIDR Value
 	fmt.Println("\n9. Testing CIDRValue:")
 	cidr := types.NewCIDRValue("")
@@ -144,7 +144,7 @@ func main() {
 			}
 		}
 	}
-	
+
 	// Test Port Range Value
 	fmt.Println("\n10. Testing PortRangeValue:")
 	portRange := types.NewPortRangeValue(0, 0)
@@ -153,12 +153,12 @@ func main() {
 		if err := portRange.Set(pr); err != nil {
 			fmt.Printf("  %s -> Error: %v\n", pr, err)
 		} else {
-			fmt.Printf("  %s -> Start: %d, End: %d, Size: %d\n", 
+			fmt.Printf("  %s -> Start: %d, End: %d, Size: %d\n",
 				pr, portRange.GetStart(), portRange.GetEnd(), portRange.Size())
 			fmt.Printf("    Contains 8080: %t\n", portRange.Contains(8080))
 		}
 	}
-	
+
 	// Test URL Slice
 	fmt.Println("\n11. Testing URLSliceValue:")
 	urlSlice := types.NewURLSliceValue()
@@ -176,7 +176,7 @@ func main() {
 	}
 	fmt.Printf("  Total URLs: %d\n", urlSlice.Len())
 	fmt.Printf("  String representation: %s\n", urlSlice.String())
-	
+
 	// Test Labels Value (specialized KeyValue)
 	fmt.Println("\n12. Testing LabelsValue:")
 	labels := types.NewLabelsValue()
@@ -186,7 +186,7 @@ func main() {
 	} else {
 		fmt.Printf("  Labels: %s\n", labels.String())
 	}
-	
+
 	// Test naming conventions
 	fmt.Println("\n13. Testing NamingConventions:")
 	nc := &types.NamingConventions{}
@@ -196,7 +196,7 @@ func main() {
 		kebab := nc.ToKebabCase(name)
 		fmt.Printf("  %s -> ENV: %s, Flag: %s\n", name, snake, kebab)
 	}
-	
+
 	// Test environment variable retrieval
 	fmt.Println("\n14. Testing Environment Variable Defaults:")
 	testFields := []string{"APIEndpoint", "DatabaseURL", "LogLevel"}
@@ -208,6 +208,6 @@ func main() {
 			fmt.Printf("  %s: (not set)\n", field)
 		}
 	}
-	
+
 	fmt.Println("\n=== All Tests Completed ===")
 }

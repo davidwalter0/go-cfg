@@ -1,35 +1,76 @@
 /*
-Package cfg provides facilities to ingest structs as configuration
-elements via reflection. Struct names must be exported. Beyond that
-recursive structs are supported with options prefixing with the
-outermost struct name. Name overrides via struct tags can be used
-to rename configuration options as well as (optionally) set
-defaults.
+Package cfg provides modern pflag-based configuration management for Go applications.
+It uses reflection to process struct fields as configuration elements, supporting
+environment variables, command-line flags, and default values through struct tags.
 
-	 Configurations share these options
+Configuration Modes:
 
-	  - A configuration is one or more struct pointers
-	  - Each struct member's data type is used for type conversion during assignment
-	  - Primitive types are evaluated directly
-	  - Aggregate slice can be set with comma delibmited syntax
-	  - Aggregate map can be set with comma delibmited syntax
+The library offers several configuration processing modes:
 
-	  map example
-		Map  map[string]float64 `short:"m" default:"π:3.14159,ξ:1,ρ:.01,φ:1.2,β:3,α:.01,δ:3,ε:.001,φ:.1,ψ:.9,ω:2.1"`
+  - FlatNest(ptrs...): Clean nested flags without top-level struct prefix (recommended)
+  - Eval(ptrs...): Standard mode with struct name prefixing
+  - Init(ptrs...): Evaluation with automatic freeze after processing
+  - Simple(ptrs...): No prefixing, environment variables only
+  - SimpleFlags(ptrs...): No prefixing with environment variables and flags
+  - Nest(ptrs...): Hierarchical prefixing using struct field names
+  - Wrap(prefix, ptrs...): Custom prefix for all flags and environment variables
 
+Struct Tag Support:
 
-	  - Decorate
+Configuration behavior is controlled through struct tags:
 
-# Modes of configuration
+  - json:"name" - Override field name for flags and environment variables
+  - default:"value" - Set default value if not provided via env or flags
+  - doc:"description" - Set field documentation for help text
+  - required:"true" - Mark field as required (validation enforced)
+  - ignore:"true" - Skip field during configuration processing
 
-  - Wrap(prefix, ptrs...) options with a prefix argument to each flag or environment variable
-  - Nest(ptrs...) each struct member with the name of the the parent struct(s)
-  - Unwrap( ptr ... interface{} ) error
-  - Flags and Env Vars are unwrapped - no prefix or argument name added
-  - Call with one or more structures with uniquely named members
-  - One flag + env variable for each entry named
-  - When called with duplicate members in one or more structs flags and
-    env vars will conflict and error
+Type Support:
+
+All basic Go types are supported along with complex types:
+
+  - Primitive types: string, int, bool, float64, time.Duration
+  - Aggregate types: []string (comma-delimited), map[string]T (key:value,key:value)
+  - Nested structs: Processed recursively with appropriate prefixing
+
+Example Usage:
+
+	type Config struct {
+	    ServiceName string `json:"service_name" default:"myapp" doc:"Service identifier"`
+	    Port        int    `json:"port" default:"8080" doc:"HTTP server port"`
+	    Debug       bool   `default:"false" doc:"Enable debug logging"`
+	    API         struct {
+	        Host string `json:"host" default:"localhost" doc:"API host"`
+	        Port int    `json:"port" default:"9090" doc:"API port"`
+	    } `json:"api"`
+	    Features map[string]bool `doc:"Feature toggles (name:true,other:false)"`
+	}
+
+	var config Config
+	if err := cfg.FlatNest(&config); err != nil {
+	    log.Fatal(err)
+	}
+
+Generated Flags:
+
+# This generates clean flags like --service-name, --port, --debug, --api-host, --api-port
+
+Environment Variables:
+
+Environment variables use UPPER_SNAKE_CASE naming:
+SERVICE_NAME, PORT, DEBUG, API_HOST, API_PORT
+
+Precedence Order:
+
+Configuration values are applied in this order (later values override earlier):
+ 1. Struct default tags
+ 2. Environment variables
+ 3. Command-line flags
+
+Migration Note:
+
+This version uses modern pflag internally while maintaining full API compatibility
+with previous go-flag based versions.
 */
 package cfg
 
@@ -99,13 +140,74 @@ func Unprefix() {
 	os.Unsetenv(cfgEnvKeyPrefix)
 }
 
-// Eval one or more configuration structures
+// Eval processes one or more configuration structures using the standard mode.
+// This mode includes struct name prefixing for flags and environment variables,
+// making it suitable when you need clear namespace separation between different
+// configuration structs.
+//
+// Flag Naming (with struct name prefix):
+//   - For struct "Config" with field "Port": --config-port
+//   - Environment variable: CONFIG_PORT
+//
+// This function does not freeze flag parsing, allowing additional configuration
+// structs to be processed in subsequent calls. Use Init() for automatic freezing.
+//
+// Example:
+//
+//	type ServerConfig struct {
+//	    Port int `default:"8080"`
+//	}
+//	var config ServerConfig
+//	if err := cfg.Eval(&config); err != nil {
+//	    return err
+//	}
+//	// Generates: --server-config-port, SERVER_CONFIG_PORT
+//
+// Parameters:
+//
+//	ptrs: One or more pointers to structs to be configured
+//
+// Returns:
+//
+//	error: nil on success, error if struct processing fails
 func Eval(ptrs ...interface{}) error {
 	args := NewArg("")
 	return Run(args, ptrs...)
 }
 
-// Init from a list of struct pointers
+// Init processes configuration structures and automatically freezes flag parsing.
+// This is a convenience function that combines Eval() with Freeze(), making it
+// suitable for one-time configuration initialization where no further flag
+// processing is needed.
+//
+// The function uses the same struct name prefixing as Eval() but ensures that
+// flag parsing is finalized after processing, preventing accidental modification
+// of the configuration system.
+//
+// Use this function when:
+//   - You have all configuration structs ready to process at once
+//   - You don't need to add more configuration structs later
+//   - You want automatic flag parsing finalization
+//
+// Example:
+//
+//	type Config struct {
+//	    Port int `default:"8080"`
+//	    Host string `default:"localhost"`
+//	}
+//	var config Config
+//	if err := cfg.Init(&config); err != nil {
+//	    log.Fatal(err)
+//	}
+//	// Configuration is now frozen and ready to use
+//
+// Parameters:
+//
+//	ptrs: One or more pointers to structs to be configured
+//
+// Returns:
+//
+//	error: nil on success, error if struct processing or flag parsing fails
 func Init(ptrs ...interface{}) error {
 	args := NewArg("")
 	err := Run(args, ptrs...)
@@ -165,7 +267,40 @@ func Run(args *Arg, ptrs ...interface{}) error {
 // Eval(p) is decorated/prefixed with flag "--kp-d-i"
 // EvalName("D", p) is decorated/prefixed with env var "KP_D_I"
 
-// Simple create env vars prefices
+// Simple processes configuration structures without any prefixing or decoration.
+// This mode creates clean, unprefixed environment variables and is suitable for
+// simple applications where you want direct field-to-environment mapping without
+// namespace complexity.
+//
+// Flag Naming (no prefixes):
+//   - Field "Port" becomes environment variable: PORT
+//   - No command-line flags are created in this mode
+//   - No struct name prefixing applied
+//
+// This function automatically disables prefixing and decoration, making it ideal
+// for scenarios where you want the simplest possible environment variable mapping.
+// Use SimpleFlags() if you also want command-line flag support.
+//
+// Example:
+//
+//	type Config struct {
+//	    Port int    `default:"8080"`
+//	    Host string `default:"localhost"`
+//	}
+//	var config Config
+//	if err := cfg.Simple(&config); err != nil {
+//	    return err
+//	}
+//	// Creates environment variables: PORT, HOST
+//	// No command-line flags created
+//
+// Parameters:
+//
+//	ptrs: One or more pointers to structs to be configured
+//
+// Returns:
+//
+//	error: nil on success, error if struct processing fails
 func Simple(ptrs ...interface{}) error {
 	Unprefix()
 	Undecorate()
@@ -255,8 +390,37 @@ func NestWrap(prefix string, ptrs ...interface{}) error {
 }
 
 // FlatNest provides clean nested flags without the top-level struct name prefix.
-// Top-level fields get no prefix, nested fields get prefixed with their struct field name.
-// Example: ServiceName -> --service-name, API.Host -> --api-host, Database.Port -> --database-port
+// This is the recommended configuration mode for most applications as it generates
+// intuitive flag names while maintaining structure for nested fields.
+//
+// Flag Naming:
+//   - Top-level fields: --field-name
+//   - Nested fields: --parent-field-name
+//   - No top-level struct prefix
+//
+// Example:
+//
+//	type Config struct {
+//	    ServiceName string `json:"service_name"`
+//	    API struct {
+//	        Host string `json:"host"`
+//	        Port int    `json:"port"`
+//	    } `json:"api"`
+//	}
+//
+// Generates flags: --service-name, --api-host, --api-port
+// Environment vars: SERVICE_NAME, API_HOST, API_PORT
+//
+// The function automatically freezes flag parsing after processing, preventing
+// further configuration changes. Use Thaw() to allow additional modifications.
+//
+// Parameters:
+//
+//	ptrs: One or more pointers to structs to be configured
+//
+// Returns:
+//
+//	error: nil on success, error if struct processing fails or flag conflicts occur
 func FlatNest(ptrs ...interface{}) error {
 	args := NewArg("")
 	args.Prefixed = true
@@ -297,24 +461,22 @@ func CheckArgs(ptrs ...interface{}) error {
 	var str string
 	if !ok {
 		for _, text := range checkArgs {
-			str += fmt.Sprintf(text)
+			str += text
 		}
 		str += fmt.Sprintf("\n%s\n\nThe argument list ptrs []interface{} is a slice of struct pointers (*struct) \n\n", Red(ErrInvalidArgPointerRequired))
 		// fmt.Println(CallerAndArgs(ptrs))
 		str += fmt.Sprintln(Caller())
-		err = fmt.Errorf(str)
+		err = fmt.Errorf("%s", str)
 	}
 	return err
 }
 
 // Caller get the calling frame info
 func Caller() string {
-	var pcs [1]uintptr
-	n := runtime.Callers(2, pcs[:])
 	text := ""
 	{
 		var pcs [10]uintptr
-		n = runtime.Callers(2, pcs[:])
+		n := runtime.Callers(2, pcs[:])
 		frames := runtime.CallersFrames(pcs[:n])
 		var frame runtime.Frame
 		var more bool = true

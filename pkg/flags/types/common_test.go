@@ -8,7 +8,7 @@ import (
 
 func TestNamingConventions_ToUpperSnakeCase(t *testing.T) {
 	nc := &NamingConventions{}
-	
+
 	tests := []struct {
 		input    string
 		expected string
@@ -26,7 +26,7 @@ func TestNamingConventions_ToUpperSnakeCase(t *testing.T) {
 		{"ABCTest", "ABC_TEST"},
 		{"TestABCTest", "TEST_ABC_TEST"},
 	}
-	
+
 	for _, test := range tests {
 		t.Run(test.input, func(t *testing.T) {
 			result := nc.ToUpperSnakeCase(test.input)
@@ -39,7 +39,7 @@ func TestNamingConventions_ToUpperSnakeCase(t *testing.T) {
 
 func TestNamingConventions_ToKebabCase(t *testing.T) {
 	nc := &NamingConventions{}
-	
+
 	tests := []struct {
 		input    string
 		expected string
@@ -57,7 +57,7 @@ func TestNamingConventions_ToKebabCase(t *testing.T) {
 		{"ABCTest", "abc-test"},
 		{"TestABCTest", "test-abc-test"},
 	}
-	
+
 	for _, test := range tests {
 		t.Run(test.input, func(t *testing.T) {
 			result := nc.ToKebabCase(test.input)
@@ -71,19 +71,19 @@ func TestNamingConventions_ToKebabCase(t *testing.T) {
 func TestGetEnvDefault(t *testing.T) {
 	// Set up test environment variables
 	testEnvVars := map[string]string{
-		"API_ENDPOINT":  "https://test-api.example.com",
-		"DATABASE_URL":  "postgres://test:test@localhost/test",
-		"LOG_LEVEL":     "debug",
-		"MAX_RETRIES":   "5",
-		"HTTPS_PROXY":   "https://proxy.example.com:8080",
+		"API_ENDPOINT": "https://test-api.example.com",
+		"DATABASE_URL": "postgres://test:test@localhost/test",
+		"LOG_LEVEL":    "debug",
+		"MAX_RETRIES":  "5",
+		"HTTPS_PROXY":  "https://proxy.example.com:8080",
 	}
-	
+
 	// Set environment variables
 	for key, value := range testEnvVars {
 		os.Setenv(key, value)
 		defer os.Unsetenv(key)
 	}
-	
+
 	tests := []struct {
 		fieldName string
 		expected  string
@@ -95,7 +95,7 @@ func TestGetEnvDefault(t *testing.T) {
 		{"HTTPSProxy", "https://proxy.example.com:8080"},
 		{"NonExistentField", ""},
 	}
-	
+
 	for _, test := range tests {
 		t.Run(test.fieldName, func(t *testing.T) {
 			result := GetEnvDefault(test.fieldName)
@@ -108,7 +108,7 @@ func TestGetEnvDefault(t *testing.T) {
 
 func TestTypeValidator_ValidateRequired(t *testing.T) {
 	tv := &TypeValidator{}
-	
+
 	tests := []struct {
 		name      string
 		value     interface{}
@@ -125,12 +125,12 @@ func TestTypeValidator_ValidateRequired(t *testing.T) {
 		{"zero float", 0.0, "TestField", false},
 		{"non-zero float", 3.14, "TestField", false},
 	}
-	
+
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			err := tv.ValidateRequired(test.value, test.fieldName)
 			if (err != nil) != test.wantError {
-				t.Errorf("ValidateRequired(%v, %s) error = %v, wantError = %v", 
+				t.Errorf("ValidateRequired(%v, %s) error = %v, wantError = %v",
 					test.value, test.fieldName, err, test.wantError)
 			}
 		})
@@ -139,19 +139,19 @@ func TestTypeValidator_ValidateRequired(t *testing.T) {
 
 func TestSafeParser_ParseWithFallback(t *testing.T) {
 	sp := &SafeParser{}
-	
+
 	fallbackCalled := false
 	fallback := func() {
 		fallbackCalled = true
 	}
-	
+
 	// Test successful parsing
 	t.Run("successful parsing", func(t *testing.T) {
 		fallbackCalled = false
 		parser := func(s string) error {
 			return nil
 		}
-		
+
 		err := sp.ParseWithFallback("test", parser, fallback)
 		if err != nil {
 			t.Errorf("ParseWithFallback should not return error for successful parsing")
@@ -160,14 +160,14 @@ func TestSafeParser_ParseWithFallback(t *testing.T) {
 			t.Errorf("Fallback should not be called for successful parsing")
 		}
 	})
-	
+
 	// Test failed parsing with fallback
 	t.Run("failed parsing with fallback", func(t *testing.T) {
 		fallbackCalled = false
 		parser := func(s string) error {
 			return fmt.Errorf("parse error")
 		}
-		
+
 		err := sp.ParseWithFallback("test", parser, fallback)
 		if err == nil {
 			t.Errorf("ParseWithFallback should return error for failed parsing")
@@ -183,12 +183,12 @@ func BenchmarkToUpperSnakeCase(b *testing.B) {
 	nc := &NamingConventions{}
 	testInputs := []string{
 		"APIEndpoint",
-		"DatabaseURL", 
+		"DatabaseURL",
 		"HTTPSProxy",
 		"VeryLongFieldNameWithManyWords",
 		"XMLHTTPRequestHandler",
 	}
-	
+
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		for _, input := range testInputs {
@@ -202,11 +202,11 @@ func BenchmarkToKebabCase(b *testing.B) {
 	testInputs := []string{
 		"APIEndpoint",
 		"DatabaseURL",
-		"HTTPSProxy", 
+		"HTTPSProxy",
 		"VeryLongFieldNameWithManyWords",
 		"XMLHTTPRequestHandler",
 	}
-	
+
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		for _, input := range testInputs {
@@ -219,7 +219,7 @@ func BenchmarkGetEnvDefault(b *testing.B) {
 	// Set up test environment variable
 	os.Setenv("TEST_FIELD", "test-value")
 	defer os.Unsetenv("TEST_FIELD")
-	
+
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		GetEnvDefault("TestField")

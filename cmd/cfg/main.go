@@ -133,15 +133,13 @@ type Flags struct {
 
 func main() {
 
-if false {
-	flag.NonFlagOSArgs(1)
-}
+	// Removed flag.NonFlagOSArgs(1) call as it was part of old go-flag system
 	p := &APP{}
 	p1 := &APP1{}
 	p2 := &APP2{}
 	flg := &Flags{}
-	cfg.NestWrap("w", p, p1, p2)
-	cfg.Flags(flg)
+	_ = cfg.NestWrap("w", p, p1, p2)
+	_ = cfg.Flags(flg)
 	fmt.Println("os.Args", os.Args)
 	// cfg.Usage()
 	// fmt.Println(os.Args)
@@ -157,21 +155,21 @@ if false {
 		os.Exit(1)
 	}
 	if flg.Save {
-		cfg.Store.Save("config-2.yaml")
+		_ = cfg.Store.Save("config-2.yaml")
 	}
 	if flg.Load {
-		cfg.Store.Load("config.yaml")
-    // fmt.Println("Dump Store",Dump(cfg.Store))
-		cfg.Store.Save(flg.File)
+		_ = cfg.Store.Load("config.yaml")
+		// fmt.Println("Dump Store",Dump(cfg.Store))
+		_ = cfg.Store.Save(flg.File)
 	}
 
 	fmt.Println(Dump(flg))
 	d, err := time.ParseDuration("720h1m3s")
 	fmt.Printf("d %s %+v %v\n", d, d, err)
 	fmt.Println("Dump d", d)
-  fmt.Println("Dump p",Dump(p))
-  fmt.Println("Dump p1",Dump(p1))
-  fmt.Println("Dump Store",Dump(cfg.Store))
+	fmt.Println("Dump p", Dump(p))
+	fmt.Println("Dump p1", Dump(p1))
+	fmt.Println("Dump Store", Dump(cfg.Store))
 	// for _, f := range os.Args {
 	// 	if strings.Index(f, "--help") == 0 {
 	// 		flag.Parse()

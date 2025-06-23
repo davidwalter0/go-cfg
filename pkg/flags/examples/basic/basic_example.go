@@ -6,7 +6,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/spf13/pflag"
 	"github.com/davidwalter0/go-cfg/pkg/flags"
 	"github.com/davidwalter0/go-cfg/pkg/flags/types"
 )
@@ -14,32 +13,32 @@ import (
 // AppConfig demonstrates various custom flag types
 type AppConfig struct {
 	// Basic types with env defaults
-	Name        string `usage:"Application name" default:"myapp"`
-	Port        int    `usage:"Server port" default:"8080"`
-	Debug       bool   `usage:"Enable debug mode" default:"false"`
-	
+	Name  string `usage:"Application name" default:"myapp"`
+	Port  int    `usage:"Server port" default:"8080"`
+	Debug bool   `usage:"Enable debug mode" default:"false"`
+
 	// Custom duration with human-friendly parsing
-	Timeout     *types.DurationValue `usage:"Request timeout"`
-	KeepAlive   *types.HumanDurationValue `usage:"Keep-alive duration"`
-	
+	Timeout   *types.DurationValue      `usage:"Request timeout"`
+	KeepAlive *types.HumanDurationValue `usage:"Keep-alive duration"`
+
 	// URL with validation
 	APIEndpoint *types.URLValue `usage:"API endpoint URL"`
 	DatabaseURL *types.URLValue `usage:"Database connection URL"`
-	
+
 	// Enum types
-	LogLevel    *types.LogLevelValue `usage:"Application log level"`
+	LogLevel    *types.LogLevelValue    `usage:"Application log level"`
 	Environment *types.EnvironmentValue `usage:"Deployment environment"`
-	
+
 	// Network configuration
-	ListenAddr  *types.HostPortValue `usage:"Listen address"`
-	BindIP      *types.IPValue `usage:"Bind IP address"`
-	
+	ListenAddr *types.HostPortValue `usage:"Listen address"`
+	BindIP     *types.IPValue       `usage:"Bind IP address"`
+
 	// Key-value pairs
-	Labels      *types.KeyValueValue `usage:"Application labels (key=value,...)"`
-	Config      *types.KeyValueValue `usage:"Additional config (key=value,...)"`
-	
+	Labels *types.KeyValueValue `usage:"Application labels (key=value,...)"`
+	Config *types.KeyValueValue `usage:"Additional config (key=value,...)"`
+
 	// URL collections
-	Mirrors     *types.URLSliceValue `usage:"Mirror URLs"`
+	Mirrors *types.URLSliceValue `usage:"Mirror URLs"`
 }
 
 func main() {
@@ -57,18 +56,18 @@ func main() {
 		Config:      types.NewKeyValueValue(),
 		Mirrors:     types.NewURLSliceValue(),
 	}
-	
+
 	// Create flag configuration
 	flagConfig := flags.NewFlagConfig()
-	
+
 	// Register all types automatically
 	if err := flagConfig.RegisterCustomTypes(config); err != nil {
 		log.Fatalf("Failed to register flags: %v", err)
 	}
-	
+
 	// Mark some fields as required
 	flagConfig.SetRequired("DatabaseURL")
-	
+
 	// Add custom validators
 	flagConfig.AddValidator("Port", func(value interface{}) error {
 		if v, ok := value.(*int); ok && *v <= 0 {
@@ -76,14 +75,14 @@ func main() {
 		}
 		return nil
 	})
-	
+
 	// Parse command line arguments
 	if err := flagConfig.Parse(os.Args[1:]); err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		fmt.Fprintf(os.Stderr, "\nUsage:\n%s", flagConfig.Usage())
 		os.Exit(1)
 	}
-	
+
 	// Display configuration
 	fmt.Println("=== Application Configuration ===")
 	fmt.Printf("Name: %s\n", config.Name)
@@ -91,32 +90,32 @@ func main() {
 	fmt.Printf("Debug: %t\n", config.Debug)
 	fmt.Printf("Timeout: %v\n", config.Timeout.GetDuration())
 	fmt.Printf("Keep-Alive: %v\n", config.KeepAlive.GetDuration())
-	
+
 	if config.APIEndpoint.IsSet() {
-		fmt.Printf("API Endpoint: %s (absolute: %t)\n", 
+		fmt.Printf("API Endpoint: %s (absolute: %t)\n",
 			config.APIEndpoint.String(), config.APIEndpoint.IsAbsolute())
 	}
-	
+
 	if config.DatabaseURL.IsSet() {
 		fmt.Printf("Database URL: %s\n", config.DatabaseURL.String())
 	}
-	
-	fmt.Printf("Log Level: %s (debug enabled: %t)\n", 
+
+	fmt.Printf("Log Level: %s (debug enabled: %t)\n",
 		config.LogLevel.GetLevel(), config.LogLevel.IsDebugEnabled())
-	
-	fmt.Printf("Environment: %s (production: %t)\n", 
+
+	fmt.Printf("Environment: %s (production: %t)\n",
 		config.Environment.GetEnvironment(), config.Environment.IsProduction())
-	
+
 	if config.ListenAddr != nil {
-		fmt.Printf("Listen: %s (address: %s)\n", 
+		fmt.Printf("Listen: %s (address: %s)\n",
 			config.ListenAddr.String(), config.ListenAddr.GetAddress())
 	}
-	
+
 	if config.BindIP.IsSet() {
-		fmt.Printf("Bind IP: %s (IPv4: %t, IPv6: %t)\n", 
+		fmt.Printf("Bind IP: %s (IPv4: %t, IPv6: %t)\n",
 			config.BindIP.String(), config.BindIP.IsIPv4(), config.BindIP.IsIPv6())
 	}
-	
+
 	if config.Labels.Len() > 0 {
 		fmt.Printf("Labels: %s\n", config.Labels.String())
 		for _, key := range config.Labels.Keys() {
@@ -125,18 +124,18 @@ func main() {
 			}
 		}
 	}
-	
+
 	if config.Config.Len() > 0 {
 		fmt.Printf("Config: %s\n", config.Config.String())
 	}
-	
+
 	if config.Mirrors.Len() > 0 {
 		fmt.Printf("Mirrors (%d):\n", config.Mirrors.Len())
 		for i, url := range config.Mirrors.GetURLs() {
 			fmt.Printf("  %d: %s\n", i+1, url.String())
 		}
 	}
-	
+
 	// Environment variable examples
 	fmt.Println("\n=== Environment Variable Examples ===")
 	fmt.Println("Set these environment variables to provide defaults:")

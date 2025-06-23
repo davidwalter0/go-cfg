@@ -1,90 +1,62 @@
 package cfg
 
 import (
-	"regexp"
 	"strings"
+
+	"github.com/iancoleman/strcase"
 )
 
-// regexp and replace all from
-// https://www.golangprograms.com/golang-convert-string-into-snake-case.html
-var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")
-var matchAllCap = regexp.MustCompile("([a-z0-9])([A-Z])")
-var matchMultipleHyphen = regexp.MustCompile("([-])([-]*)")
-var matchMultipleUnderscore = regexp.MustCompile("([_])([_]*)")
-
-// ToCamelCase from either case test. Doesn't attempt to identify
-// acronyms for text replacement; e.g. json_map isn't converted to
-// JSONMap, instead this capitalizes the first letter of each snake or
-// kebob cast subexpression: json-map and json_map wil both convert to
-// JsonMap.
+// ToCamelCase converts strings to CamelCase format.
+// Uses the strcase library for reliable conversion from snake_case, kebab-case, and other formats.
+// Example: "json_map" -> "JsonMap", "api-endpoint" -> "ApiEndpoint"
 func ToCamelCase(str string) string {
-	str = strings.ReplaceAll(str, "_", "-")
-	strs := strings.Split(str, "-")
-	for i, s := range strs {
-		strs[i] = Capitalize(s)
-	}
-	str = strings.Join(strs, "")
-	return str
+	return strcase.ToCamel(str)
 }
 
-// ToLowerSnakeCase lower case after snake casing string splitting
-// CamelCase separating with '_' underscores
+// ToLowerSnakeCase converts strings to lower_snake_case format.
+// Handles CamelCase, kebab-case, and other formats reliably.
+// Example: "CamelCase" -> "camel_case", "api-endpoint" -> "api_endpoint"
 func ToLowerSnakeCase(str string) string {
-	str = strings.ReplaceAll(str, "-", "_")
-	snake := matchFirstCap.ReplaceAllString(str, "${1}_${2}")
-	snake = matchAllCap.ReplaceAllString(snake, "${1}_${2}")
-	snake = matchMultipleUnderscore.ReplaceAllString(snake, "${1}")
-	return strings.ToLower(snake)
+	return strcase.ToSnake(str)
 }
 
-// ToUpperSnakeCase upper case after snake casing string splitting
-// CamelCase separating with '_' underscores
+// ToUpperSnakeCase converts strings to UPPER_SNAKE_CASE format.
+// Used primarily for environment variable names.
+// Example: "CamelCase" -> "CAMEL_CASE", "api-endpoint" -> "API_ENDPOINT"
 func ToUpperSnakeCase(str string) string {
-	str = strings.ReplaceAll(str, "-", "_")
-	snake := matchFirstCap.ReplaceAllString(str, "${1}_${2}")
-	snake = matchAllCap.ReplaceAllString(snake, "${1}_${2}")
-	snake = matchMultipleUnderscore.ReplaceAllString(snake, "${1}")
-	return strings.ToUpper(snake)
+	return strcase.ToScreamingSnake(str)
 }
 
-// ToLowerKebabCase lower kebab (hyphen case) case splitting from
-// CamelCase hyphenating and lower casing camel-case
+// ToLowerKebabCase converts strings to lower-kebab-case format.
+// Used primarily for command-line flag names.
+// Example: "CamelCase" -> "camel-case", "api_endpoint" -> "api-endpoint"
 func ToLowerKebabCase(str string) string {
-	str = strings.ReplaceAll(str, "_", "-")
-	kebab := matchFirstCap.ReplaceAllString(str, "${1}-${2}")
-	kebab = matchAllCap.ReplaceAllString(kebab, "${1}-${2}")
-	kebab = matchMultipleHyphen.ReplaceAllString(kebab, "${1}")
-	return strings.ToLower(kebab)
+	return strcase.ToKebab(str)
 }
 
-// ToUpperKebabCase upper kebab (hyphen case) case splitting from
-// CamelCase hyphenating and upper casing CAMEL-CASE
+// ToUpperKebabCase converts strings to UPPER-KEBAB-CASE format.
+// Rarely used but provided for completeness.
+// Example: "CamelCase" -> "CAMEL-CASE", "api_endpoint" -> "API-ENDPOINT"
 func ToUpperKebabCase(str string) string {
-	str = strings.ReplaceAll(str, "_", "-")
-	kebab := matchFirstCap.ReplaceAllString(str, "${1}-${2}")
-	kebab = matchAllCap.ReplaceAllString(kebab, "${1}-${2}")
-	kebab = matchMultipleHyphen.ReplaceAllString(kebab, "${1}")
-	return strings.ToUpper(kebab)
+	return strcase.ToScreamingKebab(str)
 }
 
-// KeyNameFromCamelCase split and upper case splitting from CamelCase
-// hyphenating and lower casing CAMEL_CASE. If field.Prefix is set,
-// prepend to the text for environment variables. Split via camel case
-// regular expression.
+// KeyNameFromCamelCase converts the field's KeyName to UPPER_SNAKE_CASE format
+// for use as environment variable names. Uses the strcase library for reliable conversion.
 func (field *Field) KeyNameFromCamelCase() {
-	field.KeyName = ToUpperSnakeCase(strings.Replace(field.KeyName, "-", "_", -1))
+	field.KeyName = ToUpperSnakeCase(field.KeyName)
 }
 
-// FlagNameFromCamelCase for flags CamelCase to camel-case
-// hyphenated, split on camel case regular expression
+// FlagNameFromCamelCase converts the field's FlagName to lower-kebab-case format
+// for use as command-line flag names. Uses the strcase library for reliable conversion.
 func (field *Field) FlagNameFromCamelCase() {
-	field.FlagName = ToLowerKebabCase(strings.Replace(field.FlagName, "_", "-", -1))
+	field.FlagName = ToLowerKebabCase(field.FlagName)
 }
 
-// ToLowerKebabCase for flags CamelCase to camel-case
-// hyphenated, split on camel case regular expression
+// ToLowerKebabCase converts the field's FlagName to lower-kebab-case format.
+// This method is an alias for FlagNameFromCamelCase for backward compatibility.
 func (field *Field) ToLowerKebabCase() {
-	field.FlagName = ToLowerKebabCase(strings.Replace(field.FlagName, "_", "-", -1))
+	field.FlagName = ToLowerKebabCase(field.FlagName)
 }
 
 // Capitalize text

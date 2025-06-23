@@ -69,17 +69,17 @@ func TestURLValue_SetAndGet(t *testing.T) {
 			wantPath:  "example.com/path",
 		},
 	}
-	
+
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			urlVal := NewURLValue("")
 			err := urlVal.Set(test.input)
-			
+
 			if (err != nil) != test.wantError {
 				t.Errorf("URLValue.Set(%s) error = %v, wantError = %v", test.input, err, test.wantError)
 				return
 			}
-			
+
 			if !test.wantError && urlVal.IsSet() {
 				url := urlVal.GetURL()
 				if url.Host != test.wantHost {
@@ -115,14 +115,14 @@ func TestURLValue_String(t *testing.T) {
 			expected: "",
 		},
 	}
-	
+
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			urlVal := NewURLValue("")
 			if test.input != "" {
-				urlVal.Set(test.input)
+				_ = urlVal.Set(test.input)
 			}
-			
+
 			result := urlVal.String()
 			if result != test.expected {
 				t.Errorf("URLValue.String() = %s, want %s", result, test.expected)
@@ -158,14 +158,14 @@ func TestURLValue_IsAbsolute(t *testing.T) {
 			expected: false,
 		},
 	}
-	
+
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			urlVal := NewURLValue("")
 			if test.input != "" {
-				urlVal.Set(test.input)
+				_ = urlVal.Set(test.input)
 			}
-			
+
 			result := urlVal.IsAbsolute()
 			if result != test.expected {
 				t.Errorf("URLValue.IsAbsolute() = %v, want %v", result, test.expected)
@@ -213,11 +213,11 @@ func TestURLSliceValue_SetAndGet(t *testing.T) {
 			wantLen:   0,
 		},
 	}
-	
+
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			urlSlice := NewURLSliceValue()
-			
+
 			var err error
 			for _, input := range test.inputs {
 				if setErr := urlSlice.Set(input); setErr != nil {
@@ -225,17 +225,17 @@ func TestURLSliceValue_SetAndGet(t *testing.T) {
 					break
 				}
 			}
-			
+
 			if (err != nil) != test.wantError {
 				t.Errorf("URLSliceValue.Set() error = %v, wantError = %v", err, test.wantError)
 				return
 			}
-			
+
 			if !test.wantError {
 				if urlSlice.Len() != test.wantLen {
 					t.Errorf("URLSliceValue.Len() = %d, want %d", urlSlice.Len(), test.wantLen)
 				}
-				
+
 				urls := urlSlice.GetURLs()
 				if len(urls) != test.wantLen {
 					t.Errorf("URLSliceValue.GetURLs() length = %d, want %d", len(urls), test.wantLen)
@@ -247,16 +247,16 @@ func TestURLSliceValue_SetAndGet(t *testing.T) {
 
 func TestURLSliceValue_String(t *testing.T) {
 	urlSlice := NewURLSliceValue()
-	
+
 	// Test empty slice
 	if urlSlice.String() != "" {
 		t.Errorf("Empty URLSliceValue.String() = %s, want empty string", urlSlice.String())
 	}
-	
+
 	// Add URLs
-	urlSlice.Set("https://api1.example.com")
-	urlSlice.Set("https://api2.example.com")
-	
+	_ = urlSlice.Set("https://api1.example.com")
+	_ = urlSlice.Set("https://api2.example.com")
+
 	result := urlSlice.String()
 	expected := `["https://api1.example.com" "https://api2.example.com"]`
 	if result != expected {
@@ -275,10 +275,10 @@ func TestURLSliceValue_Type(t *testing.T) {
 func BenchmarkURLValue_Set(b *testing.B) {
 	urlVal := NewURLValue("")
 	testURL := "https://api.example.com/v1/users?limit=100&offset=0"
-	
+
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		urlVal.Set(testURL)
+		_ = urlVal.Set(testURL)
 	}
 }
 
@@ -289,11 +289,11 @@ func BenchmarkURLSliceValue_Set(b *testing.B) {
 		"https://api2.example.com",
 		"http://backup.example.com",
 	}
-	
+
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		for _, url := range testURLs {
-			urlSlice.Set(url)
+			_ = urlSlice.Set(url)
 		}
 	}
 }

@@ -8,8 +8,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/spf13/pflag"
 	"github.com/davidwalter0/go-cfg/pkg/flags/types"
+	"github.com/spf13/pflag"
 )
 
 // StringSliceValue implements pflag.Value for string slices that preserve empty strings
@@ -29,13 +29,13 @@ func (ssv *StringSliceValue) Set(s string) error {
 	// Clear existing values (including defaults) when user provides input
 	// This ensures user values replace defaults, not append to them
 	ssv.value = nil
-	
+
 	// If the string is empty, create a slice with one empty string
 	if s == "" {
 		ssv.value = []string{""}
 		return nil
 	}
-	
+
 	// Split by comma and preserve empty strings - populate with only user values
 	ssv.value = strings.Split(s, ",")
 	return nil
@@ -51,21 +51,21 @@ func (ssv *StringSliceValue) GetSlice() []string {
 
 // FlagConfig holds configuration for flag registration
 type FlagConfig struct {
-	FlagSet     *pflag.FlagSet
-	EnvPrefix   string
-	Required    map[string]bool
-	HelpTexts   map[string]string
-	Validators  map[string]func(interface{}) error
+	FlagSet       *pflag.FlagSet
+	EnvPrefix     string
+	Required      map[string]bool
+	HelpTexts     map[string]string
+	Validators    map[string]func(interface{}) error
 	sliceUpdaters map[string]func() // Functions to update slice fields after parsing
 }
 
 // NewFlagConfig creates a new flag configuration
 func NewFlagConfig() *FlagConfig {
 	return &FlagConfig{
-		FlagSet:    pflag.NewFlagSet("", pflag.ContinueOnError),
-		Required:   make(map[string]bool),
-		HelpTexts:  make(map[string]string),
-		Validators: make(map[string]func(interface{}) error),
+		FlagSet:       pflag.NewFlagSet("", pflag.ContinueOnError),
+		Required:      make(map[string]bool),
+		HelpTexts:     make(map[string]string),
+		Validators:    make(map[string]func(interface{}) error),
 		sliceUpdaters: make(map[string]func()),
 	}
 }
@@ -76,24 +76,24 @@ func (fc *FlagConfig) RegisterCustomTypes(structPtr interface{}) error {
 	if v.Kind() != reflect.Ptr || v.Elem().Kind() != reflect.Struct {
 		return fmt.Errorf("expected pointer to struct, got %T", structPtr)
 	}
-	
+
 	structValue := v.Elem()
 	structType := structValue.Type()
 	nc := &types.NamingConventions{}
-	
+
 	for i := 0; i < structValue.NumField(); i++ {
 		field := structValue.Field(i)
 		fieldType := structType.Field(i)
-		
+
 		// Skip unexported fields
 		if !field.CanSet() {
 			continue
 		}
-		
+
 		fieldName := fieldType.Name
 		flagName := nc.ToKebabCase(fieldName)
 		envName := nc.ToUpperSnakeCase(fieldName)
-		
+
 		// Get tag information
 		usage := fieldType.Tag.Get("usage")
 		if usage == "" {
@@ -102,36 +102,36 @@ func (fc *FlagConfig) RegisterCustomTypes(structPtr interface{}) error {
 		if usage == "" {
 			usage = fmt.Sprintf("%s configuration", fieldName)
 		}
-		
+
 		defaultValue := fieldType.Tag.Get("default")
 		required := fieldType.Tag.Get("required") == "true"
-		
+
 		// Check for environment variable (env vars take precedence over defaults)
 		envValue := os.Getenv(envName)
 		if envValue != "" {
 			defaultValue = envValue
 		}
-		
+
 		// Register based on field type
 		if err := fc.registerFieldType(field, fieldName, flagName, usage, defaultValue, required); err != nil {
 			return fmt.Errorf("failed to register field %s: %w", fieldName, err)
 		}
-		
+
 		if required {
 			fc.Required[flagName] = true
 		}
 	}
-	
+
 	return nil
 }
 
 // registerFieldType registers a specific field type with pflag
 func (fc *FlagConfig) registerFieldType(field reflect.Value, fieldName, flagName, usage, defaultValue string, required bool) error {
 	originalFieldType := field.Type()
-	
+
 	// Get the actual type string for debugging (use original type before pointer handling)
 	typeStr := originalFieldType.String()
-	
+
 	// Handle pointer types
 	if originalFieldType.Kind() == reflect.Ptr {
 		// Initialize the pointer if it's nil
@@ -171,19 +171,19 @@ func (fc *FlagConfig) registerFieldType(field reflect.Value, fieldName, flagName
 			case "*types.KeyValueValue":
 				kv := types.NewKeyValueValue()
 				if defaultValue != "" {
-					kv.Set(defaultValue)
+					_ = kv.Set(defaultValue)
 				}
 				field.Set(reflect.ValueOf(kv))
 			case "*types.LabelsValue":
 				lv := types.NewLabelsValue()
 				if defaultValue != "" {
-					lv.Set(defaultValue)
+					_ = lv.Set(defaultValue)
 				}
 				field.Set(reflect.ValueOf(lv))
 			case "*types.HostPortValue":
 				hp := types.NewHostPortValue("localhost", 0)
 				if defaultValue != "" {
-					hp.Set(defaultValue)
+					_ = hp.Set(defaultValue)
 				}
 				field.Set(reflect.ValueOf(hp))
 			case "*types.IPValue":
@@ -193,13 +193,13 @@ func (fc *FlagConfig) registerFieldType(field reflect.Value, fieldName, flagName
 			case "*types.PortRangeValue":
 				pr := types.NewPortRangeValue(0, 0)
 				if defaultValue != "" {
-					pr.Set(defaultValue)
+					_ = pr.Set(defaultValue)
 				}
 				field.Set(reflect.ValueOf(pr))
 			case "*types.URLSliceValue":
 				us := types.NewURLSliceValue()
 				if defaultValue != "" {
-					us.Set(defaultValue)
+					_ = us.Set(defaultValue)
 				}
 				field.Set(reflect.ValueOf(us))
 			default:
@@ -208,23 +208,23 @@ func (fc *FlagConfig) registerFieldType(field reflect.Value, fieldName, flagName
 				field.Set(reflect.New(elemType))
 			}
 		}
-		
+
 		// Check if the pointer type implements pflag.Value
 		if originalFieldType.Implements(reflect.TypeOf((*pflag.Value)(nil)).Elem()) {
 			// Apply default value if provided (including from environment variables)
 			if defaultValue != "" {
 				if setValue, ok := field.Interface().(interface{ Set(string) error }); ok {
-					setValue.Set(defaultValue)
+					_ = setValue.Set(defaultValue)
 				}
 			}
 			fc.FlagSet.Var(field.Interface().(pflag.Value), flagName, usage)
 			return nil
 		}
-		
+
 		// Dereference for further processing
 		field = field.Elem()
 	}
-	
+
 	// Handle non-pointer types or types that don't implement pflag.Value
 	fieldType := field.Type()
 	switch {
@@ -234,7 +234,7 @@ func (fc *FlagConfig) registerFieldType(field reflect.Value, fieldName, flagName
 			defaultValue = field.String()
 		}
 		fc.FlagSet.StringVar(field.Addr().Interface().(*string), flagName, defaultValue, usage)
-		
+
 	case fieldType.Kind() == reflect.Int:
 		defaultInt := 0
 		if defaultValue != "" {
@@ -245,7 +245,7 @@ func (fc *FlagConfig) registerFieldType(field reflect.Value, fieldName, flagName
 			defaultInt = int(field.Int())
 		}
 		fc.FlagSet.IntVar(field.Addr().Interface().(*int), flagName, defaultInt, usage)
-		
+
 	case fieldType.Kind() == reflect.Bool:
 		defaultBool := false
 		if defaultValue != "" {
@@ -256,7 +256,7 @@ func (fc *FlagConfig) registerFieldType(field reflect.Value, fieldName, flagName
 			defaultBool = field.Bool()
 		}
 		fc.FlagSet.BoolVar(field.Addr().Interface().(*bool), flagName, defaultBool, usage)
-		
+
 	case fieldType == reflect.TypeOf(time.Duration(0)):
 		defaultDuration := time.Duration(0)
 		if defaultValue != "" {
@@ -267,7 +267,7 @@ func (fc *FlagConfig) registerFieldType(field reflect.Value, fieldName, flagName
 			defaultDuration = time.Duration(field.Int())
 		}
 		fc.FlagSet.DurationVar(field.Addr().Interface().(*time.Duration), flagName, defaultDuration, usage)
-		
+
 	// Slice types
 	case fieldType.Kind() == reflect.Slice:
 		elemType := fieldType.Elem()
@@ -280,10 +280,10 @@ func (fc *FlagConfig) registerFieldType(field reflect.Value, fieldName, flagName
 			// Use custom StringSliceValue to preserve empty strings
 			stringSliceValue := NewStringSliceValue(defaultSlice)
 			fc.FlagSet.Var(stringSliceValue, flagName, usage)
-			
+
 			// Store reference to update the original field after parsing
 			fc.storeSliceUpdater(flagName, field, stringSliceValue)
-			
+
 		case reflect.Int:
 			var defaultSlice []int
 			if defaultValue != "" {
@@ -295,7 +295,7 @@ func (fc *FlagConfig) registerFieldType(field reflect.Value, fieldName, flagName
 				}
 			}
 			fc.FlagSet.IntSliceVar(field.Addr().Interface().(*[]int), flagName, defaultSlice, usage)
-			
+
 		default:
 			// Check if it's a time.Duration slice
 			if fieldType.Elem() == reflect.TypeOf(time.Duration(0)) {
@@ -313,16 +313,16 @@ func (fc *FlagConfig) registerFieldType(field reflect.Value, fieldName, flagName
 				return fmt.Errorf("unsupported slice type: %v", fieldType)
 			}
 		}
-		
+
 	// Handle nested structs
 	case fieldType.Kind() == reflect.Struct:
 		// Recursively register nested struct fields
 		return fc.registerNestedStruct(field, fieldName, flagName, usage)
-		
+
 	default:
 		return fmt.Errorf("unsupported field type: %v", fieldType)
 	}
-	
+
 	return nil
 }
 
@@ -330,22 +330,22 @@ func (fc *FlagConfig) registerFieldType(field reflect.Value, fieldName, flagName
 func (fc *FlagConfig) registerNestedStruct(structValue reflect.Value, parentName, parentFlagName, parentUsage string) error {
 	structType := structValue.Type()
 	nc := &types.NamingConventions{}
-	
+
 	for i := 0; i < structValue.NumField(); i++ {
 		field := structValue.Field(i)
 		fieldType := structType.Field(i)
-		
+
 		// Skip unexported fields
 		if !field.CanSet() {
 			continue
 		}
-		
+
 		fieldName := fieldType.Name
 		// Create nested flag name: parent-field becomes parent-field-subfield
 		nestedFlagName := parentFlagName + "-" + nc.ToKebabCase(fieldName)
 		// Create nested env name: PARENT_FIELD_SUBFIELD
 		nestedEnvName := nc.ToUpperSnakeCase(parentName + "_" + fieldName)
-		
+
 		// Get tag information
 		usage := fieldType.Tag.Get("usage")
 		if usage == "" {
@@ -354,26 +354,26 @@ func (fc *FlagConfig) registerNestedStruct(structValue reflect.Value, parentName
 		if usage == "" {
 			usage = fmt.Sprintf("%s %s configuration", parentName, fieldName)
 		}
-		
+
 		defaultValue := fieldType.Tag.Get("default")
 		required := fieldType.Tag.Get("required") == "true"
-		
+
 		// Check for environment variable (env vars take precedence over defaults)
 		envValue := os.Getenv(nestedEnvName)
 		if envValue != "" {
 			defaultValue = envValue
 		}
-		
+
 		// Register the nested field using the same logic as top-level fields
 		if err := fc.registerFieldType(field, parentName+"_"+fieldName, nestedFlagName, usage, defaultValue, required); err != nil {
 			return fmt.Errorf("failed to register nested field %s.%s: %w", parentName, fieldName, err)
 		}
-		
+
 		if required {
 			fc.Required[nestedFlagName] = true
 		}
 	}
-	
+
 	return nil
 }
 
@@ -382,12 +382,12 @@ func (fc *FlagConfig) Parse(args []string) error {
 	if err := fc.FlagSet.Parse(args); err != nil {
 		return err
 	}
-	
+
 	// Update slice fields with parsed values
 	for _, updater := range fc.sliceUpdaters {
 		updater()
 	}
-	
+
 	// Validate required fields
 	for flagName, isRequired := range fc.Required {
 		if isRequired {
@@ -395,7 +395,7 @@ func (fc *FlagConfig) Parse(args []string) error {
 			if flag == nil {
 				return fmt.Errorf("required flag not found: %s", flagName)
 			}
-			
+
 			if !flag.Changed {
 				// Check if there's a default value or env var
 				if flag.DefValue == "" {
@@ -404,7 +404,7 @@ func (fc *FlagConfig) Parse(args []string) error {
 			}
 		}
 	}
-	
+
 	// Run custom validators
 	for flagName, validator := range fc.Validators {
 		flag := fc.FlagSet.Lookup(flagName)
@@ -414,7 +414,7 @@ func (fc *FlagConfig) Parse(args []string) error {
 			}
 		}
 	}
-	
+
 	return nil
 }
 
@@ -451,16 +451,16 @@ func (fc *FlagConfig) storeSliceUpdater(flagName string, field reflect.Value, st
 func RegisterURLFlag(flagSet *pflag.FlagSet, fieldName string, target **types.URLValue, usage string) {
 	nc := &types.NamingConventions{}
 	flagName := nc.ToKebabCase(fieldName)
-	
+
 	if *target == nil {
 		*target = types.NewURLValue("")
 	}
-	
+
 	// Try to get default from environment
 	if envDefault := types.GetEnvDefault(fieldName); envDefault != "" {
-		(*target).Set(envDefault)
+		_ = (*target).Set(envDefault)
 	}
-	
+
 	flagSet.Var(*target, flagName, usage)
 }
 
@@ -468,16 +468,16 @@ func RegisterURLFlag(flagSet *pflag.FlagSet, fieldName string, target **types.UR
 func RegisterEnumFlag(flagSet *pflag.FlagSet, fieldName string, target **types.EnumValue, validValues []string, defaultValue, usage string) {
 	nc := &types.NamingConventions{}
 	flagName := nc.ToKebabCase(fieldName)
-	
+
 	if *target == nil {
 		*target = types.NewEnumValue(validValues, defaultValue, false)
 	}
-	
+
 	// Try to get default from environment
 	if envDefault := types.GetEnvDefault(fieldName); envDefault != "" {
-		(*target).Set(envDefault)
+		_ = (*target).Set(envDefault)
 	}
-	
+
 	flagSet.Var(*target, flagName, usage)
 }
 
@@ -485,16 +485,16 @@ func RegisterEnumFlag(flagSet *pflag.FlagSet, fieldName string, target **types.E
 func RegisterDurationFlag(flagSet *pflag.FlagSet, fieldName string, target **types.DurationValue, defaultValue time.Duration, usage string) {
 	nc := &types.NamingConventions{}
 	flagName := nc.ToKebabCase(fieldName)
-	
+
 	if *target == nil {
 		*target = types.NewDurationValue(defaultValue)
 	}
-	
+
 	// Try to get default from environment
 	if envDefault := types.GetEnvDefault(fieldName); envDefault != "" {
-		(*target).Set(envDefault)
+		_ = (*target).Set(envDefault)
 	}
-	
+
 	flagSet.Var(*target, flagName, usage)
 }
 
@@ -502,15 +502,15 @@ func RegisterDurationFlag(flagSet *pflag.FlagSet, fieldName string, target **typ
 func RegisterKeyValueFlag(flagSet *pflag.FlagSet, fieldName string, target **types.KeyValueValue, usage string) {
 	nc := &types.NamingConventions{}
 	flagName := nc.ToKebabCase(fieldName)
-	
+
 	if *target == nil {
 		*target = types.NewKeyValueValue()
 	}
-	
+
 	// Try to get default from environment
 	if envDefault := types.GetEnvDefault(fieldName); envDefault != "" {
-		(*target).Set(envDefault)
+		_ = (*target).Set(envDefault)
 	}
-	
+
 	flagSet.Var(*target, flagName, usage)
 }

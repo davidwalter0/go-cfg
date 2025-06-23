@@ -10,15 +10,15 @@ import (
 
 // TestConfig represents a typical configuration structure
 type TestConfig struct {
-	Name        string                    `usage:"Application name" default:"test-app"`
-	Port        int                       `usage:"Server port" default:"8080"`
-	Debug       bool                      `usage:"Enable debug mode" default:"false"`
-	Timeout     *types.DurationValue      `usage:"Request timeout"`
-	APIEndpoint *types.URLValue           `usage:"API endpoint URL"`
-	LogLevel    *types.LogLevelValue      `usage:"Log level"`
-	Environment *types.EnvironmentValue   `usage:"Deployment environment"`
-	Labels      *types.KeyValueValue      `usage:"Application labels"`
-	ListenAddr  *types.HostPortValue      `usage:"Listen address"`
+	Name        string                  `usage:"Application name" default:"test-app"`
+	Port        int                     `usage:"Server port" default:"8080"`
+	Debug       bool                    `usage:"Enable debug mode" default:"false"`
+	Timeout     *types.DurationValue    `usage:"Request timeout"`
+	APIEndpoint *types.URLValue         `usage:"API endpoint URL"`
+	LogLevel    *types.LogLevelValue    `usage:"Log level"`
+	Environment *types.EnvironmentValue `usage:"Deployment environment"`
+	Labels      *types.KeyValueValue    `usage:"Application labels"`
+	ListenAddr  *types.HostPortValue    `usage:"Listen address"`
 }
 
 func TestFlagConfig_RegisterCustomTypes_Integration(t *testing.T) {
@@ -34,13 +34,13 @@ func TestFlagConfig_RegisterCustomTypes_Integration(t *testing.T) {
 		"LABELS":       "service=test,version=v1.0.0",
 		"LISTEN_ADDR":  "0.0.0.0:9090",
 	}
-	
+
 	// Set environment variables
 	for key, value := range testEnvVars {
 		os.Setenv(key, value)
 		defer os.Unsetenv(key)
 	}
-	
+
 	// Initialize configuration
 	config := &TestConfig{
 		Timeout:     types.NewDurationValue(30 * time.Second),
@@ -50,22 +50,22 @@ func TestFlagConfig_RegisterCustomTypes_Integration(t *testing.T) {
 		Labels:      types.NewKeyValueValue(),
 		ListenAddr:  types.NewHostPortValue("localhost", 8080),
 	}
-	
+
 	// Create flag configuration
 	flagConfig := NewFlagConfig()
-	
+
 	// Register custom types
 	err := flagConfig.RegisterCustomTypes(config)
 	if err != nil {
 		t.Fatalf("RegisterCustomTypes() error = %v", err)
 	}
-	
+
 	// Parse with empty args (should use environment defaults)
 	err = flagConfig.Parse([]string{})
 	if err != nil {
 		t.Fatalf("Parse() error = %v", err)
 	}
-	
+
 	// Validate environment variables were applied
 	tests := []struct {
 		name     string
@@ -94,7 +94,7 @@ func TestFlagConfig_RegisterCustomTypes_Integration(t *testing.T) {
 		{"ListenAddr Host", config.ListenAddr.GetHost(), "0.0.0.0"},
 		{"ListenAddr Port", config.ListenAddr.GetPort(), 9090},
 	}
-	
+
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			if test.got != test.expected {
@@ -114,16 +114,16 @@ func TestFlagConfig_CommandLineOverride_Integration(t *testing.T) {
 		Labels:      types.NewKeyValueValue(),
 		ListenAddr:  types.NewHostPortValue("localhost", 8080),
 	}
-	
+
 	// Create flag configuration
 	flagConfig := NewFlagConfig()
-	
+
 	// Register custom types
 	err := flagConfig.RegisterCustomTypes(config)
 	if err != nil {
 		t.Fatalf("RegisterCustomTypes() error = %v", err)
 	}
-	
+
 	// Parse with command line arguments
 	args := []string{
 		"--name=cli-override-app",
@@ -136,12 +136,12 @@ func TestFlagConfig_CommandLineOverride_Integration(t *testing.T) {
 		"--labels=env=prod,tier=backend",
 		"--listen-addr=127.0.0.1:7070",
 	}
-	
+
 	err = flagConfig.Parse(args)
 	if err != nil {
 		t.Fatalf("Parse() error = %v", err)
 	}
-	
+
 	// Validate command line arguments were applied
 	tests := []struct {
 		name     string
@@ -171,7 +171,7 @@ func TestFlagConfig_CommandLineOverride_Integration(t *testing.T) {
 		{"ListenAddr Host", config.ListenAddr.GetHost(), "127.0.0.1"},
 		{"ListenAddr Port", config.ListenAddr.GetPort(), 7070},
 	}
-	
+
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			if test.got != test.expected {
@@ -190,35 +190,35 @@ func TestFlagConfig_Validation_Integration(t *testing.T) {
 		Labels:      types.NewKeyValueValue(),
 		ListenAddr:  types.NewHostPortValue("localhost", 8080),
 	}
-	
+
 	flagConfig := NewFlagConfig()
-	
+
 	// Mark API endpoint as required
 	flagConfig.SetRequired("APIEndpoint")
-	
+
 	// Add custom validators
 	flagConfig.AddValidator("Port", func(value interface{}) error {
 		// This validator should receive the pflag.Value, not the actual value
 		return nil // Simple test - just ensure no panic
 	})
-	
+
 	err := flagConfig.RegisterCustomTypes(config)
 	if err != nil {
 		t.Fatalf("RegisterCustomTypes() error = %v", err)
 	}
-	
+
 	// Test missing required field
 	err = flagConfig.Parse([]string{})
 	if err == nil {
 		t.Errorf("Parse() should fail when required field is missing")
 	}
-	
+
 	// Test with required field provided
 	err = flagConfig.Parse([]string{"--api-endpoint=https://required-api.example.com"})
 	if err != nil {
 		t.Errorf("Parse() should succeed when required field is provided, got: %v", err)
 	}
-	
+
 	if config.APIEndpoint.String() != "https://required-api.example.com" {
 		t.Errorf("APIEndpoint = %s, want https://required-api.example.com", config.APIEndpoint.String())
 	}
@@ -233,13 +233,13 @@ func TestFlagConfig_TypeSafety_Integration(t *testing.T) {
 		Labels:      types.NewKeyValueValue(),
 		ListenAddr:  types.NewHostPortValue("localhost", 8080),
 	}
-	
+
 	flagConfig := NewFlagConfig()
 	err := flagConfig.RegisterCustomTypes(config)
 	if err != nil {
 		t.Fatalf("RegisterCustomTypes() error = %v", err)
 	}
-	
+
 	// Test various type safety scenarios
 	testCases := []struct {
 		name      string
@@ -302,17 +302,17 @@ func TestFlagConfig_TypeSafety_Integration(t *testing.T) {
 			wantError: true,
 		},
 	}
-	
+
 	for _, test := range testCases {
 		t.Run(test.name, func(t *testing.T) {
 			// Reset config to defaults
-			config.LogLevel.Set("info")
-			config.Environment.Set("development")
-			config.APIEndpoint.Set("https://api.example.com")
-			config.Timeout.Set("30s")
-			config.ListenAddr.Set("localhost:8080")
+			_ = config.LogLevel.Set("info")
+			_ = config.Environment.Set("development")
+			_ = config.APIEndpoint.Set("https://api.example.com")
+			_ = config.Timeout.Set("30s")
+			_ = config.ListenAddr.Set("localhost:8080")
 			config.Labels = types.NewKeyValueValue()
-			
+
 			err := flagConfig.Parse(test.args)
 			if (err != nil) != test.wantError {
 				t.Errorf("Parse(%v) error = %v, wantError = %v", test.args, err, test.wantError)
@@ -332,9 +332,9 @@ func BenchmarkFlagConfig_RegisterCustomTypes(b *testing.B) {
 			Labels:      types.NewKeyValueValue(),
 			ListenAddr:  types.NewHostPortValue("localhost", 8080),
 		}
-		
+
 		flagConfig := NewFlagConfig()
-		flagConfig.RegisterCustomTypes(config)
+		_ = flagConfig.RegisterCustomTypes(config)
 	}
 }
 
@@ -347,10 +347,10 @@ func BenchmarkFlagConfig_Parse(b *testing.B) {
 		Labels:      types.NewKeyValueValue(),
 		ListenAddr:  types.NewHostPortValue("localhost", 8080),
 	}
-	
+
 	flagConfig := NewFlagConfig()
-	flagConfig.RegisterCustomTypes(config)
-	
+	_ = flagConfig.RegisterCustomTypes(config)
+
 	args := []string{
 		"--name=benchmark-app",
 		"--port=8080",
@@ -361,9 +361,9 @@ func BenchmarkFlagConfig_Parse(b *testing.B) {
 		"--labels=service=test,version=v1.0.0",
 		"--listen-addr=localhost:8080",
 	}
-	
+
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		flagConfig.Parse(args)
+		_ = flagConfig.Parse(args)
 	}
 }

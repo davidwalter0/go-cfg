@@ -25,7 +25,7 @@ func (d *Duration) UnmarshalJSON(data []byte) error {
 		*d = Duration(parsed)
 		return nil
 	}
-	
+
 	// Try to unmarshal as nanoseconds (backwards compatibility)
 	var ns int64
 	if err := json.Unmarshal(data, &ns); err != nil {
@@ -64,10 +64,10 @@ type ServiceConfig struct {
 
 	// API configuration
 	API struct {
-		Host      string        `json:"host" default:"localhost"`
-		Port      int           `json:"port" default:"8080"`
+		Host      string   `json:"host" default:"localhost"`
+		Port      int      `json:"port" default:"8080"`
 		Timeout   Duration `json:"timeout" default:"30s"`
-		EnableTLS bool          `json:"enable_tls" default:"false"`
+		EnableTLS bool     `json:"enable_tls" default:"false"`
 	} `json:"api"`
 
 	// Database configuration

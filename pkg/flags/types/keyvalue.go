@@ -23,7 +23,7 @@ func (kvv *KeyValueValue) String() string {
 	if len(kvv.pairs) == 0 {
 		return ""
 	}
-	
+
 	var pairs []string
 	for k, v := range kvv.pairs {
 		pairs = append(pairs, fmt.Sprintf("%s=%s", k, v))
@@ -35,32 +35,32 @@ func (kvv *KeyValueValue) Set(s string) error {
 	if s == "" {
 		return nil
 	}
-	
+
 	// Split by comma for multiple pairs
 	parts := strings.Split(s, ",")
-	
+
 	for _, part := range parts {
 		part = strings.TrimSpace(part)
 		if part == "" {
 			continue
 		}
-		
+
 		// Split by = for key-value
 		kv := strings.SplitN(part, "=", 2)
 		if len(kv) != 2 {
 			return fmt.Errorf("invalid key=value format: %s (expected key=value)", part)
 		}
-		
+
 		key := strings.TrimSpace(kv[0])
 		value := strings.TrimSpace(kv[1])
-		
+
 		if key == "" {
 			return fmt.Errorf("empty key in key=value pair: %s", part)
 		}
-		
+
 		kvv.pairs[key] = value
 	}
-	
+
 	return nil
 }
 
@@ -123,7 +123,7 @@ func (kvv *KeyValueValue) UnmarshalJSON(data []byte) error {
 	if err := json.Unmarshal(data, &pairs); err != nil {
 		return err
 	}
-	
+
 	kvv.pairs = pairs
 	return nil
 }
@@ -138,7 +138,7 @@ func (kvv *KeyValueValue) UnmarshalYAML(node *yaml.Node) error {
 	if err := node.Decode(&pairs); err != nil {
 		return err
 	}
-	
+
 	kvv.pairs = pairs
 	return nil
 }
@@ -160,7 +160,7 @@ func (tkvv *TypedKeyValueValue[T]) String() string {
 	if len(tkvv.pairs) == 0 {
 		return ""
 	}
-	
+
 	var pairs []string
 	for k, v := range tkvv.pairs {
 		pairs = append(pairs, fmt.Sprintf("%s=%v", k, v))
@@ -172,35 +172,35 @@ func (tkvv *TypedKeyValueValue[T]) Set(s string) error {
 	if s == "" {
 		return nil
 	}
-	
+
 	parts := strings.Split(s, ",")
-	
+
 	for _, part := range parts {
 		part = strings.TrimSpace(part)
 		if part == "" {
 			continue
 		}
-		
+
 		kv := strings.SplitN(part, "=", 2)
 		if len(kv) != 2 {
 			return fmt.Errorf("invalid key=value format: %s", part)
 		}
-		
+
 		key := strings.TrimSpace(kv[0])
 		valueStr := strings.TrimSpace(kv[1])
-		
+
 		if key == "" {
 			return fmt.Errorf("empty key in key=value pair: %s", part)
 		}
-		
+
 		value, err := tkvv.parser(valueStr)
 		if err != nil {
 			return fmt.Errorf("invalid value for key '%s': %w", key, err)
 		}
-		
+
 		tkvv.pairs[key] = value
 	}
-	
+
 	return nil
 }
 
@@ -244,37 +244,37 @@ func (lv *LabelsValue) Set(s string) error {
 	if s == "" {
 		return nil
 	}
-	
+
 	// Validate label format for Kubernetes compatibility
 	parts := strings.Split(s, ",")
-	
+
 	for _, part := range parts {
 		part = strings.TrimSpace(part)
 		if part == "" {
 			continue
 		}
-		
+
 		kv := strings.SplitN(part, "=", 2)
 		if len(kv) != 2 {
 			return fmt.Errorf("invalid label format: %s (expected key=value)", part)
 		}
-		
+
 		key := strings.TrimSpace(kv[0])
 		value := strings.TrimSpace(kv[1])
-		
+
 		// Validate key format (basic validation)
 		if err := lv.validateLabelKey(key); err != nil {
 			return fmt.Errorf("invalid label key '%s': %w", key, err)
 		}
-		
+
 		// Validate value format
 		if err := lv.validateLabelValue(value); err != nil {
 			return fmt.Errorf("invalid label value '%s': %w", value, err)
 		}
-		
+
 		lv.pairs[key] = value
 	}
-	
+
 	return nil
 }
 
@@ -282,16 +282,16 @@ func (lv *LabelsValue) validateLabelKey(key string) error {
 	if key == "" {
 		return fmt.Errorf("key cannot be empty")
 	}
-	
+
 	if len(key) > 63 {
 		return fmt.Errorf("key too long (max 63 characters)")
 	}
-	
+
 	// Basic validation - could be more strict for full Kubernetes compliance
 	if strings.Contains(key, " ") {
 		return fmt.Errorf("key cannot contain spaces")
 	}
-	
+
 	return nil
 }
 
@@ -299,7 +299,7 @@ func (lv *LabelsValue) validateLabelValue(value string) error {
 	if len(value) > 63 {
 		return fmt.Errorf("value too long (max 63 characters)")
 	}
-	
+
 	return nil
 }
 

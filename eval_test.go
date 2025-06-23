@@ -12,10 +12,6 @@ import (
 	"github.com/spf13/pflag"
 )
 
-func _ignore_() {
-	pflag.Parse()
-}
-
 // O2S
 func O2S(o interface{}) string {
 	text, err := json.MarshalIndent(o, "", "  ")
@@ -111,23 +107,6 @@ type Object struct {
 type State struct {
 	Want Object
 	Got  Object
-}
-
-var state = State{
-	Want: Object{
-		`{s:"text",i:0}`,
-		Decl{
-			S: "text",
-			I: 0,
-		},
-	},
-	Got: Object{
-		`{s:"text",i:0}`,
-		Decl{
-			S: "text",
-			I: 0,
-		},
-	},
 }
 
 var states = []State{
@@ -1057,7 +1036,7 @@ func TestCaller(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got := cfg.Caller()
-			regx := regexp.MustCompile("\\.go:[0-9]*:([^/]*/)*go-cfg_test\\.TestCaller\\.func.*")
+			regx := regexp.MustCompile(`\.go:[0-9]*:([^/]*/)*go-cfg_test\.TestCaller\.func.*`)
 			if len(regx.Find([]byte(got))) <= 0 {
 				t.Errorf("Caller got1 = %v, want1: %v", got, tt.want1)
 			}

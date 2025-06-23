@@ -31,27 +31,27 @@ func (dv *DurationValue) Set(s string) error {
 		dv.Duration = nil
 		return nil
 	}
-	
+
 	// Try standard Go duration parsing first
 	if d, err := time.ParseDuration(s); err == nil {
 		dv.Duration = &d
 		return nil
 	}
-	
+
 	// Try parsing as integer seconds
 	if seconds, err := strconv.Atoi(s); err == nil {
 		d := time.Duration(seconds) * time.Second
 		dv.Duration = &d
 		return nil
 	}
-	
+
 	// Try parsing as float seconds
 	if seconds, err := strconv.ParseFloat(s, 64); err == nil {
 		d := time.Duration(seconds * float64(time.Second))
 		dv.Duration = &d
 		return nil
 	}
-	
+
 	return fmt.Errorf("invalid duration format: %s (expected: 1h30m, 90s, 90, or 90.5)", s)
 }
 
@@ -91,12 +91,12 @@ func (dv *DurationValue) UnmarshalJSON(data []byte) error {
 	if err := json.Unmarshal(data, &seconds); err != nil {
 		return err
 	}
-	
+
 	if seconds == nil {
 		dv.Duration = nil
 		return nil
 	}
-	
+
 	d := time.Duration(*seconds * float64(time.Second))
 	dv.Duration = &d
 	return nil
@@ -138,30 +138,30 @@ func (hdv *HumanDurationValue) humanFormat(d time.Duration) string {
 	if d == 0 {
 		return "0s"
 	}
-	
+
 	var parts []string
-	
+
 	// Days
 	days := d / (24 * time.Hour)
 	if days > 0 {
 		parts = append(parts, fmt.Sprintf("%dd", days))
 		d -= days * 24 * time.Hour
 	}
-	
+
 	// Hours
 	hours := d / time.Hour
 	if hours > 0 {
 		parts = append(parts, fmt.Sprintf("%dh", hours))
 		d -= hours * time.Hour
 	}
-	
+
 	// Minutes
 	minutes := d / time.Minute
 	if minutes > 0 {
 		parts = append(parts, fmt.Sprintf("%dm", minutes))
 		d -= minutes * time.Minute
 	}
-	
+
 	// Seconds
 	if d > 0 || len(parts) == 0 {
 		if d >= time.Second {
@@ -177,7 +177,7 @@ func (hdv *HumanDurationValue) humanFormat(d time.Duration) string {
 			}
 		}
 	}
-	
+
 	return strings.Join(parts, "")
 }
 
@@ -186,19 +186,19 @@ func (hdv *HumanDurationValue) Set(s string) error {
 		hdv.Duration = nil
 		return nil
 	}
-	
+
 	// Try standard duration parsing first
 	if d, err := time.ParseDuration(s); err == nil {
 		hdv.Duration = &d
 		return nil
 	}
-	
+
 	// Try parsing human formats like "1 day", "2 hours 30 minutes"
 	d, err := hdv.parseHumanFormat(s)
 	if err != nil {
 		return fmt.Errorf("invalid duration format: %s", s)
 	}
-	
+
 	hdv.Duration = &d
 	return nil
 }
@@ -208,22 +208,22 @@ func (hdv *HumanDurationValue) parseHumanFormat(s string) (time.Duration, error)
 	if s == "" {
 		return 0, fmt.Errorf("empty duration")
 	}
-	
+
 	var total time.Duration
-	
+
 	// Split by whitespace and process each part
 	parts := strings.Fields(s)
-	
+
 	for i := 0; i < len(parts); i++ {
 		part := parts[i]
-		
+
 		// Try to extract number and unit
 		var num float64
-		
+
 		// Look for number at start of part
 		numStr := ""
 		unitStr := part
-		
+
 		for j, r := range part {
 			if (r >= '0' && r <= '9') || r == '.' {
 				numStr += string(r)
@@ -232,7 +232,7 @@ func (hdv *HumanDurationValue) parseHumanFormat(s string) (time.Duration, error)
 				break
 			}
 		}
-		
+
 		if numStr == "" {
 			// Maybe number is separate (e.g., "1 hour")
 			if i+1 < len(parts) {
@@ -254,7 +254,7 @@ func (hdv *HumanDurationValue) parseHumanFormat(s string) (time.Duration, error)
 				return 0, fmt.Errorf("invalid number: %s", numStr)
 			}
 		}
-		
+
 		// Parse unit
 		var multiplier time.Duration
 		switch unitStr {
@@ -277,10 +277,10 @@ func (hdv *HumanDurationValue) parseHumanFormat(s string) (time.Duration, error)
 		default:
 			return 0, fmt.Errorf("unknown unit: %s", unitStr)
 		}
-		
+
 		total += time.Duration(num * float64(multiplier))
 	}
-	
+
 	return total, nil
 }
 

@@ -34,7 +34,7 @@ func main() {
 	if l, r := i.(Unmarshaler); true {
 		fmt.Printf("%T ", l)
 		if r {
-			i.(Unmarshaler).Unmarshal([]byte{}, i)
+			_ = i.(Unmarshaler).Unmarshal([]byte{}, i)
 		}
 		fmt.Println(l, r)
 
@@ -42,7 +42,7 @@ func main() {
 	if l, r := i.(Marshaler); true {
 		fmt.Printf("%T ", l)
 		if r {
-			i.(Marshaler).Marshal(i)
+			_, _ = i.(Marshaler).Marshal(i)
 		}
 		fmt.Println(l, r)
 	}
@@ -50,14 +50,14 @@ func main() {
 	if l, r := i.(Unmarshaler); true {
 		fmt.Printf("%T ", l)
 		if r {
-			i.(Unmarshaler).Unmarshal([]byte{}, i)
+			_ = i.(Unmarshaler).Unmarshal([]byte{}, i)
 		}
 		fmt.Println(l, r)
 	}
 	if l, r := i.(Marshaler); true {
 		fmt.Printf("%T ", l)
 		if r {
-			i.(Marshaler).Marshal(i)
+			_, _ = i.(Marshaler).Marshal(i)
 		}
 		fmt.Println(l, r)
 	}

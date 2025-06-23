@@ -20,7 +20,7 @@ type AppConfig struct {
 	Version     string `usage:"Application version" default:"1.0.0"`
 	Debug       bool   `usage:"Enable debug mode for development"`
 
-	// External service URLs  
+	// External service URLs
 	APIEndpoint string `usage:"External API endpoint URL" default:"https://api.example.com"`
 	WebhookURL  string `usage:"Webhook callback URL"`
 
@@ -39,16 +39,16 @@ type AppConfig struct {
 func showDetailedUsage(fc *flags.FlagConfig) {
 	// Get the basic usage first
 	basicUsage := fc.Usage()
-	
+
 	// Split into lines and enhance each line with env var info
 	lines := strings.Split(basicUsage, "\n")
-	
+
 	for _, line := range lines {
 		if strings.TrimSpace(line) == "" {
 			fmt.Println()
 			continue
 		}
-		
+
 		// Parse flag line format: "      --flag-name type    description (default value)"
 		if strings.Contains(line, "--") {
 			// Extract flag name (handle multi-part names with dashes)
@@ -57,7 +57,7 @@ func showDetailedUsage(fc *flags.FlagConfig) {
 			if len(matches) > 1 {
 				flagName := matches[1]
 				envVar := flagToEnvVar(flagName)
-				
+
 				// Insert [env: ENV_VAR] before (default ...)
 				enhanced := line
 				if strings.Contains(line, "(default") {
@@ -90,7 +90,7 @@ func main() {
 	// Initialize configuration with some defaults
 	config := &AppConfig{
 		ServiceName:    "my-service",
-		Environment:    "development", 
+		Environment:    "development",
 		Version:        "1.0.0",
 		APIEndpoint:    "https://api.example.com",
 		WorkerCount:    10,
@@ -103,21 +103,21 @@ func main() {
 		if arg == "-h" || arg == "--help" {
 			// Create flag configuration
 			fc := flags.NewFlagConfig()
-			
+
 			// Register all configuration fields (including nested structs)
 			if err := fc.RegisterCustomTypes(config); err != nil {
 				fmt.Fprintf(os.Stderr, "Failed to register configuration: %v\n", err)
 				os.Exit(1)
 			}
-			
+
 			fmt.Printf("Usage of %s:\n", os.Args[0])
 			showDetailedUsage(fc)
-			
+
 			fmt.Printf("\nExample usage:\n")
 			fmt.Printf("  %s --service-name \"my-api\" --debug --worker-count 20\n", os.Args[0])
 			fmt.Printf("  %s --database-host \"prod-db.com\" --server-port 8080\n", os.Args[0])
 			fmt.Printf("  %s --monitoring-log-level \"warn\" --monitoring-enable-metrics\n", os.Args[0])
-			
+
 			fmt.Printf("\nEnvironment variable examples:\n")
 			fmt.Printf("  export SERVICE_NAME=\"my-api\"\n")
 			fmt.Printf("  export DATABASE_HOST=\"prod-db.company.com\"\n")
@@ -139,7 +139,7 @@ func main() {
 	// Parse command line arguments
 	if err := fc.Parse(os.Args[1:]); err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to parse flags: %v\n", err)
-		
+
 		// Show detailed usage on parse error
 		fmt.Fprintf(os.Stderr, "\nUsage:\n")
 		showDetailedUsage(fc)
@@ -158,7 +158,7 @@ func main() {
 		config.Database.Username, config.Database.Host, config.Database.Port,
 		config.Database.Database, config.Database.SSLMode, config.Database.MaxConns)
 
-	fmt.Printf("Server: %s:%d (TLS: %t)\n", 
+	fmt.Printf("Server: %s:%d (TLS: %t)\n",
 		config.Server.Host, config.Server.Port, config.Server.EnableTLS)
 
 	fmt.Printf("Monitoring: Metrics=%t:%d, Tracing=%t, LogLevel=%s\n",

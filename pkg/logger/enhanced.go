@@ -77,23 +77,23 @@ const (
 // Format implements Formatter for TextFormatter
 func (f *TextFormatter) Format(entry *LogEntry) ([]byte, error) {
 	var parts []string
-	
+
 	// Add level
 	parts = append(parts, fmt.Sprintf("[%s]", entry.Level))
-	
+
 	// Add timestamp
 	timestampFormat := f.TimestampFormat
 	if timestampFormat == "" {
 		timestampFormat = time.RFC3339
 	}
 	parts = append(parts, entry.Timestamp.Format(timestampFormat))
-	
+
 	// Add caller info
 	if f.IncludeCaller && entry.Caller != nil {
 		callerInfo := formatCaller(entry.Caller, f.CallerFormat)
 		parts = append(parts, callerInfo)
 	}
-	
+
 	// Add fields
 	if len(entry.Fields) > 0 {
 		var fieldParts []string
@@ -102,10 +102,10 @@ func (f *TextFormatter) Format(entry *LogEntry) ([]byte, error) {
 		}
 		parts = append(parts, fmt.Sprintf("{%s}", strings.Join(fieldParts, " ")))
 	}
-	
+
 	// Add message
 	parts = append(parts, entry.Message)
-	
+
 	result := strings.Join(parts, " ") + "\n"
 	return []byte(result), nil
 }
@@ -115,12 +115,12 @@ func (f *JSONFormatter) Format(entry *LogEntry) ([]byte, error) {
 	if !f.IncludeCaller {
 		entry.Caller = nil
 	}
-	
+
 	data, err := json.Marshal(entry)
 	if err != nil {
 		return nil, err
 	}
-	
+
 	// Add newline for readability
 	result := append(data, '\n')
 	return result, nil
@@ -129,30 +129,30 @@ func (f *JSONFormatter) Format(entry *LogEntry) ([]byte, error) {
 // Format implements Formatter for KVFormatter
 func (f *KVFormatter) Format(entry *LogEntry) ([]byte, error) {
 	var parts []string
-	
+
 	// Add basic fields
 	parts = append(parts, fmt.Sprintf("level=%s", entry.Level))
-	
+
 	timestampFormat := f.TimestampFormat
 	if timestampFormat == "" {
 		timestampFormat = time.RFC3339
 	}
 	parts = append(parts, fmt.Sprintf("time=%s", entry.Timestamp.Format(timestampFormat)))
-	
+
 	// Add caller info
 	if f.IncludeCaller && entry.Caller != nil {
 		callerInfo := formatCaller(entry.Caller, f.CallerFormat)
 		parts = append(parts, fmt.Sprintf("caller=%s", callerInfo))
 	}
-	
+
 	// Add custom fields
 	for k, v := range entry.Fields {
 		parts = append(parts, fmt.Sprintf("%s=%v", k, v))
 	}
-	
+
 	// Add message
 	parts = append(parts, fmt.Sprintf("msg=%q", entry.Message))
-	
+
 	result := strings.Join(parts, " ") + "\n"
 	return []byte(result), nil
 }
@@ -177,13 +177,13 @@ func getCaller(skip int) *CallerInfo {
 	if !ok {
 		return nil
 	}
-	
+
 	fn := runtime.FuncForPC(pc)
 	var funcName string
 	if fn != nil {
 		funcName = fn.Name()
 	}
-	
+
 	return &CallerInfo{
 		File:     file,
 		Line:     line,
@@ -207,7 +207,7 @@ func NewEnhanced(format OutputFormat) *EnhancedLogger {
 		includeCaller: false,
 		callerSkip:    3, // Default skip level for caller detection
 	}
-	
+
 	enhanced.SetOutputFormat(format)
 	return enhanced
 }
@@ -263,24 +263,24 @@ func (l *EnhancedLogger) logWithCaller(level Level, msg string, args ...interfac
 	if l.level > level {
 		return
 	}
-	
+
 	entry := &LogEntry{
 		Timestamp: time.Now(),
 		Level:     level.String(),
 		Message:   fmt.Sprintf(msg, args...),
 		Fields:    make(map[string]interface{}),
 	}
-	
+
 	// Copy fields
 	for k, v := range l.fields {
 		entry.Fields[k] = v
 	}
-	
+
 	// Add caller information if enabled
 	if l.includeCaller {
 		entry.Caller = getCaller(l.callerSkip)
 	}
-	
+
 	// Format and output
 	formatted, err := l.formatter.Format(entry)
 	if err != nil {
@@ -289,7 +289,7 @@ func (l *EnhancedLogger) logWithCaller(level Level, msg string, args ...interfac
 		l.logger.Print(fallback)
 		return
 	}
-	
+
 	l.logger.Print(string(formatted))
 }
 
@@ -322,7 +322,7 @@ func (l *EnhancedLogger) WithField(key string, value interface{}) Logger {
 		newFields[k] = v
 	}
 	newFields[key] = value
-	
+
 	enhanced := &EnhancedLogger{
 		DefaultLogger: &DefaultLogger{
 			level:      l.level,
@@ -334,7 +334,7 @@ func (l *EnhancedLogger) WithField(key string, value interface{}) Logger {
 		includeCaller: l.includeCaller,
 		callerSkip:    l.callerSkip,
 	}
-	
+
 	return enhanced
 }
 
@@ -347,7 +347,7 @@ func (l *EnhancedLogger) WithFields(fields map[string]interface{}) Logger {
 	for k, v := range fields {
 		newFields[k] = v
 	}
-	
+
 	enhanced := &EnhancedLogger{
 		DefaultLogger: &DefaultLogger{
 			level:      l.level,
@@ -359,7 +359,7 @@ func (l *EnhancedLogger) WithFields(fields map[string]interface{}) Logger {
 		includeCaller: l.includeCaller,
 		callerSkip:    l.callerSkip,
 	}
-	
+
 	return enhanced
 }
 

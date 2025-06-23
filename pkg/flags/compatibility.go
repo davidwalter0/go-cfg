@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"os"
 	"sync"
-	
+
 	"github.com/davidwalter0/go-cfg/pkg/flags/types"
 )
 
@@ -33,15 +33,15 @@ func SetGlobalFlagConfig(fc *FlagConfig) {
 // It registers the given struct with the global flag configuration and parses command line arguments
 func Flags(config interface{}) error {
 	flagConfig := NewFlagConfig()
-	
+
 	err := flagConfig.RegisterCustomTypes(config)
 	if err != nil {
 		return err
 	}
-	
+
 	// Store globally for other compatibility functions
 	SetGlobalFlagConfig(flagConfig)
-	
+
 	// Parse with os.Args (excluding program name)
 	args := os.Args[1:]
 	return flagConfig.Parse(args)
@@ -64,16 +64,16 @@ func IsSet(name string) bool {
 	if fc == nil {
 		return false
 	}
-	
+
 	// Convert to kebab-case as our system uses kebab-case flag names
 	nc := &types.NamingConventions{}
 	flagName := nc.ToKebabCase(name)
-	
+
 	flag := fc.FlagSet.Lookup(flagName)
 	if flag == nil {
 		return false
 	}
-	
+
 	return flag.Changed
 }
 
@@ -90,11 +90,11 @@ func Required(name string) bool {
 	if fc == nil {
 		return false
 	}
-	
+
 	// Convert to kebab-case as our system uses kebab-case flag names
 	nc := &types.NamingConventions{}
 	flagName := nc.ToKebabCase(name)
-	
+
 	return fc.Required[flagName]
 }
 
@@ -102,7 +102,7 @@ func Required(name string) bool {
 // This function registers multiple structs with nested prefixes
 func NestWrap(prefix string, configs ...interface{}) error {
 	flagConfig := NewFlagConfig()
-	
+
 	// Register each config
 	for _, config := range configs {
 		err := flagConfig.RegisterCustomTypes(config)
@@ -110,10 +110,10 @@ func NestWrap(prefix string, configs ...interface{}) error {
 			return err
 		}
 	}
-	
+
 	// Store globally for other compatibility functions
 	SetGlobalFlagConfig(flagConfig)
-	
+
 	return nil
 }
 
@@ -149,6 +149,6 @@ func Parse(args []string) error {
 	if fc == nil {
 		return fmt.Errorf("no flag configuration available - call Flags() first")
 	}
-	
+
 	return fc.Parse(args)
 }

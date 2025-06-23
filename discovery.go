@@ -12,27 +12,27 @@ import (
 type SearchMode int
 
 const (
-	Union SearchMode = 1 << iota // Merge all found configs (union dominance)
-	First                        // Stop on first found config
-	Direct                       // Load direct config files
-	Indirect                     // Load via autocfg pointer files
+	Union    SearchMode = 1 << iota // Merge all found configs (union dominance)
+	First                           // Stop on first found config
+	Direct                          // Load direct config files
+	Indirect                        // Load via autocfg pointer files
 )
 
 // ConfigOptions defines configuration discovery options
 type ConfigOptions struct {
-	SearchMode   SearchMode // How to search for and load configs
-	SearchPaths  []string   // Custom search paths (overrides defaults)
-	EnvOverride  string     // Environment variable for config file override
-	ProgramName  string     // Program name for default path generation (auto-detected if empty)
+	SearchMode  SearchMode // How to search for and load configs
+	SearchPaths []string   // Custom search paths (overrides defaults)
+	EnvOverride string     // Environment variable for config file override
+	ProgramName string     // Program name for default path generation (auto-detected if empty)
 }
 
 // DefaultConfigOptions returns sensible defaults for configuration discovery
 func DefaultConfigOptions() ConfigOptions {
 	return ConfigOptions{
-		SearchMode:  Union | Direct, // Merge all found direct config files
-		SearchPaths: nil,            // Use standard paths
+		SearchMode:  Union | Direct,     // Merge all found direct config files
+		SearchPaths: nil,                // Use standard paths
 		EnvOverride: "AUTOCFG_FILENAME", // Standard environment override
-		ProgramName: "",             // Auto-detect from os.Args[0]
+		ProgramName: "",                 // Auto-detect from os.Args[0]
 	}
 }
 
@@ -127,7 +127,7 @@ func (cd *ConfigDiscovery) getSearchPaths() []string {
 
 	// Generate standard AutoCfg-compatible search paths
 	programName := cd.getProgramName()
-	
+
 	var paths []string
 
 	// Standard search order (for Union mode)
@@ -258,7 +258,7 @@ func (cd *ConfigDiscovery) checkIndirectConfig(filename string) (bool, string, e
 func FlatNestWithDiscovery(opts ConfigOptions, ptrs ...interface{}) error {
 	// Stage 1: Configuration discovery and loading
 	discovery := NewConfigDiscovery(opts)
-	
+
 	for _, ptr := range ptrs {
 		if err := discovery.DiscoverAndLoad(ptr); err != nil {
 			return fmt.Errorf("config discovery failed: %w", err)

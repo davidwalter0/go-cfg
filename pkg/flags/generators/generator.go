@@ -38,9 +38,9 @@ type TypeSpec struct {
 
 // ValidatorSpec defines a validation rule
 type ValidatorSpec struct {
-	Name      string
-	Check     string
-	ErrorMsg  string
+	Name     string
+	Check    string
+	ErrorMsg string
 }
 
 // RegisterTemplate registers a template for code generation
@@ -49,7 +49,7 @@ func (tg *TypeGenerator) RegisterTemplate(name, templateStr string) error {
 	if err != nil {
 		return fmt.Errorf("failed to parse template %s: %w", name, err)
 	}
-	
+
 	tg.Templates[name] = tmpl
 	return nil
 }
@@ -60,12 +60,12 @@ func (tg *TypeGenerator) GenerateType(spec TypeSpec) (string, error) {
 	if !exists {
 		return "", fmt.Errorf("template 'custom_type' not found")
 	}
-	
+
 	var buf strings.Builder
-	
+
 	// Generate package header
 	buf.WriteString(fmt.Sprintf("package %s\n\n", tg.PackageName))
-	
+
 	// Generate imports
 	if len(tg.Imports) > 0 {
 		buf.WriteString("import (\n")
@@ -74,18 +74,18 @@ func (tg *TypeGenerator) GenerateType(spec TypeSpec) (string, error) {
 		}
 		buf.WriteString(")\n\n")
 	}
-	
+
 	// Generate type using template
 	if err := tmpl.Execute(&buf, spec); err != nil {
 		return "", fmt.Errorf("failed to execute template: %w", err)
 	}
-	
+
 	// Format the generated code
 	formatted, err := format.Source([]byte(buf.String()))
 	if err != nil {
 		return buf.String(), fmt.Errorf("failed to format generated code: %w", err)
 	}
-	
+
 	return string(formatted), nil
 }
 
@@ -98,16 +98,16 @@ func (tg *TypeGenerator) GenerateEnumType(typeName string, values []string, defa
 		JSONMarshal:  true,
 		YAMLMarshal:  true,
 	}
-	
+
 	// Create validators for enum values
 	for _, value := range values {
 		spec.Validators = append(spec.Validators, ValidatorSpec{
-			Name:     fmt.Sprintf("Valid%s", strings.Title(value)),
+			Name:     fmt.Sprintf("Valid%s", strings.ToUpper(value[:1])+strings.ToLower(value[1:])),
 			Check:    fmt.Sprintf(`strings.ToLower(s) == "%s"`, strings.ToLower(value)),
 			ErrorMsg: fmt.Sprintf("invalid value, expected one of: %s", strings.Join(values, ", ")),
 		})
 	}
-	
+
 	return tg.GenerateType(spec)
 }
 
@@ -345,11 +345,11 @@ func (tg *TypeGenerator) RegisterDefaultTemplates() error {
 	if err := tg.RegisterTemplate("custom_type", CustomTypeTemplate); err != nil {
 		return err
 	}
-	
+
 	if err := tg.RegisterTemplate("slice_type", SliceTypeTemplate); err != nil {
 		return err
 	}
-	
+
 	return nil
 }
 
@@ -359,13 +359,13 @@ func (tg *TypeGenerator) RegisterDefaultTemplates() error {
 func GenerateLogLevelType() (string, error) {
 	tg := NewTypeGenerator("types")
 	tg.Imports = []string{`"encoding/json"`, `"fmt"`, `"strings"`, `"gopkg.in/yaml.v3"`}
-	
+
 	if err := tg.RegisterDefaultTemplates(); err != nil {
 		return "", err
 	}
-	
-	return tg.GenerateEnumType("LogLevel", 
-		[]string{"debug", "info", "warn", "error", "fatal"}, 
+
+	return tg.GenerateEnumType("LogLevel",
+		[]string{"debug", "info", "warn", "error", "fatal"},
 		"info")
 }
 
@@ -373,13 +373,13 @@ func GenerateLogLevelType() (string, error) {
 func GenerateEnvironmentType() (string, error) {
 	tg := NewTypeGenerator("types")
 	tg.Imports = []string{`"encoding/json"`, `"fmt"`, `"strings"`, `"gopkg.in/yaml.v3"`}
-	
+
 	if err := tg.RegisterDefaultTemplates(); err != nil {
 		return "", err
 	}
-	
-	return tg.GenerateEnumType("Environment", 
-		[]string{"development", "staging", "production"}, 
+
+	return tg.GenerateEnumType("Environment",
+		[]string{"development", "staging", "production"},
 		"development")
 }
 
@@ -387,22 +387,22 @@ func GenerateEnvironmentType() (string, error) {
 func GenerateStringSliceType() (string, error) {
 	tg := NewTypeGenerator("types")
 	tg.Imports = []string{`"fmt"`, `"strings"`}
-	
+
 	if err := tg.RegisterDefaultTemplates(); err != nil {
 		return "", err
 	}
-	
+
 	tmpl := tg.Templates["slice_type"]
-	
+
 	spec := TypeSpec{
 		TypeName: "String",
 		BaseType: "string",
 	}
-	
+
 	var buf strings.Builder
 	if err := tmpl.Execute(&buf, spec); err != nil {
 		return "", err
 	}
-	
+
 	return buf.String(), nil
 }

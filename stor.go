@@ -3,7 +3,6 @@ package cfg
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"path"
@@ -34,14 +33,12 @@ func (stor Stor) DeepCopyInto(dst interface{}, depthArgs ...int) {
 		panic(fmt.Errorf("exceeded struct max depth of %d", max))
 	}
 	for k, v := range stor {
-		switch v.(type) {
+		switch src := v.(type) {
 		case DeepCopier:
-			src := v.(DeepCopier)
 			if src != nil {
 				src.DeepCopyInto(Store[k].(DeepCopier))
 			}
 		case Stor:
-			src := v.(Stor)
 			if src != nil {
 				src.DeepCopyInto(Store[k], depth)
 			}
@@ -61,16 +58,14 @@ func DeepCopyInto(src Stor, dst map[string]interface{}, depthArgs ...int) {
 		panic(fmt.Errorf("exceeded struct max depth of %d", max))
 	}
 	for k, v := range src {
-		switch v.(type) {
+		switch typedV := v.(type) {
 		case DeepCopier:
-			src := v.(DeepCopier)
-			if src != nil {
-				src.DeepCopyInto(Store[k].(DeepCopier))
+			if typedV != nil {
+				typedV.DeepCopyInto(Store[k].(DeepCopier))
 			}
 		case Stor:
-			src := v.(Stor)
-			if src != nil {
-				src.DeepCopyInto(Store[k].(Stor), depth)
+			if typedV != nil {
+				typedV.DeepCopyInto(Store[k].(Stor), depth)
 			}
 		}
 	}
@@ -126,7 +121,7 @@ func (stor *Stor) Load(filename string) error {
 	var data []byte
 
 	// fmt.Println("filename", filename)
-	data, err = ioutil.ReadFile(filename)
+	data, err = os.ReadFile(filename)
 	if err != nil {
 		return err
 	}
@@ -138,12 +133,12 @@ func (stor *Stor) Load(filename string) error {
 	}
 	switch strings.ToLower(path.Ext(filename)) {
 	case ".json":
-		err = json.Unmarshal(data, temp)
+		err = json.Unmarshal(data, &temp)
 		if err != nil {
 			return err
 		}
 	case ".yaml":
-		err = yaml.Unmarshal(data, temp)
+		err = yaml.Unmarshal(data, &temp)
 		if err != nil {
 			return err
 		}
@@ -155,7 +150,9 @@ func (stor *Stor) Load(filename string) error {
 	}
 
 	for k, v := range temp {
-		CopyOut(v, Store[k])
+		// CopyOut errors are typically serialization issues
+		// For backward compatibility, we ignore them here
+		_ = CopyOut(v, Store[k])
 	}
 
 	return err
@@ -257,7 +254,7 @@ func (stor Stor) Save(filename string) error {
 			return err
 		}
 	}
-	return ioutil.WriteFile(filename, data, 0644)
+	return os.WriteFile(filename, data, 0644)
 }
 
 // String stor interfaceable
