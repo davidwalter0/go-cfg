@@ -9,11 +9,11 @@ import (
 	"testing"
 
 	"github.com/davidwalter0/go-cfg"
-	"github.com/davidwalter0/go-flag"
+	"github.com/spf13/pflag"
 )
 
 func _ignore_() {
-	flag.Parse()
+	pflag.Parse()
 }
 
 // O2S
@@ -84,12 +84,12 @@ func TestParseABC(t *testing.T) {
 	// fmt.Println(O2S(abc))
 	// Init(abc)
 	// fmt.Println(O2S(abc))
-	// flag.Parse()
+	// pflag.Parse()
 	// fmt.Println(O2S(abc))
 	// nest := &NestStruct{}
 	// Eval(nest)
 	// fmt.Println(O2S(nest))
-	// flag.Parse()
+	// pflag.Parse()
 	// fmt.Println(O2S(nest))
 	// Usage()
 }
@@ -760,7 +760,7 @@ func TestNest(t *testing.T) {
 			tArgs.set()
 			defer tArgs.clr()
 			err := cfg.Nest(tArgs.ptrs...)
-			flag.Parse()
+			pflag.Parse()
 
 			if (err != nil) != tt.wantErr {
 				t.Fatalf("Nest error = %v, wantErr: %t", err, tt.wantErr)
@@ -959,7 +959,7 @@ func TestNestWrap(t *testing.T) {
 			tArgs.set()
 			defer tArgs.clr()
 			err := cfg.NestWrap(tArgs.prefix, tArgs.ptrs...)
-			flag.Parse()
+			pflag.Parse()
 			// tArgs.see()
 			// cfg.Usage()
 			if (err != nil) != tt.wantErr {

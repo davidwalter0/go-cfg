@@ -1,7 +1,9 @@
 package cfg
 
 import (
-	"github.com/davidwalter0/go-flag"
+	"os"
+	
+	"github.com/spf13/pflag"
 )
 
 var frozen bool
@@ -9,7 +11,7 @@ var frozen bool
 // Freeze flags
 func Freeze() {
 	if !frozen {
-		flag.Parse()
+		globalFlagSet.Parse(os.Args[1:])
 		frozen = true
 	}
 }
@@ -23,12 +25,13 @@ func FlagInit() {
 func Reset(name string) {
 	Thaw()
 	Store = NewStor()
-	flag.CommandLine = flag.NewFlagSet(name, ErrorHandlerModel)
+	globalFlagSet = pflag.NewFlagSet(name, ErrorHandlerModel)
+	CommandLine = globalFlagSet
 }
 
 // ErrorHandlerModel enables reconfiguring flag.ErrorHandling for the
 // flag handlers
-var ErrorHandlerModel = flag.ContinueOnError
+var ErrorHandlerModel = pflag.ContinueOnError
 
 // Thaw flags
 func Thaw() {

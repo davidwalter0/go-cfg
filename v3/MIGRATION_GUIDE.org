@@ -1,0 +1,352 @@
+#+TITLE: Migration Guide: Legacy go-cfg to v3 Unified Module
+#+DATE: [2025-06-23]
+#+AUTHOR: Claude Code Assistant
+
+* Migration Guide Overview
+
+This guide shows how to migrate from the legacy =github.com/davidwalter0/go-cfg= library to the new v3 unified module architecture.
+
+** Migration Strategy: Complete Backward Compatibility
+
+The v3 module provides **complete backward compatibility** through the legacy compatibility layer while offering enhanced modern features.
+
+* Migration Options
+
+** Option 1: Zero-Change Migration (Recommended for Quick Migration)
+
+Replace your import with the legacy compatibility layer:
+
+#+begin_src go
+// Old import
+import "github.com/davidwalter0/go-cfg"
+
+// New import (zero code changes required)
+import legacy "github.com/davidwalter0/go-cfg/v3/legacy"
+#+end_src
+
+All existing code continues to work exactly as before:
+
+#+begin_src go
+var cfg AppConfig
+if err := legacy.Init(&cfg); err != nil {
+    log.Fatalf("Configuration failed: %v", err)
+}
+#+end_src
+
+** Option 2: Modern v3 API Migration (Recommended for New Features)
+
+Migrate to the modern v3 API for enhanced capabilities:
+
+#+begin_src go
+import "github.com/davidwalter0/go-cfg/v3/pkg/config"
+
+var cfg AppConfig
+if err := config.Load(&cfg); err != nil {
+    log.Fatalf("Configuration failed: %v", err)
+}
+#+end_src
+
+** Option 3: Hybrid Approach (Best of Both Worlds)
+
+Use legacy compatibility for existing code, modern API for new features:
+
+#+begin_src go
+import (
+    legacy "github.com/davidwalter0/go-cfg/v3/legacy"
+    "github.com/davidwalter0/go-cfg/v3/pkg/config"
+)
+
+// Existing legacy code
+if err := legacy.Init(&legacyCfg); err != nil {
+    return err
+}
+
+// New modern code with enhanced features
+manager := config.NewManager().
+    WithDiscovery(config.Union | config.Direct).
+    WithFlagStyle(config.FlatNest).
+    WithValidation(true)
+
+if err := manager.Load(&modernCfg); err != nil {
+    return err
+}
+#+end_src
+
+* API Mapping Table
+
+| Legacy API | v3 Equivalent | Enhanced v3 Alternative |
+|------------|---------------|-------------------------|
+| =cfg.Init(&c)= | =legacy.Init(&c)= | =config.Load(&c)= |
+| =cfg.Eval(&c)= | =legacy.Eval(&c)= | =config.Load(&c)= |
+| =cfg.Simple(&c)= | =legacy.Simple(&c)= | =config.NewManager().WithFlagStyle(config.FlatNest).Load(&c)= |
+| =cfg.Nest(&c)= | =legacy.Nest(&c)= | =config.NewManager().WithFlagStyle(config.Nested).Load(&c)= |
+| =cfg.Wrap("prefix", &c)= | =legacy.Wrap("prefix", &c)= | =config.NewManager().WithEnvironmentPrefix("prefix").Load(&c)= |
+| **N/A** | =legacy.FlatNest(&c)= | =config.NewManager().WithFlagStyle(config.FlatNest).Load(&c)= |
+
+* New Capabilities in v3
+
+The v3 unified module provides powerful new features not available in the legacy library:
+
+** AutoCfg-Style Configuration Discovery
+
+#+begin_src go
+// Union mode: merge all found config files
+manager := config.NewManager().WithDiscovery(config.Union | config.Direct)
+
+// First mode: use only the first found config file  
+manager := config.NewManager().WithDiscovery(config.First | config.Direct)
+
+// Indirect mode: support AutoCfg pointer files
+manager := config.NewManager().WithDiscovery(config.Union | config.Indirect)
+#+end_src
+
+** Multiple Flag Naming Strategies
+
+#+begin_src go
+// FlatNest: clean flat naming (--api-host)
+manager := config.NewManager().WithFlagStyle(config.FlatNest)
+
+// Nested: hierarchical naming (--api.host)  
+manager := config.NewManager().WithFlagStyle(config.Nested)
+
+// Prefixed: prefixed naming (--config-api-host)
+manager := config.NewManager().WithFlagStyle(config.Prefixed)
+#+end_src
+
+** Configuration Generation and Help
+
+#+begin_src go
+// Generate sample configuration files
+sample, err := manager.GenerateSample("json")
+if err != nil {
+    return err
+}
+
+// Generate help text
+help := manager.GenerateHelp()
+fmt.Println(help)
+
+// Save current configuration  
+err = manager.SaveCurrent(&cfg, "current-config.json")
+#+end_src
+
+** Enhanced Builder Pattern API
+
+#+begin_src go
+manager := config.NewManager().
+    WithDiscovery(config.Union | config.Direct).
+    WithFlagStyle(config.FlatNest).
+    WithValidation(true).
+    WithEnvironmentPrefix("MYAPP")
+
+if err := manager.Load(&cfg); err != nil {
+    return err
+}
+#+end_src
+
+* Migration Examples
+
+** Basic Configuration Migration
+
+*** Before (Legacy)
+#+begin_src go
+package main
+
+import (
+    "log"
+    cfg "github.com/davidwalter0/go-cfg"
+)
+
+type Config struct {
+    ServiceName string `json:"service_name" default:"my-service"`
+    Port        int    `json:"port" default:"8080"`
+}
+
+func main() {
+    var config Config
+    if err := cfg.Init(&config); err != nil {
+        log.Fatalf("Configuration failed: %v", err)
+    }
+    
+    log.Printf("Service: %s, Port: %d", config.ServiceName, config.Port)
+}
+#+end_src
+
+*** After (Zero-Change Migration)
+#+begin_src go
+package main
+
+import (
+    "log"
+    legacy "github.com/davidwalter0/go-cfg/v3/legacy"  // Only import changed
+)
+
+type Config struct {
+    ServiceName string `json:"service_name" default:"my-service"`
+    Port        int    `json:"port" default:"8080"`
+}
+
+func main() {
+    var config Config
+    if err := legacy.Init(&config); err != nil {  // cfg.Init -> legacy.Init
+        log.Fatalf("Configuration failed: %v", err)
+    }
+    
+    log.Printf("Service: %s, Port: %d", config.ServiceName, config.Port)
+}
+#+end_src
+
+*** After (Modern v3 API)
+#+begin_src go
+package main
+
+import (
+    "log"
+    "github.com/davidwalter0/go-cfg/v3/pkg/config"
+)
+
+type Config struct {
+    ServiceName string `json:"service_name" default:"my-service"`
+    Port        int    `json:"port" default:"8080"`
+}
+
+func main() {
+    var config Config
+    if err := config.Load(&config); err != nil {
+        log.Fatalf("Configuration failed: %v", err)
+    }
+    
+    log.Printf("Service: %s, Port: %d", config.ServiceName, config.Port)
+}
+#+end_src
+
+** Advanced Configuration Migration
+
+*** Before (Legacy with multiple modes)
+#+begin_src go
+// Multiple configuration strategies
+if err := cfg.Simple(&basicConfig); err != nil {
+    return err
+}
+
+if err := cfg.Nest(&nestedConfig); err != nil {
+    return err  
+}
+
+if err := cfg.Wrap("APP", &wrappedConfig); err != nil {
+    return err
+}
+#+end_src
+
+*** After (Modern v3 with equivalent functionality)
+#+begin_src go
+// Equivalent functionality with modern API
+simpleManager := config.NewManager().WithFlagStyle(config.FlatNest)
+if err := simpleManager.Load(&basicConfig); err != nil {
+    return err
+}
+
+nestedManager := config.NewManager().WithFlagStyle(config.Nested)  
+if err := nestedManager.Load(&nestedConfig); err != nil {
+    return err
+}
+
+wrappedManager := config.NewManager().WithEnvironmentPrefix("APP")
+if err := wrappedManager.Load(&wrappedConfig); err != nil {
+    return err
+}
+#+end_src
+
+* Dependencies and Build Changes
+
+** go.mod Updates
+
+*** Legacy Dependency Removal
+#+begin_src go
+// Remove legacy dependency
+// require github.com/davidwalter0/go-cfg v0.0.0-20220330163606-64a5099ed565
+
+// Add v3 unified module
+require github.com/davidwalter0/go-cfg/v3 v0.0.0
+#+end_src
+
+*** Dependency Comparison
+
+| Legacy Dependencies | v3 Dependencies |
+|---------------------|-----------------|
+| =github.com/davidwalter0/go-flag= (vendored) | =github.com/spf13/pflag v1.0.5= |
+| =github.com/mattn/color= | *Removed* |
+| =github.com/mattn/go-isatty= | *Removed* |
+| =gopkg.in/yaml.v3= | =gopkg.in/yaml.v3 v3.0.1= |
+
+** Benefits of Migration
+
+- ✅ **Zero legacy dependencies**: No more vendored go-flag
+- ✅ **Modern flag processing**: Built on pflag foundation  
+- ✅ **AutoCfg compatibility**: Union/First discovery modes
+- ✅ **Enhanced naming**: Multiple flag naming strategies
+- ✅ **Configuration generation**: Sample configs and help text
+- ✅ **Validation support**: Built-in configuration validation
+- ✅ **Backward compatibility**: All legacy APIs preserved
+
+* Testing Migration
+
+** Run Legacy Compatibility Tests
+
+#+begin_src bash
+go test github.com/davidwalter0/go-cfg/v3/legacy
+#+end_src
+
+** Build Migration Example
+
+#+begin_src bash
+cd examples/legacy-migration
+go build
+./legacy-migration
+#+end_src
+
+** Verify All APIs Work
+
+The legacy compatibility layer includes comprehensive tests covering all legacy API functions:
+
+- =Init()=, =Eval()=, =EvalName()=
+- =Simple()=, =SimpleFlags()=, =Unwrap()=, =Bare()=
+- =Nest()=, =Wrap()=, =Reprefix()=, =Unprefixed()=
+- =Add()=, =Flags()=, =Final()=
+- =Freeze()=, =Thaw()=, =TestMode()=
+- Plus new =FlatNest()= capabilities
+
+* Migration Timeline Recommendations
+
+** Phase 1: Immediate (Zero Risk)
+1. Update =go.mod= to use v3 module
+2. Change imports to use =legacy= package
+3. Verify all existing functionality works
+4. **No code changes required**
+
+** Phase 2: Gradual Enhancement (Low Risk)  
+1. Start using enhanced =FlatNest()= for new configurations
+2. Add configuration file discovery for new services
+3. Use v3 sample generation for documentation
+
+** Phase 3: Full Migration (Medium Risk)
+1. Migrate core configuration code to modern v3 API
+2. Implement validation and enhanced features
+3. Leverage full v3 capabilities
+
+** Phase 4: Legacy Cleanup (Low Risk)
+1. Remove legacy imports once migration complete
+2. Use pure v3 API throughout codebase
+3. Enjoy modern configuration management
+
+* Conclusion
+
+The v3 unified module provides a **zero-disruption migration path** while unlocking powerful new capabilities:
+
+- **100% backward compatibility** through legacy layer
+- **Modern pflag-based architecture** eliminating legacy dependencies  
+- **AutoCfg-style discovery** with Union/First modes
+- **Enhanced API design** with builder patterns
+- **Rich feature set** for configuration generation and validation
+
+Migration can be **immediate and risk-free** with the legacy compatibility layer, or **gradual and enhanced** using the modern v3 API features.

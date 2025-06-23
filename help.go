@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"os"
 	"strings"
-
-	"github.com/davidwalter0/go-flag"
 )
 
 var PrefixOverrideText = `
@@ -52,8 +50,8 @@ func HelpText(text string) {
 	helpText = text
 }
 
-// Usage add usage text for flags/help processing
-var Usage = func() {
+// UsageFunc add usage text for flags/help processing
+var UsageFunc = func() {
 	var parts = strings.Split(os.Args[0], "/")
 	var l = len(parts)
 	var Program = parts[l-1]
@@ -62,11 +60,11 @@ var Usage = func() {
 		fmt.Fprintf(os.Stderr, "\n%s\n\n", helpText)
 	}
 
-	flag.PrintDefaults()
+	globalFlagSet.PrintDefaults()
 	// fmt.Fprintf(os.Stderr, PrefixOverrideText)
 }
 
 var setup = func() bool {
-	flag.Usage = Usage
+	Usage = UsageFunc
 	return true
 }()

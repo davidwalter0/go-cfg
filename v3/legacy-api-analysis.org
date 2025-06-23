@@ -1,0 +1,284 @@
+#+TITLE: Legacy go-cfg API Surface Analysis
+#+AUTHOR: Claude
+#+DATE: 2025-06-23
+
+* Overview
+
+This document analyzes the API surface of the legacy go-cfg library located at ~/org/go-configurator/apps/rotation/go-cfg/ to understand the backward compatibility interface that needs to be maintained when migrating to use the v3 module internally.
+
+* Package Declaration
+
+The legacy package is declared as:
+#+begin_src go
+package cfg // import "github.com/davidwalter0/go-cfg"
+#+end_src
+
+* Key Dependencies
+
+The legacy system depends on:
+- =github.com/davidwalter0/go-flag= - Custom flag parsing library
+- =gopkg.in/yaml.v3= - YAML parsing
+- =github.com/mattn/color= - Terminal colorization
+
+* Main API Entry Points
+
+** Configuration Processing Functions
+
+*** Primary API Functions
+These are the main functions consumers use to process configuration structs:
+
+1. =func Init(ptrs ...interface{}) error= - Initialize configuration with flag parsing
+2. =func Eval(ptrs ...interface{}) error= - Evaluate configuration without flag parsing
+3. =func Flags(ptrs ...interface{}) error= - Process with flags and freeze
+4. =func Simple(ptrs ...interface{}) error= - Simple processing without prefixes/decoration
+5. =func SimpleFlags(ptrs ...interface{}) error= - Simple processing with flag parsing
+6. =func Nest(ptrs ...interface{}) error= - Nested processing with hierarchical prefixes
+7. =func Unwrap(ptrs ...interface{}) error= - Alias of Simple, no prefixes
+8. =func Bare(ptrs ...interface{}) error= - Alias of Simple, no prefixes
+9. =func Add(ptrs ...interface{}) error= - Alias of Eval
+
+*** Named/Prefixed Variants
+10. =func EvalName(name string, ptrs ...interface{}) error= - Evaluate with custom name
+11. =func Wrap(name string, ptrs ...interface{}) error= - Wrap with prefix
+12. =func NestWrap(prefix string, ptrs ...interface{}) error= - Nested with prefix
+13. =func Reprefix(name string, ptrs ...interface{}) error= - Replace prefix
+
+*** Specialized Functions
+14. =func Unprefixed(ptrs ...interface{}) error= - Process without object name prefix
+
+** Configuration State Management
+
+*** Freeze/Thaw Functions
+- =func Freeze()= - Freeze configuration and parse flags
+- =func FlagInit()= - Alias of Freeze
+- =func Thaw()= - Unfreeze to allow reconfiguration
+- =func Reset(name string)= - Reset and thaw with new name
+- =func Final()= - Alias of Freeze
+
+*** Test Mode Functions
+- =func SetTestMode(name string)= - Configure for testing (no flag registration/parsing)
+- =func DisableTestMode()= - Turn off test mode
+- =func IsTestMode() bool= - Check if in test mode
+
+*** Configuration Control
+- =func SetAutoParse(enabled bool)= - Control automatic flag parsing
+- =func ShouldAutoParse() bool= - Check auto-parse setting
+- =func SetRegisterFlags(enabled bool)= - Control flag registration
+- =func ShouldRegisterFlags() bool= - Check flag registration setting
+
+** Flag Inspection Functions
+
+- =func IsSet(name string) bool= - Check if flag was set
+- =func Ok(name string) bool= - Check if flag validation passed
+- =func Required(name string) bool= - Check if flag is required
+
+** Data Access Functions
+
+- =func Copy(config interface{})= - Copy from internal store to config object
+
+** Utility Functions
+
+*** Decoration Control
+- =func Decorate() bool= - Enable struct prefixing
+- =func Undecorate() bool= - Disable struct prefixing
+- =func Unprefix()= - Remove prefix environment variable
+
+*** Helper Functions
+- =func Debug(args ...bool)= - Enable/disable debug mode
+- =func HelpText(text string)= - Set custom help text
+
+*** Text Processing
+- =func ToCamelCase(str string) string=
+- =func ToLowerSnakeCase(str string) string=
+- =func ToUpperSnakeCase(str string) string=
+- =func ToLowerKebabCase(str string) string=
+- =func ToUpperKebabCase(str string) string=
+- =func Capitalize(text string) string=
+- =func Downcase(text string) string=
+
+*** Validation Functions
+- =func IsStructPtr(config interface{}) bool= - Check if struct pointer
+- =func IsMap(config interface{}) bool= - Check if map
+- =func Type(config interface{}) string= - Get type description
+- =func RemovePkg(pkg string) string= - Remove package prefix from type
+
+** Storage Functions
+
+- =func NewStor() Stor= - Create new storage
+- =func Dump(o interface{}) string= - JSON dump of object
+- =func CopyOut(in, out interface{}) error= - Copy between objects
+
+* Key Types and Interfaces
+
+** Field Type
+The =Field= struct is central to the configuration processing:
+
+#+begin_src go
+type Field struct {
+    reflect.StructField
+    FieldPtr
+    UseFlags   bool
+    StructName string
+    Name       string
+    KeyName    string
+    Default    string
+    EnvText    string
+    Short      string
+    Doc        string
+    FlagName   string
+    Value      string
+    Omit       bool
+    Required   bool
+    Depth      int
+    Ignore     bool
+    Error      error
+    Type       string
+    Prefix     string
+}
+#+end_src
+
+** FieldPtr Interface
+#+begin_src go
+type FieldPtr interface{}
+#+end_src
+
+** Stor Type
+The storage type for configuration persistence:
+
+#+begin_src go
+type Stor map[string]interface{}
+#+end_src
+
+** Interfaces
+
+*** DeepCopier Interface
+#+begin_src go
+type DeepCopier interface {
+    DeepCopyInto(DeepCopier)
+}
+#+end_src
+
+*** Loader Interface
+#+begin_src go
+type Loader interface {
+    Load(filename string)
+}
+#+end_src
+
+*** Storer Interface
+#+begin_src go
+type Storer interface {
+    Store(filename string)
+}
+#+end_src
+
+*** Adder Interface
+#+begin_src go
+type Adder interface {
+    AddStor(name string, o interface{})
+}
+#+end_src
+
+* Configuration Loading Patterns
+
+** Struct Tag Support
+The legacy system supports these struct tags:
+
+- =json= - Field name and omit options
+- =default= - Default value
+- =doc=, =help=, =usage= - Documentation
+- =short= - Short flag name
+- =required= - Mark field as required
+- =ignore= - Skip field processing
+
+** Environment Variable Patterns
+
+Environment variables are generated using these patterns:
+- CamelCase fields become UPPER_SNAKE_CASE
+- Prefixes are applied based on struct names
+- =CFG_KEY_PREFIX= environment variable overrides prefixes
+- =CFG_DECORATE= controls decoration behavior
+
+** Flag Patterns
+
+Flags are generated using these patterns:
+- CamelCase fields become lower-kebab-case
+- Prefixes are applied consistently with environment variables
+- Custom flag library =github.com/davidwalter0/go-flag= is used
+
+* Global Variables
+
+** Store Variable
+#+begin_src go
+var Store = NewStor()
+#+end_src
+
+The global store maintains configuration state.
+
+** Error Variables
+#+begin_src go
+var ErrInvalidArgStructPointerRequired = errors.New("Argument must be a struct pointer")
+var ErrInvalidSpecification = errors.New("specification must be a struct pointer")
+var ErrInvalidArgPointerRequired = fmt.Errorf("%s: requires one or more struct pointer arguments", Package)
+var ErrInvalidArgMapParseSpec = errors.New("map argument requires pairs")
+var ErrIgnoreTag = errors.New("this Tag isn't in use")
+#+end_src
+
+** Configuration Variables
+- =var ErrorHandlerModel = eflag.ContinueOnError= - Flag error handling model
+- =var Usage = func() {...}= - Custom usage function
+- =var LookupEnv = os.LookupEnv= - Environment lookup function
+
+* Key Behaviors
+
+** Test Mode Behavior
+When =SetTestMode()= is called:
+- No flags are registered (=registerFlags = false=)
+- No flag parsing occurs (=SetAutoParse(false)=)
+- Environment variables and defaults are still processed
+- Field values are set directly via reflection
+
+** Configuration Processing Flow
+1. Validate struct pointers with =CheckArgs()=
+2. Enter each struct with =Enter()=
+3. Parse struct recursively with =ParseStruct()=
+4. Process each field with =Field.SetField()=
+5. Register flags if not in test mode
+6. Apply environment variables and defaults
+
+** Prefix Handling
+- Struct names become prefixes by default
+- =CFG_KEY_PREFIX= environment variable overrides
+- =CFG_DECORATE=false= disables all prefixing
+- Different functions provide different prefix behaviors
+
+* Missing FlatNest Function
+
+**NOTE**: The =FlatNest= function mentioned in the request was not found in the legacy codebase. The closest functions are:
+- =Nest()= - For hierarchical nesting
+- =Simple()= / =Unwrap()= / =Bare()= - For flat processing without prefixes
+
+* Backward Compatibility Requirements
+
+To maintain backward compatibility, the v3 module must provide:
+
+1. **All exported functions** with identical signatures
+2. **Same struct tag support** (json, default, doc, required, ignore, etc.)
+3. **Same environment variable naming** (UPPER_SNAKE_CASE with prefixes)
+4. **Same flag naming** (lower-kebab-case with prefixes)
+5. **Test mode behavior** (no flag registration/parsing)
+6. **Global store behavior** 
+7. **Same error types and messages**
+8. **Prefix and decoration control**
+9. **Custom help text support**
+10. **Configuration persistence via Stor type**
+
+* Implementation Strategy
+
+The v3 module should:
+1. Provide a compatibility layer that wraps the new pflag-based implementation
+2. Maintain the same global state variables
+3. Implement the same configuration processing flow
+4. Support all the legacy struct tags and behaviors
+5. Provide the same test mode functionality
+6. Maintain the same error handling and validation

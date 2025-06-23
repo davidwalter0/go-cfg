@@ -3,8 +3,6 @@ package cfg
 import (
 	"fmt"
 	"strings"
-
-	"github.com/davidwalter0/go-flag"
 )
 
 var allFlagNames = make(map[string]bool)
@@ -18,11 +16,11 @@ func (field *Field) AddFlag() {
 			usage = "usage: " + field.Doc
 		}
 		isset := len(field.Default) > 0 || len(field.EnvText) > 0
-		flag.MakeVar(field.FieldPtr, field.FlagName, field.Default, usage+fmt.Sprintf(" Env %-32s : (%s) (%v)", field.KeyName, field.Name, field.Type), field.Value, field.Required, isset)
+		MakeVar(field.FieldPtr, field.FlagName, field.Default, usage+fmt.Sprintf(" Env %-32s : (%s) (%v)", field.KeyName, field.Name, field.Type), field.Value, field.Required, isset)
 	} else {
 		if !announceDuplicates {
 			fmt.Printf("Duplicate flag(s)/env vars found\n")
-			fmt.Println(strings.ToUpper(fmt.Sprintf("%-20s %-20s", "github.com/davidwalter0/go-flag", "env vars")))
+			fmt.Println(strings.ToUpper(fmt.Sprintf("%-20s %-20s", "pflag", "env vars")))
 			fmt.Println("-----------------------------------------")
 			announceDuplicates = true
 		}
@@ -30,17 +28,3 @@ func (field *Field) AddFlag() {
 	}
 }
 
-// IsSet returns if the flag has been set
-func IsSet(name string) bool {
-	return flag.IsSet(name)
-}
-
-// Ok returns if the flag has been set
-func Ok(name string) bool {
-	return flag.Ok(name)
-}
-
-// Required returns if the flag has been set
-func Required(name string) bool {
-	return flag.Required(name)
-}

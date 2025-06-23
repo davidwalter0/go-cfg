@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/davidwalter0/go-flag"
+	"github.com/spf13/pflag"
 )
 
 func set(name, value string) {
@@ -46,7 +46,7 @@ func (b *B) Value() string {
 }
 
 func resetFlags() {
-	flag.CommandLine = flag.NewFlagSet(os.Args[0], flag.ExitOnError)
+	pflag.CommandLine = pflag.NewFlagSet(os.Args[0], pflag.ExitOnError)
 }
 
 func isTestFlag(s string) (rc bool) {

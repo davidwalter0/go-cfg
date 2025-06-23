@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/davidwalter0/go-flag"
+	"github.com/spf13/pflag"
 )
 
 // VendorTestConfig for testing the old vendor implementation
@@ -22,7 +22,7 @@ type VendorTestConfig struct {
 }
 
 func resetFlags() {
-	flag.CommandLine = flag.NewFlagSet(os.Args[0], flag.ContinueOnError)
+	pflag.CommandLine = pflag.NewFlagSet(os.Args[0], pflag.ContinueOnError)
 }
 
 func TestVendorImplementation_Parse(t *testing.T) {

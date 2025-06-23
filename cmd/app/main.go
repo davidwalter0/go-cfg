@@ -5,7 +5,6 @@ import (
 	"os"
 
 	"github.com/davidwalter0/go-cfg"
-	"github.com/davidwalter0/go-flag"
 )
 
 type Key string

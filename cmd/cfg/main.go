@@ -10,7 +10,6 @@ import (
 	"time"
 
 	"github.com/davidwalter0/go-cfg"
-	"github.com/davidwalter0/go-flag"
 	yaml "gopkg.in/yaml.v3"
 )
 
