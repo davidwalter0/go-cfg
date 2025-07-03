@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"github.com/davidwalter0/go-cfg/v3/pkg/config"
@@ -55,7 +56,9 @@ func main() {
 		WithDiscovery(config.Union | config.Direct).
 		WithFlagStyle(config.FlatNest).
 		WithValidation(true).
-		WithEnvironmentPrefix("MYAPP")
+		WithEnvironmentPrefix("MYAPP").
+		WithConfigFormat("yaml").
+		WithTrace(os.Stdout) // Enable tracing to stdout
 
 	// Load configuration
 	if err := manager.Load(&cfg); err != nil {
@@ -109,5 +112,11 @@ func main() {
 		log.Printf("Failed to save config: %v", err)
 	} else {
 		fmt.Println("Current configuration saved to advanced-config.yaml")
+	}
+	// Save current configuration
+	if err := manager.SaveName(".advanced.json", &cfg); err != nil {
+		log.Printf("Failed to save config: %v", err)
+	} else {
+		fmt.Println("Current configuration saved to .advanced.json")
 	}
 }

@@ -1,0 +1,25 @@
+{
+  "service_name": "advanced",
+  "version": "1.0.0",
+  "environment": "development",
+  "api": {
+    "host": "localhost",
+    "port": 8080,
+    "timeout": 30000000000,
+    "enable_tls": false
+  },
+  "database": {
+    "host": "localhost",
+    "port": 5432,
+    "name": "",
+    "username": "tester",
+    "password": ""
+  },
+  "features": {},
+  "services": {},
+  "logging": {
+    "level": "info",
+    "format": "json",
+    "output": "stdout"
+  }
+}
