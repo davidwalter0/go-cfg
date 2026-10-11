@@ -7,7 +7,7 @@ require (
 	github.com/mattn/color v0.0.0-20151026152412-8640971291e5
 	github.com/mattn/go-isatty v0.0.12 // indirect
 	github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
